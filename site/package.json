@@ -1,0 +1,29 @@
+{
+  "name": "penplus-dashboard-site",
+  "version": "1.0.0",
+  "description": "Static front end for the WHO AFRO PEN-Plus regional dashboard. Reads the pre-computed JSON bundle in /data; performs no calculation of its own.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.{ts,css}\""
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "eslint": "^9.15.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.3.3",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.1",
+    "vitest": "^2.1.5"
+  },
+  "dependencies": {
+    "@observablehq/plot": "^0.6.16"
+  }
+}
