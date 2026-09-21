@@ -6,22 +6,29 @@ import type {
   OverviewBundle,
   QualityBundle,
 } from "./types";
+import { isDemoMode } from "./demo";
 
 /**
  * The bundle is the API (specification, section 5). Every fetch here is a
  * same-origin static file under /data (site/public/data at build time, so
  * Vite copies it verbatim), produced by the pipeline and never hand-edited.
- * No other network call exists anywhere in this app.
+ * No other network call exists anywhere in this app. Demo mode (see
+ * lib/demo.ts) points this at /demo-data instead -- a wholly synthetic
+ * bundle, never mixed with the real one.
  */
-const DATA_ROOT = `${import.meta.env.BASE_URL}data/`;
+function dataRoot(): string {
+  const dir = isDemoMode() ? "demo-data" : "data";
+  return `${import.meta.env.BASE_URL}${dir}/`;
+}
 
 const cache = new Map<string, Promise<unknown>>();
 
 async function getJSON<T>(path: string): Promise<T> {
-  if (!cache.has(path)) {
-    const url = DATA_ROOT + path;
+  const cacheKey = `${isDemoMode() ? "demo:" : "real:"}${path}`;
+  if (!cache.has(cacheKey)) {
+    const url = dataRoot() + path;
     cache.set(
-      path,
+      cacheKey,
       fetch(url).then((res) => {
         if (!res.ok) {
           throw new Error(`bundle fetch failed: ${path} (${res.status})`);
@@ -30,7 +37,7 @@ async function getJSON<T>(path: string): Promise<T> {
       }),
     );
   }
-  return cache.get(path) as Promise<T>;
+  return cache.get(cacheKey) as Promise<T>;
 }
 
 export const getManifest = () => getJSON<Manifest>("manifest.json");

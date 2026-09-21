@@ -95,6 +95,7 @@
   "screen1.map.caption": "La carte situe PEN-Plus ; elle ne classe pas les pays selon leur performance.",
   "screen1.milestone.title": "Progression vers les jalons — cinq indicateurs phares",
   "screen1.milestone.caption": "Dernière valeur publiée comparée au jalon régional, sous forme de barre avec un repère cible. Ni jauge, ni feu tricolore.",
+  "screen1.summary": "PEN-Plus est mis en œuvre dans la Région africaine de l'OMS. À la dernière période, <strong>{countriesReporting} pays sur {countriesTotal}</strong> ont publié au moins un chiffre, <strong>{facilities}</strong> formations sanitaires offrent les services, et <strong>{patients}</strong> patients ont été inscrits au total sur les quatre pathologies traceuses.",
 
   "screen2.title": "Détail d'un indicateur",
   "screen2.question": "Cet indicateur évolue-t-il, et quels pays en sont moteurs ?",
@@ -131,6 +132,10 @@
   "footer.in_partnership_with": "En partenariat avec",
   "footer.language": "Langue",
   "footer.theme": "Thème",
+
+  "demo.banner": "DONNÉES DE DÉMONSTRATION — chaque chiffre ci-dessous est inventé pour l'examen du design. Ce n'est pas un vrai rapport PEN-Plus.",
+  "demo.enter": "Afficher avec des données de démonstration",
+  "demo.exit": "Quitter le mode démonstration, afficher les vraies données",
 
   "empty.no_data": "Aucun chiffre publié n'existe pour cette sélection. C'est l'état réel des données, non une erreur de chargement.",
   "empty.bundle_error": "Le jeu de données n'a pas pu être chargé. Vérifiez que le site est servi depuis sa version compilée, avec /data à côté d'index.html."

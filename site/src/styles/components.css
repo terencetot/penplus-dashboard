@@ -76,70 +76,128 @@ h2.screen-title {
   border-color: var(--color-primary);
 }
 
-/* -------------------------------------------------------------- hero strip */
-.hero-strip {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-4);
-  margin-bottom: var(--space-5);
-}
-.figure-card {
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border);
-  border-top: 3px solid var(--color-primary);
+/* ---------------------------------------------------------------- hero band
+   Screen 1's opening statement and the deliberate visual anchor of the whole
+   site: a dark tonal panel with icon-led, glowing figures, matching the
+   editorial weight CLAUDE.md asks this build to take from the NCD platform. */
+.hero-band {
+  background: var(--gradient-header);
   border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-lift);
+  padding: var(--space-6) var(--space-6);
+  margin-bottom: var(--space-5);
   position: relative;
   overflow: hidden;
+  color: var(--color-text-on-primary);
+  box-shadow: var(--shadow-lg);
 }
-.figure-card::after {
+.hero-band::before {
   content: "";
   position: absolute;
-  bottom: -30px;
-  right: -20px;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background: var(--color-primary);
-  opacity: 0.04;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
   pointer-events: none;
 }
-.figure-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-primary);
+.hero-band__orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
 }
-.figure-card__label {
-  font-size: var(--font-label);
+.hero-band__orb--1 {
+  width: 320px;
+  height: 320px;
+  top: -140px;
+  right: -80px;
+}
+.hero-band__orb--2 {
+  width: 220px;
+  height: 220px;
+  bottom: -110px;
+  left: 10%;
+  background: radial-gradient(circle, rgba(181, 81, 13, 0.22) 0%, transparent 70%);
+}
+.hero-band__head {
+  position: relative;
+  max-width: 62ch;
+  margin-bottom: var(--space-5);
+}
+.hero-band__title {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-muted);
+  letter-spacing: -0.01em;
   margin-bottom: var(--space-2);
 }
-.figure-card__value {
+.hero-band__subtitle {
+  color: var(--color-text-on-primary-muted);
+  font-size: var(--font-body);
+  margin: 0;
+}
+.hero-band__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-4);
+}
+.signal-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  transition: var(--transition-lift);
+}
+.signal-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+.signal-card__icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--color-accent-strong, var(--color-accent));
+  margin-bottom: var(--space-2);
+}
+.signal-card__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.signal-card__value {
   font-family: var(--font-display);
-  font-size: var(--font-figure-lg);
+  font-size: 2.1rem;
   font-weight: 600;
-  color: var(--color-primary);
   line-height: 1.05;
   letter-spacing: -0.01em;
 }
-.figure-card__value.is-null {
-  color: var(--color-text-muted);
-  font-size: 1.3rem;
+.signal-card__value.is-null {
+  font-size: 1.2rem;
   font-weight: 500;
-  font-family: var(--font-family);
+  opacity: 0.75;
 }
-.figure-card__meta {
-  margin-top: var(--space-3);
+.signal-card__label {
   font-size: var(--font-label);
-  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-on-primary-muted);
+  margin-top: var(--space-1);
 }
-.figure-card.is-muted .figure-card__value {
-  color: var(--color-text-muted);
+.signal-card__meta {
+  font-size: var(--font-label);
+  color: var(--color-text-on-primary-muted);
+  margin-top: var(--space-2);
+}
+
+/* -------------------------------------------------------------- exec message */
+.exec-message {
+  background: var(--color-primary-soft);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-5);
+  font-size: var(--font-body);
+  line-height: 1.7;
+}
+.exec-message strong {
+  color: var(--color-primary);
 }
 
 /* --------------------------------------------------------- completeness UI */
@@ -509,6 +567,16 @@ h2.screen-title {
 }
 
 /* --------------------------------------------------------------- skeleton */
+.demo-banner {
+  background: var(--color-accent);
+  color: #fff;
+  text-align: center;
+  font-size: var(--font-label);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: var(--space-2) var(--space-4);
+}
+
 .chart-empty {
   display: flex;
   align-items: center;

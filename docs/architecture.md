@@ -264,6 +264,38 @@ styled over:
   English, since translating 31 country names and hundreds of facility
   names is a data-translation exercise, not a UI-copy one.
 
+## Demo mode
+
+Most of the real bundle is honestly `NR` -- no real Phase Two return has
+been submitted yet -- which is correct behaviour but makes it hard to judge
+layout, density and chart legibility against realistic volumes. Rather than
+soften "no mock data in site/data" (a working preference for good reason:
+CLAUDE.md notes mock data "has a habit of reaching production and being read
+as real"), demo mode is a parallel, unmistakable path:
+`pipeline/tools/generate_demo_bundle.py` generates a fully invented but
+internally consistent bundle by running synthetic records through the exact
+same `load_return` / `transform.build` / `export.export` the real pipeline
+uses (so it obeys the same suppression, null-discipline and stock/flow
+rules, not numbers that could never legitimately occur), and writes it to
+`site/public/demo-data` -- a different directory from `site/public/data`,
+never merged with it. The site only loads it when a viewer explicitly turns
+on demo mode (`?demo=1`, or the header toggle), which persists per-browser
+via `localStorage` and shows a permanent accent-coloured banner on every
+screen for as long as it's on (`src/lib/demo.ts`, `src/lib/bundle.ts`). No
+demo figure is ever written into `site/public/data` or the real store.
+
+## Visual design, round two
+
+The first design pass (a flat header, plain white hero cards) still read as
+under-designed once judged against realistic data volumes, and a second,
+more ambitious pass followed: a full-width dark hero band on screen 1 with
+icon-led "signal cards" for the four headline figures (`src/components/
+icons.ts` -- small inline SVGs, no icon-font CDN) and a one-sentence
+narrative summary underneath, both patterned directly on the NCD platform's
+`.hero`/`.hero-right`/`.exec-message` treatment. The `.hero-strip`/
+`.figure-card` classes from the first pass are removed rather than left
+dead once the hero band replaced their only caller.
+
 ## Regional aggregates are computed once, server-side
 
 `export.py::regional_value()` is the only place a per-country gold figure is

@@ -95,6 +95,7 @@
   "screen1.map.caption": "O mapa situa o PEN-Plus; não classifica os países por desempenho.",
   "screen1.milestone.title": "Progresso face aos marcos — cinco indicadores principais",
   "screen1.milestone.caption": "Último valor publicado face ao marco regional, apresentado como uma barra com um marcador de meta. Nem medidor, nem semáforo.",
+  "screen1.summary": "O PEN-Plus está a ser implementado em toda a Região Africana da OMS. No último período, <strong>{countriesReporting} de {countriesTotal}</strong> países publicaram pelo menos um valor, <strong>{facilities}</strong> unidades sanitárias oferecem os serviços, e <strong>{patients}</strong> doentes foram inscritos no total nas quatro condições traçadoras.",
 
   "screen2.title": "Detalhe do indicador",
   "screen2.question": "Este indicador está a evoluir, e quais os países que o determinam?",
@@ -131,6 +132,10 @@
   "footer.in_partnership_with": "Em parceria com",
   "footer.language": "Idioma",
   "footer.theme": "Tema",
+
+  "demo.banner": "DADOS DE DEMONSTRAÇÃO — cada valor abaixo foi inventado para revisão do design. Não é um relatório PEN-Plus real.",
+  "demo.enter": "Ver com dados de demonstração",
+  "demo.exit": "Sair do modo demonstração, mostrar dados reais",
 
   "empty.no_data": "Não existe nenhum valor publicado para esta seleção. Este é o estado real da evidência, não um erro de carregamento.",
   "empty.bundle_error": "Não foi possível carregar o conjunto de dados. Verifique que o site é servido a partir da sua versão compilada, com /data junto ao index.html."

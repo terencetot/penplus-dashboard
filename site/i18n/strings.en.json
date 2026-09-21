@@ -95,6 +95,7 @@
   "screen1.map.caption": "The map situates PEN-Plus; it does not rank countries by performance.",
   "screen1.milestone.title": "Milestone progress — five headline indicators",
   "screen1.milestone.caption": "Last published value against the regional milestone, shown as a bar against a target marker. Not a gauge, not a traffic light.",
+  "screen1.summary": "PEN-Plus is being implemented across the WHO African Region. As of the latest quarter, <strong>{countriesReporting} of {countriesTotal}</strong> countries have published at least one figure, <strong>{facilities}</strong> facilities are providing services, and <strong>{patients}</strong> patients have ever been enrolled across the four tracer conditions.",
 
   "screen2.title": "Indicator detail",
   "screen2.question": "Is this indicator moving, and which countries drive it?",
@@ -131,6 +132,10 @@
   "footer.in_partnership_with": "In partnership with",
   "footer.language": "Language",
   "footer.theme": "Theme",
+
+  "demo.banner": "DEMONSTRATION DATA — every figure below is invented for design review. It is not a real PEN-Plus report.",
+  "demo.enter": "View with demo data",
+  "demo.exit": "Exit demo mode, show real data",
 
   "empty.no_data": "No published figure exists for this selection. That is the current state of the evidence, not a loading error.",
   "empty.bundle_error": "The data bundle could not be loaded. Check that the site is served from its built output, with /data alongside index.html."

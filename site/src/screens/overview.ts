@@ -1,8 +1,8 @@
 import { getOverview } from "@/lib/bundle";
-import { fmtDate } from "@/lib/format";
+import { fmtCount, fmtDate } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
-import { renderFigureCard } from "@/components/figure-card";
+import { renderSignalCard } from "@/components/figure-card";
 import { renderMilestoneStrip } from "@/components/milestone-strip";
 import type { CountryRef } from "@/lib/types";
 
@@ -19,15 +19,27 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
   const heroAsOf = bundle.latest.find((v) => v.indicator_code === "2.5")?.as_of ?? null;
 
   container.innerHTML = `
-    <h2 class="screen-title">${t("screen1.title")}</h2>
-    <p class="panel__question">${t("screen1.question")}</p>
-
-    <div class="hero-strip">
-      ${renderFigureCard(t("screen1.hero.facilities"), bundle.headline.facilities, heroAsOf)}
-      ${renderFigureCard(t("screen1.hero.ever_enrolled"), bundle.headline.ever_enrolled, heroAsOf)}
-      ${renderFigureCard(t("screen1.hero.active"), bundle.headline.active, heroAsOf)}
-      ${renderFigureCard(t("screen1.hero.trained"), bundle.headline.trained, heroAsOf)}
+    <div class="hero-band">
+      <div class="hero-band__orb hero-band__orb--1"></div>
+      <div class="hero-band__orb hero-band__orb--2"></div>
+      <div class="hero-band__head">
+        <h2 class="hero-band__title">${t("screen1.title")}</h2>
+        <p class="hero-band__subtitle">${t("screen1.question")}</p>
+      </div>
+      <div class="hero-band__grid">
+        ${renderSignalCard("facility", t("screen1.hero.facilities"), bundle.headline.facilities, heroAsOf)}
+        ${renderSignalCard("patients", t("screen1.hero.ever_enrolled"), bundle.headline.ever_enrolled, heroAsOf)}
+        ${renderSignalCard("pulse", t("screen1.hero.active"), bundle.headline.active, heroAsOf)}
+        ${renderSignalCard("training", t("screen1.hero.trained"), bundle.headline.trained, heroAsOf)}
+      </div>
     </div>
+
+    <p class="exec-message">${t("screen1.summary", {
+      countriesReporting: bundle.countries.filter((c) => c.returns > 0).length,
+      countriesTotal: bundle.countries.length,
+      facilities: fmtCount(bundle.headline.facilities.total),
+      patients: fmtCount(bundle.headline.ever_enrolled.total),
+    })}</p>
 
     <section class="panel">
       <div class="panel__header"><h3 class="panel__title">${t("screen1.map.title")}</h3></div>

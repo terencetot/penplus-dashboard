@@ -6,6 +6,7 @@ import { getManifest } from "@/lib/bundle";
 import { fmtDate } from "@/lib/format";
 import { getLang, LANG_LABELS, LANGS, onLangChange, setLang, t, type Lang } from "@/lib/i18n";
 import { currentRoute, navigate, onRouteChange, type Route } from "@/router";
+import { isDemoMode, setDemoMode } from "@/lib/demo";
 import { renderOverview } from "@/screens/overview";
 import { renderIndicatorDetail } from "@/screens/indicator-detail";
 import { renderCountryProfile } from "@/screens/country-profile";
@@ -68,6 +69,7 @@ async function renderApp() {
             <option value="dark">Dark</option>
           </select>
           <button type="button" class="btn no-print" id="print-btn">${t("common.print")}</button>
+          <button type="button" class="btn no-print" id="demo-toggle-btn">${isDemoMode() ? t("demo.exit") : t("demo.enter")}</button>
         </div>
       </div>
       <nav class="app-nav" aria-label="Screens">
@@ -76,6 +78,7 @@ async function renderApp() {
         </ul>
       </nav>
     </header>
+    ${isDemoMode() ? `<div class="demo-banner no-print" role="status">${t("demo.banner")}</div>` : ""}
     <main class="app-main" id="main-content" tabindex="-1"></main>
     <footer class="app-footer">
       <div class="app-footer__bar">
@@ -158,6 +161,11 @@ async function renderApp() {
   });
   (document.getElementById("theme-switch") as HTMLSelectElement).value = initialTheme();
   document.getElementById("print-btn")!.addEventListener("click", () => window.print());
+  document.getElementById("demo-toggle-btn")!.addEventListener("click", () => {
+    setDemoMode(!isDemoMode());
+    navigate({ screen: "overview" });
+    renderApp();
+  });
 }
 
 applyTheme(initialTheme());

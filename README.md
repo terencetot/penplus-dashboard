@@ -46,6 +46,15 @@ npm run dev        # http://localhost:5173
 there is no server process to run in production, per the specification's
 architecture rule.
 
+**To review the design fully populated:** open the site with `?demo=1`
+(e.g. `http://localhost:5173/?demo=1#/overview`), or click "View with demo
+data" in the header. Most cells in the real bundle are honestly `NR` today —
+no real Phase Two return has been submitted yet — which is correct but makes
+layout and density hard to judge. Demo mode swaps in a wholly synthetic,
+fully-populated bundle (`pipeline/tools/generate_demo_bundle.py`, output at
+`site/public/demo-data`) with a permanent on-screen banner while it's on, and
+never touches the real bundle. Turn it off with "Exit demo mode" or `?demo=0`.
+
 ## Why this stack
 
 The specification is explicit and this build follows it rather than

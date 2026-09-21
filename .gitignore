@@ -10,6 +10,11 @@ venv/
 # Regional M&E source evidence -- not part of this repository
 /data/raw/
 
+# Demo bundle's SQLite intermediate -- regenerate with
+# pipeline/tools/generate_demo_bundle.py; the JSON it writes to
+# site/public/demo-data IS committed, since the deployed site serves it.
+pipeline/src/penplus_pipeline/demo.db
+
 # Node / frontend
 site/node_modules/
 site/dist/
