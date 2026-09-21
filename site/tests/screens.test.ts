@@ -26,7 +26,7 @@ describe("screens render against the real bundle without throwing", () => {
     await renderOverview(el);
     expect(el.textContent).toContain("Regional overview");
     expect(el.querySelectorAll(".figure-card").length).toBe(4);
-    expect(el.querySelectorAll(".map-region").length).toBeGreaterThan(0);
+    expect(el.querySelectorAll(".country-tile").length).toBeGreaterThan(0);
     expect(el.querySelectorAll(".milestone-row").length).toBe(5);
   });
 

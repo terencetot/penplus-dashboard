@@ -19,7 +19,7 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
   const heroAsOf = bundle.latest.find((v) => v.indicator_code === "2.5")?.as_of ?? null;
 
   container.innerHTML = `
-    <h2>${t("screen1.title")}</h2>
+    <h2 class="screen-title">${t("screen1.title")}</h2>
     <p class="panel__question">${t("screen1.question")}</p>
 
     <div class="hero-strip">
@@ -48,18 +48,13 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
   `;
 
   const grid = container.querySelector<HTMLElement>("#country-grid")!;
-  grid.style.display = "grid";
-  grid.style.gridTemplateColumns = "repeat(auto-fill, minmax(64px, 1fr))";
-  grid.style.gap = "6px";
+  grid.className = "country-grid";
   for (const c of [...bundle.countries].sort((a: CountryRef, b: CountryRef) =>
     a.name.localeCompare(b.name),
   )) {
     const tile = document.createElement("button");
     tile.type = "button";
-    tile.className = `map-region ${c.returns > 0 ? (c.cohort === "phase_1" ? "is-phase1" : "is-phase2") : "is-none"}`;
-    tile.style.cssText =
-      "border:none;border-radius:4px;padding:8px 4px;cursor:pointer;font-size:11px;font-weight:600;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.25)";
-    if (c.returns === 0) tile.style.color = "var(--color-text-muted)";
+    tile.className = `country-tile ${c.returns > 0 ? (c.cohort === "phase_1" ? "is-phase1" : "is-phase2") : "is-none"}`;
     tile.textContent = c.iso3;
     tile.title = `${c.name} — ${c.returns > 0 ? `${t("common.as_of")} ${fmtDate(c.last_period)}` : t("status.not_reported")}`;
     tile.addEventListener("click", () => navigate({ screen: "country", iso3: c.iso3 }));

@@ -1,12 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  fmtCount,
-  fmtNandN,
-  fmtRateWithNandN,
-  isLowCompleteness,
-  isSmallN,
-  NR,
-} from "@/lib/format";
+import { fmtCount, fmtNandN, fmtRateWithNandN, isLowCompleteness, isSmallN, NR } from "@/lib/format";
 
 // Rule 2 (CLAUDE.md): "Null is not zero." Every formatter must return the
 // explicit NR marker for null/undefined, never "0" and never "".

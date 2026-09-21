@@ -6,6 +6,7 @@ import { renderCompleteness } from "@/components/completeness";
 import { renderStatus, statusFromVerdict, statusKey } from "@/lib/status";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
 import { dotPlot, type DotDatum } from "@/charts/dotplot";
+import { severityKey } from "@/lib/vocab";
 import type { OpenQuery, QualityRow } from "@/lib/types";
 
 export async function renderDataQuality(container: HTMLElement): Promise<void> {
@@ -14,7 +15,7 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
   const nameByIso3 = new Map(overview.countries.map((c) => [c.iso3, c.name]));
 
   container.innerHTML = `
-    <h2>${t("screen4.title")}</h2>
+    <h2 class="screen-title">${t("screen4.title")}</h2>
     <p class="panel__question">${t("screen4.question")}</p>
 
     <div id="completeness-panel"></div>
@@ -27,11 +28,11 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
     <section class="panel">
       <div class="panel__header"><h3 class="panel__title">${t("screen4.queries.title")}</h3></div>
       <div class="screen-controls">
-        <label>Severity <select id="severity-filter">
-          <option value="">${t("common.all_countries")}</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
+        <label>${t("table.severity")} <select id="severity-filter">
+          <option value="">${t("common.all")}</option>
+          <option value="High">${t("severity.high")}</option>
+          <option value="Medium">${t("severity.medium")}</option>
+          <option value="Low">${t("severity.low")}</option>
         </select></label>
       </div>
       <div id="queries-table"></div>
@@ -81,14 +82,14 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
     { key: "period_id", label: t("common.select_period"), render: (r) => r.period_id },
     {
       key: "verdict",
-      label: "Status",
+      label: t("table.status"),
       html: true,
       render: (r) => renderStatus(statusFromVerdict(r.verdict), t(statusKey(statusFromVerdict(r.verdict)))),
       csv: (r) => r.verdict,
     },
     {
       key: "completeness",
-      label: "Completeness",
+      label: t("table.completeness"),
       numeric: true,
       render: (r) => (r.completeness === null ? NR : renderCompleteness(r.completeness)),
       html: true,
@@ -96,10 +97,10 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
     },
     {
       key: "ltfu_compliant",
-      label: "90-day LTFU rule applied",
-      render: (r) => (r.ltfu_compliant === null ? NR : r.ltfu_compliant ? "Yes" : "No"),
+      label: t("table.ltfu_rule"),
+      render: (r) => (r.ltfu_compliant === null ? NR : r.ltfu_compliant ? t("common.yes") : t("common.no")),
     },
-    { key: "conf_patients", label: "Confidence — patients", render: (r) => r.conf_patients ?? NR },
+    { key: "conf_patients", label: t("table.confidence_patients"), render: (r) => r.conf_patients ?? NR },
     {
       key: "source_kind",
       label: t("common.historical"),
@@ -128,10 +129,10 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
     const columns: Column<OpenQuery>[] = [
       { key: "iso3", label: t("common.select_country"), render: (q) => nameByIso3.get(q.iso3) ?? q.iso3 },
       { key: "period_id", label: t("common.select_period"), render: (q) => q.period_id },
-      { key: "severity", label: "Severity", render: (q) => q.severity },
-      { key: "section", label: "Section", render: (q) => q.section },
-      { key: "field", label: "Field", render: (q) => q.field },
-      { key: "question", label: "Question", render: (q) => q.question },
+      { key: "severity", label: t("table.severity"), render: (q) => t(severityKey(q.severity)) },
+      { key: "section", label: t("table.section"), render: (q) => q.section },
+      { key: "field", label: t("table.field"), render: (q) => q.field },
+      { key: "question", label: t("table.question"), render: (q) => q.question },
       { key: "raised_at", label: t("common.as_of"), render: (q) => fmtDate(q.raised_at) },
     ];
     const host = container.querySelector("#queries-table")!;

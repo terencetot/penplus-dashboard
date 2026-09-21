@@ -1,4 +1,5 @@
 import * as Plot from "@observablehq/plot";
+import { emptyChart } from "./empty";
 
 export interface DotDatum {
   label: string;
@@ -15,6 +16,9 @@ export function dotPlot(
   data: DotDatum[],
   opts: { valueLabel: string; groupColors?: Record<string, string> },
 ): SVGElement | HTMLElement {
+  if (data.length === 0) {
+    return emptyChart(140);
+  }
   return Plot.plot({
     height: 140,
     marginLeft: 20,

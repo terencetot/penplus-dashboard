@@ -98,6 +98,43 @@ AFRO boundary file and replacing `renderOverview`'s grid block in
 `site/src/screens/overview.ts` — the data feeding it (`overview.json.countries`)
 does not change.
 
+## Visual design
+
+The first pass at the site (typography, shadows, header) was flat and
+under-designed relative to the sibling NCD Population-based Surveillance
+Intelligence Platform that CLAUDE.md names as the design-language reference.
+It was revised to match that platform's level of polish -- an editorial
+serif (system stack, no font fetch) for headline figures, layered shadows,
+a gradient navy header and footer with a dot-grid texture, hover elevation
+on interactive cards, and a sticky animated tab bar -- while keeping PEN-Plus's
+own stricter palette rule ("one primary colour... one accent... colour is
+never decorative"): unlike the NCD platform's multi-hue signal/status
+palette, every gradient here is tonal (navy-on-navy), and the accent colour
+is still used only for gap-to-milestone and alerts.
+
+Two logos were added to match the specification document's own header
+("In partnership with") and the institutional identity a WHO AFRO dashboard
+is expected to carry: the WHO AFRO mark in the header, and the Helmsley
+Charitable Trust mark in the footer's partnership credit. Both come from
+files supplied alongside the specification documents, not fetched from the
+internet.
+
+Two correctness bugs surfaced during this pass and are fixed, not just
+styled over:
+- Observable Plot renders a degenerate, oversized frame when every value in
+  a series is `null` (an all-NaN y-domain) -- a country/indicator combination
+  with no reported data at all produced a chart that was mostly blank
+  whitespace instead of a compact message. `src/charts/empty.ts` is now
+  checked by every chart function before calling `Plot.plot`, and renders the
+  same honest "no published figure" state the rest of the site uses instead.
+- Several table column headers and filter options (facility status, project-
+  supported, readiness class, severity, "Yes"/"No") were hard-coded in
+  English regardless of the selected language. They now route through the
+  same i18n registry as everything else (`src/lib/vocab.ts` builds the key
+  for each controlled vocabulary). Country and facility *names* remain in
+  English, since translating 31 country names and hundreds of facility
+  names is a data-translation exercise, not a UI-copy one.
+
 ## Regional aggregates are computed once, server-side
 
 `export.py::regional_value()` is the only place a per-country gold figure is

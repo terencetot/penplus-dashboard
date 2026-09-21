@@ -4,6 +4,7 @@ import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
 import { renderStatus, statusFromGovernance, statusKey } from "@/lib/status";
+import { facilityStatusKey, projectSupportedKey } from "@/lib/vocab";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
 import { lineTrend, type TrendPoint } from "@/charts/line";
 import type { GoldRow, GovernanceRow, IndicatorDim, OpenQuery } from "@/lib/types";
@@ -20,7 +21,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   const dimByCode = new Map<string, IndicatorDim>(indicatorsBundle.dim.map((d) => [d.indicator_code, d]));
 
   container.innerHTML = `
-    <h2>${t("screen3.title")} — ${country.country.name}</h2>
+    <h2 class="screen-title">${t("screen3.title")} — ${country.country.name}</h2>
     <p class="panel__question">${t("screen3.question")}</p>
 
     <div class="screen-controls">
@@ -33,7 +34,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     ${country.country.returns === 0 ? `<p class="callout callout--empty">${t("screen3.no_return", { country: country.country.name })}</p>` : ""}
 
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen1.title")}</h3></div>
+      <div class="panel__header"><h3 class="panel__title">${t("screen3.all_indicators")}</h3></div>
       <div id="indicator-table"></div>
     </section>
 
@@ -79,7 +80,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     { key: "label", label: t("common.select_indicator"), render: (d) => d.label_en },
     {
       key: "value",
-      label: t("screen1.title"),
+      label: t("table.value"),
       numeric: true,
       render: (d) => {
         const v = latestPerIndicator.get(d.indicator_code);
@@ -98,7 +99,11 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   container
     .querySelector("#indicator-table")!
     .appendChild(
-      buildTable(`${country.country.name} — ${t("screen1.title")}`, indicatorColumns, indicatorsBundle.dim),
+      buildTable(
+        `${country.country.name} — ${t("screen3.all_indicators")}`,
+        indicatorColumns,
+        indicatorsBundle.dim,
+      ),
     );
 
   // ---- trend for one indicator, chosen from the table above by clicking a row (kept simple: default 2.5)
@@ -152,10 +157,18 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
 
   // ---- facilities
   const facColumns: Column<(typeof country.facilities)[number]>[] = [
-    { key: "name", label: "Facility", render: (f) => f.name },
-    { key: "district", label: "District", render: (f) => f.district ?? "NR" },
-    { key: "status", label: "Status", render: (f) => f.status ?? "NR" },
-    { key: "project_supported", label: "Project-supported", render: (f) => f.project_supported ?? "NR" },
+    { key: "name", label: t("table.facility"), render: (f) => f.name },
+    { key: "district", label: t("table.district"), render: (f) => f.district ?? "NR" },
+    {
+      key: "status",
+      label: t("table.status"),
+      render: (f) => (f.status ? t(facilityStatusKey(f.status)) : "NR"),
+    },
+    {
+      key: "project_supported",
+      label: t("table.project_supported"),
+      render: (f) => (f.project_supported ? t(projectSupportedKey(f.project_supported)) : "NR"),
+    },
   ];
   container
     .querySelector("#facility-table")!
@@ -170,16 +183,16 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   // ---- governance milestones: "a Yes without a document title is not counted"
   const govStatusOf = (g: GovernanceRow) => statusFromGovernance(g.status, Boolean(g.document));
   const govColumns: Column<GovernanceRow>[] = [
-    { key: "milestone", label: "Milestone", render: (g) => g.milestone },
+    { key: "milestone", label: t("table.milestone"), render: (g) => g.milestone },
     {
       key: "status",
-      label: "Status",
+      label: t("table.status"),
       html: true,
       render: (g) => renderStatus(govStatusOf(g), t(statusKey(govStatusOf(g)))),
       csv: (g) => t(statusKey(govStatusOf(g))),
     },
     { key: "achieved_in", label: t("common.as_of"), render: (g) => g.achieved_in ?? "NR" },
-    { key: "document", label: "Document", render: (g) => g.document ?? "NR" },
+    { key: "document", label: t("table.document"), render: (g) => g.document ?? "NR" },
   ];
   const govHost = container.querySelector("#governance-table")!;
   govHost.appendChild(buildTable(t("screen3.governance.title"), govColumns, country.governance));

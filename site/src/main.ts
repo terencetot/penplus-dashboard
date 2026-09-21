@@ -49,20 +49,26 @@ async function renderApp() {
   app.innerHTML = `
     <header class="app-header">
       <div class="app-header__bar">
-        <div>
-          <p class="app-header__title">${t("app.title")}</p>
-          <p class="app-header__subtitle">${t("app.subtitle")}</p>
+        <div class="app-header__logos">
+          <img src="${import.meta.env.BASE_URL}assets/logos/who-afro.png" alt="WHO African Region" />
+          <div class="app-header__divider"></div>
+          <div>
+            <p class="app-header__title">${t("app.title")}</p>
+            <p class="app-header__subtitle">${t("app.subtitle")}</p>
+          </div>
         </div>
         <div class="app-header__spacer"></div>
-        <select class="lang-switch no-print" id="lang-switch" aria-label="${t("footer.language")}">
-          ${LANGS.map((l) => `<option value="${l}" ${l === getLang() ? "selected" : ""}>${LANG_LABELS[l]}</option>`).join("")}
-        </select>
-        <select class="theme-switch no-print" id="theme-switch" aria-label="${t("footer.theme")}">
-          <option value="system">Auto</option>
-          <option value="light">Light</option>
-          <option value="dark">Dark</option>
-        </select>
-        <button type="button" class="btn no-print" id="print-btn">${t("common.print")}</button>
+        <div class="app-header__controls">
+          <select class="lang-switch no-print" id="lang-switch" aria-label="${t("footer.language")}">
+            ${LANGS.map((l) => `<option value="${l}" ${l === getLang() ? "selected" : ""}>${LANG_LABELS[l]}</option>`).join("")}
+          </select>
+          <select class="theme-switch no-print" id="theme-switch" aria-label="${t("footer.theme")}">
+            <option value="system">Auto</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <button type="button" class="btn no-print" id="print-btn">${t("common.print")}</button>
+        </div>
       </div>
       <nav class="app-nav" aria-label="Screens">
         <ul class="app-nav__list">
@@ -84,6 +90,10 @@ async function renderApp() {
           <div>${t("common.source_periods")}: ${manifest.periods}</div>
           <div>${t("common.data_model_version")}: ${manifest.model_version}</div>
         </div>
+      </div>
+      <div class="app-footer__bar app-footer__partners">
+        <span class="app-footer__partners-label">${t("footer.in_partnership_with")}</span>
+        <img src="${import.meta.env.BASE_URL}assets/logos/helmsley-charitable-trust.svg" alt="The Leona M. and Harry B. Helmsley Charitable Trust" loading="lazy" />
       </div>
     </footer>
   `;

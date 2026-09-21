@@ -39,7 +39,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
   const values = bundle.values.filter((v) => v.indicator_code === activeDim.indicator_code);
 
   container.innerHTML = `
-    <h2>${t("screen2.title")}</h2>
+    <h2 class="screen-title">${t("screen2.title")}</h2>
     <p class="panel__question">${t("screen2.question")}</p>
 
     <div class="screen-controls">

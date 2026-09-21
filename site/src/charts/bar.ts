@@ -1,4 +1,5 @@
 import * as Plot from "@observablehq/plot";
+import { emptyChart } from "./empty";
 
 export interface BarDatum {
   label: string;
@@ -20,6 +21,9 @@ export function horizontalBars(
   data: BarDatum[],
   opts: { valueLabel: string; height?: number },
 ): SVGElement | HTMLElement {
+  if (data.length === 0) {
+    return emptyChart(opts.height ?? 120);
+  }
   const sorted = [...data].sort((a, b) => a.value - b.value);
   return Plot.plot({
     marginLeft: 140,

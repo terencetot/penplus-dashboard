@@ -1,4 +1,5 @@
 import * as Plot from "@observablehq/plot";
+import { emptyChart } from "./empty";
 
 export interface TrendPoint {
   period_id: string;
@@ -19,6 +20,10 @@ export function lineTrend(
   points: TrendPoint[],
   opts: { valueLabel: string; seriesBreakAt?: string; seriesBreakLabel?: string },
 ): SVGElement | HTMLElement {
+  if (points.every((p) => p.value === null)) {
+    return emptyChart(320);
+  }
+
   const marks: Plot.Markish[] = [
     Plot.lineY(points, {
       x: "period_id",
