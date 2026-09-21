@@ -35,10 +35,10 @@ CONDITION_KEY = {
     "total": "total",
 }
 CADRE_KEY = {
-    "medical doctors and specialists": "doctors",
-    "clinical officers or clinical associates": "clinical_officers",
-    "nurses and midwives": "nurses_midwives",
-    "pharmacy and laboratory staff": "pharmacy_lab",
+    "medical doctors / specialists": "doctors",
+    "clinical officers / associates": "clinical_officers",
+    "nurses / midwives": "nurses_midwives",
+    "pharmacy / laboratory staff": "pharmacy_lab",
     "other cadres": "other",
     "total": "total",
 }
@@ -104,7 +104,11 @@ def clean(v):
 
 SECTION_RE = re.compile(r"^(\d+(?:\.\d+)?)[.\s]")
 ANNEX_RE = re.compile(r"^annex\s+([a-f])\b", re.I)
-BLOCK_RE = re.compile(r"^block\s+(\d)", re.I)
+# Annex A's two tables are introduced by plain paragraphs, not a "Block N"
+# label: "Facility register" (identity, slowly changing) and "Facility return
+# this quarter" (performance, one row of it created per period).
+ANNEX_A_REGISTER_RE = re.compile(r"^facility register", re.I)
+ANNEX_A_RETURN_RE = re.compile(r"^facility return", re.I)
 
 
 def _blocks(doc):
@@ -128,22 +132,38 @@ def index_tables(path):
                 continue
             m = SECTION_RE.match(item)
             a = ANNEX_RE.match(item)
-            b = BLOCK_RE.match(item)
             if a:
                 key = "annex_" + a.group(1).lower()
-            elif b and key and key.startswith("annex_a"):
-                key = "annex_a_block" + b.group(1)
+            elif key and key.startswith("annex_a") and ANNEX_A_REGISTER_RE.match(item):
+                key = "annex_a_block1"
+            elif key and key.startswith("annex_a") and ANNEX_A_RETURN_RE.match(item):
+                key = "annex_a_block2"
             elif m:
                 key = "s" + m.group(1)
-            elif re.match(r"^(national context|completeness|active patients by age|"
-                          r"compliance|quality of the count|patients outside|training capacity|"
-                          r"assumptions|identification)", item, re.I):
-                key = "h_" + re.sub(r"\W+", "_", item.lower())[:34]
         else:
             rows = [[cell_text(c) for c in r.cells] for r in item.rows]
-            # A section banner is itself a one-row table: "2.  Patients | Every return".
-            if len(rows) == 1 and len(rows[0]) == 2:
+            # A top-level section banner is a one-row, two-cell table:
+            # "1. Governance and leadership | Focus area 1. Q4". A sub-indicator
+            # banner is a one-row, three-cell table with the bare code in its own
+            # cell: "2.1 | National guidelines... | Q4, or when status changes".
+            # An activity-log or optional-block banner has the same three-cell
+            # shape but a BLANK first cell ("| Activities this quarter... |
+            # Every quarter") -- that carries no key of its own and is not data,
+            # so it is dropped rather than read as a one-row table under the
+            # still-current key.
+            if len(rows) == 1 and len(rows[0]) in (2, 3):
                 head = rows[0][0].strip()
+                if not head:
+                    continue
+                # Checked before SECTION_RE: for a bare code like "2.1", the
+                # decimal point itself satisfies SECTION_RE's trailing
+                # [.\s], so SECTION_RE backtracks and (wrongly) matches with
+                # group(1) == "2" -- the fully-numeric case must be tried
+                # first, or every sub-indicator banner truncates to its
+                # parent section.
+                if re.match(r"^\d+(?:\.\d+)?$", head):
+                    key = "s" + head
+                    continue
                 if SECTION_RE.match(head):
                     key = "s" + SECTION_RE.match(head).group(1)
                     continue
@@ -189,172 +209,213 @@ def pick(d, *fragments):
 
 # ----------------------------------------------------------------- the parser
 def parse_return(path: str) -> dict:
+    """Read a completed Phase_2_PEN-Plus_Reporting_Tools.docx (v3) return.
+
+    Section numbers below are the form's own (0 identification, 1 governance,
+    2 service delivery, 3 workforce, 4 financing, 5 health information, 6
+    communication, Annex A facilities) -- not the data model workbook's
+    numbering, which the real form does not follow. See docs/architecture.md,
+    "Indicator list corrected against the real reporting forms".
+    """
     idx = index_tables(path)
     rec = {"source_file": os.path.basename(path),
            "checksum": hashlib.sha256(open(path, "rb").read()).hexdigest()[:16]}
 
-    # ---- Section 1: identification, national context, completeness
-    ident = by_label(rows_of(idx, "s1"))
+    # ---- Section 0: identification, national context, facility returns
+    ident = by_label(rows_of(idx, "s0", 0))
     if not ident:
-        raise ValueError("Section 1 not found; the form structure has been altered")
+        raise ValueError("Section 0 not found; the form structure has been altered")
     rec["country_name"] = clean(pick(ident, "country"))
-    rhythm = (clean(pick(ident, "reporting rhythm")) or "quarterly").lower()
-    period = clean(pick(ident, "period reported")) or ""
+    period = clean(pick(ident, "reporting quarter")) or ""
     year = clean(pick(ident, "year")) or ""
-    rec["rhythm"] = "monthly" if rhythm.startswith("month") else "quarterly"
+    rec["rhythm"] = "quarterly"
     rec["period_id"] = _period_id(period, year, rec["rhythm"])
     rec["quarter_id"] = _quarter_id(rec["period_id"])
     rec["year"] = int(year) if year.isdigit() else None
     rec["closing_date"] = clean(pick(ident, "closing date"))
-    rec["days_in_period"] = num(pick(ident, "number of days"))
-    rec["me_officer"] = clean(pick(ident, "m&e officer"))
-    rec["npo"] = clean(pick(ident, "ncd national professional"))
-    rec["focal_point"] = clean(pick(ident, "national pen-plus focal"))
-    rec["email"] = clean(pick(ident, "email"))
+    rec["me_officer"] = clean(pick(ident, "m&e focal point"))
+    rec["npo"] = clean(pick(ident, "npo / who country office"))
+    rec["focal_point"] = clean(pick(ident, "national programme focal point"))
     rec["first_return"] = enum(pick(ident, "is this the country"), YESNO_KEY)
 
-    ctx = by_label(rows_of(idx, "h_national_context"))
+    ctx_rows = rows_of(idx, "s0", 1)
+    ctx = by_label(ctx_rows)
     rec["context"] = {
         "districts_total": num(pick(ctx, "health districts in the country")),
-        "first_referral_total": num(pick(ctx, "first referral facilities")),
-        "phc_total": num(pick(ctx, "primary health care facilities")),
+        "first_referral_total": num(pick(ctx, "first-referral")),
         "districts_with_penplus": num(pick(ctx, "health districts where pen-plus")),
-        "districts_trained_no_site": num(pick(ctx, "health districts where staff")),
     }
 
-    comp = by_label(rows_of(idx, "h_completeness"))
+    comp = by_label(rows_of(idx, "s0", 2))
     rec["quality"] = {
         "facilities_expected": num(pick(comp, "pen-plus facilities expected")),
-        "returns_complete": num(pick(comp, "facilities that submitted a complete")),
-        "returns_partial": num(pick(comp, "facilities that submitted a partial")),
-        "returns_none": num(pick(comp, "facilities that submitted nothing")),
+        "returns_complete": num(pick(comp, "facilities submitting a complete")),
+        "returns_partial": num(pick(comp, "facilities submitting a partial")),
+        "returns_none": num(pick(comp, "facilities submitting no return")),
+        "returns_on_time": num(pick(comp, "facilities whose return arrived")),
     }
 
-    # ---- Section 2: patients
+    # ---- Section 1: governance -- the fixed codes 1.1, 1.2, 1.3
+    rec["governance"] = []
+    for r in rows_of(idx, "s1", 0)[1:]:
+        code = r[0].strip() if r else ""
+        if not code:
+            continue
+        rec["governance"].append({
+            "milestone_code": code,
+            "milestone": clean(r[1]) if len(r) > 1 else code,
+            "status": enum(r[2], YESNO_KEY, "not_reported") if len(r) > 2 else "not_reported",
+            "achieved_in": clean(r[3]) if len(r) > 3 else None,
+            "document": clean(r[4]) if len(r) > 4 else None})
+
+    # ---- Section 2.1: guideline dissemination, by tracer condition
+    for r in rows_of(idx, "s2.1", 0)[1:]:
+        c = CONDITION_KEY.get(r[0].strip().lower())
+        if c and c != "total":
+            rec["context"][f"guideline_disseminated_{c}"] = \
+                1 if enum(r[2], YESNO_KEY) == "yes" else (0 if r[2] else None)
+
+    # ---- Sections 2.2, 2.3, 2.4, 3.4: country-reported aggregates are not
+    # parsed here. Annex A's facility-level detail is the auditable source
+    # for these, and the two are not always reconcilable line for line; see
+    # docs/architecture.md.
+
+    # ---- Section 2.5: patients ever enrolled, cumulative
     rec["patient_stock"], rec["patient_flow"], rec["patient_age"] = [], [], []
-    for r in rows_of(idx, "s2.1")[1:]:
+    for r in rows_of(idx, "s2.5", 0)[1:]:
         c = CONDITION_KEY.get(r[0].strip().lower())
         if c:
             rec["patient_stock"].append(
-                {"condition": c, "ever_enrolled": num(r[1]), "active_end": num(r[2])})
-    for r in rows_of(idx, "s2.2")[1:]:
+                {"condition": c, "ever_enrolled": num(r[1]), "active_end": None})
+    dedup = by_label(rows_of(idx, "s2.5", 1))
+    rec["dedup_basis"] = clean(pick(dedup, "how was the count deduplicated"))
+
+    # ---- Section 2.6: active in care and twelve-month retention
+    stock_by_cond = {s["condition"]: s for s in rec["patient_stock"]}
+    for r in rows_of(idx, "s2.6", 0)[1:]:
         c = CONDITION_KEY.get(r[0].strip().lower())
+        if not c:
+            continue
+        active = num(r[1])
+        if c in stock_by_cond:
+            stock_by_cond[c]["active_end"] = active
+        else:
+            rec["patient_stock"].append({"condition": c, "ever_enrolled": None, "active_end": active})
+        rn, rd = (num(r[2]) if len(r) > 2 else None), (num(r[3]) if len(r) > 3 else None)
+        if rn is not None or rd is not None:
+            rec.setdefault("retention", []).append(
+                {"condition": c, "numerator": rn, "denominator": rd})
+    rule = by_label(rows_of(idx, "s2.6", 1))
+    applied = clean(pick(rule, "loss to follow-up rule applied"))
+    rec["ltfu_rule"] = applied
+    rec["ltfu_compliant"] = (1 if applied and "90" in applied
+                              else (0 if applied else None))
+    rec.setdefault("retention", [])
+
+    # optional per-condition flow detail (n=2: the noise banner before it is
+    # dropped by index_tables, so the real table lands at this index)
+    for r in rows_of(idx, "s2.6", 2)[1:]:
+        label = r[0].strip().lower()
+        c = CONDITION_KEY.get(label)
+        if not c and "other severe" in label:
+            c = "other_reported"
         if c:
             rec["patient_flow"].append({
                 "condition": c, "new_enrolled": num(r[1]), "ltfu": num(r[2]),
-                "transferred_out": num(r[3]), "stopped": num(r[4]), "died": num(r[5])})
-    age_rows = rows_of(idx, "h_active_patients_by_age")
-    if age_rows:
-        bands = [AGE_KEY.get(h.strip().lower()) for h in age_rows[0][1:]]
-        for r in age_rows[1:]:
-            label = r[0].strip().lower()
-            c = CONDITION_KEY.get(label, "total" if label.startswith("all") else None)
-            if not c:
-                continue
-            for band, v in zip(bands, r[1:]):
-                if band:
-                    rec["patient_age"].append(
-                        {"condition": c, "age_band": band, "patients": num(v)})
+                "transferred_out": num(r[3]), "died": num(r[4]),
+                "stopped": num(r[5]) if len(r) > 5 else None})
 
-    comp_def = by_label(rows_of(idx, "h_compliance"))
-    applied = enum(pick(comp_def, "the regional ninety-day rule"), YESNO_KEY)
-    rec["ltfu_compliant"] = 1 if applied == "yes" else (0 if applied == "no" else None)
-    rec["ltfu_rule"] = clean(pick(comp_def, "if not, which rule"))
-    qcount = by_label(rows_of(idx, "h_quality_of_the_count"))
-    rec["dedup_basis"] = clean(pick(qcount, "how the count was deduplicated"))
-    rec["patient_source"] = clean(pick(qcount, "main source of the patient"))
-    outside = by_label(rows_of(idx, "h_patients_outside"))
-    rec["patient_stock"].append({
-        "condition": "other_reported",
-        "ever_enrolled": None,
-        "active_end": num(pick(outside, "patients active in a pen-plus clinic"))})
-    rec["other_conditions"] = clean(pick(outside, "which conditions"))
+    # ---- Section 3.1: WHO Academy course completions, cumulative
+    who_academy = rows_of(idx, "s3.1", 0)
+    if len(who_academy) > 1:
+        r = who_academy[1]
+        rec["context"]["who_academy_f"] = num(r[1]) if len(r) > 1 else None
+        rec["context"]["who_academy_m"] = num(r[2]) if len(r) > 2 else None
+        rec["context"]["who_academy_ns"] = num(r[3]) if len(r) > 3 else None
 
-    # ---- Section 3: workforce
-    rec["workforce"] = []
-    for r in rows_of(idx, "s3")[1:]:
+    # ---- Section 3.2: Trainers of Trainers, cumulative by cadre
+    rec["workforce_tot"] = []
+    for r in rows_of(idx, "s3.2", 0)[1:]:
         c = CADRE_KEY.get(r[0].strip().lower())
-        if c:
+        if c and c != "total":
+            rec["workforce_tot"].append({
+                "cadre": c, "trained_f": num(r[1]), "trained_m": num(r[2]),
+                "trained_ns": num(r[3]) if len(r) > 3 else None})
+
+    # ---- Section 3.3: health workers trained this quarter, by cadre
+    rec["workforce"] = []
+    for r in rows_of(idx, "s3.3", 0)[1:]:
+        c = CADRE_KEY.get(r[0].strip().lower())
+        if c and c != "total":
             rec["workforce"].append({
                 "cadre": c, "trained_f": num(r[1]), "trained_m": num(r[2]),
-                "fully_trained": num(r[3]), "working_at_site": num(r[4])})
-    cap = by_label(rows_of(idx, "h_training_capacity"))
-    rec["training_capacity"] = {
-        "tots": num(pick(cap, "providers among the above")),
-        "master_trainers": num(pick(cap, "active master trainers")),
-        "training_centres": num(pick(cap, "active pen-plus training centres")),
-    }
+                "trained_ns": num(r[3]) if len(r) > 3 else None,
+                "fully_trained": None, "working_at_site": None})
 
-    # ---- Section 4: supply
+    # ---- Section 4.1: resource mobilization, and tracer medicines/diagnostics
+    round_table = rows_of(idx, "s4.1", 0)
+    rt = by_label(round_table)
+    rec["context"]["round_table_held"] = \
+        1 if enum(pick(rt, "round table held"), YESNO_KEY) == "yes" else \
+        (0 if pick(rt, "round table held") else None)
+    rec["context"]["budget_line_exists"] = \
+        1 if enum(pick(rt, "a pen-plus or severe ncd line"), YESNO_KEY) == "yes" else \
+        (0 if pick(rt, "a pen-plus or severe ncd line") else None)
+
     rec["supply"] = []
-    for r in rows_of(idx, "s4")[1:]:
+    for r in rows_of(idx, "s4.1", 1)[1:]:
         if r[0].strip():
             rec["supply"].append({
                 "item": r[0].strip(),
                 "availability": enum(r[1], AVAIL_KEY, "not_reported"),
-                "facilities_stockout": num(r[2])})
+                "facilities_stockout": num(r[2]) if len(r) > 2 else None})
 
-    # ---- Section 5: service delivery and assumptions
-    rec["service"] = []
-    for key, required in (("s5.1", 1), ("s5.2", 0)):
-        for r in rows_of(idx, key)[1:]:
-            if r[0].strip():
-                rec["service"].append(
-                    {"measure": r[0].strip(), "required": required, "value": num(r[1])})
-    rec["assumptions"] = []
-    for r in rows_of(idx, "h_assumptions")[1:]:
-        if r[0].strip():
-            rec["assumptions"].append({
-                "assumption": r[0].strip(),
-                "status": enum(r[1], ASSUM_KEY, "not_assessed"),
-                "signal": clean(r[2]) if len(r) > 2 else None})
+    # ---- Section 5.1: HMIS integration and confidence declarations
+    his = by_label(rows_of(idx, "s5.1", 0))
+    HIS_KEY = {"not integrated": 0, "partially integrated": 1, "fully integrated": 2}
+    rec["context"]["his_integration_level"] = \
+        HIS_KEY.get((pick(his, "extent of integration") or "").strip().lower())
 
-    # ---- Section 6: governance
-    rec["governance"] = []
-    for r in rows_of(idx, "s6.1")[1:]:
-        if r[0].strip():
-            rec["governance"].append({
-                "milestone_code": _slug(r[0]),
-                "milestone": r[0].strip(),
-                "status": enum(r[1], YESNO_KEY, "not_reported"),
-                "achieved_in": clean(r[2]) if len(r) > 2 else None,
-                "document": clean(r[3]) if len(r) > 3 else None})
-    rec["retention"] = []
-    for r in rows_of(idx, "s6.2")[1:]:
-        label = r[0].strip().lower()
-        c = CONDITION_KEY.get(label, "total" if label.startswith("all") else None)
-        if c:
-            rec["retention"].append(
-                {"condition": c, "numerator": num(r[1]), "denominator": num(r[2])})
-
-    # ---- Section 7: confidence
     conf = {}
-    for r in rows_of(idx, "s7.2")[1:] or rows_of(idx, "s7")[1:]:
+    for r in rows_of(idx, "s5.1", 2)[1:]:
         if r[0].strip():
-            conf[_slug(r[0])] = clean(r[1])
+            conf[_slug(r[0])] = clean(r[1]) if len(r) > 1 else None
     rec["confidence"] = conf
 
-    # ---- Annex A: facilities
+    # ---- Section 6.1: communication and visibility products
+    comm_total = None
+    for r in rows_of(idx, "s6.1", 0)[1:]:
+        if r[0].strip().lower() == "total":
+            comm_total = num(r[1]) if len(r) > 1 else None
+    rec["context"]["comm_products_total"] = comm_total
+    consent = by_label(rows_of(idx, "s6.1", 1))
+    rec["context"]["comm_consent_confirmed"] = \
+        1 if enum(pick(consent, "documented informed consent"), YESNO_KEY) == "yes" else \
+        (0 if pick(consent, "documented informed consent") else None)
+
+    # ---- Annex A: facility register (identity) and quarterly return (performance)
     rec["facilities"], rec["facility_period"] = [], []
-    for r in rows_of(idx, "annex_a_block1")[1:]:
+    for r in rows_of(idx, "annex_a_block1", 0)[1:]:
         if not clean(r[0]) and not clean(r[1]):
             continue
         rec["facilities"].append({
-            "facility_id": clean(r[0]), "name": clean(r[1]), "district": clean(r[2]),
-            "region": clean(r[3]), "facility_type": clean(r[4]),
-            "services_started": clean(r[5]), "conditions": clean(r[6]),
-            "project_supported": enum(r[7], YESNO_KEY),
-            "status": enum(r[8], FSTATUS_KEY) if len(r) > 8 else None})
-    for r in rows_of(idx, "annex_a_block2")[1:]:
+            "facility_id": clean(r[0]), "name": clean(r[1]), "region": clean(r[2]),
+            "district": clean(r[3]), "facility_type": clean(r[4]),
+            "services_started": clean(r[5]), "status": enum(r[6], FSTATUS_KEY),
+            "project_supported": enum(r[7], YESNO_KEY) if len(r) > 7 else None,
+            "conditions": clean(r[8]) if len(r) > 8 else None})
+    for r in rows_of(idx, "annex_a_block2", 0)[1:]:
         if not clean(r[0]) and not clean(r[1]):
             continue
+        mentorship = enum(r[5], YESNO_KEY) if len(r) > 5 else None
         rec["facility_period"].append({
             "facility_id": clean(r[0]), "name": clean(r[1]),
             "return_received": enum(r[2], YESNO_KEY),
             "ever_enrolled": num(r[3]), "active_end": num(r[4]),
-            "months_mentorship": num(r[5]), "quality_score": num(r[6]),
-            "critical_met": enum(r[7], YESNO_KEY),
-            "readiness_class": (r[8] or "").strip().lower() or None})
+            "mentorship_visit": 1 if mentorship == "yes" else (0 if mentorship == "no" else None),
+            "quality_score": num(r[6]) if len(r) > 6 else None,
+            "critical_met": enum(r[7], YESNO_KEY) if len(r) > 7 else None,
+            "readiness_class": (r[8] or "").strip().lower() if len(r) > 8 else None})
     return rec
 
 

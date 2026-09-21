@@ -126,11 +126,12 @@ export interface QualityRow {
   patient_source: string | null;
   facilities_expected: number | null;
   returns_complete: number | null;
+  returns_on_time: number | null;
   completeness: number | null;
   conf_facilities: Confidence;
   conf_patients: Confidence;
   conf_workforce: Confidence;
-  conf_supply: Confidence;
+  conf_quality: Confidence;
   conf_governance: Confidence;
   open_queries: number;
 }

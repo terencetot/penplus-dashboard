@@ -3,6 +3,14 @@
 Turns completed Word country returns into a SQLite store and a static JSON bundle
 for the dashboard. No manual transcription anywhere in the chain.
 
+`parse.py` reads `../docs/Phase_2_PEN-Plus_Reporting_Tools.docx` (version 3)
+section by section -- section numbers in the code are the form's own (0
+identification, 1 governance, 2 service delivery, 3 workforce, 4 financing,
+5 health information, 6 communication, Annex A facilities), not the data
+model workbook's numbering. See `../docs/architecture.md`, "Indicator list
+corrected against the real reporting forms", before assuming a section
+number or column order is a typo rather than the real form's own layout.
+
 ```
 returns (.docx) -> parse -> validate -> load -> transform -> export -> site/public/data/*.json
 ```

@@ -47,6 +47,7 @@
   "table.milestone": "Jalon",
   "table.document": "Document",
   "table.completeness": "Complétude",
+  "table.on_time": "Retours à temps",
   "table.confidence_patients": "Confiance — patients",
   "table.ltfu_rule": "Règle des 90 jours appliquée",
   "table.severity": "Gravité",

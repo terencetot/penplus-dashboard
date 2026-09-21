@@ -36,6 +36,23 @@ def _migrate(con: sqlite3.Connection) -> None:
     if "milestone" not in cols:
         con.execute("ALTER TABLE dim_indicator ADD COLUMN milestone REAL")
 
+    # Corrected against the real v3 form (docs/architecture.md): the facility
+    # mentorship field is a quarterly yes/no, not a 0-3 month count, and the
+    # fifth confidence domain is "quality and mentorship", not "supply".
+    fp_cols = {r["name"] for r in con.execute("PRAGMA table_info(fact_facility_period)")}
+    if "mentorship_visit" not in fp_cols and "months_mentorship" in fp_cols:
+        con.execute("ALTER TABLE fact_facility_period RENAME COLUMN months_mentorship TO mentorship_visit")
+
+    q_cols = {r["name"] for r in con.execute("PRAGMA table_info(fact_quality)")}
+    if "conf_quality" not in q_cols and "conf_supply" in q_cols:
+        con.execute("ALTER TABLE fact_quality RENAME COLUMN conf_supply TO conf_quality")
+    if "returns_on_time" not in q_cols:
+        con.execute("ALTER TABLE fact_quality ADD COLUMN returns_on_time INTEGER")
+
+    wf_cols = {r["name"] for r in con.execute("PRAGMA table_info(fact_workforce)")}
+    if "trained_ns" not in wf_cols:
+        con.execute("ALTER TABLE fact_workforce ADD COLUMN trained_ns INTEGER")
+
 
 def init_db(db_path: str = DB_DEFAULT) -> sqlite3.Connection:
     con = connect(db_path)
@@ -93,9 +110,12 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
         con.execute("INSERT OR REPLACE INTO fact_patient_age VALUES (?,?,?,?)",
                     (rid, r["condition"], r["age_band"], r.get("patients")))
     for r in rec.get("workforce", []):
-        con.execute("INSERT OR REPLACE INTO fact_workforce VALUES (?,?,?,?,?,?)",
-                    (rid, r["cadre"], r.get("trained_f"), r.get("trained_m"),
+        con.execute("INSERT OR REPLACE INTO fact_workforce VALUES (?,?,?,?,?,?,?)",
+                    (rid, r["cadre"], r.get("trained_f"), r.get("trained_m"), r.get("trained_ns"),
                      r.get("fully_trained"), r.get("working_at_site")))
+    for r in rec.get("workforce_tot", []):
+        con.execute("INSERT OR REPLACE INTO fact_workforce_tot VALUES (?,?,?,?,?)",
+                    (rid, r["cadre"], r.get("trained_f"), r.get("trained_m"), r.get("trained_ns")))
     for r in rec.get("supply", []):
         con.execute("INSERT OR REPLACE INTO fact_supply VALUES (?,?,?,?)",
                     (rid, r["item"], r.get("availability"), r.get("facilities_stockout")))
@@ -147,17 +167,18 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
         rc = rc if rc in ("green", "amber", "red", "not_assessed") else None
         con.execute("INSERT OR REPLACE INTO fact_facility_period VALUES (?,?,?,?,?,?,?,?,?)",
                     (rid, fid, f.get("return_received"), f.get("ever_enrolled"),
-                     f.get("active_end"), f.get("months_mentorship"),
+                     f.get("active_end"), f.get("mentorship_visit"),
                      f.get("quality_score"), f.get("critical_met"), rc))
 
     q = rec.get("quality") or {}
     exp, comp = q.get("facilities_expected"), q.get("returns_complete")
     completeness = (comp / exp) if (exp and comp is not None and exp > 0) else None
     c = rec.get("confidence") or {}
-    con.execute("INSERT OR REPLACE INTO fact_quality VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-                (rid, exp, comp, q.get("returns_partial"), q.get("returns_none"), completeness,
+    con.execute("INSERT OR REPLACE INTO fact_quality VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+                (rid, exp, comp, q.get("returns_partial"), q.get("returns_none"),
+                 q.get("returns_on_time"), completeness,
                  c.get("facilities_and_coverage"), c.get("patients"), c.get("workforce"),
-                 c.get("supply_and_service_delivery"), c.get("governance")))
+                 c.get("quality_and_mentorship"), c.get("governance_financing_hmis")))
     con.commit()
     return rid
 

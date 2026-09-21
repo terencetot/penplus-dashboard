@@ -1,5 +1,5 @@
 import { getOverview, getQuality } from "@/lib/bundle";
-import { fmtCompletenessShare, fmtDate, NR } from "@/lib/format";
+import { fmtCompletenessShare, fmtDate, fmtNandN, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { renderChartPanel } from "@/components/chart-panel";
 import { renderCompleteness } from "@/components/completeness";
@@ -94,6 +94,14 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
       render: (r) => (r.completeness === null ? NR : renderCompleteness(r.completeness)),
       html: true,
       csv: (r) => fmtCompletenessShare(r.completeness),
+    },
+    {
+      key: "returns_on_time",
+      label: t("table.on_time"),
+      render: (r) =>
+        r.returns_on_time === null || r.facilities_expected === null
+          ? NR
+          : fmtNandN(r.returns_on_time, r.facilities_expected),
     },
     {
       key: "ltfu_compliant",

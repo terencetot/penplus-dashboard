@@ -126,7 +126,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
         "SELECT r.iso3, r.period_id, r.source_kind, r.verdict, r.ltfu_compliant,"
         " r.dedup_basis, r.patient_source, q.facilities_expected, q.returns_complete,"
         " q.completeness, q.conf_facilities, q.conf_patients, q.conf_workforce,"
-        " q.conf_supply, q.conf_governance,"
+        " q.conf_quality, q.conf_governance, q.returns_on_time,"
         " (SELECT COUNT(*) FROM query_register qr WHERE qr.return_id=r.return_id"
         "  AND qr.status='open') open_queries"
         " FROM fact_return r LEFT JOIN fact_quality q USING(return_id)"

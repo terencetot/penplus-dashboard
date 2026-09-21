@@ -71,6 +71,15 @@ periods. *status* = a state that persists until it changes.
 The sixteen indicators: numerator, denominator, grain, disaggregation, and
 the display rules that apply.
 
+> **This table is the workbook's own list, transcribed as-is.** It differs
+> from the real, authoritative sixteen in `Phase_2_PEN-Plus_Reporting_Tools.docx`
+> (v3) section 7's progress-summary table in two ways worth flagging before
+> relying on it: it omits 2.1 (guideline dissemination) and 3.1 (WHO Academy
+> completions) entirely, and it groups "1.1 to 1.3" as a single row rather
+> than three distinct Results Framework indicators. `pipeline/src/penplus_pipeline/common.py::INDICATORS`
+> follows the real form, not this table — see `docs/architecture.md`,
+> "Indicator list corrected against the real reporting forms".
+
 | Code | Indicator | Numerator | Denominator | Grain | Disaggregation | Display rule |
 |---|---|---|---|---|---|---|
 | 2.2 | Facilities assessed for readiness | Facilities with a readiness class this year | Facilities assessed | facility to country | readiness class | Show the class distribution, never a mean score alone |
@@ -88,10 +97,11 @@ the display rules that apply.
 | 5.1 HIS | Integration into the national system | Countries fully or partially integrated | 31 countries | country | integration level | Three-level scale, never collapsed to yes or no |
 | 6.1 | Communication products | Products published in the year | None; a count | country | product type | Consent confirmation displayed with the count |
 
-> Ten of these (2.2 through 5.1 reporting completeness) are computed into
-> `gold_indicator` in this build. The remaining six are exposed per country
-> from `fact_governance` instead — see `docs/architecture.md`, "Indicators
-> not aggregated into gold_indicator", for why.
+> All sixteen of the real form's indicators (plus 2.6b as a named sub-facet
+> of 2.6) are computed into `gold_indicator` in this build — see
+> `docs/architecture.md`, "Indicator list corrected against the real
+> reporting forms" and "Indicators not aggregated into gold_indicator" for
+> what is still deliberately partial.
 
 ## 4. Display rules
 

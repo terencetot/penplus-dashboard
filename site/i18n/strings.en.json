@@ -47,6 +47,7 @@
   "table.milestone": "Milestone",
   "table.document": "Document",
   "table.completeness": "Completeness",
+  "table.on_time": "Returns on time",
   "table.confidence_patients": "Confidence — patients",
   "table.ltfu_rule": "90-day LTFU rule applied",
   "table.severity": "Severity",

@@ -97,12 +97,17 @@ should say why rather than being filled with a placeholder:
   was not part of this build's source material. Every screen that would show
   a gap-to-milestone says so explicitly instead of drawing a bar against a
   fabricated target.
-- **Six of the sixteen indicators** (the policy-milestone and governance
-  ones: 1.1–1.3, 4.1, 5.1 HIS, 6.1) are not aggregated into `gold_indicator`
-  and so do not appear on the indicator-detail screen. They are shown per
-  country on the country profile instead. Doing this properly regionally
-  needs the traceability workbook's mapping from form row label to indicator
-  code — see `docs/architecture.md`.
+- **The indicator list was corrected against the real reporting forms.**
+  This build originally trusted the data model workbook's shorter,
+  differently-coded indicator list; once the actual
+  `Phase_2_PEN-Plus_Reporting_Tools.docx` (v3) became available it turned
+  out neither that list nor the parser's section numbering matched the real
+  form. All sixteen real indicators are now computed into `gold_indicator`.
+  See `docs/architecture.md`, "Indicator list corrected against the real
+  reporting forms", for the full account, including two country-reported
+  aggregates (2.2/2.3/2.4/3.4's own summary tables, and 5.1's HMIS
+  integration level) that are captured but not yet folded into a published
+  rate — the bottom-up, Annex-A-derived figures are used instead.
 - **Screen 1's "map" is a grid of country tiles, not a geographic map.** No
   licensed AFRO boundary file was available, and an unverified one was not
   worth the risk of drawing wrong or disputed borders.

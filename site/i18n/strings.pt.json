@@ -47,6 +47,7 @@
   "table.milestone": "Marco",
   "table.document": "Documento",
   "table.completeness": "Completude",
+  "table.on_time": "Retornos no prazo",
   "table.confidence_patients": "Confiança — doentes",
   "table.ltfu_rule": "Regra dos 90 dias aplicada",
   "table.severity": "Gravidade",

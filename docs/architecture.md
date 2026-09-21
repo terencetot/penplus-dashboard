@@ -49,6 +49,126 @@ numbering to `parse.py`). It is not wired into the pipeline and was left
 untouched; a future form revision that supersedes v3.0 would need a rewrite
 of `validate.py` in the same way, not a resurrection of `qc.py`.
 
+## Indicator list corrected against the real reporting forms
+
+The first pass of this build (including the section above, when it still
+said the twelve-per-quarter form's numbering came from the data model
+workbook) trusted `PEN-Plus_Dashboard_Data_Model.xlsx`'s `3_Indicators`
+sheet for the indicator list and `parse.py`'s section numbering. Once the
+real `docs/Phase_2_PEN-Plus_Reporting_Tools.docx` (v3) and
+`docs/Phase_1_PEN-Plus_Reporting_Tools.docx` became available, it turned out
+neither the workbook's indicator list nor `parse.py`'s section map matched
+the actual form. Per `CLAUDE.md`, "the form is the contract" outranks the
+data model workbook, so this build now follows the real form and documents
+every place the two disagree, rather than silently picking one.
+
+**The real sixteen indicators** (from section 7's own progress-summary
+table, which lists the definitive codes) are 1.1, 1.2, 1.3, 2.1, 2.2, 2.3,
+2.4, 2.5, 2.6, 3.1, 3.2, 3.3, 3.4, 4.1, 5.1, 6.1 — not the ten-code list
+(missing 2.1 and 3.1 entirely, and coding retention as a standalone "2.6b")
+the data model workbook shipped with. `common.py::INDICATORS` now carries
+all sixteen, plus `2.6b` kept as a named sub-facet of 2.6 (a genuinely
+distinct rate needing its own numerator and denominator, reported alongside
+2.6 rather than as a seventeenth headline indicator).
+
+**The real form's section numbers are 0 (identification), 1 (governance), 2
+(service delivery), 3 (workforce), 4 (financing), 5 (health information), 6
+(communication), Annex A (facilities)** — not the 1/2/3/4/5/6/7 scheme
+`parse.py` was first written against, which put identification at section 1
+and governance at section 6. `parse.py` is rewritten section-by-section
+against the real document; see its module docstring and inline comments for
+the exact table-index mapping. Two structural quirks the rewrite had to
+handle, because they will bite any future revision to this parser too:
+
+- A **top-level** section banner is a one-row, two-cell table ("1.
+  Governance and leadership | Focus area 1. Q4"); a **sub-indicator** banner
+  is a one-row, three-cell table with the bare code in its own cell ("2.1 |
+  National guidelines... | Q4..."). The two need different detection, and a
+  bare code like "2.1" satisfies the top-level regex too, by backtracking
+  onto its own decimal point — the sub-indicator check has to run first, or
+  every sub-indicator banner truncates to its parent section (2.1 read as
+  section 2). This was a real bug caught by
+  `pipeline/tests/test_integration_v3_form.py` during this rewrite, not a
+  hypothetical.
+- An **activity-log or optional-block banner** has the same three-cell shape
+  as a sub-indicator banner but a **blank** first cell ("| Activities this
+  quarter... | Every quarter"). It carries no key of its own and is not
+  data, so `index_tables()` drops it outright rather than let it occupy a
+  table-index slot under the still-current key — otherwise every table
+  after the first activity log in a section would be off by one.
+
+**Fields that moved, split, or turned out not to exist as assumed:**
+
+- 2.5 (ever enrolled, cumulative) and 2.6 (active in care and retention) are
+  **separate tables** in the real form; the original schema and parser
+  expected one combined stock table.
+- Annex A's facility register lists **region before district** (columns 2
+  and 3) and **status before conditions** (columns 6 and 8) — the reverse of
+  what the original parser assumed. Getting this backwards silently
+  mislabels every facility's geography rather than raising an error, which
+  is exactly the kind of mistake `docs/architecture.md` exists to catch
+  before it reaches production.
+- Annex A's facility return asks a **quarterly yes/no** ("Mentorship visit
+  this quarter?"), not the 0–3 month count `fact_facility_period.months_with_mentorship`
+  was built for. The column is renamed `mentorship_visit` (migrated via
+  `load.py::_migrate`, `CHECK (mentorship_visit IN (0,1))`), and indicator
+  3.4's "monthly definition" disaggregation — which depended on the 0–3
+  scale existing — is removed rather than kept as dead code.
+- The cadre labels in `parse.py::CADRE_KEY` used "and"/"or" wording
+  ("medical doctors and specialists"); the real form uses a slash ("Medical
+  doctors / specialists"). The mismatch would have silently dropped every
+  workforce row rather than raising, since a failed dictionary lookup just
+  produces `None` and the row is skipped — no error, no data. Fixed to match
+  the real labels exactly.
+- The fifth confidence domain is "Quality and mentorship," not "supply" —
+  `fact_quality.conf_supply` is renamed `conf_quality`. A `returns_on_time`
+  field was added: the form asks for it as part of section 0's completeness
+  table, and "reporting completeness **and timeliness**" is explicitly what
+  indicator 5.1 measures, but timeliness had no column at all before.
+- Indicator 3.2 (Trainers of Trainers, cumulative by cadre) and 3.3 (health
+  workers trained this quarter, by cadre) are **two different tables** in
+  the real form, not one table read two ways. 3.2 now has its own table,
+  `fact_workforce_tot`, additive alongside the existing `fact_workforce`
+  (used for 3.3) rather than overloading one table with a `kind` flag, which
+  would have forced a primary-key change and a destructive migration for no
+  benefit — nothing depended on the old shape yet. Both tables also gained a
+  `trained_ns` ("not stated") column: the form offers three sex categories,
+  not two.
+
+**Now computable, previously not:** 1.1, 1.2 and 1.3 have **fixed codes** in
+the real form's governance table (a `Code` column reading literally "1.1",
+"1.2", "1.3"), not a free-text milestone label needing a slug — so
+`transform.py` now aggregates them into `gold_indicator` directly ("a Yes
+without a document title is not counted" enforced the same way the country
+profile already enforced it). Indicator 2.1 (guideline dissemination), 3.1
+(WHO Academy completions), 4.1 (resource-mobilization round table), and 6.1
+(communication products) are similarly now computed, each from a form field
+that has a direct, unambiguous mapping to a count. See "Indicators not
+aggregated into gold_indicator" below for what is deliberately still not
+computed, and why.
+
+One thing the real form confirmed rather than changed: the historical
+governance milestones seeded from `PEN_PLUS_MONITORING.xlsx` (Phase 1 pillar
+activities such as "Develop and disseminate clinical protocols") are **not**
+the same three Results Framework indicators 1.1–1.3, and are not relabelled
+to look like them. They stay under their own free-text slugs in
+`fact_governance` — legitimate historical context on the country profile,
+but not a stand-in for the real indicator, which has no historical data and
+correctly shows as not reported until a real Phase Two return arrives.
+
+`pipeline/src/penplus_pipeline/qc.py` targets a still-earlier form revision
+(different section numbering to the v3 form used here) and remains
+disconnected from the pipeline, unchanged.
+
+**A table with no source in the real form:** `fact_patient_age` (age-band
+disaggregation of 2.6, `u15`/`15_29`/`30plus`) has no corresponding table
+anywhere in the v3 form — the age breakdown the data model workbook
+describes was apparently dropped from the approved form. The schema and
+`transform.py`'s age-band disaggregation of 2.6 are left in place (harmless,
+and cheap to revive if a future form revision restores the table) but
+`parse.py` no longer populates it, so it will read `null` for every real
+return until then.
+
 ## Milestones
 
 Every indicator can carry a `milestone` (the regional target it is measured
@@ -65,22 +185,31 @@ reads `dim.milestone` starts rendering the real gap with no other change.
 
 ## Indicators not aggregated into `gold_indicator`
 
-Ten of the sixteen indicators (2.2 through 5.1 reporting completeness) are
-computed by `transform.py` into `gold_indicator`. The remaining six —
-1.1–1.3 (policy milestones), 4.1 (resource mobilization round table), 5.1 HIS
-(system integration level), 6.1 (communication products) — are governance
-and milestone facts sourced from free-text rows in Section 6 of the form
-(`fact_governance`), where the row label itself (not a fixed code) is what
-the form contains. Mapping those six specific labels to fixed indicator
-codes requires the actual form template or the traceability workbook, which
-this rebuild did not have; guessing the mapping risked silently miscounting
-a milestone. They are exposed honestly instead, per country, in
-`countries/{iso3}.json.governance` and rendered on the country profile
-(screen 3) with the "a Yes without a document title is not counted" rule
-enforced in the UI (`src/lib/status.ts::statusFromGovernance`). Screen 2
-("one indicator, all countries") is scoped to the ten indicators that have a
-comparable cross-country numeric value; extending it to the six governance
-indicators is a follow-up once the label-to-code mapping is confirmed.
+All sixteen real indicators (plus the 2.6b retention sub-facet) now have a
+`transform.py` computation and appear in `gold_indicator`, so screen 2
+("one indicator, all countries") and the country profile's full indicator
+table work uniformly across all of them — no special-casing needed in the
+front end. Two things are still deliberately left uncomputed, both
+documented in code where they'd otherwise look like an oversight:
+
+- **Country-reported aggregates for 2.2, 2.3, 2.4 and 3.4** (the "this
+  quarter / year to date" or "facilities assessed" summary tables the form
+  asks the country to fill in directly) are not parsed. These four
+  indicators are instead computed bottom-up from Annex A's facility-level
+  detail, which is auditable against the facility register and is not
+  always reconcilable line-for-line with the country's own top-level count
+  (the form's own guidance only promises that 2.3 "must match the
+  facilities listed in Annex A", not the other three). Capturing both and
+  reconciling them is a reasonable follow-up validate.py rule once real
+  returns exist to test it against.
+- **5.1's HMIS integration extent** (`fact_context.his_integration_level`,
+  encoded 0/1/2 for not/partially/fully integrated, since `fact_context`
+  only stores integers) is parsed and stored but not folded into the 5.1
+  rate that `gold_indicator` publishes, which stays reporting completeness
+  only. The data model's own note that this is "a three-level scale, never
+  collapsed to yes or no" argues against folding it into a single number at
+  all; showing it as its own descriptive field (not yet wired into a screen)
+  is the more honest next step than picking a collapse rule unilaterally.
 
 ## The "map" on screen 1
 

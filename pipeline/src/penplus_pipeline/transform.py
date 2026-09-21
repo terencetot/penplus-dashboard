@@ -78,10 +78,13 @@ def build(db_path: str = DB_DEFAULT):
             if a["age_band"] != "total":
                 put("2.6", num=a["n"], key="age_band", val=a["age_band"])
 
+        # fact_context holds everything sourced from a single Item/Response
+        # cell rather than a per-condition or per-cadre table: read it once.
+        ctx = {c["measure"]: c["value"] for c in con.execute(
+            "SELECT measure,value FROM fact_context WHERE return_id=?", (rid,))}
+
         # ---- 2.6b: retention, only where the regional rule was applied
         if r["ltfu_compliant"] == 1:
-            ctx = {c["measure"]: c["value"] for c in con.execute(
-                "SELECT measure,value FROM fact_context WHERE return_id=?", (rid,))}
             for c in TRACERS + ["total"]:
                 n, d = ctx.get(f"retention_num_{c}"), ctx.get(f"retention_den_{c}")
                 if n is not None or d is not None:
@@ -89,13 +92,32 @@ def build(db_path: str = DB_DEFAULT):
                         key="condition" if c != "total" else "all",
                         val=c if c != "total" else "all")
 
+        # ---- 2.1: guideline dissemination, tracers only
+        disseminated = [ctx.get(f"guideline_disseminated_{c}") for c in TRACERS]
+        reported = [v for v in disseminated if v is not None]
+        if reported:
+            put("2.1", num=sum(1 for v in reported if v == 1), den=len(TRACERS), unit="rate")
+
+        # ---- 1.1, 1.2, 1.3: governance milestones, per the fixed Results
+        # Framework codes. A Yes without a document title is not counted.
+        for g in con.execute(
+                "SELECT milestone_code, status, document FROM fact_governance"
+                " WHERE return_id=? AND milestone_code IN ('1.1','1.2','1.3')", (rid,)):
+            achieved = 1 if (g["status"] == "yes" and g["document"]) else \
+                (0 if g["status"] in ("yes", "no", "under_development") else None)
+            put(g["milestone_code"], num=achieved)
+
+        # ---- 4.1: resource-mobilization round table
+        if ctx.get("round_table_held") is not None:
+            put("4.1", num=ctx["round_table_held"])
+
         # ---- 2.3, 2.4, 3.4: derived from the facility annex
         fac = list(con.execute(
             "SELECT fp.*, f.status FROM fact_facility_period fp"
             " JOIN dim_facility f USING(facility_id) WHERE fp.return_id=?", (rid,)))
         if not fac:
             fac = list(con.execute(
-                "SELECT NULL return_received, NULL months_mentorship, NULL quality_score,"
+                "SELECT NULL return_received, NULL mentorship_visit, NULL quality_score,"
                 " NULL critical_met, NULL readiness_class, f.status"
                 " FROM dim_facility f WHERE f.iso3=?", (iso3,)))
         operational = [f for f in fac if f["status"] in ("operational", "started_this_period")]
@@ -112,25 +134,37 @@ def build(db_path: str = DB_DEFAULT):
                 for band in ("green", "amber", "red"):
                     put("2.2", num=len([f for f in ready if f["readiness_class"] == band]),
                         key="readiness_class", val=band)
-            ment = [f for f in operational if f["months_mentorship"] is not None]
+            ment = [f for f in operational if f["mentorship_visit"] is not None]
             if ment and operational:
-                put("3.4", num=len([f for f in ment if f["months_mentorship"] >= 1]),
+                put("3.4", num=len([f for f in ment if f["mentorship_visit"] == 1]),
                     den=len(operational), unit="rate")
-                put("3.4", num=len([f for f in ment if f["months_mentorship"] >= 3]),
-                    den=len(operational), unit="rate", key="definition", val="monthly")
 
-        # ---- 3.2 and 3.3: workforce
+        # ---- 3.1: WHO Academy course completions, cumulative
+        academy = _sum([ctx.get("who_academy_f"), ctx.get("who_academy_m"), ctx.get("who_academy_ns")])
+        if academy is not None:
+            put("3.1", num=academy)
+
+        # ---- 3.2: Trainers of Trainers, cumulative by cadre
+        tot = list(con.execute(
+            "SELECT * FROM fact_workforce_tot WHERE return_id=? AND cadre!='total'", (rid,)))
+        tot_trained = _sum([_sum([w["trained_f"], w["trained_m"], w["trained_ns"]]) for w in tot])
+        if tot_trained is not None:
+            put("3.2", num=tot_trained)
+
+        # ---- 3.3: health workers trained this quarter, by cadre
         wf = list(con.execute(
             "SELECT * FROM fact_workforce WHERE return_id=? AND cadre!='total'", (rid,)))
-        trained = _sum([_sum([w["trained_f"], w["trained_m"]]) for w in wf])
+        trained = _sum([_sum([w["trained_f"], w["trained_m"], w["trained_ns"]]) for w in wf])
         if trained is not None:
             put("3.3", num=trained)
-        ctx = {c["measure"]: c["value"] for c in con.execute(
-            "SELECT measure,value FROM fact_context WHERE return_id=?", (rid,))}
-        if ctx.get("tots") is not None:
-            put("3.2", num=ctx["tots"])
 
-        # ---- 5.1: reporting completeness
+        # ---- 6.1: communication and visibility products
+        if ctx.get("comm_products_total") is not None:
+            put("6.1", num=ctx["comm_products_total"])
+
+        # ---- 5.1: reporting completeness (HMIS integration is descriptive,
+        # not folded into this rate -- see fact_context.his_integration_level
+        # and docs/architecture.md)
         q = con.execute("SELECT * FROM fact_quality WHERE return_id=?", (rid,)).fetchone()
         if q and q["facilities_expected"]:
             put("5.1", num=q["returns_complete"], den=q["facilities_expected"], unit="rate")

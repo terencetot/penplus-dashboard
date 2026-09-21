@@ -4,11 +4,16 @@ Regional monitoring dashboard for the WHO AFRO PEN-Plus programme, Phase Two.
 Built from the quarterly country reporting form. Static site, no backend.
 
 Read `docs/PEN-Plus_Dashboard_Specification.docx` (transcribed for diffing at
-`docs/specification.md`) and `docs/PEN-Plus_Dashboard_Data_Model.xlsx`
-(transcribed at `docs/data-model.md`) before writing code. They are the
-contract. Where this file and the specification disagree, the specification
-wins. `docs/architecture.md` records where this build extends, adapts, or has
-not yet closed a requirement -- read it before assuming a gap is an oversight.
+`docs/specification.md`), `docs/PEN-Plus_Dashboard_Data_Model.xlsx`
+(transcribed at `docs/data-model.md`), and `docs/Phase_2_PEN-Plus_Reporting_Tools.docx`
+(the actual v3 quarterly form `parse.py` reads) before touching the pipeline.
+They are the contract, and where they disagree with each other, the real
+form wins over the data model workbook, which wins over this file -- that
+order has already mattered once: the workbook's own indicator list and the
+original `parse.py`'s section numbering both turned out not to match the
+real form. See `docs/architecture.md`, "Indicator list corrected against the
+real reporting forms", before assuming either one is still authoritative on
+a point where they conflict.
 
 ## What this is
 

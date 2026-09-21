@@ -49,11 +49,37 @@ ICPPA_CADRE_MAP = {
 }
 
 #: (code, label_en, family, direction, unit, definition, formula, milestone)
-#: `milestone` is the regional target this indicator is measured against, from
-#: the traceability workbook. It stays None until the Regional Office publishes
-#: the milestone value for that indicator; a screen must show that state rather
-#: than a fabricated number (see docs/architecture.md, "Milestones").
+#:
+#: This is the real sixteen-indicator list from the Results Framework
+#: (Phase_2_PEN-Plus_Reporting_Tools.docx, section 7's progress-summary
+#: table gives the definitive sixteen codes), not the shorter, differently
+#: coded list the data model workbook first shipped with. See
+#: docs/architecture.md, "Indicator list corrected against the real
+#: reporting forms", for what changed and why the form outranks the workbook
+#: wherever the two disagree.
+#:
+#: `milestone` is the regional target this indicator is measured against,
+#: from the traceability workbook. It stays None until the Regional Office
+#: publishes the milestone value for that indicator; a screen must show that
+#: state rather than a fabricated number (see docs/architecture.md,
+#: "Milestones").
 INDICATORS = [
+    ("1.1", "PEN-Plus integrated into national NCD strategy and UHC agenda", "governance",
+     "increase", "count",
+     "Countries with the milestone achieved and a document named",
+     "countries with status yes and a document title, over countries reporting", None),
+    ("1.2", "PEN-Plus Plan developed, approved, launched and under implementation", "governance",
+     "increase", "count",
+     "Countries with the milestone achieved and a document named",
+     "countries with status yes and a document title, over countries reporting", None),
+    ("1.3", "Costed National Operational Plan on PEN-Plus developed and launched", "governance",
+     "increase", "count",
+     "Countries with the milestone achieved and a document named",
+     "countries with status yes and a document title, over countries reporting", None),
+    ("2.1", "National guidelines and protocols disseminated to all PEN-Plus sites", "service",
+     "increase", "rate",
+     "Tracer conditions with an adapted, validated protocol disseminated to every site",
+     "count of the four tracers marked disseminated, over four", None),
     ("2.2", "Secondary-level facilities assessed for readiness", "capacity", "increase", "count",
      "Facilities assessed with the AFRO readiness tool during the year",
      "count of facilities with a readiness class", None),
@@ -71,17 +97,29 @@ INDICATORS = [
      "sum of active_end over the four tracers", None),
     ("2.6b", "Twelve-month retention rate", "service", "increase", "rate",
      "Cohort patients with a visit in the period over the cohort minus exits",
-     "numerator over denominator, by condition", None),
+     "numerator over denominator, by condition -- reported alongside 2.6, not a"
+     " seventeenth indicator", None),
+    ("3.1", "People completing a PEN-Plus WHO Academy course", "workforce", "increase", "count",
+     "Cumulative course completions, pre-filled by WHO AFRO from the Academy system",
+     "sum of female, male and not-stated completions", None),
     ("3.2", "Health workers trained as Trainers of Trainers", "workforce", "increase", "count",
-     "Providers qualified to train others", "trained this period flagged as ToT", None),
+     "Providers qualified to train others, cumulative by cadre",
+     "sum of female, male and not-stated ToT trained, cumulative", None),
     ("3.3", "Health workers trained in PEN-Plus", "workforce", "increase", "count",
-     "Providers trained at facility level", "sum of trained across the periods of the year", None),
+     "Providers trained at facility level this quarter, by cadre",
+     "sum of female, male and not-stated trained this quarter", None),
     ("3.4", "Facilities with an active clinical mentorship programme", "quality", "increase", "rate",
-     "Facilities with at least one documented mentorship visit in the period",
-     "facilities with months_mentorship at least 1 over operational facilities", None),
-    ("5.1", "Reporting completeness", "data", "increase", "rate",
+     "Facilities with at least one documented mentorship visit in the quarter",
+     "facilities with a mentorship visit this quarter over operational facilities", None),
+    ("4.1", "Annual resource-mobilization round table", "financing", "increase", "count",
+     "Countries that held a round table to mobilize resources for PEN-Plus this year",
+     "countries with round table held = yes, over countries reporting", None),
+    ("5.1", "Reporting completeness, timeliness and HMIS integration", "data", "increase", "rate",
      "Complete facility returns over facilities expected",
      "returns_complete over facilities_expected", None),
+    ("6.1", "Communication and visibility products", "communication", "increase", "count",
+     "Consent-safeguarded products published in the year",
+     "sum of product counts across product types", None),
 ]
 
 

@@ -1,5 +1,8 @@
 -- PEN-Plus regional dashboard: store schema.
--- Grain and nullability follow PEN-Plus_Dashboard_Data_Model.xlsx.
+-- Grain and nullability follow PEN-Plus_Dashboard_Data_Model.xlsx, corrected
+-- against the real Phase_2_PEN-Plus_Reporting_Tools.docx (v3) where the two
+-- disagree -- the form is the contract. See docs/architecture.md, "Indicator
+-- list corrected against the real reporting forms".
 -- NULL always means "not reported". It is never coerced to 0 anywhere.
 
 PRAGMA foreign_keys = ON;
@@ -100,13 +103,23 @@ CREATE TABLE IF NOT EXISTS fact_patient_age (            -- stock, reconciles to
   PRIMARY KEY (return_id, condition, age_band)
 );
 
-CREATE TABLE IF NOT EXISTS fact_workforce (
+CREATE TABLE IF NOT EXISTS fact_workforce (          -- indicator 3.3: this quarter, by cadre
   return_id       INTEGER NOT NULL REFERENCES fact_return(return_id),
   cadre           TEXT NOT NULL,
   trained_f       INTEGER,                                -- flow
   trained_m       INTEGER,                                -- flow
-  fully_trained   INTEGER,                                -- stock, cumulative
-  working_at_site INTEGER,                                -- stock
+  trained_ns      INTEGER,                                -- flow, sex not stated
+  fully_trained   INTEGER,                                -- legacy, unused by the v3 form
+  working_at_site INTEGER,                                -- legacy, unused by the v3 form
+  PRIMARY KEY (return_id, cadre)
+);
+
+CREATE TABLE IF NOT EXISTS fact_workforce_tot (      -- indicator 3.2: cumulative ToT, by cadre
+  return_id  INTEGER NOT NULL REFERENCES fact_return(return_id),
+  cadre      TEXT NOT NULL,
+  trained_f  INTEGER,
+  trained_m  INTEGER,
+  trained_ns INTEGER,
   PRIMARY KEY (return_id, cadre)
 );
 
@@ -160,7 +173,7 @@ CREATE TABLE IF NOT EXISTS fact_facility_period (
   return_received  TEXT CHECK (return_received IN ('yes','no','partial')),
   ever_enrolled    INTEGER,
   active_end       INTEGER,
-  months_mentorship INTEGER CHECK (months_mentorship BETWEEN 0 AND 3),
+  mentorship_visit INTEGER CHECK (mentorship_visit IN (0,1)),  -- v3 form: yes/no per quarter, not a month count
   quality_score    INTEGER CHECK (quality_score BETWEEN 0 AND 100),
   critical_met     TEXT CHECK (critical_met IN ('yes','no','partial')),
   readiness_class  TEXT CHECK (readiness_class IN ('green','amber','red','not_assessed')),
@@ -173,11 +186,12 @@ CREATE TABLE IF NOT EXISTS fact_quality (
   returns_complete     INTEGER,
   returns_partial      INTEGER,
   returns_none         INTEGER,
+  returns_on_time      INTEGER,        -- facilities whose return met the national deadline
   completeness         REAL,
   conf_facilities      TEXT,
   conf_patients        TEXT,
   conf_workforce       TEXT,
-  conf_supply          TEXT,
+  conf_quality         TEXT,           -- "quality and mentorship" domain, v3 form section 5.1
   conf_governance      TEXT
 );
 
