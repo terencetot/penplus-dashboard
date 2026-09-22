@@ -195,6 +195,22 @@ CREATE TABLE IF NOT EXISTS fact_quality (
   conf_governance      TEXT
 );
 
+-- Implementation phases: the five phases / fourteen steps a country goes
+-- through on its way to national scale-up (Phase_1_PEN-Plus_Reporting_Tools.docx,
+-- section 3 "Four pillars and project phases", table). Distinct from
+-- funding_round (the two Helmsley grant rounds) and from period_id (a
+-- reporting quarter) -- a step's status is a standing state, not tied to
+-- one return. Loaded from the round 1 monitoring workbook, not the
+-- quarterly form; iso3 is the only key, no period_id.
+CREATE TABLE IF NOT EXISTS fact_implementation_step (
+  iso3      TEXT NOT NULL REFERENCES dim_country(iso3),
+  step_no   INTEGER NOT NULL CHECK (step_no BETWEEN 1 AND 14),
+  status    TEXT CHECK (status IN ('yes','no','under_development','not_applicable','not_reported')),
+  source    TEXT,
+  as_of     TEXT,
+  PRIMARY KEY (iso3, step_no)
+);
+
 CREATE TABLE IF NOT EXISTS query_register (
   query_id   INTEGER PRIMARY KEY AUTOINCREMENT,
   return_id  INTEGER NOT NULL REFERENCES fact_return(return_id),

@@ -1,14 +1,17 @@
 /**
- * A minimal hash router. Five screens, one question each (CLAUDE.md): the
- * route is the whole of the app's navigable state, so a link to
- * #/indicators/2.5 or #/countries/GHA is always shareable and printable.
+ * A minimal hash router. One question per screen (CLAUDE.md): the route is
+ * the whole of the app's navigable state, so a link to #/indicators/2.5 or
+ * #/countries/GHA is always shareable and printable. Six screens as of the
+ * implementation-phases addition (CLAUDE.md's original five, plus "how far
+ * has each country gone" -- see docs/architecture.md).
  */
 export type Route =
   | { screen: "overview" }
   | { screen: "indicator"; code: string }
   | { screen: "country"; iso3: string }
   | { screen: "quality" }
-  | { screen: "facilities" };
+  | { screen: "facilities" }
+  | { screen: "implementation" };
 
 const DEFAULT_INDICATOR = "2.5";
 const DEFAULT_COUNTRY = "GHA";
@@ -24,6 +27,8 @@ export function parseRoute(hash: string): Route {
       return { screen: "quality" };
     case "facilities":
       return { screen: "facilities" };
+    case "implementation":
+      return { screen: "implementation" };
     case "overview":
     default:
       return { screen: "overview" };
@@ -40,6 +45,8 @@ export function routeToHash(route: Route): string {
       return "#/quality";
     case "facilities":
       return "#/facilities";
+    case "implementation":
+      return "#/implementation";
     default:
       return "#/overview";
   }

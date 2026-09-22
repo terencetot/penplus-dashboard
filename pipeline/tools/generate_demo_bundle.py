@@ -33,8 +33,8 @@ sys.path.insert(0, SRC)
 
 import export  # noqa: E402
 import transform  # noqa: E402
-from common import COUNTRIES, TRACERS  # noqa: E402
-from load import init_db, load_return  # noqa: E402
+from common import COUNTRIES, IMPLEMENTATION_STEPS, TRACERS  # noqa: E402
+from load import init_db, load_implementation_steps, load_return  # noqa: E402
 
 DEMO_DB = os.path.join(SRC, "demo.db")
 DEMO_OUT = os.path.join(HERE, "..", "..", "site", "public", "demo-data")
@@ -228,6 +228,32 @@ def build_country_series(iso3, name, cohort, periods, n_facilities):
     return recs
 
 
+def _synthetic_phase_progress(rng: random.Random) -> dict[int, str]:
+    """A plausible per-country implementation-phase state: every step before
+    a randomly chosen "current" phase is done, the current phase is a mix of
+    done/in-progress/not-yet, and everything after it is left unset (so it
+    reports as not_reported, not invented as a status). One in six countries
+    reports nothing at all, matching the real programme's uneven reporting.
+    """
+    if rng.random() < 1 / 6:
+        return {}
+    phases_by_no: dict[int, list[int]] = {}
+    for step_no, phase_no, _, _ in IMPLEMENTATION_STEPS:
+        phases_by_no.setdefault(phase_no, []).append(step_no)
+    current_phase = rng.choices([1, 2, 3, 4, 5], weights=[10, 20, 25, 30, 15])[0]
+    steps: dict[int, str] = {}
+    for phase_no, step_nos in phases_by_no.items():
+        if phase_no < current_phase:
+            for s in step_nos:
+                steps[s] = "yes"
+        elif phase_no == current_phase:
+            for s in step_nos:
+                steps[s] = rng.choices(
+                    ["yes", "under_development", "no"], weights=[55, 35, 10])[0]
+        # phase_no > current_phase: left out entirely (not_reported)
+    return steps
+
+
 def main():
     if os.path.exists(DEMO_DB):
         os.remove(DEMO_DB)
@@ -251,6 +277,19 @@ def main():
         for rec in build_country_series(iso3, name, cohort, periods, n_fac):
             source_kind = "form" if rec["period_id"] >= PHASE_BREAK_PERIOD else "historical"
             load_return(con, rec, source_kind=source_kind, provenance=PROVENANCE)
+
+        # Implementation-phase status: round 1 (phase_1) evidence only.
+        # Round 2 countries joined in June 2026 and the round 2 form carries
+        # no implementation-phase question yet (docs/architecture.md,
+        # "Implementation phases") -- they correctly show "not yet reported"
+        # here too, exactly as the real bundle would, rather than inventing
+        # progress the programme has no evidence for.
+        if cohort == "phase_1":
+            steps = _synthetic_phase_progress(rng)
+            if steps:
+                load_implementation_steps(con, iso3, steps,
+                                          source="PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+                                          as_of="2026-06-30")
 
     # Milestones for the demo only: common.py's real registry stays null
     # (no real target has been published -- see docs/architecture.md). These

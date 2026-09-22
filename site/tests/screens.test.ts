@@ -5,6 +5,7 @@ import { renderIndicatorDetail } from "@/screens/indicator-detail";
 import { renderCountryProfile } from "@/screens/country-profile";
 import { renderDataQuality } from "@/screens/data-quality";
 import { renderFacilities } from "@/screens/facilities";
+import { renderImplementation } from "@/screens/implementation";
 
 /**
  * These render each screen against the REAL bundle in site/public/data (via
@@ -52,6 +53,13 @@ describe("screens render against the real bundle without throwing", () => {
     expect(el.querySelector("#indicator-table")!.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
   });
 
+  it("country profile: implementation-phase stepper shows all fourteen steps", async () => {
+    const el = container();
+    await renderCountryProfile(el, "GHA");
+    const stepper = el.querySelector("#implementation-stepper")!;
+    expect(stepper.querySelectorAll(".implementation-stepper__mark").length).toBe(14);
+  });
+
   it("country profile: a country with zero returns says so instead of erroring", async () => {
     const el = container();
     await renderCountryProfile(el, "AGO");
@@ -76,5 +84,15 @@ describe("screens render against the real bundle without throwing", () => {
     statusFilter.dispatchEvent(new Event("change"));
     const rowsAfter = el.querySelectorAll("#facility-table tbody tr").length;
     expect(rowsAfter).toBeLessThanOrEqual(rowsBefore);
+  });
+
+  it("implementation phases: all 31 countries and 14 step columns render", async () => {
+    const el = container();
+    await renderImplementation(el);
+    expect(el.textContent).toContain("Implementation phases");
+    const table = el.querySelector("#implementation-table")!;
+    // one "highest phase" column + one per of the fourteen steps + country name
+    expect(table.querySelectorAll("thead th").length).toBe(16);
+    expect(table.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
   });
 });

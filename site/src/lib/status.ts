@@ -38,6 +38,16 @@ export function statusFromGovernance(
   return "not_reported";
 }
 
+/** implementation-step status (yes/no/under_development/...) -> the four-state vocabulary. */
+export function statusFromImplementationStep(
+  status: "yes" | "no" | "under_development" | "not_applicable" | null | undefined,
+): StatusVocab {
+  if (status === "yes") return "met";
+  if (status === "under_development") return "partly_met";
+  if (status === "no") return "not_met";
+  return "not_reported";
+}
+
 export function renderStatus(status: StatusVocab, label: string): string {
   return `<span class="status status--${status}">${label}</span>`;
 }

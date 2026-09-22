@@ -1,6 +1,7 @@
 import type {
   CountryBundle,
   FacilitiesBundle,
+  ImplementationBundle,
   IndicatorsBundle,
   Manifest,
   OverviewBundle,
@@ -45,6 +46,7 @@ export const getOverview = () => getJSON<OverviewBundle>("overview.json");
 export const getIndicators = () => getJSON<IndicatorsBundle>("indicators.json");
 export const getQuality = () => getJSON<QualityBundle>("quality.json");
 export const getFacilities = () => getJSON<FacilitiesBundle>("facilities.json");
+export const getImplementation = () => getJSON<ImplementationBundle>("implementation.json");
 export const getCountry = (iso3: string) => getJSON<CountryBundle>(`countries/${iso3}.json`);
 
 /** The distinct period_ids in the current bundle, oldest first. */

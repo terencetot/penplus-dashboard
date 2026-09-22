@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 
+from common import IMPLEMENTATION_STEPS
 from load import DB_DEFAULT, connect
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -21,6 +22,23 @@ OUT_DEFAULT = os.path.join(HERE, "..", "..", "..", "site", "public", "data")
 
 def _d(rows):
     return [dict(r) for r in rows]
+
+
+def _highest_phase_completed(status_by_step: dict) -> int:
+    """The highest phase number N such that every step of phases 1..N is
+    'yes' -- phases are sequential (Phase_1_PEN-Plus_Reporting_Tools.docx,
+    section 3), so a later phase does not count as reached while an earlier
+    one is still incomplete."""
+    steps_by_phase: dict[int, list[int]] = {}
+    for step_no, phase_no, _, _ in IMPLEMENTATION_STEPS:
+        steps_by_phase.setdefault(phase_no, []).append(step_no)
+    highest = 0
+    for phase_no in sorted(steps_by_phase):
+        if all(status_by_step.get(s) == "yes" for s in steps_by_phase[phase_no]):
+            highest = phase_no
+        else:
+            break
+    return highest
 
 
 def _redact_facility(f: dict) -> dict:
@@ -207,6 +225,39 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         "avg_quality_score": avg_quality_score,
         "rows": facility_rows})
 
+    # Implementation phases: a standing per-country state (not tied to a
+    # period_id), so grouped once here rather than per-period like
+    # gold_indicator. See docs/architecture.md, "Implementation phases".
+    step_dim = [{"step_no": s, "phase_no": p, "phase_label": pl, "step_label": sl}
+                for s, p, pl, sl in IMPLEMENTATION_STEPS]
+    impl_rows = _d(con.execute("SELECT * FROM fact_implementation_step"))
+    impl_by_country: dict[str, dict] = {}
+    for r in impl_rows:
+        impl_by_country.setdefault(r["iso3"], {})[r["step_no"]] = r
+
+    def country_implementation(iso3: str) -> dict:
+        by_step = impl_by_country.get(iso3, {})
+        status_only = {step_no: row["status"] for step_no, row in by_step.items()}
+        return {
+            "steps": [
+                {"step_no": s["step_no"],
+                 "status": by_step.get(s["step_no"], {}).get("status"),
+                 "source": by_step.get(s["step_no"], {}).get("source"),
+                 "as_of": by_step.get(s["step_no"], {}).get("as_of")}
+                for s in step_dim
+            ],
+            "highest_phase_completed": _highest_phase_completed(status_only),
+        }
+
+    write("implementation.json", {
+        "manifest": man,
+        "steps": step_dim,
+        "countries": [
+            {"iso3": c["iso3"], "name": c["name"], **country_implementation(c["iso3"])}
+            for c in countries
+        ],
+    })
+
     for c in countries:
         iso3 = c["iso3"]
         country_gold = [g for g in gold if g["iso3"] == iso3]
@@ -219,6 +270,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
             "manifest": man, "country": c,
             "values": country_gold,
             "facilities": country_facilities,
+            "implementation": country_implementation(iso3),
             # One row per milestone_code: the most recent period that reported
             # it, not every historical period stacked -- a milestone's status
             # is a current state, not a series to list in full (contrast

@@ -3,7 +3,6 @@ import "./styles/base.css";
 import "./styles/components.css";
 
 import { getManifest } from "@/lib/bundle";
-import { fmtDate } from "@/lib/format";
 import { getLang, LANG_LABELS, LANGS, onLangChange, setLang, t, type Lang } from "@/lib/i18n";
 import { currentRoute, navigate, onRouteChange, type Route } from "@/router";
 import { isDemoMode, setDemoMode } from "@/lib/demo";
@@ -12,6 +11,7 @@ import { renderIndicatorDetail } from "@/screens/indicator-detail";
 import { renderCountryProfile } from "@/screens/country-profile";
 import { renderDataQuality } from "@/screens/data-quality";
 import { renderFacilities } from "@/screens/facilities";
+import { renderImplementation } from "@/screens/implementation";
 import { icon } from "@/components/icons";
 
 const THEME_KEY = "penplus.theme";
@@ -36,8 +36,9 @@ const NAV: { route: Route; num: number; key: string }[] = [
   { route: { screen: "overview" }, num: 1, key: "nav.overview" },
   { route: { screen: "indicator", code: "2.5" }, num: 2, key: "nav.indicator" },
   { route: { screen: "country", iso3: "GHA" }, num: 3, key: "nav.country" },
-  { route: { screen: "quality" }, num: 4, key: "nav.quality" },
-  { route: { screen: "facilities" }, num: 5, key: "nav.facilities" },
+  { route: { screen: "implementation" }, num: 4, key: "nav.implementation" },
+  { route: { screen: "quality" }, num: 5, key: "nav.quality" },
+  { route: { screen: "facilities" }, num: 6, key: "nav.facilities" },
 ];
 
 function screenOf(route: Route): Route["screen"] {
@@ -92,19 +93,6 @@ async function renderApp() {
     ${isDemoMode() ? `<div class="demo-banner no-print" role="status">${t("demo.banner")}</div>` : ""}
     <main class="app-main" id="main-content" tabindex="-1"></main>
     <footer class="app-footer">
-      <div class="app-footer__bar">
-        <details>
-          <summary>${t("footer.methodology")}</summary>
-          <p>${t("footer.methodology_body")}</p>
-          <p>${t("footer.source_of_truth", { version: manifest.form_version })}</p>
-          <p>${t("footer.out_of_scope")}</p>
-        </details>
-        <div>
-          <div>${t("common.built_at")}: ${fmtDate(manifest.built_at.slice(0, 10))}</div>
-          <div>${t("common.source_periods")}: ${manifest.periods}</div>
-          <div>${t("common.data_model_version")}: ${manifest.model_version}</div>
-        </div>
-      </div>
       <div class="app-footer__bar app-footer__brand">
         <div class="app-footer__brand-logos">
           <img src="${import.meta.env.BASE_URL}assets/logos/who-afro.png" alt="WHO African Region" />
@@ -153,6 +141,8 @@ async function renderApp() {
         return renderIndicatorDetail(main, route.code);
       case "country":
         return renderCountryProfile(main, route.iso3);
+      case "implementation":
+        return renderImplementation(main);
       case "quality":
         return renderDataQuality(main);
       case "facilities":

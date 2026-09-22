@@ -188,6 +188,43 @@ export interface GovernanceRow {
   period_id: string;
 }
 
+export type ImplementationStatus = "yes" | "no" | "under_development" | "not_applicable" | null;
+
+/** One of the fourteen steps (Phase_1_PEN-Plus_Reporting_Tools.docx, section
+ *  3), either as a reference row (indicators.json-style dimension) or --
+ *  when it carries `status` -- one country's standing state on that step. */
+export interface ImplementationStepDim {
+  step_no: number;
+  phase_no: number;
+  phase_label: string;
+  step_label: string;
+}
+
+export interface ImplementationStepRow {
+  step_no: number;
+  status: ImplementationStatus;
+  source: string | null;
+  as_of: string | null;
+}
+
+export interface CountryImplementation {
+  steps: ImplementationStepRow[];
+  /** Highest phase (1-5) where every step of it and every phase before it is
+   *  'yes'; 0 if even phase 1 is not yet complete. Computed in export.py. */
+  highest_phase_completed: number;
+}
+
+export interface ImplementationCountry extends CountryImplementation {
+  iso3: string;
+  name: string;
+}
+
+export interface ImplementationBundle {
+  manifest: Manifest;
+  steps: ImplementationStepDim[];
+  countries: ImplementationCountry[];
+}
+
 export interface CountryBundle {
   manifest: Manifest;
   country: CountryRef;
@@ -195,6 +232,7 @@ export interface CountryBundle {
   facilities: FacilityRow[];
   governance: GovernanceRow[];
   open_queries: OpenQuery[];
+  implementation: CountryImplementation;
 }
 
 export type StatusVocab = "met" | "partly_met" | "not_met" | "not_reported" | "awaiting_clarification";

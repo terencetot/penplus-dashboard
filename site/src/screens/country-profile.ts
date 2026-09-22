@@ -1,10 +1,10 @@
-import { getCountry, getIndicators, getOverview } from "@/lib/bundle";
+import { getCountry, getImplementation, getIndicators, getOverview } from "@/lib/bundle";
 import { fmtCount, fmtDate, fmtRateWithNandN, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
 import { renderValueWithCompleteness } from "@/components/completeness";
-import { renderStatus, statusFromGovernance, statusKey } from "@/lib/status";
+import { renderStatus, statusFromGovernance, statusFromImplementationStep, statusKey } from "@/lib/status";
 import { facilityStatusKey, projectSupportedKey } from "@/lib/vocab";
 import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
@@ -19,7 +19,11 @@ function valueText(v: GoldRow): string {
 
 export async function renderCountryProfile(container: HTMLElement, iso3: string): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
-  const [country, indicatorsBundle] = await Promise.all([getCountry(iso3), getIndicators()]);
+  const [country, indicatorsBundle, implBundle] = await Promise.all([
+    getCountry(iso3),
+    getIndicators(),
+    getImplementation(),
+  ]);
   const dimByCode = new Map<string, IndicatorDim>(indicatorsBundle.dim.map((d) => [d.indicator_code, d]));
 
   // computed ahead of the template so the KPI row can read from it
@@ -68,6 +72,11 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     </section>
 
     <div id="trend-panel"></div>
+
+    <section class="panel">
+      <div class="panel__header">${panelTitleWithIcon("target", t("screen3.implementation.title"))}</div>
+      <div id="implementation-stepper"></div>
+    </section>
 
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("facility", t("screen3.facilities.title"))}</div>
@@ -190,6 +199,32 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       csvFilename: `country_${iso3}_${trendCode}_trend`,
     });
   }
+
+  // ---- implementation phase: this country's own row of the fourteen-step
+  // stepper (screens/implementation.ts has the full countries x steps grid)
+  const stepperHost = container.querySelector("#implementation-stepper")!;
+  const highestPhase = country.implementation.highest_phase_completed;
+  const highestPhaseText =
+    highestPhase === 0 ? t("screen_impl.not_started") : t("screen_impl.phase_n", { n: highestPhase });
+  const stepperMarks = implBundle.steps
+    .map((s) => {
+      const row = country.implementation.steps.find((r) => r.step_no === s.step_no);
+      const status = statusFromImplementationStep(row?.status ?? null);
+      const title = [
+        `${s.phase_label} — ${s.step_no}. ${s.step_label}`,
+        t(statusKey(status)),
+        row?.as_of ? `${t("common.as_of")} ${fmtDate(row.as_of)}` : "",
+      ]
+        .filter(Boolean)
+        .join(" · ")
+        .replace(/"/g, "&quot;");
+      return `<span class="implementation-stepper__mark" title="${title}">${renderStatus(status, String(s.step_no))}</span>`;
+    })
+    .join("");
+  stepperHost.innerHTML = `
+    <p class="chip">${t("screen_impl.column.highest_phase")}: ${highestPhaseText}</p>
+    <div class="implementation-stepper">${stepperMarks}</div>
+  `;
 
   // ---- facilities
   const facColumns: Column<(typeof country.facilities)[number]>[] = [

@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T16:06:07",
+  "built_at": "2026-09-22T23:49:09",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 110,
@@ -584,6 +584,95 @@
    "last_seen": "2026-Q1"
   }
  ],
+ "implementation": {
+  "steps": [
+   {
+    "step_no": 1,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 2,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 3,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 4,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 5,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 6,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 7,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 8,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 9,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 10,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 11,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 12,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 13,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 14,
+    "status": null,
+    "source": null,
+    "as_of": null
+   }
+  ],
+  "highest_phase_completed": 0
+ },
  "governance": [
   {
    "return_id": 2,
@@ -616,5 +705,19 @@
    "period_id": "2026-Q1"
   }
  ],
- "open_queries": []
+ "open_queries": [
+  {
+   "iso3": "BDI",
+   "period_id": "2026-Q1",
+   "query_id": 6,
+   "severity": "High",
+   "section": "2.6",
+   "field": "Retention denominator",
+   "observed": "reported lower than the prior quarter",
+   "expected": "a stable or growing cohort",
+   "question": "Please confirm the retention denominator against the facility register.",
+   "status": "open",
+   "raised_at": "2026-02-15"
+  }
+ ]
 }

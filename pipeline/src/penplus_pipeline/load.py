@@ -183,6 +183,25 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
     return rid
 
 
+def load_implementation_steps(con, iso3: str, steps: dict[int, str], source: str, as_of: str) -> None:
+    """Record one country's implementation-phase status.
+
+    `steps` maps step_no -> status ('yes'/'no'/'under_development'/
+    'not_applicable'/'not_reported'); a step not present in the dict is left
+    untouched rather than overwritten with 'not_reported', so a later,
+    partial update (e.g. one phase re-assessed) never erases an earlier
+    country's other steps.
+    """
+    for step_no, status in steps.items():
+        con.execute(
+            "INSERT INTO fact_implementation_step(iso3,step_no,status,source,as_of)"
+            " VALUES (?,?,?,?,?)"
+            " ON CONFLICT(iso3,step_no) DO UPDATE SET"
+            " status=excluded.status, source=excluded.source, as_of=excluded.as_of",
+            (iso3, step_no, status, source, as_of))
+    con.commit()
+
+
 if __name__ == "__main__":
     import sys
 

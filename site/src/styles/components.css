@@ -377,6 +377,16 @@ h2.screen-title {
   border: 1.5px dashed var(--color-status-not-reported);
   background: transparent;
 }
+
+.implementation-stepper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+.implementation-stepper__mark {
+  cursor: default;
+}
 .status--awaiting_clarification {
   background: var(--color-accent-soft);
   color: var(--color-accent);

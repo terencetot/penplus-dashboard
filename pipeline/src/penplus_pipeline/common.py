@@ -123,6 +123,55 @@ INDICATORS = [
 ]
 
 
+#: The five implementation phases and fourteen steps a country moves through
+#: while scaling up PEN-Plus, transcribed verbatim from
+#: Phase_1_PEN-Plus_Reporting_Tools.docx, section 3 "Four pillars and project
+#: phases" (the second table, "PEN-Plus project phases"). This is a fixed
+#: reference list, not per-country data -- per-country status lives in
+#: fact_implementation_step, loaded from the round 1 monitoring workbook.
+#:
+#: Distinct from `funding_round` (the two Helmsley grant rounds a country
+#: belongs to) and from the country-form indicators: a country can be
+#: mid-scale-up on these phases regardless of which grant round it joined in.
+#:
+#: (step_no, phase_no, phase_label, step_label)
+IMPLEMENTATION_STEPS = [
+    (1, 1, "Phase 1. Assessment of the system and of facility readiness",
+     "Conduct a comprehensive assessment of existing health care and facilities"),
+    (2, 1, "Phase 1. Assessment of the system and of facility readiness",
+     "SWOT analysis"),
+    (3, 1, "Phase 1. Assessment of the system and of facility readiness",
+     "Inventory available resources and determine capacities and potential gaps"),
+    (4, 2, "Phase 2. Service delivery model",
+     "Develop a robust service delivery model based on the assessment findings"),
+    (5, 2, "Phase 2. Service delivery model",
+     "Define protocols, guidelines and workflows for effective service delivery"),
+    (6, 2, "Phase 2. Service delivery model",
+     "Adapt the model to specific needs and challenges"),
+    (7, 3, "Phase 3. Launch of implementation",
+     "Deploy the planned interventions in selected pilot sites or communities"),
+    (8, 4, "Phase 4. Monitoring",
+     "Test the effectiveness and feasibility of the strategy in real conditions"),
+    (9, 4, "Phase 4. Monitoring",
+     "Pilot new protocols, organize training sessions and set up feedback mechanisms"),
+    (10, 4, "Phase 4. Monitoring",
+     "Implement a monitoring and evaluation framework to track progress"),
+    (11, 4, "Phase 4. Monitoring",
+     "Analyse data to assess impact and inform decision-making"),
+    (12, 4, "Phase 4. Monitoring",
+     "Progressively extend successful strategies to other sites or regions"),
+    (13, 5, "Phase 5. National coverage above 60%",
+     "Collaborate with national and regional stakeholders for coordination"),
+    (14, 5, "Phase 5. National coverage above 60%",
+     "Ensure sustainability through continuous monitoring, evaluation and adaptation"),
+]
+
+#: step_no -> phase_no, for deriving the highest phase a country has fully
+#: completed (every step of that phase, and every phase before it, is 'yes').
+STEP_PHASE = {step_no: phase_no for step_no, phase_no, _, _ in IMPLEMENTATION_STEPS}
+PHASE_LABELS = {phase_no: label for _, phase_no, label, _ in IMPLEMENTATION_STEPS}
+
+
 def resolve_iso3(country_name: str) -> str:
     """Look up the ISO3 code for a country name on the return, or raise.
 

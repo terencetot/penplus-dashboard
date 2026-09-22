@@ -7,7 +7,7 @@ import json
 
 import export
 import transform
-from load import init_db, load_return
+from load import init_db, load_implementation_steps, load_return
 from validate import Finding, record_findings
 
 
@@ -157,3 +157,50 @@ def test_open_queries_scoped_by_country(tmp_path, make_rec):
     # a country with no findings gets an empty, correctly-scoped list
     ken = json.loads((out_dir / "countries" / "KEN.json").read_text(encoding="utf-8"))
     assert ken["open_queries"] == []
+
+
+def test_implementation_json_has_all_31_countries_and_14_steps(tmp_path, make_rec):
+    db_path = _build_store(tmp_path, make_rec)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir))
+
+    impl = json.loads((out_dir / "implementation.json").read_text(encoding="utf-8"))
+    assert len(impl["steps"]) == 14
+    assert len(impl["countries"]) == 31
+    gha = next(c for c in impl["countries"] if c["iso3"] == "GHA")
+    assert len(gha["steps"]) == 14
+    # no implementation-phase evidence loaded in this fixture: every step is
+    # unreported, and the highest phase completed is 0 -- not fabricated.
+    assert all(s["status"] is None for s in gha["steps"])
+    assert gha["highest_phase_completed"] == 0
+
+
+def test_highest_phase_completed_requires_every_step_of_the_phase(tmp_path, make_rec):
+    db_path = str(tmp_path / "store.db")
+    con = init_db(db_path)
+    load_return(con, make_rec(country_name="Ghana", period_id="2026-Q1", quarter_id="2026-Q1"),
+                verdict="accepted")
+    # Phase 1 = steps 1-3, all yes: phase 1 complete.
+    # Phase 2 = steps 4-6, step 5 not yes: phase 2 incomplete, so despite
+    # step 7 (phase 3) being 'yes', the highest phase completed stays 1 --
+    # phases are sequential, a later one does not count while an earlier one
+    # is still open.
+    load_implementation_steps(con, "GHA", {
+        1: "yes", 2: "yes", 3: "yes",
+        4: "yes", 5: "under_development", 6: "yes",
+        7: "yes",
+    }, source="test fixture", as_of="2026-01-01")
+    con.close()
+    transform.build(db_path)
+
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir))
+    impl = json.loads((out_dir / "implementation.json").read_text(encoding="utf-8"))
+    gha = next(c for c in impl["countries"] if c["iso3"] == "GHA")
+    assert gha["highest_phase_completed"] == 1
+    step1 = next(s for s in gha["steps"] if s["step_no"] == 1)
+    assert step1["status"] == "yes"
+    assert step1["source"] == "test fixture"
+
+    gha_country = json.loads((out_dir / "countries" / "GHA.json").read_text(encoding="utf-8"))
+    assert gha_country["implementation"]["highest_phase_completed"] == 1

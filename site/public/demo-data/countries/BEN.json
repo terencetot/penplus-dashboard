@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T16:06:07",
+  "built_at": "2026-09-22T23:49:09",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 110,
@@ -2330,6 +2330,95 @@
    "last_seen": "2026-Q1"
   }
  ],
+ "implementation": {
+  "steps": [
+   {
+    "step_no": 1,
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+    "as_of": "2026-06-30"
+   },
+   {
+    "step_no": 2,
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+    "as_of": "2026-06-30"
+   },
+   {
+    "step_no": 3,
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+    "as_of": "2026-06-30"
+   },
+   {
+    "step_no": 4,
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+    "as_of": "2026-06-30"
+   },
+   {
+    "step_no": 5,
+    "status": "under_development",
+    "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+    "as_of": "2026-06-30"
+   },
+   {
+    "step_no": 6,
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+    "as_of": "2026-06-30"
+   },
+   {
+    "step_no": 7,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 8,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 9,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 10,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 11,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 12,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 13,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 14,
+    "status": null,
+    "source": null,
+    "as_of": null
+   }
+  ],
+  "highest_phase_completed": 1
+ },
  "governance": [
   {
    "return_id": 7,

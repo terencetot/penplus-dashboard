@@ -12,6 +12,7 @@ revisions and supersedes the old ones, so history is never lost.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import glob
 import os
 import re
@@ -23,7 +24,7 @@ sys.path.insert(0, HERE)
 import export  # noqa: E402
 import seed_history  # noqa: E402
 import transform  # noqa: E402
-from load import init_db, load_return  # noqa: E402
+from load import init_db, load_implementation_steps, load_return  # noqa: E402
 from parse import parse_return  # noqa: E402
 from validate import record_findings, validate_return  # noqa: E402
 
@@ -77,6 +78,11 @@ def main():
                 load_return(con, rec, source_kind="historical",
                             provenance=seed_history.PROV_MON)
                 n += 1
+            phases = seed_history.from_monitoring_phases(a.monitoring)
+            today = dt.date.today().isoformat()
+            for iso3, steps in sorted(phases.items()):
+                load_implementation_steps(con, iso3, steps, seed_history.PROV_MON, today)
+            print(f"seeded implementation-phase status for {len(phases)} countries")
         else:
             print(f"skipping monitoring seed: {a.monitoring} not found")
         if os.path.exists(a.icppa):

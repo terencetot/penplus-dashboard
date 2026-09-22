@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T16:06:05",
+  "built_at": "2026-09-22T23:49:31",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 40,
@@ -50,6 +50,95 @@
   }
  ],
  "facilities": [],
+ "implementation": {
+  "steps": [
+   {
+    "step_no": 1,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 2,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 3,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 4,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 5,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 6,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 7,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 8,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 9,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 10,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 11,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 12,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 13,
+    "status": null,
+    "source": null,
+    "as_of": null
+   },
+   {
+    "step_no": 14,
+    "status": null,
+    "source": null,
+    "as_of": null
+   }
+  ],
+  "highest_phase_completed": 0
+ },
  "governance": [
   {
    "return_id": 11,

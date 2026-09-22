@@ -28,7 +28,7 @@ import re
 from collections import defaultdict
 
 import openpyxl
-from common import COUNTRIES, ICPPA_CADRE_MAP, ICPPA_CONDITION_MAP
+from common import COUNTRIES, ICPPA_CADRE_MAP, ICPPA_CONDITION_MAP, IMPLEMENTATION_STEPS
 from load import init_db, load_return
 
 PROV_ICPPA = "ICPPA 2026 country data extraction, rebuilt as a form return"
@@ -188,6 +188,10 @@ STATUS_MAP = {"yes": "yes", "y": "yes", "oui": "yes", "no": "no", "n": "no", "no
               "na": "not_applicable", "n/a": "not_applicable"}
 
 
+def norm_status(v):
+    return STATUS_MAP.get(str(v).strip().lower(), "not_reported") if v else "not_reported"
+
+
 def from_monitoring(path):
     """Governance milestones and district counts from the phase 1 workbook.
 
@@ -197,9 +201,6 @@ def from_monitoring(path):
     """
     wb = openpyxl.load_workbook(path, data_only=True)
     out = {}
-
-    def norm_status(v):
-        return STATUS_MAP.get(str(v).strip().lower(), "not_reported") if v else "not_reported"
 
     def find_country_column(ws, limit=12):
         """Locate the header row and the country column.
@@ -278,6 +279,79 @@ def from_monitoring(path):
                     rec["governance"].append({
                         "milestone_code": code, "milestone": lab,
                         "status": norm_status(v), "achieved_in": None, "document": None})
+    return out
+
+
+# Every step's own wording begins "Step N." in
+# Phase_1_PEN-Plus_Reporting_Tools.docx (section 3); a real workbook column
+# header derived from that form is expected to keep the step number even if
+# the rest of the wording is paraphrased or truncated, so matching on
+# "Step <n>" is far more robust than matching the full description text.
+_STEP_NO_RE = re.compile(r"step\s*0*(\d{1,2})\b", re.I)
+
+
+def _match_step_no(header_text: str) -> int | None:
+    m = _STEP_NO_RE.search(header_text)
+    if m:
+        n = int(m.group(1))
+        return n if 1 <= n <= len(IMPLEMENTATION_STEPS) else None
+    # Fall back to matching a distinctive fragment of the step's own wording,
+    # for a header that dropped the "Step N" prefix entirely.
+    low = header_text.lower()
+    for step_no, _, _, step_label in IMPLEMENTATION_STEPS:
+        frag = step_label.lower()[:30]
+        if frag and frag in low:
+            return step_no
+    return None
+
+
+def from_monitoring_phases(path):
+    """Per-country implementation-phase status from the round 1 monitoring
+    workbook's PEN-Plus-phases sheet.
+
+    Headers span two rows (a step's number and its description are often on
+    separate lines in a hand-built sheet); country is the fourth column.
+    Columns are mapped to a step by the header text, never by position --
+    some rows in this workbook carry extra cells, which would otherwise
+    shift every later column out of alignment.
+
+    Returns {iso3: {step_no: status}}.
+    """
+    wb = openpyxl.load_workbook(path, data_only=True)
+    sheet_name = next((n for n in wb.sheetnames if "phase" in n.lower()), None)
+    if sheet_name is None:
+        return {}
+    ws = wb[sheet_name]
+
+    HEADER_ROWS = (7, 8)
+    COUNTRY_COL = 3  # the fourth column
+
+    top = next(ws.iter_rows(min_row=HEADER_ROWS[0], max_row=HEADER_ROWS[0], values_only=True), ())
+    bottom = next(ws.iter_rows(min_row=HEADER_ROWS[1], max_row=HEADER_ROWS[1], values_only=True), ())
+    width = max(len(top), len(bottom))
+    col_to_step: dict[int, int] = {}
+    for j in range(width):
+        label = " ".join(
+            str(v).strip() for v in (top[j] if j < len(top) else None, bottom[j] if j < len(bottom) else None)
+            if v
+        )
+        if not label:
+            continue
+        step_no = _match_step_no(label)
+        if step_no:
+            col_to_step[j] = step_no
+
+    out: dict[str, dict[int, str]] = {}
+    for row in ws.iter_rows(min_row=max(HEADER_ROWS) + 1, values_only=True):
+        if COUNTRY_COL >= len(row):
+            continue
+        country = str(row[COUNTRY_COL] or "").strip()
+        if country not in COUNTRIES:
+            continue
+        iso3 = COUNTRIES[country][0]
+        steps = {step_no: norm_status(row[j]) for j, step_no in col_to_step.items() if j < len(row)}
+        if steps:
+            out[iso3] = steps
     return out
 
 
