@@ -1,10 +1,10 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T23:49:09",
+  "built_at": "2026-09-23T00:36:39",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 110,
-  "countries": 31,
+  "countries": 30,
   "periods": "2025-Q1,2025-Q2,2025-Q3,2025-Q4,2026-Q1",
   "suppress_below": 5,
   "public": false,
@@ -2426,9 +2426,9 @@
  "open_queries": [
   {
    "iso3": "CMR",
-   "period_id": "2025-Q4",
-   "query_id": 4,
-   "severity": "Low",
+   "period_id": "2025-Q1",
+   "query_id": 6,
+   "severity": "High",
    "section": "2.6",
    "field": "Retention denominator",
    "observed": "reported lower than the prior quarter",

@@ -68,7 +68,7 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
     tile.type = "button";
     tile.className = `country-tile ${c.returns > 0 ? (c.cohort === "phase_1" ? "is-phase1" : "is-phase2") : "is-none"}`;
     tile.textContent = c.iso3;
-    tile.title = `${c.name} — ${c.returns > 0 ? `${t("common.as_of")} ${fmtDate(c.last_period)}` : t("status.not_reported")}`;
+    tile.title = `${c.name}: ${c.returns > 0 ? `${t("common.as_of")} ${fmtDate(c.last_period)}` : t("status.not_reported")}`;
     tile.addEventListener("click", () => navigate({ screen: "country", iso3: c.iso3 }));
     grid.appendChild(tile);
   }

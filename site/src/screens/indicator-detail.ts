@@ -97,8 +97,8 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("shield", dim.label_en)}</div>
       <dl class="definition-panel">
-        <dt>${t("common.definition")}</dt><dd>${dim.definition ?? "—"}</dd>
-        <dt>${t("common.formula")}</dt><dd>${dim.formula ?? "—"}</dd>
+        <dt>${t("common.definition")}</dt><dd>${dim.definition ?? NR}</dd>
+        <dt>${t("common.formula")}</dt><dd>${dim.formula ?? NR}</dd>
       </dl>
       ${renderMilestoneStrip([
         {
@@ -125,7 +125,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
   for (const d of bundle.dim) {
     const opt = document.createElement("option");
     opt.value = d.indicator_code;
-    opt.textContent = `${d.indicator_code} — ${d.label_en}`;
+    opt.textContent = `${d.indicator_code}: ${d.label_en}`;
     opt.selected = d.indicator_code === dim.indicator_code;
     select.appendChild(opt);
   }
@@ -165,7 +165,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
         },
         { key: "as_of", label: t("common.as_of"), render: (v) => fmtDate(v.as_of) },
       ];
-      return buildTable(`${dim.label_en} — ${t("screen2.distribution.title")}`, columns, latest);
+      return buildTable(`${dim.label_en}: ${t("screen2.distribution.title")}`, columns, latest);
     },
     csv: () =>
       tableToCSVData<GoldRow>(
@@ -214,7 +214,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
       series.some((v) => v.period_id >= PHASE_BREAK_PERIOD);
 
     renderChartPanel(container.querySelector("#trend-panel")!, {
-      title: `${t("screen2.trend.title")} — ${iso3}`,
+      title: `${t("screen2.trend.title")}: ${iso3}`,
       icon: "trend",
       caption: t("screen2.trend.caption"),
       legendHtml: `<span class="chart-legend__item">${t("common.nr_legend")}</span>`,
@@ -234,7 +234,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
             render: (v) => (v.basis === "historical" ? t("common.historical") : ""),
           },
         ];
-        return buildTable(`${iso3} — ${activeDim.label_en}`, columns, series);
+        return buildTable(`${iso3}: ${activeDim.label_en}`, columns, series);
       },
       csv: () =>
         tableToCSVData<GoldRow>(

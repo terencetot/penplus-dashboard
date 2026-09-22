@@ -37,7 +37,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   const highSeverity = country.open_queries.filter((q) => q.severity === "High").length;
 
   container.innerHTML = `
-    <h2 class="screen-title">${t("screen3.title")} — ${country.country.name}</h2>
+    <h2 class="screen-title">${t("screen3.title")}: ${country.country.name}</h2>
     <p class="panel__question">${t("screen3.question")}</p>
 
     <div class="screen-controls">
@@ -137,7 +137,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     .querySelector("#indicator-table")!
     .appendChild(
       buildTable(
-        `${country.country.name} — ${t("screen3.all_indicators")}`,
+        `${country.country.name}: ${t("screen3.all_indicators")}`,
         indicatorColumns,
         indicatorsBundle.dim,
       ),
@@ -162,7 +162,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       series.some((v) => v.period_id < PHASE_BREAK_PERIOD) &&
       series.some((v) => v.period_id >= PHASE_BREAK_PERIOD);
     renderChartPanel(container.querySelector("#trend-panel")!, {
-      title: `${t("screen3.trend_since")} — ${dim.label_en}`,
+      title: `${t("screen3.trend_since")}: ${dim.label_en}`,
       icon: "trend",
       caption: t("screen2.trend.caption"),
       legendHtml: `<span class="chart-legend__item">${t("common.nr_legend")}</span>`,
@@ -211,7 +211,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       const row = country.implementation.steps.find((r) => r.step_no === s.step_no);
       const status = statusFromImplementationStep(row?.status ?? null);
       const title = [
-        `${s.phase_label} — ${s.step_no}. ${s.step_label}`,
+        `${s.phase_label}: ${s.step_no}. ${s.step_label}`,
         t(statusKey(status)),
         row?.as_of ? `${t("common.as_of")} ${fmtDate(row.as_of)}` : "",
       ]
@@ -244,11 +244,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   container
     .querySelector("#facility-table")!
     .appendChild(
-      buildTable(
-        `${country.country.name} — ${t("screen3.facilities.title")}`,
-        facColumns,
-        country.facilities,
-      ),
+      buildTable(`${country.country.name}: ${t("screen3.facilities.title")}`, facColumns, country.facilities),
     );
 
   // ---- governance milestones: "a Yes without a document title is not counted"
@@ -279,7 +275,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     queriesHost.innerHTML = country.open_queries
       .map(
         (q: OpenQuery) => `<div class="callout callout--severity-${q.severity.toLowerCase()}">
-        <strong>${q.severity}</strong> — ${q.period_id} — ${q.section} / ${q.field}<br>
+        <strong>${q.severity}</strong>, ${q.period_id}, ${q.section} / ${q.field}<br>
         ${q.question}
       </div>`,
       )

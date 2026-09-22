@@ -82,7 +82,7 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
   renderChartPanel(container.querySelector("#completeness-panel")!, {
     title: t("screen4.completeness.title"),
     icon: "shield",
-    caption: t("screen4.completeness.title") + " (%) — " + t("empty.no_data"),
+    caption: t("screen4.completeness.title") + " (%). " + t("empty.no_data"),
     buildChart: () => dotPlot(dotData, { valueLabel: "% complete" }),
     buildTable: () =>
       buildTable(

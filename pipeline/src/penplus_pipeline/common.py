@@ -97,8 +97,8 @@ INDICATORS = [
      "sum of active_end over the four tracers", None),
     ("2.6b", "Twelve-month retention rate", "service", "increase", "rate",
      "Cohort patients with a visit in the period over the cohort minus exits",
-     "numerator over denominator, by condition -- reported alongside 2.6, not a"
-     " seventeenth indicator", None),
+     "numerator over denominator, by condition (reported alongside 2.6, not a"
+     " seventeenth indicator)", None),
     ("3.1", "People completing a PEN-Plus WHO Academy course", "workforce", "increase", "count",
      "Cumulative course completions, pre-filled by WHO AFRO from the Academy system",
      "sum of female, male and not-stated completions", None),

@@ -92,7 +92,7 @@ export async function renderImplementation(container: HTMLElement): Promise<void
     const dt = document.createElement("dt");
     dt.textContent = phaseLabel;
     const dd = document.createElement("dd");
-    dd.textContent = stepsOfPhase.map((s) => `${s.step_no}. ${s.step_label}`).join(" — ");
+    dd.textContent = stepsOfPhase.map((s) => `${s.step_no}. ${s.step_label}`).join("; ");
     legend.append(dt, dd);
   }
 
@@ -113,7 +113,7 @@ export async function renderImplementation(container: HTMLElement): Promise<void
         const row = c.steps.find((r) => r.step_no === s.step_no);
         const status = statusFromImplementationStep(row?.status ?? null);
         const title = [
-          `${s.phase_label} — ${s.step_no}. ${s.step_label}`,
+          `${s.phase_label}: ${s.step_no}. ${s.step_label}`,
           t(statusKey(status)),
           row?.as_of ? `${t("common.as_of")} ${fmtDate(row.as_of)}` : "",
           row?.source ?? "",

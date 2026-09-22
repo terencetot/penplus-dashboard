@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T23:49:31",
+  "built_at": "2026-09-23T00:36:38",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 40,
@@ -144,7 +144,7 @@
    "direction": "increase",
    "unit": "rate",
    "definition": "Cohort patients with a visit in the period over the cohort minus exits",
-   "formula": "numerator over denominator, by condition -- reported alongside 2.6, not a seventeenth indicator",
+   "formula": "numerator over denominator, by condition (reported alongside 2.6, not a seventeenth indicator)",
    "milestone": null,
    "regional_value": null,
    "regional_as_of": null,
