@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T00:56:10",
+  "built_at": "2026-09-22T01:54:56",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 111,
@@ -2260,85 +2260,14 @@
  ],
  "governance": [
   {
-   "return_id": 108,
-   "milestone_code": "1.1",
-   "milestone": "PEN-Plus integrated into the national NCD strategy and UHC agenda",
-   "indicator_code": null,
-   "status": "under_development",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 109,
-   "milestone_code": "1.1",
-   "milestone": "PEN-Plus integrated into the national NCD strategy and UHC agenda",
-   "indicator_code": null,
-   "status": "under_development",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 110,
-   "milestone_code": "1.1",
-   "milestone": "PEN-Plus integrated into the national NCD strategy and UHC agenda",
-   "indicator_code": null,
-   "status": "yes",
-   "achieved_in": "2025-Q3",
-   "document": "ncd_strategy_addendum.pdf"
-  },
-  {
-   "return_id": 111,
-   "milestone_code": "1.1",
-   "milestone": "PEN-Plus integrated into the national NCD strategy and UHC agenda",
-   "indicator_code": null,
-   "status": "yes",
-   "achieved_in": "2025-Q4",
-   "document": "ncd_strategy_addendum.pdf"
-  },
-  {
    "return_id": 112,
    "milestone_code": "1.1",
    "milestone": "PEN-Plus integrated into the national NCD strategy and UHC agenda",
    "indicator_code": null,
    "status": "yes",
    "achieved_in": "2026-Q1",
-   "document": "ncd_strategy_addendum.pdf"
-  },
-  {
-   "return_id": 108,
-   "milestone_code": "1.2",
-   "milestone": "PEN-Plus Plan developed, approved, launched and under implementation",
-   "indicator_code": null,
-   "status": "under_development",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 109,
-   "milestone_code": "1.2",
-   "milestone": "PEN-Plus Plan developed, approved, launched and under implementation",
-   "indicator_code": null,
-   "status": "under_development",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 110,
-   "milestone_code": "1.2",
-   "milestone": "PEN-Plus Plan developed, approved, launched and under implementation",
-   "indicator_code": null,
-   "status": "under_development",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 111,
-   "milestone_code": "1.2",
-   "milestone": "PEN-Plus Plan developed, approved, launched and under implementation",
-   "indicator_code": null,
-   "status": "yes",
-   "achieved_in": "2025-Q4",
-   "document": "penplus_plan_signed.pdf"
+   "document": "ncd_strategy_addendum.pdf",
+   "period_id": "2026-Q1"
   },
   {
    "return_id": 112,
@@ -2347,43 +2276,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": "2026-Q1",
-   "document": "penplus_plan_signed.pdf"
-  },
-  {
-   "return_id": 108,
-   "milestone_code": "1.3",
-   "milestone": "Costed National Operational Plan (NOP) on PEN-Plus developed and launched",
-   "indicator_code": null,
-   "status": "no",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 109,
-   "milestone_code": "1.3",
-   "milestone": "Costed National Operational Plan (NOP) on PEN-Plus developed and launched",
-   "indicator_code": null,
-   "status": "no",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 110,
-   "milestone_code": "1.3",
-   "milestone": "Costed National Operational Plan (NOP) on PEN-Plus developed and launched",
-   "indicator_code": null,
-   "status": "no",
-   "achieved_in": null,
-   "document": null
-  },
-  {
-   "return_id": 111,
-   "milestone_code": "1.3",
-   "milestone": "Costed National Operational Plan (NOP) on PEN-Plus developed and launched",
-   "indicator_code": null,
-   "status": "no",
-   "achieved_in": null,
-   "document": null
+   "document": "penplus_plan_signed.pdf",
+   "period_id": "2026-Q1"
   },
   {
    "return_id": 112,
@@ -2392,7 +2286,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": "2026-Q1",
-   "document": "nop_costed_final.pdf"
+   "document": "nop_costed_final.pdf",
+   "period_id": "2026-Q1"
   }
  ],
  "open_queries": []

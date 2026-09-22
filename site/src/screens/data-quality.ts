@@ -2,11 +2,12 @@ import { getOverview, getQuality } from "@/lib/bundle";
 import { fmtCompletenessShare, fmtDate, fmtNandN, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { renderChartPanel } from "@/components/chart-panel";
-import { renderCompleteness } from "@/components/completeness";
-import { renderStatus, statusFromVerdict, statusKey } from "@/lib/status";
+import { renderCompleteness, isLowCompleteness } from "@/components/completeness";
+import { renderStatus } from "@/lib/status";
+import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
 import { dotPlot, type DotDatum } from "@/charts/dotplot";
-import { severityKey } from "@/lib/vocab";
+import { severityKey, verdictKey } from "@/lib/vocab";
 import type { OpenQuery, QualityRow } from "@/lib/types";
 
 export async function renderDataQuality(container: HTMLElement): Promise<void> {
@@ -14,19 +15,52 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
   const [quality, overview] = await Promise.all([getQuality(), getOverview()]);
   const nameByIso3 = new Map(overview.countries.map((c) => [c.iso3, c.name]));
 
+  // computed ahead of the template so the KPI row can read from it
+  const latestByCountry = new Map<string, QualityRow>();
+  for (const row of quality.rows) {
+    const prev = latestByCountry.get(row.iso3);
+    if (!prev || row.period_id > prev.period_id) latestByCountry.set(row.iso3, row);
+  }
+  const latestRows = [...latestByCountry.values()];
+  const knownCompleteness = latestRows.map((r) => r.completeness).filter((c): c is number => c !== null);
+  const avgCompleteness =
+    knownCompleteness.length > 0
+      ? knownCompleteness.reduce((a, b) => a + b, 0) / knownCompleteness.length
+      : null;
+  const belowThreshold = latestRows.filter((r) => isLowCompleteness(r.completeness)).length;
+  const highSeverity = quality.open_queries.filter((q) => q.severity === "High").length;
+
   container.innerHTML = `
     <h2 class="screen-title">${t("screen4.title")}</h2>
     <p class="panel__question">${t("screen4.question")}</p>
 
+    ${renderKpiRow([
+      renderKpiCard(
+        "shield",
+        avgCompleteness === null ? NR : `${Math.round(avgCompleteness * 100)}%`,
+        t("screen4.kpi.avg_completeness"),
+        avgCompleteness === null,
+      ),
+      renderKpiCard("alert", String(belowThreshold), t("screen4.kpi.below_threshold"), belowThreshold === 0),
+      renderKpiCard(
+        "flag",
+        String(quality.open_queries.length),
+        t("common.open_queries"),
+        quality.open_queries.length === 0,
+      ),
+      renderKpiCard("alert", String(highSeverity), t("screen4.kpi.high_severity"), highSeverity === 0),
+    ])}
+
     <div id="completeness-panel"></div>
 
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen4.completeness.title")}</h3></div>
+      <div class="panel__header">${panelTitleWithIcon("grid", t("screen4.completeness.title"))}</div>
+      <label class="history-toggle"><input type="checkbox" id="history-toggle" /> ${t("screen4.show_history")}</label>
       <div id="quality-table"></div>
     </section>
 
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen4.queries.title")}</h3></div>
+      <div class="panel__header">${panelTitleWithIcon("alert", t("screen4.queries.title"))}</div>
       <div class="screen-controls">
         <label>${t("table.severity")} <select id="severity-filter">
           <option value="">${t("common.all")}</option>
@@ -39,13 +73,7 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
     </section>
   `;
 
-  // ---- completeness distribution, most recent period per country
-  const latestByCountry = new Map<string, QualityRow>();
-  for (const row of quality.rows) {
-    const prev = latestByCountry.get(row.iso3);
-    if (!prev || row.period_id > prev.period_id) latestByCountry.set(row.iso3, row);
-  }
-  const dotData: DotDatum[] = [...latestByCountry.values()]
+  const dotData: DotDatum[] = latestRows
     .filter((r) => r.completeness !== null)
     .map((r) => ({
       label: nameByIso3.get(r.iso3) ?? r.iso3,
@@ -54,6 +82,7 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
 
   renderChartPanel(container.querySelector("#completeness-panel")!, {
     title: t("screen4.completeness.title"),
+    icon: "shield",
     caption: t("screen4.completeness.title") + " (%) — " + t("empty.no_data"),
     buildChart: () => dotPlot(dotData, { valueLabel: "% complete" }),
     buildTable: () =>
@@ -84,7 +113,10 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
       key: "verdict",
       label: t("table.status"),
       html: true,
-      render: (r) => renderStatus(statusFromVerdict(r.verdict), t(statusKey(statusFromVerdict(r.verdict)))),
+      render: (r) =>
+        r.verdict === "hold"
+          ? renderStatus("awaiting_clarification", t("status.awaiting_clarification"))
+          : `<span class="chip">${t(verdictKey(r.verdict))}</span>`,
       csv: (r) => r.verdict,
     },
     {
@@ -121,15 +153,25 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
       render: (r) => String(r.open_queries),
     },
   ];
-  container.querySelector("#quality-table")!.appendChild(
-    buildTable(
-      t("screen4.completeness.title"),
-      qColumns,
-      [...quality.rows].sort(
-        (a, b) => a.iso3.localeCompare(b.iso3) || a.period_id.localeCompare(b.period_id),
-      ),
-    ),
+  const sortedLatest = [...latestRows].sort((a, b) => a.iso3.localeCompare(b.iso3));
+  const sortedAll = [...quality.rows].sort(
+    (a, b) => a.iso3.localeCompare(b.iso3) || a.period_id.localeCompare(b.period_id),
   );
+  function renderQualityTable(showFullHistory: boolean) {
+    container
+      .querySelector("#quality-table")!
+      .replaceChildren(
+        buildTable(
+          showFullHistory ? t("screen4.completeness.title_all") : t("screen4.completeness.title_latest"),
+          qColumns,
+          showFullHistory ? sortedAll : sortedLatest,
+        ),
+      );
+  }
+  container.querySelector<HTMLInputElement>("#history-toggle")!.addEventListener("change", (e) => {
+    renderQualityTable((e.target as HTMLInputElement).checked);
+  });
+  renderQualityTable(false);
 
   // ---- open query register
   function renderQueries(severity: string) {

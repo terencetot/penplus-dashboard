@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { renderStatus, statusFromGovernance, statusFromVerdict } from "@/lib/status";
+import { renderStatus, statusFromGovernance } from "@/lib/status";
+import { verdictKey } from "@/lib/vocab";
 
 // Non-negotiable rule 10 (CLAUDE.md): "A country on hold is shown as awaiting
-// clarification, never as zero and never omitted."
-describe("statusFromVerdict", () => {
-  it("maps hold to awaiting_clarification, never to not_met or omitted", () => {
-    expect(statusFromVerdict("hold")).toBe("awaiting_clarification");
-  });
-  it("maps query to partly_met and accepted to a reportable state", () => {
-    expect(statusFromVerdict("query")).toBe("partly_met");
-    expect(statusFromVerdict("accepted")).not.toBe("awaiting_clarification");
+// clarification, never as zero and never omitted." A return's verdict is not
+// a milestone judgment, so accepted/query get their own labels rather than
+// being stretched into the met/partly-met/not-met vocabulary (see vocab.ts).
+describe("verdictKey", () => {
+  it("gives accepted and query their own labels, not the milestone vocabulary", () => {
+    expect(verdictKey("accepted")).toBe("verdict.accepted");
+    expect(verdictKey("query")).toBe("verdict.query");
   });
 });
 

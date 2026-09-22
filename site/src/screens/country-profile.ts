@@ -1,10 +1,11 @@
 import { getCountry, getIndicators, getOverview } from "@/lib/bundle";
-import { fmtCount, fmtDate, fmtRateWithNandN } from "@/lib/format";
+import { fmtCount, fmtDate, fmtRateWithNandN, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
 import { renderStatus, statusFromGovernance, statusKey } from "@/lib/status";
 import { facilityStatusKey, projectSupportedKey } from "@/lib/vocab";
+import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
 import { lineTrend, type TrendPoint } from "@/charts/line";
 import type { GoldRow, GovernanceRow, IndicatorDim, OpenQuery } from "@/lib/types";
@@ -20,6 +21,16 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   const [country, indicatorsBundle] = await Promise.all([getCountry(iso3), getIndicators()]);
   const dimByCode = new Map<string, IndicatorDim>(indicatorsBundle.dim.map((d) => [d.indicator_code, d]));
 
+  // computed ahead of the template so the KPI row can read from it
+  const latestPerIndicator = new Map<string, GoldRow>();
+  for (const v of country.values) {
+    if (v.disagg_key !== "all") continue;
+    const prev = latestPerIndicator.get(v.indicator_code);
+    if (!prev || v.period_id > prev.period_id) latestPerIndicator.set(v.indicator_code, v);
+  }
+  const activeInCare = latestPerIndicator.get("2.6");
+  const highSeverity = country.open_queries.filter((q) => q.severity === "High").length;
+
   container.innerHTML = `
     <h2 class="screen-title">${t("screen3.title")} — ${country.country.name}</h2>
     <p class="panel__question">${t("screen3.question")}</p>
@@ -33,25 +44,42 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
 
     ${country.country.returns === 0 ? `<p class="callout callout--empty">${t("screen3.no_return", { country: country.country.name })}</p>` : ""}
 
+    ${renderKpiRow([
+      renderKpiCard("facility", fmtCount(country.facilities.length), t("screen3.facilities.title")),
+      renderKpiCard(
+        "pulse",
+        activeInCare ? fmtCount(activeInCare.value) : NR,
+        t("screen1.hero.active"),
+        !activeInCare || activeInCare.value === null,
+      ),
+      renderKpiCard("country", fmtCount(country.country.returns), t("screen3.kpi.returns")),
+      renderKpiCard(
+        "alert",
+        String(country.open_queries.length),
+        highSeverity > 0 ? t("screen3.kpi.queries_high", { n: highSeverity }) : t("common.open_queries"),
+        country.open_queries.length === 0,
+      ),
+    ])}
+
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen3.all_indicators")}</h3></div>
+      <div class="panel__header">${panelTitleWithIcon("grid", t("screen3.all_indicators"))}</div>
       <div id="indicator-table"></div>
     </section>
 
     <div id="trend-panel"></div>
 
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen3.facilities.title")}</h3></div>
+      <div class="panel__header">${panelTitleWithIcon("facility", t("screen3.facilities.title"))}</div>
       <div id="facility-table"></div>
     </section>
 
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen3.governance.title")}</h3></div>
+      <div class="panel__header">${panelTitleWithIcon("flag", t("screen3.governance.title"))}</div>
       <div id="governance-table"></div>
     </section>
 
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen3.queries.title")}</h3></div>
+      <div class="panel__header">${panelTitleWithIcon("alert", t("screen3.queries.title"))}</div>
       <div id="queries-list"></div>
     </section>
   `;
@@ -68,13 +96,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   }
   select.addEventListener("change", () => navigate({ screen: "country", iso3: select.value }));
 
-  // ---- all sixteen indicators for this country, latest period each (acceptance criterion 3)
-  const latestPerIndicator = new Map<string, GoldRow>();
-  for (const v of country.values) {
-    if (v.disagg_key !== "all") continue;
-    const prev = latestPerIndicator.get(v.indicator_code);
-    if (!prev || v.period_id > prev.period_id) latestPerIndicator.set(v.indicator_code, v);
-  }
+  // all sixteen indicators for this country, latest period each (acceptance criterion 3)
   const indicatorColumns: Column<IndicatorDim>[] = [
     { key: "code", label: "#", render: (d) => d.indicator_code },
     { key: "label", label: t("common.select_indicator"), render: (d) => d.label_en },
@@ -126,6 +148,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       series.some((v) => v.period_id >= PHASE_BREAK_PERIOD);
     renderChartPanel(container.querySelector("#trend-panel")!, {
       title: `${t("screen3.trend_since")} — ${dim.label_en}`,
+      icon: "trend",
       caption: t("screen2.trend.caption"),
       legendHtml: `<span class="chart-legend__item">${t("common.nr_legend")}</span>`,
       buildChart: () =>

@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T00:37:14",
+  "built_at": "2026-09-22T01:54:54",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 41,
@@ -267,7 +267,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": null,
-   "document": null
+   "document": null,
+   "period_id": "2025-A"
   },
   {
    "return_id": 9,
@@ -276,7 +277,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": null,
-   "document": null
+   "document": null,
+   "period_id": "2025-A"
   },
   {
    "return_id": 9,
@@ -285,7 +287,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": null,
-   "document": null
+   "document": null,
+   "period_id": "2025-A"
   },
   {
    "return_id": 9,
@@ -294,7 +297,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": null,
-   "document": null
+   "document": null,
+   "period_id": "2025-A"
   },
   {
    "return_id": 9,
@@ -303,7 +307,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": null,
-   "document": null
+   "document": null,
+   "period_id": "2025-A"
   },
   {
    "return_id": 9,
@@ -312,7 +317,8 @@
    "indicator_code": null,
    "status": "yes",
    "achieved_in": null,
-   "document": null
+   "document": null,
+   "period_id": "2025-A"
   }
  ],
  "open_queries": []

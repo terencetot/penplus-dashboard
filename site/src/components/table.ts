@@ -60,6 +60,63 @@ export function buildTable<T>(caption: string, columns: Column<T>[], rows: T[]):
   return wrap;
 }
 
+import { t } from "@/lib/i18n";
+
+/**
+ * A table screen-wide across all 31+ countries (facilities, for instance)
+ * can run to hundreds of rows -- unpaginated, that produces a page many
+ * screens tall rather than a dashboard panel. The CSV export still covers
+ * every row regardless of the page shown; pagination is a reading aid, not
+ * a second, smaller dataset.
+ */
+export function buildPaginatedTable<T>(
+  caption: string,
+  columns: Column<T>[],
+  rows: T[],
+  pageSize = 25,
+): HTMLElement {
+  const host = document.createElement("div");
+  let page = 0;
+  const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+
+  function render() {
+    const start = page * pageSize;
+    const table = buildTable(caption, columns, rows.slice(start, start + pageSize));
+
+    const pager = document.createElement("div");
+    pager.className = "pager";
+
+    const prev = document.createElement("button");
+    prev.type = "button";
+    prev.className = "btn";
+    prev.textContent = t("common.previous");
+    prev.disabled = page === 0;
+    prev.addEventListener("click", () => {
+      page -= 1;
+      render();
+    });
+
+    const label = document.createElement("span");
+    label.className = "pager__label";
+    label.textContent = t("common.page_of", { page: page + 1, total: totalPages, n: rows.length });
+
+    const next = document.createElement("button");
+    next.type = "button";
+    next.className = "btn";
+    next.textContent = t("common.next");
+    next.disabled = page >= totalPages - 1;
+    next.addEventListener("click", () => {
+      page += 1;
+      render();
+    });
+
+    pager.append(prev, label, next);
+    host.replaceChildren(table, pager);
+  }
+  render();
+  return host;
+}
+
 export function tableToCSVData<T>(columns: Column<T>[], rows: T[]): { headers: string[]; rows: string[][] } {
   return {
     headers: columns.map((c) => c.label),

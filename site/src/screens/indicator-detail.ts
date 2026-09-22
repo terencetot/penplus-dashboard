@@ -1,13 +1,20 @@
-import { getIndicators } from "@/lib/bundle";
-import { fmtCount, fmtDate, fmtNandN, fmtRateWithNandN } from "@/lib/format";
+import { getIndicators, getOverview } from "@/lib/bundle";
+import { fmtCount, fmtDate, fmtNandN, fmtRateWithNandN, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
 import { renderMilestoneStrip } from "@/components/milestone-strip";
+import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
 import { horizontalBars, type BarDatum } from "@/charts/bar";
 import { lineTrend, type TrendPoint } from "@/charts/line";
 import type { GoldRow } from "@/lib/types";
+
+const DIRECTION_LABEL: Record<string, string> = {
+  increase: "screen2.direction_increase",
+  decrease: "screen2.direction_decrease",
+  neutral: "screen2.direction_neutral",
+};
 
 const PHASE_BREAK_PERIOD = "2026-Q1"; // first Phase Two reporting period, per CLAUDE.md
 
@@ -29,7 +36,7 @@ function valueTitle(v: GoldRow): string {
 
 export async function renderIndicatorDetail(container: HTMLElement, code: string): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
-  const bundle = await getIndicators();
+  const [bundle, overview] = await Promise.all([getIndicators(), getOverview()]);
   const dim = bundle.dim.find((d) => d.indicator_code === code) ?? bundle.dim[0];
   if (!dim) {
     container.innerHTML = `<p class="callout callout--empty">${t("empty.no_data")}</p>`;
@@ -37,6 +44,12 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
   }
   const activeDim = dim; // narrowed non-undefined, for use inside closures below
   const values = bundle.values.filter((v) => v.indicator_code === activeDim.indicator_code);
+  const valueDisplay =
+    dim.regional_value === null
+      ? NR
+      : dim.unit === "rate"
+        ? `${Math.round(dim.regional_value * 100)}%`
+        : fmtCount(dim.regional_value);
 
   container.innerHTML = `
     <h2 class="screen-title">${t("screen2.title")}</h2>
@@ -48,8 +61,28 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
       </label>
     </div>
 
+    ${renderKpiRow([
+      renderKpiCard("pulse", valueDisplay, t("screen2.kpi.value"), dim.regional_value === null),
+      renderKpiCard(
+        "target",
+        dim.gap === null ? t("common.no_milestone") : fmtCount(Math.abs(dim.gap)),
+        t("screen2.kpi.gap"),
+        dim.gap === null,
+      ),
+      renderKpiCard(
+        "country",
+        `${dim.countries_reporting} / ${overview.countries.length}`,
+        t("screen2.kpi.reporting"),
+      ),
+      renderKpiCard(
+        "trend",
+        t(DIRECTION_LABEL[dim.direction ?? "neutral"] ?? "screen2.direction_neutral"),
+        t("screen2.kpi.direction"),
+      ),
+    ])}
+
     <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${dim.label_en}</h3></div>
+      <div class="panel__header">${panelTitleWithIcon("shield", dim.label_en)}</div>
       <dl class="definition-panel">
         <dt>${t("common.definition")}</dt><dd>${dim.definition ?? "—"}</dd>
         <dt>${t("common.formula")}</dt><dd>${dim.formula ?? "—"}</dd>
@@ -98,6 +131,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
 
   renderChartPanel(container.querySelector("#distribution-panel")!, {
     title: t("screen2.distribution.title"),
+    icon: "grid",
     caption: t("screen2.distribution.caption"),
     legendHtml: `<span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-accent)"></span>${t("common.suppressed_note", { n: 5 })}</span>`,
     buildChart: () => horizontalBars(barData, { valueLabel: dim.label_en }),
@@ -157,6 +191,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
 
     renderChartPanel(container.querySelector("#trend-panel")!, {
       title: `${t("screen2.trend.title")} — ${iso3}`,
+      icon: "trend",
       caption: t("screen2.trend.caption"),
       legendHtml: `<span class="chart-legend__item">${t("common.nr_legend")}</span>`,
       buildChart: () =>

@@ -22,6 +22,18 @@ export const icons = {
     `<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>`,
   ),
   map: base(`<path d="M9 4 3 6.5v13L9 17l6 3 6-2.5v-13L15 7 9 4Z"/><path d="M9 4v13M15 7v13"/>`),
+  shield: base(
+    `<path d="M12 3 4 6v6c0 4.4 3.2 7.6 8 9 4.8-1.4 8-4.6 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/>`,
+  ),
+  flag: base(`<path d="M5 21V4"/><path d="M5 5h11l-2 4 2 4H5"/>`),
+  trend: base(`<path d="M4 17 10 10l4 3 6-8"/><path d="M14 5h6v6"/>`),
+  grid: base(
+    `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>`,
+  ),
+  alert: base(`<path d="M12 3 2 20h20L12 3Z"/><path d="M12 10v4"/><path d="M12 17h.01"/>`),
+  country: base(
+    `<path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>`,
+  ),
 };
 
 export type IconName = keyof typeof icons;

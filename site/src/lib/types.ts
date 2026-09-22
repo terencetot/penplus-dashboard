@@ -177,6 +177,8 @@ export interface GovernanceRow {
   status: "yes" | "no" | "under_development" | "not_applicable" | "not_reported" | null;
   achieved_in: string | null;
   document: string | null;
+  /** the period of the most recent return that reported this milestone */
+  period_id: string;
 }
 
 export interface CountryBundle {

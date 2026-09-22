@@ -1,8 +1,9 @@
 import { getFacilities, getOverview } from "@/lib/bundle";
 import { fmtCount, fmtDate, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
-import { buildTable, tableToCSVData, type Column } from "@/components/table";
+import { buildPaginatedTable, tableToCSVData, type Column } from "@/components/table";
 import { downloadCSV } from "@/components/csv";
+import { renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { facilityStatusKey, projectSupportedKey, readinessKey } from "@/lib/vocab";
 import type { FacilityRow, FacilityStatus } from "@/lib/types";
 
@@ -19,10 +20,32 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
   const [facilities, overview] = await Promise.all([getFacilities(), getOverview()]);
   const nameByIso3 = new Map(overview.countries.map((c) => [c.iso3, c.name]));
 
+  const operationalCount = facilities.rows.filter(
+    (f) => f.status === "operational" || f.status === "started_this_period",
+  ).length;
+  const scored = facilities.rows.filter((f) => f.quality_score !== null);
+  const avgQuality =
+    scored.length > 0
+      ? Math.round(scored.reduce((a, f) => a + (f.quality_score ?? 0), 0) / scored.length)
+      : null;
+  const countriesWithFacilities = new Set(facilities.rows.map((f) => f.iso3)).size;
+
   container.innerHTML = `
     <h2 class="screen-title">${t("screen5.title")}</h2>
     <p class="panel__question">${t("screen5.question")}</p>
     <p class="callout">${t("screen5.table.caption")}</p>
+
+    ${renderKpiRow([
+      renderKpiCard("facility", fmtCount(facilities.rows.length), t("screen5.kpi.total")),
+      renderKpiCard("pulse", fmtCount(operationalCount), t("screen5.kpi.operational")),
+      renderKpiCard(
+        "shield",
+        avgQuality === null ? NR : `${avgQuality}%`,
+        t("screen5.kpi.avg_quality"),
+        avgQuality === null,
+      ),
+      renderKpiCard("country", fmtCount(countriesWithFacilities), t("screen5.kpi.countries")),
+    ])}
 
     <div class="screen-controls">
       <label>${t("common.select_country")}
@@ -94,7 +117,7 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
     );
     container
       .querySelector("#facility-table")!
-      .replaceChildren(buildTable(t("screen5.title"), columns, currentRows));
+      .replaceChildren(buildPaginatedTable(t("screen5.title"), columns, currentRows));
   }
   countrySelect.addEventListener("change", apply);
   statusSelect.addEventListener("change", apply);

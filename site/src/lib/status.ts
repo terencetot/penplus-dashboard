@@ -1,4 +1,4 @@
-import type { StatusVocab, Verdict } from "./types";
+import type { StatusVocab } from "./types";
 
 /**
  * Display rule 8 (CLAUDE.md, non-negotiable rule 9 / specification rule 8):
@@ -23,13 +23,6 @@ export function statusKey(status: StatusVocab): string {
 
 export function statusLabel(status: StatusVocab): string {
   return FALLBACK_LABELS[status];
-}
-
-/** verdict from fact_return -> the dashboard-facing status a country return carries. */
-export function statusFromVerdict(verdict: Verdict | null | undefined): StatusVocab {
-  if (verdict === "hold") return "awaiting_clarification";
-  if (verdict === "query") return "partly_met";
-  return "not_reported"; // no return on file yet, or verdict unknown
 }
 
 /** governance milestone status (yes/no/under_development/...) -> the four-state vocabulary. */

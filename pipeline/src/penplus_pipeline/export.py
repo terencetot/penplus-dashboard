@@ -149,9 +149,19 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
             "values": [g for g in gold if g["iso3"] == iso3],
             "facilities": _d(con.execute(
                 "SELECT * FROM dim_facility WHERE iso3=? ORDER BY name", (iso3,))),
+            # One row per milestone_code: the most recent period that reported
+            # it, not every historical period stacked -- a milestone's status
+            # is a current state, not a series to list in full (contrast
+            # gold_indicator, which does publish every period for a trend).
             "governance": _d(con.execute(
-                "SELECT g.* FROM fact_governance g JOIN fact_return r USING(return_id)"
-                " WHERE r.iso3=? AND r.superseded=0 ORDER BY g.milestone_code", (iso3,))),
+                "SELECT g.*, r.period_id FROM fact_governance g JOIN fact_return r USING(return_id)"
+                " WHERE r.iso3=? AND r.superseded=0"
+                " AND r.period_id = ("
+                "   SELECT MAX(r2.period_id) FROM fact_governance g2"
+                "   JOIN fact_return r2 USING(return_id)"
+                "   WHERE r2.iso3=r.iso3 AND r2.superseded=0 AND g2.milestone_code=g.milestone_code"
+                " )"
+                " ORDER BY g.milestone_code", (iso3,))),
             "open_queries": [q for q in open_queries if q["iso3"] == iso3],
         })
 

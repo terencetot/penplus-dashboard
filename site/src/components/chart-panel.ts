@@ -1,9 +1,11 @@
 import { t } from "@/lib/i18n";
+import { icon, type IconName } from "./icons";
 import { downloadCSV } from "./csv";
 
 export interface ChartPanelOptions {
   title: string;
   caption: string;
+  icon?: IconName;
   legendHtml?: string;
   buildChart: () => SVGElement | HTMLElement;
   buildTable: () => HTMLElement;
@@ -24,10 +26,19 @@ export function renderChartPanel(container: HTMLElement, opts: ChartPanelOptions
 
   const header = document.createElement("div");
   header.className = "panel__header";
+  const titleRow = document.createElement("div");
+  titleRow.className = "panel__title-row";
+  if (opts.icon) {
+    const iconEl = document.createElement("span");
+    iconEl.className = "panel__icon";
+    iconEl.innerHTML = icon(opts.icon);
+    titleRow.appendChild(iconEl);
+  }
   const h3 = document.createElement("h3");
   h3.className = "panel__title";
   h3.textContent = opts.title;
-  header.appendChild(h3);
+  titleRow.appendChild(h3);
+  header.appendChild(titleRow);
 
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
