@@ -10,11 +10,11 @@ file, not ":memory:": transform.build() opens its own connection to db_path
 """
 from __future__ import annotations
 
+import transform
 from fixtures.build_synthetic_return import build_synthetic_return
 from load import connect, init_db, load_return
 from parse import parse_return
 from validate import record_findings, validate_return
-import transform
 
 
 def test_v3_form_end_to_end(tmp_path):

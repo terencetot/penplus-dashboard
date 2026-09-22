@@ -4,7 +4,6 @@ docstring: 'A High severity finding holds the return')."""
 from __future__ import annotations
 
 import pytest
-
 from load import load_return
 from validate import validate_return
 

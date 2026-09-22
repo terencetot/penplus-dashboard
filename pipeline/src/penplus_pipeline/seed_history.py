@@ -28,7 +28,6 @@ import re
 from collections import defaultdict
 
 import openpyxl
-
 from common import COUNTRIES, ICPPA_CADRE_MAP, ICPPA_CONDITION_MAP
 from load import init_db, load_return
 
@@ -51,7 +50,10 @@ def _rows(ws):
     head = [c.value for c in ws[1]]
     for r in ws.iter_rows(min_row=2, values_only=True):
         if any(v is not None for v in r):
-            yield dict(zip(head, r))
+            # Not strict: these are hand-built workbooks and a data row
+            # running longer or shorter than the header is expected, not an
+            # error -- zip's default truncation is the intended behaviour.
+            yield dict(zip(head, r))  # noqa: B905
 
 
 def _int(v):
@@ -232,7 +234,7 @@ def from_monitoring(path):
         if hrow is None:
             continue
         dcol = None
-        for i, row in enumerate(ws.iter_rows(min_row=hrow, max_row=hrow + 2, values_only=True), hrow):
+        for row in ws.iter_rows(min_row=hrow, max_row=hrow + 2, values_only=True):
             for j, v in enumerate(row):
                 if v and "district" in str(v).lower() and "implement" in str(v).lower():
                     dcol = j
@@ -302,11 +304,11 @@ def main():
     n = 0
 
     if args.monitoring and os.path.exists(args.monitoring):
-        for country, rec in sorted(from_monitoring(args.monitoring).items()):
+        for _country, rec in sorted(from_monitoring(args.monitoring).items()):
             load_return(con, rec, source_kind="historical", provenance=PROV_MON)
             n += 1
 
-    for (country, year), rec in sorted(from_icppa(args.icppa).items()):
+    for (_country, _year), rec in sorted(from_icppa(args.icppa).items()):
         load_return(con, rec, source_kind="historical", provenance=PROV_ICPPA)
         n += 1
 

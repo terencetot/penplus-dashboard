@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T15:52:40",
+  "built_at": "2026-09-22T16:06:07",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 110,
@@ -264,7 +264,7 @@
    "iso3": "CMR",
    "period_id": "2025-Q1",
    "source_kind": "historical",
-   "verdict": "hold",
+   "verdict": "accepted",
    "ltfu_compliant": 0,
    "dedup_basis": "Facility register cross-checked monthly",
    "patient_source": null,
@@ -277,7 +277,7 @@
    "conf_quality": "medium",
    "conf_governance": "high",
    "returns_on_time": 4,
-   "open_queries": 1
+   "open_queries": 0
   },
   {
    "iso3": "CMR",
@@ -315,7 +315,7 @@
    "conf_quality": "high",
    "conf_governance": "medium",
    "returns_on_time": 6,
-   "open_queries": 1
+   "open_queries": 0
   },
   {
    "iso3": "CMR",
@@ -353,7 +353,7 @@
    "conf_quality": "low",
    "conf_governance": "high",
    "returns_on_time": 5,
-   "open_queries": 1
+   "open_queries": 0
   },
   {
    "iso3": "COD",
@@ -961,7 +961,7 @@
    "conf_quality": "high",
    "conf_governance": "medium",
    "returns_on_time": 7,
-   "open_queries": 0
+   "open_queries": 1
   },
   {
    "iso3": "LBR",
@@ -1208,7 +1208,7 @@
    "conf_quality": "medium",
    "conf_governance": "high",
    "returns_on_time": 4,
-   "open_queries": 0
+   "open_queries": 1
   },
   {
    "iso3": "MWI",
@@ -1493,7 +1493,7 @@
    "conf_quality": "high",
    "conf_governance": "high",
    "returns_on_time": 9,
-   "open_queries": 0
+   "open_queries": 1
   },
   {
    "iso3": "RWA",
@@ -1512,13 +1512,13 @@
    "conf_quality": "low",
    "conf_governance": "high",
    "returns_on_time": 4,
-   "open_queries": 1
+   "open_queries": 0
   },
   {
    "iso3": "RWA",
    "period_id": "2025-Q3",
    "source_kind": "historical",
-   "verdict": "accepted",
+   "verdict": "hold",
    "ltfu_compliant": 1,
    "dedup_basis": "Facility register cross-checked monthly",
    "patient_source": null,
@@ -1550,7 +1550,7 @@
    "conf_quality": "high",
    "conf_governance": "medium",
    "returns_on_time": 9,
-   "open_queries": 1
+   "open_queries": 0
   },
   {
    "iso3": "RWA",
@@ -1740,7 +1740,7 @@
    "conf_quality": "medium",
    "conf_governance": "medium",
    "returns_on_time": 4,
-   "open_queries": 0
+   "open_queries": 1
   },
   {
    "iso3": "TZA",
@@ -2044,7 +2044,7 @@
    "conf_quality": "medium",
    "conf_governance": "medium",
    "returns_on_time": 9,
-   "open_queries": 0
+   "open_queries": 1
   },
   {
    "iso3": "ZWE",
@@ -2125,35 +2125,9 @@
  ],
  "open_queries": [
   {
-   "iso3": "CMR",
-   "period_id": "2025-Q1",
-   "query_id": 1,
-   "severity": "High",
-   "section": "2.6",
-   "field": "Retention denominator",
-   "observed": "reported lower than the prior quarter",
-   "expected": "a stable or growing cohort",
-   "question": "Please confirm the retention denominator against the facility register.",
-   "status": "open",
-   "raised_at": "2026-02-15"
-  },
-  {
-   "iso3": "CMR",
-   "period_id": "2025-Q3",
-   "query_id": 6,
-   "severity": "Low",
-   "section": "2.6",
-   "field": "Retention denominator",
-   "observed": "reported lower than the prior quarter",
-   "expected": "a stable or growing cohort",
-   "question": "Please confirm the retention denominator against the facility register.",
-   "status": "open",
-   "raised_at": "2026-02-15"
-  },
-  {
-   "iso3": "CMR",
-   "period_id": "2026-Q1",
-   "query_id": 3,
+   "iso3": "LBR",
+   "period_id": "2025-Q4",
+   "query_id": 4,
    "severity": "Medium",
    "section": "2.6",
    "field": "Retention denominator",
@@ -2164,8 +2138,8 @@
    "raised_at": "2026-02-15"
   },
   {
-   "iso3": "RWA",
-   "period_id": "2025-Q2",
+   "iso3": "MWI",
+   "period_id": "2025-Q1",
    "query_id": 2,
    "severity": "Low",
    "section": "2.6",
@@ -2178,9 +2152,9 @@
   },
   {
    "iso3": "RWA",
-   "period_id": "2025-Q3",
-   "query_id": 4,
-   "severity": "Medium",
+   "period_id": "2025-Q1",
+   "query_id": 5,
+   "severity": "Low",
    "section": "2.6",
    "field": "Retention denominator",
    "observed": "reported lower than the prior quarter",
@@ -2191,9 +2165,35 @@
   },
   {
    "iso3": "RWA",
-   "period_id": "2025-Q4",
-   "query_id": 5,
+   "period_id": "2025-Q3",
+   "query_id": 1,
+   "severity": "High",
+   "section": "2.6",
+   "field": "Retention denominator",
+   "observed": "reported lower than the prior quarter",
+   "expected": "a stable or growing cohort",
+   "question": "Please confirm the retention denominator against the facility register.",
+   "status": "open",
+   "raised_at": "2026-02-15"
+  },
+  {
+   "iso3": "TGO",
+   "period_id": "2026-Q1",
+   "query_id": 6,
    "severity": "Low",
+   "section": "2.6",
+   "field": "Retention denominator",
+   "observed": "reported lower than the prior quarter",
+   "expected": "a stable or growing cohort",
+   "question": "Please confirm the retention denominator against the facility register.",
+   "status": "open",
+   "raised_at": "2026-02-15"
+  },
+  {
+   "iso3": "ZWE",
+   "period_id": "2025-Q1",
+   "query_id": 3,
+   "severity": "Medium",
    "section": "2.6",
    "field": "Retention denominator",
    "observed": "reported lower than the prior quarter",

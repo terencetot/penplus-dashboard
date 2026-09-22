@@ -7,7 +7,6 @@ Phase_2_PEN-Plus_Reporting_Tools.docx (v3) section structure.
 from __future__ import annotations
 
 import pytest
-
 from fixtures.build_synthetic_return import build_synthetic_return
 from parse import parse_return
 

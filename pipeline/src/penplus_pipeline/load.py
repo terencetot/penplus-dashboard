@@ -185,6 +185,7 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
 
 if __name__ == "__main__":
     import sys
+
     from parse import parse_return
     con = init_db()
     for path in sys.argv[1:]:

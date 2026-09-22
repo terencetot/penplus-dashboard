@@ -50,7 +50,12 @@ def build(db_path: str = DB_DEFAULT):
         comp, as_of = r["completeness"], r["closing_date"]
         basis = r["source_kind"]
 
-        def put(code, num=None, den=None, unit="count", key="all", val="all", value=None):
+        # iso3/pid/comp/as_of/basis are bound as defaults, not read by closure,
+        # so each redefinition of put() (once per return, every loop pass)
+        # freezes that return's own values -- put() is always fully used
+        # within the same iteration it's defined in, never deferred.
+        def put(code, num=None, den=None, unit="count", key="all", val="all", value=None,
+                *, iso3=iso3, pid=pid, comp=comp, as_of=as_of, basis=basis):
             v = value if value is not None else (num if unit == "count" else _rate(num, den))
             rows.append((iso3, pid, code, key, val, num, den, v, unit, comp,
                          1 if (num is not None and num < SUPPRESS_BELOW and unit == "count"

@@ -20,10 +20,12 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
-from load import init_db, load_return                       # noqa: E402
-from parse import parse_return                              # noqa: E402
-from validate import validate_return, record_findings       # noqa: E402
-import transform, export, seed_history                      # noqa: E402
+import export  # noqa: E402
+import seed_history  # noqa: E402
+import transform  # noqa: E402
+from load import init_db, load_return  # noqa: E402
+from parse import parse_return  # noqa: E402
+from validate import record_findings, validate_return  # noqa: E402
 
 # Historical seed workbooks are Regional M&E evidence, not part of this
 # repository. Point --icppa/--monitoring at your own copies; --seed is a
@@ -71,14 +73,14 @@ def main():
     if a.seed:
         n = 0
         if os.path.exists(a.monitoring):
-            for country, rec in sorted(seed_history.from_monitoring(a.monitoring).items()):
+            for _country, rec in sorted(seed_history.from_monitoring(a.monitoring).items()):
                 load_return(con, rec, source_kind="historical",
                             provenance=seed_history.PROV_MON)
                 n += 1
         else:
             print(f"skipping monitoring seed: {a.monitoring} not found")
         if os.path.exists(a.icppa):
-            for key, rec in sorted(seed_history.from_icppa(a.icppa).items()):
+            for _key, rec in sorted(seed_history.from_icppa(a.icppa).items()):
                 load_return(con, rec, source_kind="historical",
                             provenance=seed_history.PROV_ICPPA)
                 n += 1

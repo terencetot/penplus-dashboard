@@ -190,7 +190,7 @@ def build_country_series(iso3, name, cohort, periods, n_facilities):
         rec["context"]["comm_products_total"] = rng.randint(1, 8)
         rec["context"]["comm_consent_confirmed"] = 1
 
-        for i, (fid, fname) in enumerate(zip(facility_ids, facility_names)):
+        for i, (fid, fname) in enumerate(zip(facility_ids, facility_names, strict=True)):
             status = statuses[i]
             if p_index == 0:
                 rec["facilities"].append({

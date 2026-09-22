@@ -44,8 +44,6 @@ def cell_text(cell):
 
 def iter_body(doc):
     """Yield ('p', text) and ('tbl', Table) in document order."""
-    from docx.table import Table
-    from docx.text.paragraph import Paragraph
 
     body = doc.element.body
     tables = iter(doc.tables)
@@ -354,7 +352,9 @@ def rule_screening(form, reg):
         for frag in steps:
             key = next((k for k in vals if k.startswith(frag[:28])), None)
             seq.append((frag, num(vals.get(key)) if key else None))
-        for (an, av), (bn, bv) in zip(seq, seq[1:]):
+        # Not strict: seq and seq[1:] are one element apart by construction
+        # (the classic adjacent-pairs idiom) -- strict=True would always raise.
+        for (an, av), (bn, bv) in zip(seq, seq[1:]):  # noqa: B905
             if av is not None and bv is not None and bv > av:
                 reg.high("3.5", f"{label}", f"{bn} = {bv:g} exceeds {an} = {av:g}",
                          "each step of the cascade to be no larger than the one before",
@@ -527,7 +527,7 @@ def query_note(reg):
         return (f"Dear colleague,\n\nThank you for the {reg.period} PEN-Plus return for "
                 f"{reg.country}. The form passed all consistency checks and no clarification "
                 "is needed.\n\nKind regards,\nNCD and Mental Health team, WHO Regional Office for Africa\n")
-    lines = [f"Dear colleague,", "",
+    lines = ["Dear colleague,", "",
              f"Thank you for the {reg.period} PEN-Plus return for {reg.country}. "
              "Before the figures are consolidated into the regional dataset, we would be grateful "
              "for clarification on the following points.", ""]

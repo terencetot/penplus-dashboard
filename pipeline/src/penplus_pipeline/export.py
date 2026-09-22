@@ -130,9 +130,9 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         "countries_total": len(countries),
     } for code in HEADLINE_INDICATORS if code in ind_by_code]
 
-    write = lambda name, obj: json.dump(
-        obj, open(os.path.join(out, name), "w", encoding="utf-8"),
-        ensure_ascii=False, indent=1)
+    def write(name, obj):
+        json.dump(obj, open(os.path.join(out, name), "w", encoding="utf-8"),
+                   ensure_ascii=False, indent=1)
 
     # Aggregation (headline, regional_value, milestone_strip, above) always
     # runs on the real per-country numbers, suppressed or not -- a withheld
