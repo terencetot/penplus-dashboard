@@ -38,6 +38,25 @@ export function statusFromGovernance(
   return "not_reported";
 }
 
+/**
+ * A facility readiness rating (green/amber/red/not_assessed) already IS a
+ * traffic-light readiness judgment, unlike a facility's 5-state operational
+ * status (operational/suspended/closed/...), which does not map onto
+ * met/partly-met/not-met without distorting its meaning (a closed facility
+ * is not necessarily a "failure" the way "not met" implies) -- see the
+ * comment on verdictKey in vocab.ts for the prior instance of exactly this
+ * mistake. Readiness is different: green genuinely means the criteria were
+ * met, amber partly, red not, and not_assessed is exactly "not reported."
+ */
+export function statusFromReadiness(
+  value: "green" | "amber" | "red" | "not_assessed" | null | undefined,
+): StatusVocab {
+  if (value === "green") return "met";
+  if (value === "amber") return "partly_met";
+  if (value === "red") return "not_met";
+  return "not_reported";
+}
+
 /** implementation-step status (yes/no/under_development/...) -> the four-state vocabulary. */
 export function statusFromImplementationStep(
   status: "yes" | "no" | "under_development" | "not_applicable" | null | undefined,

@@ -8,9 +8,13 @@ import type { CountryRef } from "@/lib/types";
 
 /**
  * Screen 1: "Where is PEN-Plus and how big is it?" Order matters here --
- * the specification lists headline figures, then the situating grid, then
- * the milestone strip, and design language rule 5 (methodology) forbids the
- * grid from being the first element of the screen, so it never is.
+ * headline figures, then the narrative sentence, then the milestone strip
+ * (the closest thing on this screen to a progress story), and only then the
+ * country-by-cohort grid: a plain grid of coloured tiles is the least
+ * analytical content on the page, so design review moved it out of the
+ * screen's most prominent scroll position rather than leaving it as the
+ * first thing after the hero. Never the first element of the screen either
+ * way (design language rule 5).
  */
 export async function renderOverview(container: HTMLElement): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
@@ -42,20 +46,20 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
     })}</p>
 
     <section class="panel">
+      <div class="panel__header"><h3 class="panel__title">${t("screen1.milestone.title")}</h3></div>
+      ${renderMilestoneStrip(bundle.milestone_strip)}
+      <p class="chart-caption">${t("screen1.milestone.caption")}</p>
+    </section>
+
+    <section class="panel">
       <div class="panel__header"><h3 class="panel__title">${t("screen1.map.title")}</h3></div>
       <div class="country-grid" id="country-grid"></div>
       <p class="chart-caption">${t("screen1.map.caption")}</p>
       <div class="chart-legend">
-        <span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-primary);opacity:.85"></span>${t("common.phase1")}</span>
-        <span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-primary);opacity:.4"></span>${t("common.phase2")}</span>
+        <span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-primary);opacity:.85"></span>${t("common.phase1")} (¹)</span>
+        <span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-primary);opacity:.4"></span>${t("common.phase2")} (²)</span>
         <span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-bg-muted)"></span>${t("status.not_reported")}</span>
       </div>
-    </section>
-
-    <section class="panel">
-      <div class="panel__header"><h3 class="panel__title">${t("screen1.milestone.title")}</h3></div>
-      ${renderMilestoneStrip(bundle.milestone_strip)}
-      <p class="chart-caption">${t("screen1.milestone.caption")}</p>
     </section>
   `;
 
@@ -67,7 +71,12 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
     const tile = document.createElement("button");
     tile.type = "button";
     tile.className = `country-tile ${c.returns > 0 ? (c.cohort === "phase_1" ? "is-phase1" : "is-phase2") : "is-none"}`;
-    tile.textContent = c.iso3;
+    // The phase/status distinction was carried by tile opacity alone (rule 9:
+    // colour never carries meaning alone) -- a superscript marker puts the
+    // same information in the tile's own text, legible without the legend
+    // and without relying on a subtle opacity difference at a distance.
+    const marker = c.returns > 0 ? (c.cohort === "phase_1" ? "¹" : "²") : "";
+    tile.innerHTML = `${c.iso3}<sup>${marker}</sup>`;
     tile.title = `${c.name}: ${c.returns > 0 ? `${t("common.as_of")} ${fmtDate(c.last_period)}` : t("status.not_reported")}`;
     tile.addEventListener("click", () => navigate({ screen: "country", iso3: c.iso3 }));
     grid.appendChild(tile);

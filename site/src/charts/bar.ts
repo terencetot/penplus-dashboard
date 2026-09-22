@@ -26,6 +26,15 @@ export interface BarDatum {
  * silently": a suppressed country must still appear as a bar -- a short,
  * fixed-width stub, since its real magnitude is not known here -- rather
  * than disappearing from the chart as if it had never reported at all.
+ *
+ * Renders in exactly the order `data` is given, never re-sorted by value:
+ * rule 5 is "no country ranking," and every caller that draws countries
+ * already orders them alphabetically before calling this -- sorting by
+ * value here would silently turn that back into a ranking (longest bar on
+ * top), directly contradicting the "ordered alphabetically, not ranked"
+ * caption shown next to every one of these charts. A caller drawing an
+ * intrinsically ordered category (e.g. implementation phases 0-5) also
+ * depends on this: it is never a ranking, but it does have one correct order.
  */
 export function horizontalBars(
   data: BarDatum[],
@@ -37,15 +46,14 @@ export function horizontalBars(
   const known = data.map((d) => d.value).filter((v): v is number => v !== null);
   const stub = known.length > 0 ? Math.max(...known) * 0.04 : 1;
   const plotValue = (d: BarDatum) => d.value ?? stub;
-  const sorted = [...data].sort((a, b) => plotValue(a) - plotValue(b));
   return Plot.plot({
     marginLeft: 140,
-    height: opts.height ?? Math.max(120, sorted.length * 22),
+    height: opts.height ?? Math.max(120, data.length * 22),
     x: { label: opts.valueLabel, grid: true, nice: true },
-    y: { label: null },
+    y: { label: null, domain: data.map((d) => d.label) },
     color: { legend: false },
     marks: [
-      Plot.barX(sorted, {
+      Plot.barX(data, {
         y: "label",
         x: plotValue,
         fill: (d: BarDatum) => (d.suppressed ? "var(--color-accent)" : "var(--color-primary)"),

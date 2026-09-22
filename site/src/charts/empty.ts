@@ -10,10 +10,10 @@ import { t } from "@/lib/i18n";
  * evidence and the screen must say so rather than being filled with a
  * placeholder."
  */
-export function emptyChart(height = 120): HTMLElement {
+export function emptyChart(height = 120, message?: string): HTMLElement {
   const el = document.createElement("div");
   el.className = "chart-empty";
   el.style.minHeight = `${height}px`;
-  el.textContent = t("empty.no_data");
+  el.textContent = message ?? t("empty.no_data");
   return el;
 }

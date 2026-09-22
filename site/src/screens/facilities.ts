@@ -1,9 +1,11 @@
 import { getFacilities, getOverview } from "@/lib/bundle";
 import { fmtCount, fmtDate, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
+import { isDemoMode } from "@/lib/demo";
 import { buildPaginatedTable, tableToCSVData, type Column } from "@/components/table";
 import { downloadCSV } from "@/components/csv";
 import { renderKpiCard, renderKpiRow } from "@/components/kpi";
+import { renderStatus, statusFromReadiness } from "@/lib/status";
 import { facilityStatusKey, projectSupportedKey, readinessKey } from "@/lib/vocab";
 import type { FacilityRow, FacilityStatus } from "@/lib/types";
 
@@ -31,7 +33,6 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
   container.innerHTML = `
     <h2 class="screen-title">${t("screen5.title")}</h2>
     <p class="panel__question">${t("screen5.question")}</p>
-    <p class="callout">${t("screen5.table.caption")}</p>
 
     ${renderKpiRow([
       renderKpiCard("facility", fmtCount(facilities.rows.length), t("screen5.kpi.total")),
@@ -45,20 +46,29 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
       renderKpiCard("country", fmtCount(countriesWithFacilities), t("screen5.kpi.countries")),
     ])}
 
-    <div class="screen-controls">
-      <label>${t("common.select_country")}
-        <select id="country-filter"><option value="">${t("common.all_countries")}</option></select>
-      </label>
-      <label>${t("table.status")}
-        <select id="status-filter">
-          <option value="">${t("common.all")}</option>
-          ${FACILITY_STATUSES.map((s) => `<option value="${s}">${t(facilityStatusKey(s))}</option>`).join("")}
-        </select>
-      </label>
-      <div class="toolbar"><button type="button" class="btn" id="export-btn">${t("common.export_csv")}</button></div>
-    </div>
+    <p class="exec-message">${t("screen5.summary", {
+      total: fmtCount(facilities.rows.length),
+      countries: countriesWithFacilities,
+      operational: fmtCount(operationalCount),
+    })}</p>
 
-    <div id="facility-table"></div>
+    <section class="panel">
+      <div class="screen-controls">
+        <label>${t("common.select_country")}
+          <select id="country-filter"><option value="">${t("common.all_countries")}</option></select>
+        </label>
+        <label>${t("table.status")}
+          <select id="status-filter">
+            <option value="">${t("common.all")}</option>
+            ${FACILITY_STATUSES.map((s) => `<option value="${s}">${t(facilityStatusKey(s))}</option>`).join("")}
+          </select>
+        </label>
+        <div class="toolbar"><button type="button" class="btn" id="export-btn">${t("common.export_csv")}</button></div>
+      </div>
+
+      <div id="facility-table"></div>
+      <p class="chart-caption">${t(isDemoMode() ? "screen5.table.caption_demo" : "screen5.table.caption")}</p>
+    </section>
   `;
 
   const countrySelect = container.querySelector<HTMLSelectElement>("#country-filter")!;
@@ -88,13 +98,20 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
     {
       key: "readiness_class",
       label: t("table.readiness"),
-      render: (f) => (f.readiness_class ? t(readinessKey(f.readiness_class)) : NR),
+      html: true,
+      render: (f) => {
+        if (!f.readiness_class) return NR;
+        const status = statusFromReadiness(f.readiness_class);
+        return renderStatus(status, t(readinessKey(f.readiness_class)));
+      },
+      csv: (f) => (f.readiness_class ? t(readinessKey(f.readiness_class)) : NR),
     },
     {
       key: "quality_score",
       label: t("table.quality_score"),
       numeric: true,
-      render: (f) => (f.quality_score === null ? NR : String(f.quality_score)),
+      render: (f) => (f.quality_score === null ? NR : `${f.quality_score}%`),
+      csv: (f) => (f.quality_score === null ? NR : String(f.quality_score)),
     },
     {
       key: "active_end",

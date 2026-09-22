@@ -138,11 +138,15 @@
   "screen_impl.title": "Fases de implementação",
   "screen_impl.question": "Até onde chegou cada país na implementação do PEN-Plus?",
   "screen_impl.kpi.reporting": "Países com dados de fase",
-  "screen_impl.kpi.avg_phase": "Fase mais avançada, em média",
+  "screen_impl.kpi.reporting_short": "Países",
+  "screen_impl.kpi.mid_scale_up": "Países em fase de expansão",
   "screen_impl.kpi.full_scale": "Países em cobertura nacional",
   "screen_impl.kpi.not_started": "Países ainda não iniciados",
+  "screen_impl.summary.title": "Países por fase mais avançada atingida",
+  "screen_impl.summary.caption": "Uma barra por fase (0 = não iniciado, 5 = cobertura nacional superior a 60%): o número de países cuja fase mais avançada totalmente cumprida é essa. Não é uma classificação de países.",
   "screen_impl.grid.title": "Países por fase e etapa",
   "screen_impl.grid.caption": "Cinco fases, catorze etapas (Phase_1_PEN-Plus_Reporting_Tools.docx, secção 3). Um país só atinge uma fase quando cada uma das suas etapas, e as de todas as fases anteriores, estiver cumprida. Os países da segunda vaga mostram \"não declarado\" em toda a linha: o formulário da segunda vaga ainda não inclui esta pergunta.",
+  "screen_impl.grid.show_detail": "Mostrar o detalhe etapa a etapa para cada país",
   "screen_impl.column.highest_phase": "Fase mais avançada atingida",
   "screen_impl.not_started": "Não iniciado",
   "screen_impl.phase_n": "Fase {n}",
@@ -159,14 +163,17 @@
   "screen4.kpi.avg_completeness": "Completude média",
   "screen4.kpi.below_threshold": "Países abaixo de 80%",
   "screen4.kpi.high_severity": "Pendências de gravidade alta",
+  "screen4.summary": "A completude média dos relatórios é de <strong>{avg}</strong>; <strong>{below}</strong> países estão abaixo do limiar de 80%, e <strong>{queries}</strong> pendências continuam em aberto.",
 
   "screen5.title": "Unidades sanitárias",
   "screen5.question": "Onde estão os locais e em que estado se encontram?",
   "screen5.table.caption": "Os nomes, distritos e regiões das unidades sanitárias são omitidos nesta versão pública, conforme a regra de supressão do caderno de encargos; todos os outros campos (estado, pontuações, número de doentes) são apresentados tal como declarados.",
+  "screen5.table.caption_demo": "Modo de demonstração: cada nome de unidade sanitária e cada distrito abaixo é inventado para revisão do design. A versão pública real omite os nomes, distritos e regiões das unidades sanitárias conforme a regra de supressão do caderno de encargos; apenas o estado, as pontuações e o número de doentes são aí apresentados.",
   "screen5.kpi.total": "Unidades sanitárias registadas",
   "screen5.kpi.operational": "Operacionais ou iniciadas",
   "screen5.kpi.avg_quality": "Pontuação de qualidade média",
   "screen5.kpi.countries": "Países com pelo menos uma unidade",
+  "screen5.summary": "<strong>{total}</strong> unidades sanitárias estão registadas em <strong>{countries}</strong> países; <strong>{operational}</strong> estão operacionais ou recém-iniciadas.",
 
   "footer.methodology": "Metodologia",
   "footer.methodology_body": "Este painel lê um conjunto de dados JSON estático produzido por um pipeline que analisa os relatórios trimestrais dos países, valida-os e calcula cada indicador em SQL. O sistema não efetua qualquer cálculo: cada valor apresentado é pré-calculado, com o seu numerador, denominador, completude e data de referência. Uma taxa nunca é apresentada sem o seu denominador. Uma não resposta (ND) é representada por uma interrupção, nunca por zero, e excluída de qualquer agregado. As células baseadas em menos de cinco doentes são suprimidas fora da vista interna. Os vinte países da Fase 1 e os onze países da Fase 2 mantêm-se como séries distintas durante o primeiro ano da Fase Dois, e é marcada uma rutura sempre que a lista de condições ou a frequência de relato mudou. Um país cujo relatório está pendente de uma pendência é apresentado como aguardando esclarecimento, nunca como zero e nunca omitido.",
@@ -182,5 +189,6 @@
   "demo.exit": "Sair do modo demonstração, mostrar dados reais",
 
   "empty.no_data": "Não existe nenhum valor publicado para esta seleção. Este é o estado real da evidência, não um erro de carregamento.",
+  "empty.insufficient_trend": "Até agora só foi declarado um período. Uma tendência exige pelo menos dois.",
   "empty.bundle_error": "Não foi possível carregar o conjunto de dados. Verifique que o site é servido a partir da sua versão compilada, com /data junto ao index.html."
 }

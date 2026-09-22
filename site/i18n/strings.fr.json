@@ -138,11 +138,15 @@
   "screen_impl.title": "Phases de mise en œuvre",
   "screen_impl.question": "Où en est chaque pays dans la mise en œuvre de PEN-Plus ?",
   "screen_impl.kpi.reporting": "Pays avec des données de phase",
-  "screen_impl.kpi.avg_phase": "Phase la plus avancée, en moyenne",
+  "screen_impl.kpi.reporting_short": "Pays",
+  "screen_impl.kpi.mid_scale_up": "Pays en cours de montée en charge",
   "screen_impl.kpi.full_scale": "Pays au stade de la couverture nationale",
   "screen_impl.kpi.not_started": "Pays n'ayant pas encore commencé",
+  "screen_impl.summary.title": "Pays par phase la plus avancée atteinte",
+  "screen_impl.summary.caption": "Une barre par phase (0 = non commencé, 5 = couverture nationale supérieure à 60 %) : le nombre de pays dont la phase la plus avancée pleinement acquise est celle-ci. Ce n'est pas un classement des pays.",
   "screen_impl.grid.title": "Pays par phase et par étape",
   "screen_impl.grid.caption": "Cinq phases, quatorze étapes (Phase_1_PEN-Plus_Reporting_Tools.docx, section 3). Un pays n'atteint une phase que si chacune de ses étapes, et celles de chaque phase précédente, est acquise. Les pays de la deuxième vague affichent « non déclaré » partout : le formulaire de la deuxième vague ne pose pas encore cette question.",
+  "screen_impl.grid.show_detail": "Afficher le détail étape par étape pour chaque pays",
   "screen_impl.column.highest_phase": "Phase la plus avancée atteinte",
   "screen_impl.not_started": "Non commencé",
   "screen_impl.phase_n": "Phase {n}",
@@ -159,14 +163,17 @@
   "screen4.kpi.avg_completeness": "Complétude moyenne",
   "screen4.kpi.below_threshold": "Pays sous 80 %",
   "screen4.kpi.high_severity": "Requêtes de gravité élevée",
+  "screen4.summary": "La complétude moyenne des retours est de <strong>{avg}</strong> ; <strong>{below}</strong> pays sont sous le seuil de 80 %, et <strong>{queries}</strong> requêtes restent en cours.",
 
   "screen5.title": "Formations sanitaires",
   "screen5.question": "Où sont les sites et dans quel état sont-ils ?",
   "screen5.table.caption": "Les noms, districts et régions des formations sanitaires sont masqués dans cette version publique, conformément à la règle de suppression du cahier des charges ; tous les autres champs (statut, scores, effectifs de patients) sont affichés tels que déclarés.",
+  "screen5.table.caption_demo": "Mode démonstration : chaque nom de formation sanitaire et chaque district ci-dessous est inventé pour l'examen du design. La version publique réelle masque les noms, districts et régions des formations sanitaires conformément à la règle de suppression du cahier des charges ; seuls le statut, les scores et les effectifs de patients y sont affichés.",
   "screen5.kpi.total": "Formations sanitaires enregistrées",
   "screen5.kpi.operational": "Opérationnelles ou démarrées",
   "screen5.kpi.avg_quality": "Score de qualité moyen",
   "screen5.kpi.countries": "Pays avec au moins une formation",
+  "screen5.summary": "<strong>{total}</strong> formations sanitaires sont enregistrées dans <strong>{countries}</strong> pays ; <strong>{operational}</strong> sont opérationnelles ou nouvellement démarrées.",
 
   "footer.methodology": "Méthodologie",
   "footer.methodology_body": "Ce tableau de bord lit un jeu de données JSON statique produit par un pipeline qui analyse les retours trimestriels des pays, les valide et calcule chaque indicateur en SQL. Le site n'effectue aucun calcul : chaque chiffre affiché est précalculé, avec son numérateur, son dénominateur, sa complétude et sa date de référence. Un taux n'est jamais affiché sans son dénominateur. Une non-réponse (ND) est représentée par une rupture, jamais par zéro, et exclue de tout agrégat. Les cellules fondées sur moins de cinq patients sont supprimées en dehors de la vue interne. Les vingt pays de Phase 1 et les onze pays de Phase 2 restent des séries distinctes pendant la première année de la Phase Deux, et une rupture est marquée partout où la liste des pathologies ou la fréquence de déclaration a changé. Un pays dont le retour est en attente d'une requête est affiché comme étant en attente de clarification, jamais comme zéro et jamais omis.",
@@ -182,5 +189,6 @@
   "demo.exit": "Quitter le mode démonstration, afficher les vraies données",
 
   "empty.no_data": "Aucun chiffre publié n'existe pour cette sélection. C'est l'état réel des données, non une erreur de chargement.",
+  "empty.insufficient_trend": "Une seule période a été déclarée à ce jour. Une tendance suppose au moins deux périodes.",
   "empty.bundle_error": "Le jeu de données n'a pas pu être chargé. Vérifiez que le site est servi depuis sa version compilée, avec /data à côté d'index.html."
 }

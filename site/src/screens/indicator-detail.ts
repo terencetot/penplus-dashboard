@@ -72,6 +72,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
       <label>${t("common.select_indicator")}
         <select id="indicator-select"></select>
       </label>
+      <span class="chip" title="${t("screen2.kpi.direction")}">${t(DIRECTION_LABEL[dim.direction ?? "neutral"] ?? "screen2.direction_neutral")}</span>
     </div>
 
     ${renderKpiRow([
@@ -86,11 +87,6 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
         "country",
         `${dim.countries_reporting} / ${overview.countries.length}`,
         t("screen2.kpi.reporting"),
-      ),
-      renderKpiCard(
-        "trend",
-        t(DIRECTION_LABEL[dim.direction ?? "neutral"] ?? "screen2.direction_neutral"),
-        t("screen2.kpi.direction"),
       ),
     ])}
 
@@ -193,9 +189,23 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
   // unreadable 31-line overlay and to avoid summing countries into a
   // regional series the pipeline has not computed (rule: no front-end arithmetic).
   const countriesWithData = [...new Set(values.map((v) => v.iso3))].sort();
+  // Default to the country with the most reported periods for this
+  // indicator, not the alphabetically first one -- picking a country with a
+  // single data point (Angola, alphabetically) made the very first trend
+  // chart a viewer sees a lone dot on an otherwise empty axis (design
+  // review, boardroom UX pass). The dropdown itself stays alphabetical;
+  // only the initial selection changes. A pure count, no arithmetic.
+  const nonNullPeriodsByCountry = new Map<string, number>();
+  for (const v of values) {
+    if (v.disagg_key !== "all" || v.value === null) continue;
+    nonNullPeriodsByCountry.set(v.iso3, (nonNullPeriodsByCountry.get(v.iso3) ?? 0) + 1);
+  }
+  const defaultTrendCountry = [...countriesWithData].sort(
+    (a, b) => (nonNullPeriodsByCountry.get(b) ?? 0) - (nonNullPeriodsByCountry.get(a) ?? 0),
+  )[0];
   const trendControls = container.querySelector("#trend-controls")!;
   trendControls.innerHTML = `<label>${t("common.select_country")}
-    <select id="trend-country-select">${countriesWithData.map((c) => `<option value="${c}">${c}</option>`).join("")}</select>
+    <select id="trend-country-select">${countriesWithData.map((c) => `<option value="${c}" ${c === defaultTrendCountry ? "selected" : ""}>${c}</option>`).join("")}</select>
   </label>`;
   const trendSelect = trendControls.querySelector<HTMLSelectElement>("#trend-country-select")!;
 
@@ -249,5 +259,5 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
     });
   }
   trendSelect.addEventListener("change", () => renderTrendFor(trendSelect.value));
-  if (countriesWithData.length > 0) renderTrendFor(countriesWithData[0]!);
+  if (defaultTrendCountry) renderTrendFor(defaultTrendCountry);
 }

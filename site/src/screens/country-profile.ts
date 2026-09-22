@@ -36,6 +36,23 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   const activeInCare = latestPerIndicator.get("2.6");
   const highSeverity = country.open_queries.filter((q) => q.severity === "High").length;
 
+  // Indicators 1.1-1.3 are binary governance milestones, also shown below
+  // in the dedicated Governance panel with real provenance (a document
+  // name). Design review caught these being shown twice on the same
+  // screen, inconsistently: a bare "1"/"0" here, a proper status pill with
+  // its supporting document there. Cross-reference to render the identical
+  // status pill instead -- keyed on milestone_code, not indicator_code:
+  // parse.py's own comment calls 1.1/1.2/1.3 "the fixed codes," and
+  // milestone_code carries that exact string throughout the real form
+  // parser, historical seeding and the demo generator alike, whereas
+  // fact_governance.indicator_code is never actually populated anywhere in
+  // the pipeline (checked: parse.py, seed_history.py, generate_demo_bundle.py
+  // all leave it unset). A stray non-numeric milestone_code (e.g. the older
+  // monitoring-workbook codes like "national_me_framework") never collides
+  // with a real indicator_code, so matching directly is safe.
+  const govStatusOf = (g: GovernanceRow) => statusFromGovernance(g.status, Boolean(g.document));
+  const govByIndicatorCode = new Map(country.governance.map((g) => [g.milestone_code, g]));
+
   container.innerHTML = `
     <h2 class="screen-title">${t("screen3.title")}: ${country.country.name}</h2>
     <p class="panel__question">${t("screen3.question")}</p>
@@ -116,10 +133,14 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       numeric: true,
       html: true,
       render: (d) => {
+        const g = govByIndicatorCode.get(d.indicator_code);
+        if (g) return renderStatus(govStatusOf(g), t(statusKey(govStatusOf(g))));
         const v = latestPerIndicator.get(d.indicator_code);
         return v ? renderValueWithCompleteness(valueText(v), v.completeness) : "NR";
       },
       csv: (d) => {
+        const g = govByIndicatorCode.get(d.indicator_code);
+        if (g) return t(statusKey(govStatusOf(g)));
         const v = latestPerIndicator.get(d.indicator_code);
         return v ? valueText(v) : "NR";
       },
@@ -248,7 +269,6 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     );
 
   // ---- governance milestones: "a Yes without a document title is not counted"
-  const govStatusOf = (g: GovernanceRow) => statusFromGovernance(g.status, Boolean(g.document));
   const govColumns: Column<GovernanceRow>[] = [
     { key: "milestone", label: t("table.milestone"), render: (g) => g.milestone },
     {

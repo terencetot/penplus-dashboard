@@ -5,7 +5,7 @@ import { renderChartPanel } from "@/components/chart-panel";
 import { renderCompleteness } from "@/components/completeness";
 import { renderStatus } from "@/lib/status";
 import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
-import { buildTable, tableToCSVData, type Column } from "@/components/table";
+import { buildPaginatedTable, buildTable, tableToCSVData, type Column } from "@/components/table";
 import { dotPlot, type DotDatum } from "@/charts/dotplot";
 import { severityKey, verdictKey } from "@/lib/vocab";
 import type { OpenQuery, QualityRow } from "@/lib/types";
@@ -49,6 +49,13 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
       ),
       renderKpiCard("alert", String(highSeverity), t("screen4.kpi.high_severity"), highSeverity === 0),
     ])}
+
+    <p class="exec-message">${t("screen4.summary", {
+      avg:
+        avgCompleteness === null ? t("common.not_reported_short") : `${Math.round(avgCompleteness * 100)}%`,
+      below: belowThreshold,
+      queries: quality.open_queries.length,
+    })}</p>
 
     <div id="completeness-panel"></div>
 
@@ -157,10 +164,14 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
     (a, b) => a.iso3.localeCompare(b.iso3) || a.period_id.localeCompare(b.period_id),
   );
   function renderQualityTable(showFullHistory: boolean) {
+    // buildPaginatedTable, not buildTable: "show every period" can put up to
+    // 31 countries x 5 periods on screen at once unpaginated, which is
+    // exactly the kind of table Facilities and Implementation already
+    // paginate for the same reason (design review, data-viz pass).
     container
       .querySelector("#quality-table")!
       .replaceChildren(
-        buildTable(
+        buildPaginatedTable(
           showFullHistory ? t("screen4.completeness.title_all") : t("screen4.completeness.title_latest"),
           qColumns,
           showFullHistory ? sortedAll : sortedLatest,

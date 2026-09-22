@@ -4,19 +4,26 @@ import { beforeEach, vi } from "vitest";
 
 /**
  * Screens fetch the real bundle at runtime; tests stub `fetch` to read the
- * same files straight off disk from site/public/data, so the tests exercise
- * the actual pipeline output rather than a hand-written mock that could
- * drift from what export.py really produces.
+ * same files straight off disk from site/public/data (or site/public/demo-data
+ * for a test that turns demo mode on), so the tests exercise the actual
+ * pipeline output rather than a hand-written mock that could drift from what
+ * export.py really produces.
  */
-const DATA_DIR = resolve(__dirname, "../public/data");
+const REAL_DIR = resolve(__dirname, "../public/data");
+const DEMO_DIR = resolve(__dirname, "../public/demo-data");
 
 beforeEach(() => {
   vi.stubGlobal(
     "fetch",
     vi.fn(async (url: string) => {
-      const path = url.replace(/^.*\/data\//, "");
+      // lib/bundle.ts's dataRoot() serves "demo-data/" or "data/" -- match
+      // the optional "demo-" prefix so both resolve to the right directory,
+      // not just the real one (a plain `/data/` match would also fire
+      // partway through "demo-data/", picking the wrong directory).
+      const isDemo = /\/demo-data\//.test(url);
+      const path = url.replace(/^.*\/(?:demo-)?data\//, "");
       try {
-        const body = readFileSync(resolve(DATA_DIR, path), "utf-8");
+        const body = readFileSync(resolve(isDemo ? DEMO_DIR : REAL_DIR, path), "utf-8");
         return new Response(body, { status: 200 });
       } catch {
         return new Response("not found", { status: 404 });

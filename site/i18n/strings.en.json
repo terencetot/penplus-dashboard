@@ -138,11 +138,15 @@
   "screen_impl.title": "Implementation phases",
   "screen_impl.question": "How far has each country gone in implementing PEN-Plus?",
   "screen_impl.kpi.reporting": "Countries with phase data",
-  "screen_impl.kpi.avg_phase": "Average highest phase reached",
+  "screen_impl.kpi.reporting_short": "Countries",
+  "screen_impl.kpi.mid_scale_up": "Countries mid scale-up",
   "screen_impl.kpi.full_scale": "Countries at national scale-up",
   "screen_impl.kpi.not_started": "Countries not yet started",
+  "screen_impl.summary.title": "Countries by highest phase reached",
+  "screen_impl.summary.caption": "One bar per phase (0 = not started, 5 = national coverage above 60%): the number of countries whose highest fully-completed phase is that one. Not a ranking of individual countries.",
   "screen_impl.grid.title": "Countries by phase and step",
   "screen_impl.grid.caption": "Five phases, fourteen steps (Phase_1_PEN-Plus_Reporting_Tools.docx, section 3). A country reaches a phase only once every step of it, and of every phase before it, is met. Round 2 countries show \"not reported\" throughout: the round 2 form does not yet ask this question.",
+  "screen_impl.grid.show_detail": "Show step-by-step detail for every country",
   "screen_impl.column.highest_phase": "Highest phase completed",
   "screen_impl.not_started": "Not started",
   "screen_impl.phase_n": "Phase {n}",
@@ -159,14 +163,17 @@
   "screen4.kpi.avg_completeness": "Average completeness",
   "screen4.kpi.below_threshold": "Countries below 80%",
   "screen4.kpi.high_severity": "High-severity queries",
+  "screen4.summary": "Average reporting completeness is <strong>{avg}</strong>; <strong>{below}</strong> countries are below the 80% threshold, and <strong>{queries}</strong> queries are still open.",
 
   "screen5.title": "Facilities",
   "screen5.question": "Where are the sites and what state are they in?",
   "screen5.table.caption": "Facility names, districts and regions are withheld in this public build, per the specification's suppression rule; every other field (status, scores, patient counts) is shown as reported.",
+  "screen5.table.caption_demo": "Demo mode: every facility name and district below is invented for design review. The real public build withholds facility names, districts and regions per the specification's suppression rule; only status, scores and patient counts are shown there.",
   "screen5.kpi.total": "Facilities on file",
   "screen5.kpi.operational": "Operational or started",
   "screen5.kpi.avg_quality": "Average quality score",
   "screen5.kpi.countries": "Countries with a facility",
+  "screen5.summary": "<strong>{total}</strong> facilities are on file across <strong>{countries}</strong> countries; <strong>{operational}</strong> are operational or newly started.",
 
   "footer.methodology": "Methodology",
   "footer.methodology_body": "This dashboard reads a static JSON bundle produced by a pipeline that parses quarterly country returns, validates them, and computes every indicator in SQL. The site performs no calculation: every figure it draws is pre-computed, together with its numerator, denominator, completeness and as-of date. A rate is never shown without its denominator. A non-response (NR) is drawn as a gap, never as zero, and excluded from every aggregate. Cells built on fewer than five patients are suppressed outside the internal view. The twenty Phase 1 and eleven Phase 2 countries are kept as separate series for the first year of Phase Two, and a marked discontinuity is drawn wherever the condition list or reporting frequency changed. A country whose return is on hold pending a query is shown as awaiting clarification, never as zero and never omitted.",
@@ -182,5 +189,6 @@
   "demo.exit": "Exit demo mode, show real data",
 
   "empty.no_data": "No published figure exists for this selection. That is the current state of the evidence, not a loading error.",
+  "empty.insufficient_trend": "Only one period has been reported so far. A trend needs at least two.",
   "empty.bundle_error": "The data bundle could not be loaded. Check that the site is served from its built output, with /data alongside index.html."
 }

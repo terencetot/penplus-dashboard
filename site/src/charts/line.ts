@@ -1,4 +1,5 @@
 import * as Plot from "@observablehq/plot";
+import { t } from "@/lib/i18n";
 import { emptyChart } from "./empty";
 
 export interface TrendPoint {
@@ -20,8 +21,15 @@ export function lineTrend(
   points: TrendPoint[],
   opts: { valueLabel: string; seriesBreakAt?: string; seriesBreakLabel?: string },
 ): SVGElement | HTMLElement {
-  if (points.every((p) => p.value === null)) {
+  const knownCount = points.filter((p) => p.value !== null).length;
+  if (knownCount === 0) {
     return emptyChart(320);
+  }
+  // A single floating dot on a full-height, otherwise-empty axis reads as
+  // "broken," not "early data" (design review, boardroom UX pass) -- a line
+  // needs at least two real points to say anything about a trend at all.
+  if (knownCount === 1) {
+    return emptyChart(320, t("empty.insufficient_trend"));
   }
 
   // Plot.lineY only breaks a line where y is null/NaN; a cohort boundary

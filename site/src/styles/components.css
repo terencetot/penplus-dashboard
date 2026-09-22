@@ -677,6 +677,27 @@ h2.screen-title {
   margin: var(--space-1) 0 0;
 }
 
+/* A disclosure used as "load the big table on demand" (screens/implementation.ts):
+   .btn already switches summary to flex, which drops the native marker in
+   most browsers; ::marker is hidden explicitly for the rest, and a small
+   chevron takes over so the expand/collapse affordance stays visible. */
+details > summary.btn {
+  list-style: none;
+  margin-bottom: var(--space-3);
+}
+details > summary.btn::marker,
+details > summary.btn::-webkit-details-marker {
+  display: none;
+}
+details > summary.btn::after {
+  content: "▸";
+  margin-left: auto;
+  transition: transform 150ms ease;
+}
+details[open] > summary.btn::after {
+  transform: rotate(90deg);
+}
+
 /* --------------------------------------------------------------- skeleton */
 .demo-banner {
   background: var(--color-accent);
