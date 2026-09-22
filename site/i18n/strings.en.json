@@ -158,7 +158,8 @@
   "footer.methodology_body": "This dashboard reads a static JSON bundle produced by a pipeline that parses quarterly country returns, validates them, and computes every indicator in SQL. The site performs no calculation: every figure it draws is pre-computed, together with its numerator, denominator, completeness and as-of date. A rate is never shown without its denominator. A non-response (NR) is drawn as a gap, never as zero, and excluded from every aggregate. Cells built on fewer than five patients are suppressed outside the internal view. The twenty Phase 1 and eleven Phase 2 countries are kept as separate series for the first year of Phase Two, and a marked discontinuity is drawn wherever the condition list or reporting frequency changed. A country whose return is on hold pending a query is shown as awaiting clarification, never as zero and never omitted.",
   "footer.source_of_truth": "Source of truth: PEN-Plus quarterly country report, version {version}",
   "footer.out_of_scope": "Out of scope for this version: patient-level analysis, live refresh, forecasting, a national-level dashboard, and financial figures.",
-  "footer.in_partnership_with": "In partnership with",
+  "footer.copyright": "© {year} WHO African Region — Noncommunicable Diseases and Mental Health, Disease Prevention and Control (DPC) Cluster",
+  "footer.back_to_top": "Back to top",
   "footer.language": "Language",
   "footer.theme": "Theme",
 

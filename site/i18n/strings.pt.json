@@ -158,7 +158,8 @@
   "footer.methodology_body": "Este painel lê um conjunto de dados JSON estático produzido por um pipeline que analisa os relatórios trimestrais dos países, valida-os e calcula cada indicador em SQL. O sistema não efetua qualquer cálculo: cada valor apresentado é pré-calculado, com o seu numerador, denominador, completude e data de referência. Uma taxa nunca é apresentada sem o seu denominador. Uma não resposta (ND) é representada por uma interrupção, nunca por zero, e excluída de qualquer agregado. As células baseadas em menos de cinco doentes são suprimidas fora da vista interna. Os vinte países da Fase 1 e os onze países da Fase 2 mantêm-se como séries distintas durante o primeiro ano da Fase Dois, e é marcada uma rutura sempre que a lista de condições ou a frequência de relato mudou. Um país cujo relatório está pendente de uma pendência é apresentado como aguardando esclarecimento, nunca como zero e nunca omitido.",
   "footer.source_of_truth": "Fonte de referência: relatório trimestral de país PEN-Plus, versão {version}",
   "footer.out_of_scope": "Fora do âmbito desta versão: análise ao nível do doente, atualização em tempo real, projeções, painel de nível nacional e dados financeiros.",
-  "footer.in_partnership_with": "Em parceria com",
+  "footer.copyright": "© {year} OMS Região Africana — Doenças Não Transmissíveis e Saúde Mental, grupo Prevenção e Controlo de Doenças (DPC)",
+  "footer.back_to_top": "Voltar ao topo",
   "footer.language": "Idioma",
   "footer.theme": "Tema",
 

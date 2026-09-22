@@ -158,7 +158,8 @@
   "footer.methodology_body": "Ce tableau de bord lit un jeu de données JSON statique produit par un pipeline qui analyse les retours trimestriels des pays, les valide et calcule chaque indicateur en SQL. Le site n'effectue aucun calcul : chaque chiffre affiché est précalculé, avec son numérateur, son dénominateur, sa complétude et sa date de référence. Un taux n'est jamais affiché sans son dénominateur. Une non-réponse (ND) est représentée par une rupture, jamais par zéro, et exclue de tout agrégat. Les cellules fondées sur moins de cinq patients sont supprimées en dehors de la vue interne. Les vingt pays de Phase 1 et les onze pays de Phase 2 restent des séries distinctes pendant la première année de la Phase Deux, et une rupture est marquée partout où la liste des pathologies ou la fréquence de déclaration a changé. Un pays dont le retour est en attente d'une requête est affiché comme étant en attente de clarification, jamais comme zéro et jamais omis.",
   "footer.source_of_truth": "Source de référence : rapport pays trimestriel PEN-Plus, version {version}",
   "footer.out_of_scope": "Hors périmètre de cette version : analyse au niveau patient, actualisation en temps réel, projections, tableau de bord national, et données financières.",
-  "footer.in_partnership_with": "En partenariat avec",
+  "footer.copyright": "© {year} OMS Région africaine — Maladies non transmissibles et santé mentale, groupe Prévention et contrôle des maladies (DPC)",
+  "footer.back_to_top": "Retour en haut de page",
   "footer.language": "Langue",
   "footer.theme": "Thème",
 

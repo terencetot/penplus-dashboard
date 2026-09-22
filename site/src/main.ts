@@ -12,6 +12,7 @@ import { renderIndicatorDetail } from "@/screens/indicator-detail";
 import { renderCountryProfile } from "@/screens/country-profile";
 import { renderDataQuality } from "@/screens/data-quality";
 import { renderFacilities } from "@/screens/facilities";
+import { icon } from "@/components/icons";
 
 const THEME_KEY = "penplus.theme";
 type Theme = "system" | "light" | "dark";
@@ -51,7 +52,17 @@ async function renderApp() {
     <header class="app-header">
       <div class="app-header__bar">
         <div class="app-header__logos">
-          <img src="${import.meta.env.BASE_URL}assets/logos/who-afro.png" alt="WHO African Region" />
+          <a href="https://www.afro.who.int/" target="_blank" rel="noopener">
+            <img src="${import.meta.env.BASE_URL}assets/logos/who-afro.png" alt="WHO African Region" />
+          </a>
+          <div class="app-header__divider"></div>
+          <a href="https://helmsleytrust.org/" target="_blank" rel="noopener">
+            <img
+              class="app-header__logo--helmsley"
+              src="${import.meta.env.BASE_URL}assets/logos/helmsley-charitable-trust.svg"
+              alt="The Leona M. and Harry B. Helmsley Charitable Trust"
+            />
+          </a>
           <div class="app-header__divider"></div>
           <div>
             <p class="app-header__title">${t("app.title")}</p>
@@ -94,9 +105,22 @@ async function renderApp() {
           <div>${t("common.data_model_version")}: ${manifest.model_version}</div>
         </div>
       </div>
-      <div class="app-footer__bar app-footer__partners">
-        <span class="app-footer__partners-label">${t("footer.in_partnership_with")}</span>
-        <img src="${import.meta.env.BASE_URL}assets/logos/helmsley-charitable-trust.svg" alt="The Leona M. and Harry B. Helmsley Charitable Trust" loading="lazy" />
+      <div class="app-footer__bar app-footer__brand">
+        <div class="app-footer__brand-logos">
+          <img src="${import.meta.env.BASE_URL}assets/logos/who-afro.png" alt="WHO African Region" />
+          <div class="app-header__divider"></div>
+          <img
+            class="app-header__logo--helmsley"
+            src="${import.meta.env.BASE_URL}assets/logos/helmsley-charitable-trust.svg"
+            alt="The Leona M. and Harry B. Helmsley Charitable Trust"
+            loading="lazy"
+          />
+          <div class="app-header__divider"></div>
+          <span class="app-footer__copyright">${t("footer.copyright", { year: new Date(manifest.built_at).getFullYear() })}</span>
+        </div>
+        <button type="button" class="back-to-top no-print" id="back-to-top-btn" aria-label="${t("footer.back_to_top")}">
+          ${icon("arrowUp")}
+        </button>
       </div>
     </footer>
   `;
@@ -165,6 +189,9 @@ async function renderApp() {
     setDemoMode(!isDemoMode());
     navigate({ screen: "overview" });
     renderApp();
+  });
+  document.getElementById("back-to-top-btn")!.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 }
 

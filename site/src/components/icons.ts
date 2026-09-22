@@ -34,6 +34,7 @@ export const icons = {
   country: base(
     `<path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/>`,
   ),
+  arrowUp: base(`<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>`),
 };
 
 export type IconName = keyof typeof icons;

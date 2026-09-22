@@ -172,12 +172,20 @@ img {
   height: 34px;
   display: block;
   object-fit: contain;
-  filter: brightness(1.05);
+}
+/* The Helmsley mark ships dark-on-transparent (navy #1d3260); reversed to
+   white here so it reads correctly on the dark header/footer, the same
+   treatment CLAUDE.md's design language section specifies. The WHO mark is
+   already a white asset and needs no filter. */
+.app-header__logo--helmsley {
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
 }
 .app-header__divider {
   width: 1px;
   height: 28px;
   background: rgba(255, 255, 255, 0.22);
+  flex-shrink: 0;
 }
 
 .app-header__title {
@@ -299,26 +307,61 @@ img {
 .app-footer a {
   color: var(--color-text-on-primary);
 }
-.app-footer__partners {
+.app-footer__brand {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--space-4);
   flex-wrap: wrap;
   padding-top: var(--space-4);
   margin-top: var(--space-4);
   border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
-.app-footer__partners-label {
-  font-size: var(--font-label);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--color-text-on-primary-muted);
+.app-footer__brand-logos {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
-.app-footer__partners img {
-  height: 26px;
+.app-footer__brand-logos img {
+  height: 28px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
   opacity: 0.85;
+  transition: opacity 150ms ease;
+}
+.app-footer__brand-logos img:hover {
+  opacity: 1;
+}
+.app-footer__copyright {
+  font-size: var(--font-label);
+  font-weight: 600;
+  color: var(--color-text-on-primary);
+}
+
+.back-to-top {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 150ms ease,
+    background 150ms ease;
+}
+.back-to-top svg {
+  width: 18px;
+  height: 18px;
+}
+.back-to-top:hover {
+  background: var(--color-primary-strong);
+  transform: translateY(-2px);
 }
 
 /* --------------------------------------------------------------- responsive */
@@ -364,8 +407,12 @@ img {
   .app-footer details summary {
     color: #000 !important;
   }
-  .app-footer__partners img {
+  .app-header__logo--helmsley {
     filter: none;
+    opacity: 1;
+  }
+  .back-to-top {
+    display: none !important;
   }
   .app-main {
     padding: 0;
