@@ -1,13 +1,14 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T01:54:54",
+  "built_at": "2026-09-22T15:47:46",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 41,
+  "returns_loaded": 40,
   "countries": 20,
-  "periods": "2022-A,2023-A,2024-A,2025-A,2026-06,2026-A",
+  "periods": "2022-A,2023-A,2024-A,2025-A,2026-A",
   "suppress_below": 5,
-  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence."
+  "public": true,
+  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence. This is the public export: facility identity is withheld and cells under 5 are suppressed, not merely flagged."
  },
  "headline": {
   "facilities": {
@@ -37,7 +38,7 @@
    "label_en": "Health facilities initiating PEN-Plus services",
    "unit": "count",
    "value": 31,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "milestone": null,
    "gap": null,
    "countries_reporting": 15,
@@ -48,7 +49,7 @@
    "label_en": "Unique patients ever enrolled",
    "unit": "count",
    "value": 13222,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "milestone": null,
    "gap": null,
    "countries_reporting": 20,
@@ -59,7 +60,7 @@
    "label_en": "Patients enrolled and active in care",
    "unit": "count",
    "value": null,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "milestone": null,
    "gap": null,
    "countries_reporting": 20,
@@ -296,7 +297,7 @@
    "iso3": "ZMB",
    "name": "Zambia",
    "cohort": "phase_1",
-   "returns": 3,
+   "returns": 2,
    "last_period": "2026-A"
   },
   {
@@ -350,7 +351,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -365,7 +366,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -380,7 +381,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -440,7 +441,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -455,7 +456,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -470,7 +471,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -485,7 +486,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -500,7 +501,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -515,7 +516,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -575,7 +576,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -590,7 +591,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -605,7 +606,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -650,7 +651,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -665,7 +666,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -680,7 +681,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -725,7 +726,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -740,7 +741,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -755,7 +756,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -770,7 +771,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -785,7 +786,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -800,7 +801,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -875,7 +876,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -890,7 +891,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -905,7 +906,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -920,7 +921,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -935,7 +936,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -950,7 +951,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -965,7 +966,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -980,7 +981,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -995,7 +996,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1010,7 +1011,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1025,7 +1026,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1040,7 +1041,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1055,7 +1056,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1070,7 +1071,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1085,23 +1086,8 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "5.1",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": null,
-   "denominator": 5,
-   "value": null,
-   "unit": "rate",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
   },
   {
    "iso3": "ZWE",

@@ -24,10 +24,20 @@ export function lineTrend(
     return emptyChart(320);
   }
 
+  // Plot.lineY only breaks a line where y is null/NaN; a cohort boundary
+  // between two real, adjacent points needs its own z channel so the two
+  // sides render as separate line segments, not one line with a dashed rule
+  // drawn on top of an unbroken join (display rule: a series break must
+  // actually break the line, not just be annotated).
+  const zOf = opts.seriesBreakAt
+    ? (d: TrendPoint) => `${d.series}|${d.period_id >= opts.seriesBreakAt! ? "after" : "before"}`
+    : "series";
+
   const marks: Plot.Markish[] = [
     Plot.lineY(points, {
       x: "period_id",
       y: (d: TrendPoint) => (d.value === null ? NaN : d.value),
+      z: zOf,
       stroke: "series",
       curve: "linear",
       tip: true,

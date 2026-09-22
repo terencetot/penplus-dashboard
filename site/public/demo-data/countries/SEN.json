@@ -1,12 +1,13 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T01:54:56",
+  "built_at": "2026-09-22T15:52:40",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 111,
+  "returns_loaded": 110,
   "countries": 31,
   "periods": "2025-Q1,2025-Q2,2025-Q3,2025-Q4,2026-Q1",
   "suppress_below": 5,
+  "public": false,
   "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence."
  },
  "country": {
@@ -23,14 +24,14 @@
    "indicator_code": "2.5",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 274,
+   "numerator": 160,
    "denominator": null,
-   "value": 274.0,
+   "value": 160.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -38,14 +39,14 @@
    "indicator_code": "2.6",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 193,
+   "numerator": 88,
    "denominator": null,
-   "value": 193.0,
+   "value": 88.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -53,14 +54,14 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "t1d",
-   "numerator": 61,
+   "numerator": 32,
    "denominator": null,
-   "value": 61.0,
+   "value": 32.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -68,14 +69,14 @@
    "indicator_code": "2.6",
    "disagg_key": "condition",
    "disagg_value": "t1d",
-   "numerator": 38,
+   "numerator": 25,
    "denominator": null,
-   "value": 38.0,
+   "value": 25.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -83,14 +84,14 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "scd",
-   "numerator": 78,
+   "numerator": 46,
    "denominator": null,
-   "value": 78.0,
+   "value": 46.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -98,14 +99,14 @@
    "indicator_code": "2.6",
    "disagg_key": "condition",
    "disagg_value": "scd",
-   "numerator": 59,
+   "numerator": 21,
    "denominator": null,
-   "value": 59.0,
+   "value": 21.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -113,89 +114,89 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 54,
-   "denominator": null,
-   "value": 54.0,
-   "unit": "count",
-   "completeness": 1.0,
-   "suppressed": 0,
-   "as_of": "2026-03-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "SEN",
-   "period_id": "2026-Q1",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "rhd",
-   "numerator": 36,
-   "denominator": null,
-   "value": 36.0,
-   "unit": "count",
-   "completeness": 1.0,
-   "suppressed": 0,
-   "as_of": "2026-03-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "SEN",
-   "period_id": "2026-Q1",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": 81,
-   "denominator": null,
-   "value": 81.0,
-   "unit": "count",
-   "completeness": 1.0,
-   "suppressed": 0,
-   "as_of": "2026-03-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "SEN",
-   "period_id": "2026-Q1",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": 60,
-   "denominator": null,
-   "value": 60.0,
-   "unit": "count",
-   "completeness": 1.0,
-   "suppressed": 0,
-   "as_of": "2026-03-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "SEN",
-   "period_id": "2026-Q1",
-   "indicator_code": "2.6b",
-   "disagg_key": "condition",
-   "disagg_value": "t1d",
-   "numerator": 30,
-   "denominator": 38,
-   "value": 0.7895,
-   "unit": "rate",
-   "completeness": 1.0,
-   "suppressed": 0,
-   "as_of": "2026-03-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "SEN",
-   "period_id": "2026-Q1",
-   "indicator_code": "2.6b",
-   "disagg_key": "condition",
-   "disagg_value": "scd",
    "numerator": 52,
-   "denominator": 59,
-   "value": 0.8814,
+   "denominator": null,
+   "value": 52.0,
+   "unit": "count",
+   "completeness": 1.0,
+   "suppressed": 0,
+   "as_of": "2026-03-31",
+   "basis": "form"
+  },
+  {
+   "iso3": "SEN",
+   "period_id": "2026-Q1",
+   "indicator_code": "2.6",
+   "disagg_key": "condition",
+   "disagg_value": "rhd",
+   "numerator": 32,
+   "denominator": null,
+   "value": 32.0,
+   "unit": "count",
+   "completeness": 1.0,
+   "suppressed": 0,
+   "as_of": "2026-03-31",
+   "basis": "form"
+  },
+  {
+   "iso3": "SEN",
+   "period_id": "2026-Q1",
+   "indicator_code": "2.5",
+   "disagg_key": "condition",
+   "disagg_value": "severe_htn",
+   "numerator": 30,
+   "denominator": null,
+   "value": 30.0,
+   "unit": "count",
+   "completeness": 1.0,
+   "suppressed": 0,
+   "as_of": "2026-03-31",
+   "basis": "form"
+  },
+  {
+   "iso3": "SEN",
+   "period_id": "2026-Q1",
+   "indicator_code": "2.6",
+   "disagg_key": "condition",
+   "disagg_value": "severe_htn",
+   "numerator": 10,
+   "denominator": null,
+   "value": 10.0,
+   "unit": "count",
+   "completeness": 1.0,
+   "suppressed": 0,
+   "as_of": "2026-03-31",
+   "basis": "form"
+  },
+  {
+   "iso3": "SEN",
+   "period_id": "2026-Q1",
+   "indicator_code": "2.6b",
+   "disagg_key": "condition",
+   "disagg_value": "t1d",
+   "numerator": 21,
+   "denominator": 25,
+   "value": 0.84,
    "unit": "rate",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
+  },
+  {
+   "iso3": "SEN",
+   "period_id": "2026-Q1",
+   "indicator_code": "2.6b",
+   "disagg_key": "condition",
+   "disagg_value": "scd",
+   "numerator": 18,
+   "denominator": 21,
+   "value": 0.8571,
+   "unit": "rate",
+   "completeness": 1.0,
+   "suppressed": 0,
+   "as_of": "2026-03-31",
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -203,14 +204,14 @@
    "indicator_code": "2.6b",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 29,
-   "denominator": 36,
-   "value": 0.8056,
+   "numerator": 25,
+   "denominator": 32,
+   "value": 0.7812,
    "unit": "rate",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -218,14 +219,14 @@
    "indicator_code": "2.6b",
    "disagg_key": "condition",
    "disagg_value": "severe_htn",
-   "numerator": 48,
-   "denominator": 60,
-   "value": 0.8,
+   "numerator": 9,
+   "denominator": 10,
+   "value": 0.9,
    "unit": "rate",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -240,7 +241,7 @@
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -255,7 +256,7 @@
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -270,7 +271,7 @@
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -285,7 +286,7 @@
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -293,14 +294,14 @@
    "indicator_code": "4.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 1,
+   "numerator": 0,
    "denominator": null,
-   "value": 1.0,
+   "value": 0.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -308,14 +309,14 @@
    "indicator_code": "2.3",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 7,
+   "numerator": 6,
    "denominator": null,
-   "value": 7.0,
+   "value": 6.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -323,14 +324,14 @@
    "indicator_code": "2.4",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 1,
+   "numerator": 3,
    "denominator": 5,
-   "value": 0.2,
+   "value": 0.6,
    "unit": "rate",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -345,7 +346,7 @@
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -353,14 +354,14 @@
    "indicator_code": "2.2",
    "disagg_key": "readiness_class",
    "disagg_value": "green",
-   "numerator": 1,
+   "numerator": 2,
    "denominator": null,
-   "value": 1.0,
+   "value": 2.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -375,7 +376,7 @@
    "completeness": 1.0,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -383,14 +384,14 @@
    "indicator_code": "2.2",
    "disagg_key": "readiness_class",
    "disagg_value": "red",
-   "numerator": 2,
+   "numerator": 1,
    "denominator": null,
-   "value": 2.0,
+   "value": 1.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -398,14 +399,14 @@
    "indicator_code": "3.4",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 5,
-   "denominator": 7,
-   "value": 0.7143,
+   "numerator": 6,
+   "denominator": 6,
+   "value": 1.0,
    "unit": "rate",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -413,14 +414,14 @@
    "indicator_code": "3.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 16,
+   "numerator": 12,
    "denominator": null,
-   "value": 16.0,
+   "value": 12.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -428,14 +429,14 @@
    "indicator_code": "3.2",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 43,
+   "numerator": 42,
    "denominator": null,
-   "value": 43.0,
+   "value": 42.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -443,14 +444,14 @@
    "indicator_code": "3.3",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 27,
+   "numerator": 24,
    "denominator": null,
-   "value": 27.0,
+   "value": 24.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -458,14 +459,14 @@
    "indicator_code": "6.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 6,
+   "numerator": 2,
    "denominator": null,
-   "value": 6.0,
+   "value": 2.0,
    "unit": "count",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "SEN",
@@ -473,14 +474,14 @@
    "indicator_code": "5.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 7,
-   "denominator": 7,
+   "numerator": 6,
+   "denominator": 6,
    "value": 1.0,
    "unit": "rate",
    "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   }
  ],
  "facilities": [
@@ -492,8 +493,8 @@
    "region": "Central Region",
    "facility_type": "District hospital",
    "services_started": "2026-03-31",
-   "conditions": "severe_htn,t1d",
-   "project_supported": "yes",
+   "conditions": "t1d",
+   "project_supported": "no",
    "status": "operational",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
@@ -506,9 +507,9 @@
    "region": "Coastal Region",
    "facility_type": "Regional hospital",
    "services_started": "2026-03-31",
-   "conditions": "severe_htn,scd,t1d",
-   "project_supported": "no",
-   "status": "operational",
+   "conditions": "t1d",
+   "project_supported": "yes",
+   "status": "started_this_period",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
   },
@@ -527,20 +528,6 @@
    "last_seen": "2026-Q1"
   },
   {
-   "facility_id": "SEN-0007",
-   "iso3": "SEN",
-   "name": "Highlands Referral hospital 7",
-   "district": "Highlands District",
-   "region": "Highlands Region",
-   "facility_type": "Referral hospital",
-   "services_started": "2026-03-31",
-   "conditions": "rhd,t1d",
-   "project_supported": "yes",
-   "status": "started_this_period",
-   "first_seen": "2026-Q1",
-   "last_seen": "2026-Q1"
-  },
-  {
    "facility_id": "SEN-0002",
    "iso3": "SEN",
    "name": "Northern Regional hospital 2",
@@ -548,7 +535,7 @@
    "region": "Northern Region",
    "facility_type": "Regional hospital",
    "services_started": "2026-03-31",
-   "conditions": "scd,rhd,t1d",
+   "conditions": "scd,rhd,severe_htn",
    "project_supported": "yes",
    "status": "operational",
    "first_seen": "2026-Q1",
@@ -562,8 +549,8 @@
    "region": "Southern Region",
    "facility_type": "Referral hospital",
    "services_started": "2026-03-31",
-   "conditions": "scd,t1d,rhd,severe_htn",
-   "project_supported": "yes",
+   "conditions": "t1d",
+   "project_supported": "partial",
    "status": "operational",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
@@ -576,8 +563,8 @@
    "region": "Western Region",
    "facility_type": "District hospital",
    "services_started": "2026-03-31",
-   "conditions": "scd,rhd,severe_htn,t1d",
-   "project_supported": "yes",
+   "conditions": "severe_htn",
+   "project_supported": "no",
    "status": "operational",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
@@ -585,7 +572,7 @@
  ],
  "governance": [
   {
-   "return_id": 89,
+   "return_id": 83,
    "milestone_code": "1.1",
    "milestone": "PEN-Plus integrated into the national NCD strategy and UHC agenda",
    "indicator_code": null,
@@ -595,7 +582,7 @@
    "period_id": "2026-Q1"
   },
   {
-   "return_id": 89,
+   "return_id": 83,
    "milestone_code": "1.2",
    "milestone": "PEN-Plus Plan developed, approved, launched and under implementation",
    "indicator_code": null,
@@ -605,7 +592,7 @@
    "period_id": "2026-Q1"
   },
   {
-   "return_id": 89,
+   "return_id": 83,
    "milestone_code": "1.3",
    "milestone": "Costed National Operational Plan (NOP) on PEN-Plus developed and launched",
    "indicator_code": null,

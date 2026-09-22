@@ -2,7 +2,7 @@ import { getOverview, getQuality } from "@/lib/bundle";
 import { fmtCompletenessShare, fmtDate, fmtNandN, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { renderChartPanel } from "@/components/chart-panel";
-import { renderCompleteness, isLowCompleteness } from "@/components/completeness";
+import { renderCompleteness } from "@/components/completeness";
 import { renderStatus } from "@/lib/status";
 import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
@@ -22,12 +22,11 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
     if (!prev || row.period_id > prev.period_id) latestByCountry.set(row.iso3, row);
   }
   const latestRows = [...latestByCountry.values()];
-  const knownCompleteness = latestRows.map((r) => r.completeness).filter((c): c is number => c !== null);
-  const avgCompleteness =
-    knownCompleteness.length > 0
-      ? knownCompleteness.reduce((a, b) => a + b, 0) / knownCompleteness.length
-      : null;
-  const belowThreshold = latestRows.filter((r) => isLowCompleteness(r.completeness)).length;
+  // avg_completeness and countries_below_threshold are computed once in
+  // export.py over each country's latest period, not re-derived here
+  // (CLAUDE.md rule 1: no arithmetic in the front end).
+  const avgCompleteness = quality.avg_completeness;
+  const belowThreshold = quality.countries_below_threshold;
   const highSeverity = quality.open_queries.filter((q) => q.severity === "High").length;
 
   container.innerHTML = `

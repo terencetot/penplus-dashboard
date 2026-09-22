@@ -3,6 +3,7 @@ import { fmtCount, fmtDate, fmtRateWithNandN, NR } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
+import { renderValueWithCompleteness } from "@/components/completeness";
 import { renderStatus, statusFromGovernance, statusKey } from "@/lib/status";
 import { facilityStatusKey, projectSupportedKey } from "@/lib/vocab";
 import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
@@ -104,7 +105,12 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       key: "value",
       label: t("table.value"),
       numeric: true,
+      html: true,
       render: (d) => {
+        const v = latestPerIndicator.get(d.indicator_code);
+        return v ? renderValueWithCompleteness(valueText(v), v.completeness) : "NR";
+      },
+      csv: (d) => {
         const v = latestPerIndicator.get(d.indicator_code);
         return v ? valueText(v) : "NR";
       },
@@ -162,7 +168,14 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
           dim.label_en,
           [
             { key: "period_id", label: t("common.select_period"), render: (v: GoldRow) => v.period_id },
-            { key: "value", label: dim.label_en, numeric: true, render: valueText },
+            {
+              key: "value",
+              label: dim.label_en,
+              numeric: true,
+              html: true,
+              render: (v: GoldRow) => renderValueWithCompleteness(valueText(v), v.completeness),
+              csv: valueText,
+            },
           ],
           series,
         ),

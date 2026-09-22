@@ -24,6 +24,86 @@ def _build_store(tmp_path, make_rec):
     return db_path
 
 
+def _build_store_with_facility(tmp_path, make_rec):
+    db_path = str(tmp_path / "store.db")
+    con = init_db(db_path)
+    rec = make_rec(
+        country_name="Ghana", period_id="2026-Q1", quarter_id="2026-Q1",
+        facilities=[{"facility_id": "GHA-0001", "name": "Ridge Regional Hospital",
+                     "district": "Accra Metro", "region": "Greater Accra",
+                     "status": "operational", "project_supported": "yes"}],
+        facility_period=[{"facility_id": "GHA-0001", "return_received": "yes",
+                           "active_end": 3, "quality_score": 40, "critical_met": "no",
+                           "readiness_class": "amber"}],
+    )
+    load_return(con, rec, verdict="accepted")
+    con.close()
+    transform.build(db_path)
+    return db_path
+
+
+def test_public_export_withholds_facility_identity(tmp_path, make_rec):
+    db_path = _build_store_with_facility(tmp_path, make_rec)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir), public=True)
+
+    facilities = json.loads((out_dir / "facilities.json").read_text(encoding="utf-8"))
+    row = facilities["rows"][0]
+    assert row["name"] is None
+    assert row["district"] is None
+    assert row["region"] is None
+    assert row["status"] == "operational"  # non-identifying fields survive
+
+    gha = json.loads((out_dir / "countries" / "GHA.json").read_text(encoding="utf-8"))
+    assert gha["facilities"][0]["name"] is None
+    assert facilities["manifest"]["public"] is True
+
+
+def test_non_public_export_keeps_facility_identity(tmp_path, make_rec):
+    db_path = _build_store_with_facility(tmp_path, make_rec)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir), public=False)
+
+    facilities = json.loads((out_dir / "facilities.json").read_text(encoding="utf-8"))
+    assert facilities["rows"][0]["name"] == "Ridge Regional Hospital"
+    assert facilities["manifest"]["public"] is False
+
+
+def test_public_export_blanks_suppressed_cells_but_keeps_the_regional_total(tmp_path, make_rec):
+    """A country reporting a small, individually-suppressed number must still
+    count toward the regional aggregate -- suppression hides the country-level
+    figure from the public build, it does not remove real evidence from the
+    regional total (CLAUDE.md rule 7, and export.py's regional_value/headline,
+    which read the un-redacted gold rows before any redaction is applied)."""
+    db_path = str(tmp_path / "store.db")
+    con = init_db(db_path)
+    small = make_rec(
+        country_name="Ghana", period_id="2026-Q1", quarter_id="2026-Q1",
+        patient_stock=[
+            {"condition": "t1d", "ever_enrolled": 3, "active_end": 2},
+            {"condition": "scd", "ever_enrolled": None, "active_end": None},
+            {"condition": "rhd", "ever_enrolled": None, "active_end": None},
+            {"condition": "severe_htn", "ever_enrolled": None, "active_end": None},
+        ],
+    )
+    load_return(con, small, verdict="accepted")
+    con.close()
+    transform.build(db_path)
+
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir), public=True)
+
+    indicators = json.loads((out_dir / "indicators.json").read_text(encoding="utf-8"))
+    row_25 = next(v for v in indicators["values"]
+                  if v["indicator_code"] == "2.5" and v["disagg_key"] == "condition"
+                  and v["disagg_value"] == "t1d")
+    assert row_25["suppressed"] == 1
+    assert row_25["numerator"] is None  # withheld, not just flagged
+
+    dim = next(d for d in indicators["dim"] if d["indicator_code"] == "2.5")
+    assert dim["regional_value"] == 3  # the real number still feeds the regional total
+
+
 def test_export_writes_expected_files_as_valid_json(tmp_path, make_rec):
     db_path = _build_store(tmp_path, make_rec)
     out_dir = tmp_path / "site_data"

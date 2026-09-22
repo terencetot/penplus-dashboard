@@ -40,6 +40,13 @@ DEMO_DB = os.path.join(SRC, "demo.db")
 DEMO_OUT = os.path.join(HERE, "..", "..", "site", "public", "demo-data")
 PROVENANCE = "SYNTHETIC DEMONSTRATION DATA -- invented for design review, not a real PEN-Plus report"
 
+# Matches PHASE_BREAK_PERIOD in site/src/screens/indicator-detail.ts and
+# country-profile.ts: the first Phase Two reporting period. A demo return
+# from this period on is a (synthetic) form submission, not reconstructed
+# history -- tagging it 'historical' would show a live-looking period as
+# pre-programme evidence and hide it from any "Phase Two so far" framing.
+PHASE_BREAK_PERIOD = "2026-Q1"
+
 CADRES = ["doctors", "clinical_officers", "nurses_midwives", "pharmacy_lab", "other"]
 PHASE1_PERIODS = ["2025-Q1", "2025-Q2", "2025-Q3", "2025-Q4", "2026-Q1"]
 PHASE2_PERIODS = ["2026-Q1"]  # Phase Two countries only start reporting once Phase Two begins
@@ -226,13 +233,24 @@ def main():
         os.remove(DEMO_DB)
     con = init_db(DEMO_DB)
 
-    for name, (iso3, cohort) in sorted(COUNTRIES.items(), key=lambda kv: kv[1][0]):
+    # common.py's COUNTRIES carries alias entries for the parser's benefit
+    # (e.g. "The Gambia" and "Gambia" both resolve to GMB) -- iterating the
+    # dict as-is double-loads those three countries, which then supersede
+    # their own first revision and silently swallow anything set on it
+    # (this is how a hold-verdict/high-severity query aimed at one return
+    # landed on a revision that got immediately superseded). One entry per
+    # ISO3, first occurrence (the canonical, non-abbreviated name) kept.
+    by_iso3: dict[str, tuple[str, str]] = {}
+    for name, (iso3, cohort) in COUNTRIES.items():
+        by_iso3.setdefault(iso3, (name, cohort))
+    for iso3, (name, cohort) in sorted(by_iso3.items()):
         if cohort == "phase_1":
             periods, n_fac = PHASE1_PERIODS, rng.randint(6, 16)
         else:
             periods, n_fac = PHASE2_PERIODS, rng.randint(3, 8)
         for rec in build_country_series(iso3, name, cohort, periods, n_fac):
-            load_return(con, rec, source_kind="historical", provenance=PROVENANCE)
+            source_kind = "form" if rec["period_id"] >= PHASE_BREAK_PERIOD else "historical"
+            load_return(con, rec, source_kind=source_kind, provenance=PROVENANCE)
 
     # Milestones for the demo only: common.py's real registry stays null
     # (no real target has been published -- see docs/architecture.md). These
@@ -249,11 +267,14 @@ def main():
                         (float(target), code))
     con.commit()
 
-    # A handful of open queries, so the data-quality screen has something to show.
+    # A handful of open queries, so the data-quality screen has something to
+    # show. At least one is High severity and puts its return on hold, so the
+    # tracker/quality screens exercise all four verdict-derived states
+    # (accepted, query, hold) rather than only ever showing "accepted".
     sample_returns = [r["return_id"] for r in con.execute(
-        "SELECT return_id FROM fact_return ORDER BY RANDOM() LIMIT 6")]
-    for rid in sample_returns:
-        sev = rng.choice(["High", "Medium", "Low"])
+        "SELECT return_id FROM fact_return WHERE superseded=0 ORDER BY RANDOM() LIMIT 6")]
+    severities = ["High"] + [rng.choice(["High", "Medium", "Low"]) for _ in sample_returns[1:]]
+    for rid, sev in zip(sample_returns, severities, strict=True):
         con.execute(
             "INSERT INTO query_register(return_id,severity,section,field,observed,expected,"
             "question,status,raised_at) VALUES (?,?,?,?,?,?,?,'open',?)",
@@ -261,6 +282,8 @@ def main():
              "reported lower than the prior quarter", "a stable or growing cohort",
              "Please confirm the retention denominator against the facility register.",
              "2026-02-15"))
+    high_severity_return = sample_returns[0]
+    con.execute("UPDATE fact_return SET verdict='hold' WHERE return_id=?", (high_severity_return,))
     con.commit()
 
     transform.build(DEMO_DB)

@@ -22,6 +22,7 @@ Two rules are enforced while converting.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import os
 import re
 from collections import defaultdict
@@ -33,6 +34,17 @@ from load import init_db, load_return
 
 PROV_ICPPA = "ICPPA 2026 country data extraction, rebuilt as a form return"
 PROV_MON = "PEN_PLUS_MONITORING.xlsx, phase 1 country monitoring workbook"
+
+
+def _closing_date_for_year(year: int) -> str:
+    """The annual period's closing date: 31 December for a year that has
+    fully elapsed, or today for the current, still-incomplete year, since the
+    source workbooks record no cut-off finer than a year. Stamping 31
+    December on a year still in progress publishes evidence that does not yet
+    exist -- see docs/architecture.md, "Data integrity"."""
+    dec_31 = dt.date(year, 12, 31)
+    today = dt.date.today()
+    return min(dec_31, today).isoformat()
 
 
 def _rows(ws):
@@ -116,7 +128,7 @@ def from_icppa(path):
                 "country_name": country,
                 "rhythm": "annual", "period_id": f"{year}-A",
                 "quarter_id": f"{year}-Q4", "year": year,
-                "closing_date": f"{year}-12-31",
+                "closing_date": _closing_date_for_year(year),
                 "source_file": os.path.basename(path),
                 "patient_stock": [
                     {"condition": k,
@@ -269,7 +281,8 @@ def from_monitoring(path):
 
 def _blank_monitoring_rec(country, path):
     return {"country_name": country, "rhythm": "annual", "period_id": "2025-A",
-            "quarter_id": "2025-Q4", "year": 2025, "closing_date": "2025-12-31",
+            "quarter_id": "2025-Q4", "year": 2025,
+            "closing_date": _closing_date_for_year(2025),
             "source_file": os.path.basename(path),
             "patient_stock": [], "patient_flow": [], "patient_age": [], "workforce": [],
             "supply": [], "service": [], "assumptions": [], "governance": [],

@@ -320,6 +320,13 @@ h2.screen-title {
 .completeness.is-low {
   color: var(--color-text-muted);
 }
+.value-completeness.is-low {
+  color: var(--color-text-muted);
+}
+.value-completeness.is-low small {
+  font-size: var(--font-label);
+  font-weight: 400;
+}
 
 /* ------------------------------------------------------------ status marks */
 .status {

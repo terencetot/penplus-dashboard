@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import glob
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -31,6 +32,12 @@ RAW = os.path.join(HERE, "..", "..", "..", "data", "raw")
 ICPPA = os.path.join(RAW, "PEN-Plus_country_data_ICPPA2026.xlsx")
 MONITORING = os.path.join(RAW, "PEN_PLUS_MONITORING.xlsx")
 
+# A worked example, demo or test fixture must never be loaded as a real
+# country return -- that happened once (a "Zambia worked example" .docx
+# ended up in the live store, source_kind='form') and was only caught by a
+# later audit. See docs/architecture.md, "Data integrity".
+SYNTHETIC_NAME_RE = re.compile(r"example|demo|\btest\b|synthetic", re.I)
+
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
@@ -40,9 +47,17 @@ def main():
     ap.add_argument("--icppa", default=ICPPA)
     ap.add_argument("--monitoring", default=MONITORING)
     ap.add_argument("--returns", nargs="*", default=[], help="completed .docx returns")
+    ap.add_argument("--allow-synthetic", action="store_true",
+                     help="permit a --returns filename that looks like a worked example, "
+                          "demo, test or synthetic fixture to be loaded as a real return")
     ap.add_argument("--transform", action="store_true")
     ap.add_argument("--export", action="store_true")
     ap.add_argument("--out", default=os.path.join(HERE, "..", "..", "..", "site", "public", "data"))
+    ap.add_argument("--public", action="store_true",
+                     help="withhold facility identity and blank cells under 5, rather than "
+                          "just flagging them -- use this for any export that reaches "
+                          "site/public/data, since that directory ships to GitHub Pages "
+                          "with no non-public audience")
     ap.add_argument("--rebuild", action="store_true", help="fresh, seed, transform, export")
     a = ap.parse_args()
 
@@ -76,6 +91,10 @@ def main():
         paths.extend(sorted(glob.glob(pat)) or [pat])
     for path in paths:
         name = os.path.basename(path)
+        if SYNTHETIC_NAME_RE.search(name) and not a.allow_synthetic:
+            print(f"REFUSED {name}: looks like a worked example, demo, test or synthetic "
+                  "fixture -- pass --allow-synthetic to load it anyway")
+            continue
         try:
             rec = parse_return(path)
         except Exception as exc:
@@ -96,7 +115,7 @@ def main():
     if a.transform:
         transform.build(a.db)
     if a.export:
-        export.export(a.db, a.out)
+        export.export(a.db, a.out, public=a.public)
 
 
 if __name__ == "__main__":

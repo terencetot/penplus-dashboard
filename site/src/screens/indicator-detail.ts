@@ -3,6 +3,7 @@ import { fmtCount, fmtDate, fmtNandN, fmtRateWithNandN, NR } from "@/lib/format"
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
+import { renderValueWithCompleteness } from "@/components/completeness";
 import { renderMilestoneStrip } from "@/components/milestone-strip";
 import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
@@ -29,9 +30,21 @@ function latestByCountry(values: GoldRow[]): GoldRow[] {
 }
 
 function valueTitle(v: GoldRow): string {
+  if (v.suppressed === 1) return t("common.suppressed");
   return v.unit === "rate"
     ? fmtRateWithNandN(v.numerator, v.denominator, v.value)
     : `${fmtCount(v.value)} (${fmtNandN(v.numerator, v.denominator)})`;
+}
+
+/** A positive gap is a shortfall, a negative gap is over-achievement --
+ * `Math.abs` alone erases that sign, so the caption carries the direction
+ * and only the magnitude is shown as the number (see components/milestone-strip.ts,
+ * where the same fix applies to the strip's own gap text). */
+function gapKpiLabel(gap: number | null): string {
+  if (gap === null) return t("screen2.kpi.gap");
+  if (gap === 0) return t("screen2.kpi.gap_met");
+  if (gap < 0) return t("screen2.kpi.gap_exceeded");
+  return t("screen2.kpi.gap");
 }
 
 export async function renderIndicatorDetail(container: HTMLElement, code: string): Promise<void> {
@@ -66,7 +79,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
       renderKpiCard(
         "target",
         dim.gap === null ? t("common.no_milestone") : fmtCount(Math.abs(dim.gap)),
-        t("screen2.kpi.gap"),
+        gapKpiLabel(dim.gap),
         dim.gap === null,
       ),
       renderKpiCard(
@@ -119,12 +132,16 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
   select.addEventListener("change", () => navigate({ screen: "indicator", code: select.value }));
 
   // ---- distribution: latest period, one bar per reporting country (rule: no league table -> alphabetical)
-  const latest = latestByCountry(values).filter((v) => v.value !== null);
+  // A suppressed row keeps value===null (the real number is withheld) but
+  // must stay in the chart as a flagged stub, not disappear as if the
+  // country never reported (CLAUDE.md rule 7). A genuine non-response
+  // (never suppressed, just never reported) is still dropped.
+  const latest = latestByCountry(values).filter((v) => v.value !== null || v.suppressed === 1);
   const barData: BarDatum[] = latest
     .sort((a, b) => a.iso3.localeCompare(b.iso3))
     .map((v) => ({
       label: v.iso3,
-      value: v.value as number,
+      value: v.value,
       suppressed: v.suppressed === 1,
       title: `${v.iso3}: ${valueTitle(v)}`,
     }));
@@ -138,7 +155,14 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
     buildTable: () => {
       const columns: Column<GoldRow>[] = [
         { key: "iso3", label: t("common.select_country"), render: (v) => v.iso3 },
-        { key: "value", label: dim.label_en, numeric: true, render: valueTitle },
+        {
+          key: "value",
+          label: dim.label_en,
+          numeric: true,
+          html: true,
+          render: (v) => renderValueWithCompleteness(valueTitle(v), v.completeness),
+          csv: valueTitle,
+        },
         { key: "as_of", label: t("common.as_of"), render: (v) => fmtDate(v.as_of) },
       ];
       return buildTable(`${dim.label_en} — ${t("screen2.distribution.title")}`, columns, latest);

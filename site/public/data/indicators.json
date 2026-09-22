@@ -1,13 +1,14 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T01:54:54",
+  "built_at": "2026-09-22T15:47:46",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 41,
+  "returns_loaded": 40,
   "countries": 20,
-  "periods": "2022-A,2023-A,2024-A,2025-A,2026-06,2026-A",
+  "periods": "2022-A,2023-A,2024-A,2025-A,2026-A",
   "suppress_below": 5,
-  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence."
+  "public": true,
+  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence. This is the public export: facility identity is withheld and cells under 5 are suppressed, not merely flagged."
  },
  "dim": [
   {
@@ -90,7 +91,7 @@
    "formula": "count of facilities with status operational or started_this_period",
    "milestone": null,
    "regional_value": 31,
-   "regional_as_of": "2026-12-31",
+   "regional_as_of": "2026-09-22",
    "countries_reporting": 15,
    "gap": null
   },
@@ -118,7 +119,7 @@
    "formula": "sum of ever_enrolled over the four tracers",
    "milestone": null,
    "regional_value": 13222,
-   "regional_as_of": "2026-12-31",
+   "regional_as_of": "2026-09-22",
    "countries_reporting": 20,
    "gap": null
   },
@@ -132,7 +133,7 @@
    "formula": "sum of active_end over the four tracers",
    "milestone": null,
    "regional_value": null,
-   "regional_as_of": "2026-12-31",
+   "regional_as_of": "2026-09-22",
    "countries_reporting": 20,
    "gap": null
   },
@@ -230,8 +231,8 @@
    "formula": "returns_complete over facilities_expected",
    "milestone": null,
    "regional_value": null,
-   "regional_as_of": "30 June 2026",
-   "countries_reporting": 1,
+   "regional_as_of": null,
+   "countries_reporting": 0,
    "gap": null
   },
   {
@@ -337,7 +338,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -352,7 +353,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -367,7 +368,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -382,7 +383,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -397,7 +398,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -412,7 +413,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -427,7 +428,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -442,7 +443,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -457,7 +458,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -472,7 +473,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -487,7 +488,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -502,7 +503,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -697,7 +698,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -712,7 +713,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -727,7 +728,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -742,7 +743,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -757,7 +758,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -772,7 +773,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -787,7 +788,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -802,7 +803,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -817,7 +818,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -832,7 +833,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -847,7 +848,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -862,7 +863,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -877,7 +878,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -892,7 +893,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -907,7 +908,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -922,7 +923,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -937,7 +938,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -952,7 +953,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -967,7 +968,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -982,7 +983,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -997,7 +998,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1012,7 +1013,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1027,7 +1028,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1042,7 +1043,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1462,7 +1463,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1477,7 +1478,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1492,7 +1493,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1507,7 +1508,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1522,7 +1523,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1537,7 +1538,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1552,7 +1553,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1567,7 +1568,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1582,7 +1583,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1597,7 +1598,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1612,7 +1613,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1627,7 +1628,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -1726,9 +1727,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "scd",
-   "numerator": 1,
+   "numerator": null,
    "denominator": null,
-   "value": 1.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -1756,9 +1757,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 1,
+   "numerator": null,
    "denominator": null,
-   "value": 1.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -2392,7 +2393,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2407,7 +2408,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2422,7 +2423,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2437,7 +2438,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2452,7 +2453,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2467,7 +2468,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2482,7 +2483,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2497,7 +2498,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2512,7 +2513,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2527,7 +2528,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2542,7 +2543,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2557,7 +2558,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2647,7 +2648,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2662,7 +2663,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2677,7 +2678,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2692,7 +2693,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2707,7 +2708,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2722,7 +2723,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2737,7 +2738,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2752,7 +2753,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2767,7 +2768,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2782,7 +2783,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2797,7 +2798,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2812,7 +2813,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2872,7 +2873,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2887,7 +2888,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2902,7 +2903,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2917,7 +2918,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2932,7 +2933,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2947,7 +2948,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2962,7 +2963,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2977,7 +2978,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -2992,7 +2993,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3007,7 +3008,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3022,7 +3023,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3037,7 +3038,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3157,7 +3158,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3172,7 +3173,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3187,7 +3188,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3202,7 +3203,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3217,7 +3218,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3232,7 +3233,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3247,7 +3248,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3262,7 +3263,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3277,7 +3278,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3292,7 +3293,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3307,7 +3308,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3322,7 +3323,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -3421,9 +3422,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 0,
+   "numerator": null,
    "denominator": null,
-   "value": 0.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -3601,9 +3602,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 1,
+   "numerator": null,
    "denominator": null,
-   "value": 1.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -3781,9 +3782,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 1,
+   "numerator": null,
    "denominator": null,
-   "value": 1.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -4057,7 +4058,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4072,7 +4073,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4087,7 +4088,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4102,7 +4103,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4117,7 +4118,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4132,7 +4133,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4147,7 +4148,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4162,7 +4163,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4177,7 +4178,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4192,7 +4193,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4207,7 +4208,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4222,7 +4223,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4282,7 +4283,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4297,7 +4298,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4312,7 +4313,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4327,7 +4328,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4342,7 +4343,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4357,7 +4358,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4372,7 +4373,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4387,7 +4388,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4402,7 +4403,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4417,7 +4418,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4432,7 +4433,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4447,7 +4448,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -4546,9 +4547,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 0,
+   "numerator": null,
    "denominator": null,
-   "value": 0.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -4576,9 +4577,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "severe_htn",
-   "numerator": 0,
+   "numerator": null,
    "denominator": null,
-   "value": 0.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -4606,9 +4607,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "other_reported",
-   "numerator": 0,
+   "numerator": null,
    "denominator": null,
-   "value": 0.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -4726,9 +4727,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 4,
+   "numerator": null,
    "denominator": null,
-   "value": 4.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -4756,9 +4757,9 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "severe_htn",
-   "numerator": 0,
+   "numerator": null,
    "denominator": null,
-   "value": 0.0,
+   "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 1,
@@ -5182,7 +5183,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5197,7 +5198,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5212,7 +5213,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5227,7 +5228,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5242,7 +5243,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5257,7 +5258,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5272,7 +5273,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5287,7 +5288,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5302,7 +5303,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5317,7 +5318,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5332,7 +5333,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5347,7 +5348,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5397,246 +5398,6 @@
   },
   {
    "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.5",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": 805,
-   "denominator": null,
-   "value": 805.0,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "t1d",
-   "numerator": 93,
-   "denominator": null,
-   "value": 93.0,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "t1d",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "scd",
-   "numerator": 712,
-   "denominator": null,
-   "value": 712.0,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "scd",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "rhd",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "rhd",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "other_reported",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "age_band",
-   "disagg_value": "15_29",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "age_band",
-   "disagg_value": "30plus",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.6",
-   "disagg_key": "age_band",
-   "disagg_value": "u15",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "2.3",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": 5,
-   "denominator": null,
-   "value": 5.0,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-06",
-   "indicator_code": "5.1",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": null,
-   "denominator": 5,
-   "value": null,
-   "unit": "rate",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "30 June 2026",
-   "basis": "form"
-  },
-  {
-   "iso3": "ZMB",
    "period_id": "2026-A",
    "indicator_code": "2.5",
    "disagg_key": "all",
@@ -5647,7 +5408,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5662,7 +5423,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5677,7 +5438,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5692,7 +5453,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5707,7 +5468,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5722,7 +5483,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5737,7 +5498,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5752,7 +5513,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5767,7 +5528,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5782,7 +5543,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5797,7 +5558,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {
@@ -5812,7 +5573,7 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-12-31",
+   "as_of": "2026-09-22",
    "basis": "historical"
   },
   {

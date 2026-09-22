@@ -138,6 +138,10 @@ export interface QualityRow {
 
 export interface QualityBundle {
   manifest: Manifest;
+  /** Mean completeness over each country's most recent period -- computed in
+   *  export.py, not the site (CLAUDE.md rule 1: no arithmetic in the front end). */
+  avg_completeness: number | null;
+  countries_below_threshold: number;
   rows: QualityRow[];
   open_queries: OpenQuery[];
 }
@@ -166,6 +170,9 @@ export interface FacilityRow {
 
 export interface FacilitiesBundle {
   manifest: Manifest;
+  /** Mean quality_score across all facility rows -- computed in export.py,
+   *  not the site (CLAUDE.md rule 1: no arithmetic in the front end). */
+  avg_quality_score: number | null;
   rows: FacilityRow[];
 }
 

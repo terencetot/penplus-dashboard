@@ -30,6 +30,19 @@ jobs:
         working-directory: site
     steps:
       - uses: actions/checkout@v4
+      - name: Bundle must be the public export (no facility identity, no simulated return)
+        run: |
+          python3 - <<'PY'
+          import json, sys
+          man = json.load(open("public/data/manifest.json"))
+          assert man.get("public") is True, \
+              "site/public/data/manifest.json is not a --public export -- rerun " \
+              "run.py --transform --export --public before committing the bundle"
+          fac = json.load(open("public/data/facilities.json"))
+          named = [f["facility_id"] for f in fac["rows"] if f.get("name")]
+          assert not named, f"facility identity present in the public bundle: {named}"
+          print("public export check OK")
+          PY
       - uses: actions/setup-node@v4
         with:
           node-version: "20"

@@ -1,12 +1,13 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T01:54:56",
+  "built_at": "2026-09-22T15:52:40",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 111,
+  "returns_loaded": 110,
   "countries": 31,
   "periods": "2025-Q1,2025-Q2,2025-Q3,2025-Q4,2026-Q1",
   "suppress_below": 5,
+  "public": false,
   "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence."
  },
  "country": {
@@ -23,14 +24,14 @@
    "indicator_code": "2.5",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 222,
+   "numerator": 241,
    "denominator": null,
-   "value": 222.0,
+   "value": 241.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -38,14 +39,14 @@
    "indicator_code": "2.6",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 160,
+   "numerator": 184,
    "denominator": null,
-   "value": 160.0,
+   "value": 184.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -53,14 +54,14 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "t1d",
-   "numerator": 47,
+   "numerator": 39,
    "denominator": null,
-   "value": 47.0,
+   "value": 39.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -68,14 +69,14 @@
    "indicator_code": "2.6",
    "disagg_key": "condition",
    "disagg_value": "t1d",
-   "numerator": 40,
+   "numerator": 25,
    "denominator": null,
-   "value": 40.0,
+   "value": 25.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -83,14 +84,14 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "scd",
-   "numerator": 59,
+   "numerator": 62,
    "denominator": null,
-   "value": 59.0,
+   "value": 62.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -102,10 +103,10 @@
    "denominator": null,
    "value": 43.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -113,14 +114,14 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 32,
+   "numerator": 66,
    "denominator": null,
-   "value": 32.0,
+   "value": 66.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -128,14 +129,14 @@
    "indicator_code": "2.6",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 8,
+   "numerator": 47,
    "denominator": null,
-   "value": 8.0,
+   "value": 47.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -143,14 +144,14 @@
    "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "severe_htn",
-   "numerator": 84,
+   "numerator": 74,
    "denominator": null,
-   "value": 84.0,
+   "value": 74.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -162,10 +163,10 @@
    "denominator": null,
    "value": 69.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -173,14 +174,29 @@
    "indicator_code": "2.6b",
    "disagg_key": "condition",
    "disagg_value": "t1d",
-   "numerator": 36,
-   "denominator": 40,
-   "value": 0.9,
+   "numerator": 19,
+   "denominator": 25,
+   "value": 0.76,
    "unit": "rate",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
+  },
+  {
+   "iso3": "CPV",
+   "period_id": "2026-Q1",
+   "indicator_code": "2.6b",
+   "disagg_key": "condition",
+   "disagg_value": "scd",
+   "numerator": 32,
+   "denominator": 43,
+   "value": 0.7442,
+   "unit": "rate",
+   "completeness": 1.0,
+   "suppressed": 0,
+   "as_of": "2026-03-31",
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -188,14 +204,14 @@
    "indicator_code": "2.6b",
    "disagg_key": "condition",
    "disagg_value": "rhd",
-   "numerator": 7,
-   "denominator": 8,
-   "value": 0.875,
+   "numerator": 38,
+   "denominator": 47,
+   "value": 0.8085,
    "unit": "rate",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -203,14 +219,14 @@
    "indicator_code": "2.6b",
    "disagg_key": "condition",
    "disagg_value": "severe_htn",
-   "numerator": 57,
+   "numerator": 54,
    "denominator": 69,
-   "value": 0.8261,
+   "value": 0.7826,
    "unit": "rate",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -222,10 +238,10 @@
    "denominator": 4,
    "value": 1.0,
    "unit": "rate",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -237,10 +253,10 @@
    "denominator": null,
    "value": 1.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -252,10 +268,10 @@
    "denominator": null,
    "value": 1.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -267,10 +283,10 @@
    "denominator": null,
    "value": 1.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -278,14 +294,14 @@
    "indicator_code": "4.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 0,
+   "numerator": 1,
    "denominator": null,
-   "value": 0.0,
+   "value": 1.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -293,14 +309,14 @@
    "indicator_code": "2.3",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 4,
+   "numerator": 5,
    "denominator": null,
-   "value": 4.0,
+   "value": 5.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -308,14 +324,14 @@
    "indicator_code": "2.4",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 1,
-   "denominator": 2,
-   "value": 0.5,
+   "numerator": 0,
+   "denominator": 3,
+   "value": 0.0,
    "unit": "rate",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -323,14 +339,14 @@
    "indicator_code": "2.2",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 2,
+   "numerator": 3,
    "denominator": null,
-   "value": 2.0,
+   "value": 3.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -338,14 +354,14 @@
    "indicator_code": "2.2",
    "disagg_key": "readiness_class",
    "disagg_value": "green",
-   "numerator": 2,
+   "numerator": 1,
    "denominator": null,
-   "value": 2.0,
+   "value": 1.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -353,14 +369,14 @@
    "indicator_code": "2.2",
    "disagg_key": "readiness_class",
    "disagg_value": "amber",
-   "numerator": 0,
+   "numerator": 1,
    "denominator": null,
-   "value": 0.0,
+   "value": 1.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -368,14 +384,14 @@
    "indicator_code": "2.2",
    "disagg_key": "readiness_class",
    "disagg_value": "red",
-   "numerator": 0,
+   "numerator": 1,
    "denominator": null,
-   "value": 0.0,
+   "value": 1.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -383,14 +399,14 @@
    "indicator_code": "3.4",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 3,
-   "denominator": 4,
-   "value": 0.75,
+   "numerator": 4,
+   "denominator": 5,
+   "value": 0.8,
    "unit": "rate",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -398,14 +414,14 @@
    "indicator_code": "3.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 14,
+   "numerator": 7,
    "denominator": null,
-   "value": 14.0,
+   "value": 7.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -413,14 +429,14 @@
    "indicator_code": "3.2",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 38,
+   "numerator": 37,
    "denominator": null,
-   "value": 38.0,
+   "value": 37.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -428,14 +444,14 @@
    "indicator_code": "3.3",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 26,
+   "numerator": 13,
    "denominator": null,
-   "value": 26.0,
+   "value": 13.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -443,14 +459,14 @@
    "indicator_code": "6.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 5,
+   "numerator": 7,
    "denominator": null,
-   "value": 5.0,
+   "value": 7.0,
    "unit": "count",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "CPV",
@@ -458,14 +474,14 @@
    "indicator_code": "5.1",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 2,
-   "denominator": 4,
-   "value": 0.5,
+   "numerator": 5,
+   "denominator": 5,
+   "value": 1.0,
    "unit": "rate",
-   "completeness": 0.5,
+   "completeness": 1.0,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   }
  ],
  "facilities": [
@@ -477,8 +493,8 @@
    "region": "Central Region",
    "facility_type": "District hospital",
    "services_started": "2026-03-31",
-   "conditions": "scd,rhd",
-   "project_supported": "partial",
+   "conditions": "severe_htn,rhd,t1d,scd",
+   "project_supported": "yes",
    "status": "operational",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
@@ -491,8 +507,8 @@
    "region": "Eastern Region",
    "facility_type": "Health centre",
    "services_started": "2026-03-31",
-   "conditions": "t1d,scd,severe_htn,rhd",
-   "project_supported": "partial",
+   "conditions": "t1d,rhd,severe_htn",
+   "project_supported": "no",
    "status": "operational",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
@@ -505,8 +521,8 @@
    "region": "Northern Region",
    "facility_type": "Regional hospital",
    "services_started": "2026-03-31",
-   "conditions": "severe_htn",
-   "project_supported": "no",
+   "conditions": "severe_htn,t1d",
+   "project_supported": "yes",
    "status": "operational",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
@@ -524,11 +540,25 @@
    "status": "operational",
    "first_seen": "2026-Q1",
    "last_seen": "2026-Q1"
+  },
+  {
+   "facility_id": "CPV-0005",
+   "iso3": "CPV",
+   "name": "Western District hospital 5",
+   "district": "Western District",
+   "region": "Western Region",
+   "facility_type": "District hospital",
+   "services_started": "2026-03-31",
+   "conditions": "rhd,t1d",
+   "project_supported": "no",
+   "status": "started_this_period",
+   "first_seen": "2026-Q1",
+   "last_seen": "2026-Q1"
   }
  ],
  "governance": [
   {
-   "return_id": 34,
+   "return_id": 29,
    "milestone_code": "1.1",
    "milestone": "PEN-Plus integrated into the national NCD strategy and UHC agenda",
    "indicator_code": null,
@@ -538,7 +568,7 @@
    "period_id": "2026-Q1"
   },
   {
-   "return_id": 34,
+   "return_id": 29,
    "milestone_code": "1.2",
    "milestone": "PEN-Plus Plan developed, approved, launched and under implementation",
    "indicator_code": null,
@@ -548,7 +578,7 @@
    "period_id": "2026-Q1"
   },
   {
-   "return_id": 34,
+   "return_id": 29,
    "milestone_code": "1.3",
    "milestone": "Costed National Operational Plan (NOP) on PEN-Plus developed and launched",
    "indicator_code": null,

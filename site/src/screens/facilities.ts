@@ -23,11 +23,9 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
   const operationalCount = facilities.rows.filter(
     (f) => f.status === "operational" || f.status === "started_this_period",
   ).length;
-  const scored = facilities.rows.filter((f) => f.quality_score !== null);
-  const avgQuality =
-    scored.length > 0
-      ? Math.round(scored.reduce((a, f) => a + (f.quality_score ?? 0), 0) / scored.length)
-      : null;
+  // avg_quality_score is computed once in export.py, not re-derived here
+  // (CLAUDE.md rule 1: no arithmetic in the front end).
+  const avgQuality = facilities.avg_quality_score;
   const countriesWithFacilities = new Set(facilities.rows.map((f) => f.iso3)).size;
 
   container.innerHTML = `

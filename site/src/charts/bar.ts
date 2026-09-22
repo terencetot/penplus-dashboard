@@ -3,7 +3,14 @@ import { emptyChart } from "./empty";
 
 export interface BarDatum {
   label: string;
-  value: number;
+  /**
+   * `null` only for a suppressed cell -- the pipeline withholds the real
+   * number below five (CLAUDE.md rule 7), so there is nothing to plot at
+   * true scale. A non-response (never reported at all) must not reach this
+   * component as a null value; the caller drops those rows entirely
+   * (display rule 3: a non-response is a gap, never a bar).
+   */
+  value: number | null;
   /** true when this bar represents a small, suppressed cell (rendered muted + hatched). */
   suppressed?: boolean;
   /** shown on hover -- display rule 1: never a rate without n and N. */
@@ -13,9 +20,12 @@ export interface BarDatum {
 /**
  * Horizontal bars for comparison across countries (CLAUDE.md, Charts: "Horizontal
  * bars for comparison across countries... Not allowed: pie charts, donuts,
- * stacked areas, dual axes, gauges, three-dimensional effects"). Callers must
- * already have dropped countries with no value -- display rule 3 (a
- * non-response is a gap, never a zero bar), so this never receives nulls.
+ * stacked areas, dual axes, gauges, three-dimensional effects").
+ *
+ * Rule 7 is "suppress... and flag the suppression rather than blanking
+ * silently": a suppressed country must still appear as a bar -- a short,
+ * fixed-width stub, since its real magnitude is not known here -- rather
+ * than disappearing from the chart as if it had never reported at all.
  */
 export function horizontalBars(
   data: BarDatum[],
@@ -24,7 +34,10 @@ export function horizontalBars(
   if (data.length === 0) {
     return emptyChart(opts.height ?? 120);
   }
-  const sorted = [...data].sort((a, b) => a.value - b.value);
+  const known = data.map((d) => d.value).filter((v): v is number => v !== null);
+  const stub = known.length > 0 ? Math.max(...known) * 0.04 : 1;
+  const plotValue = (d: BarDatum) => d.value ?? stub;
+  const sorted = [...data].sort((a, b) => plotValue(a) - plotValue(b));
   return Plot.plot({
     marginLeft: 140,
     height: opts.height ?? Math.max(120, sorted.length * 22),
@@ -34,11 +47,11 @@ export function horizontalBars(
     marks: [
       Plot.barX(sorted, {
         y: "label",
-        x: "value",
+        x: plotValue,
         fill: (d: BarDatum) => (d.suppressed ? "var(--color-accent)" : "var(--color-primary)"),
         fillOpacity: (d: BarDatum) => (d.suppressed ? 0.55 : 1),
         tip: true,
-        title: (d: BarDatum) => d.title ?? `${d.label}: ${d.value}`,
+        title: (d: BarDatum) => d.title ?? `${d.label}: ${d.value ?? "suppressed"}`,
         channels: { suppressed: "suppressed" },
       }),
       Plot.ruleX([0]),

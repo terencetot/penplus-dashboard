@@ -23,15 +23,44 @@ def _d(rows):
     return [dict(r) for r in rows]
 
 
-def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
+def _redact_facility(f: dict) -> dict:
+    """Facility identity is not for public consumption (CLAUDE.md, "internal
+    view only"). Everything else about the facility stays -- status, scores,
+    counts -- only what could identify it is withheld."""
+    f = dict(f)
+    f["name"] = None
+    f["district"] = None
+    f["region"] = None
+    return f
+
+
+def _redact_suppressed_gold(g: dict) -> dict:
+    """A flag alone is not suppression: CLAUDE.md rule 7 is to withhold a
+    numerator under five, not just mark it while still publishing it. The
+    internal (non-public) export keeps the real number for programme staff;
+    the public export -- the only one ever committed to this repository,
+    since GitHub Pages has no non-public audience -- blanks it."""
+    if not g["suppressed"]:
+        return g
+    g = dict(g)
+    g["numerator"] = None
+    g["denominator"] = None
+    g["value"] = None
+    return g
+
+
+def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool = False):
     con = connect(db_path)
     out = os.path.abspath(out_dir)
     os.makedirs(os.path.join(out, "countries"), exist_ok=True)
 
     man = dict(con.execute("SELECT * FROM build_manifest").fetchone())
     man["suppress_below"] = 5
+    man["public"] = public
     man["note"] = ("Values are pre-computed. null means not reported and is never zero. "
-                   "basis='historical' marks a return rebuilt from pre-Phase Two evidence.")
+                   "basis='historical' marks a return rebuilt from pre-Phase Two evidence."
+                   + (" This is the public export: facility identity is withheld and cells"
+                      " under 5 are suppressed, not merely flagged." if public else ""))
 
     countries = _d(con.execute(
         "SELECT c.iso3, c.name, c.cohort,"
@@ -105,6 +134,14 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
         obj, open(os.path.join(out, name), "w", encoding="utf-8"),
         ensure_ascii=False, indent=1)
 
+    # Aggregation (headline, regional_value, milestone_strip, above) always
+    # runs on the real per-country numbers, suppressed or not -- a withheld
+    # country still counts toward the regional total. Redaction happens only
+    # here, on the rows actually written out, and only for the public export.
+    gold_out = [_redact_suppressed_gold(g) for g in gold] if public else gold
+    latest_out = [_redact_suppressed_gold(v) for v in latest.values()] if public \
+        else list(latest.values())
+
     write("manifest.json", man)
     write("overview.json", {
         "manifest": man,
@@ -112,9 +149,9 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
                      "active": headline("2.6"), "trained": headline("3.3")},
         "milestone_strip": milestone_strip,
         "countries": countries,
-        "latest": [v for v in latest.values()],
+        "latest": latest_out,
     })
-    write("indicators.json", {"manifest": man, "dim": indicators, "values": gold})
+    write("indicators.json", {"manifest": man, "dim": indicators, "values": gold_out})
     open_queries = _d(con.execute(
         "SELECT r.iso3, r.period_id, qr.query_id, qr.severity, qr.section, qr.field,"
         " qr.observed, qr.expected, qr.question, qr.status, qr.raised_at"
@@ -122,7 +159,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
         " WHERE r.superseded=0 AND qr.status='open'"
         " ORDER BY r.iso3, r.period_id, qr.severity"))
 
-    write("quality.json", {"manifest": man, "rows": _d(con.execute(
+    quality_rows = _d(con.execute(
         "SELECT r.iso3, r.period_id, r.source_kind, r.verdict, r.ltfu_compliant,"
         " r.dedup_basis, r.patient_source, q.facilities_expected, q.returns_complete,"
         " q.completeness, q.conf_facilities, q.conf_patients, q.conf_workforce,"
@@ -130,9 +167,29 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
         " (SELECT COUNT(*) FROM query_register qr WHERE qr.return_id=r.return_id"
         "  AND qr.status='open') open_queries"
         " FROM fact_return r LEFT JOIN fact_quality q USING(return_id)"
-        " WHERE r.superseded=0 ORDER BY r.iso3, r.period_id")),
+        " WHERE r.superseded=0 ORDER BY r.iso3, r.period_id"))
+
+    # The screen's headline figure is an average over each country's most
+    # recent period, not every historical row -- computed here, once, so the
+    # site never runs its own reduce() over the bundle (CLAUDE.md rule 1).
+    latest_quality_by_country = {}
+    for row in quality_rows:
+        prev = latest_quality_by_country.get(row["iso3"])
+        if not prev or row["period_id"] > prev["period_id"]:
+            latest_quality_by_country[row["iso3"]] = row
+    known_completeness = [r["completeness"] for r in latest_quality_by_country.values()
+                          if r["completeness"] is not None]
+    avg_completeness = (sum(known_completeness) / len(known_completeness)) if known_completeness else None
+    below_threshold = sum(1 for r in latest_quality_by_country.values()
+                          if r["completeness"] is not None and r["completeness"] < 0.8)
+
+    write("quality.json", {
+        "manifest": man,
+        "avg_completeness": avg_completeness,
+        "countries_below_threshold": below_threshold,
+        "rows": quality_rows,
         "open_queries": open_queries})
-    write("facilities.json", {"manifest": man, "rows": _d(con.execute(
+    facility_rows = _d(con.execute(
         "SELECT f.*, fp.period_id_last, fp.active_end, fp.quality_score, fp.readiness_class"
         " FROM dim_facility f LEFT JOIN ("
         "   SELECT fp.facility_id, r.period_id period_id_last, fp.active_end,"
@@ -140,15 +197,28 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT):
         "   FROM fact_facility_period fp JOIN fact_return r USING(return_id)"
         "   WHERE r.superseded=0"
         "   GROUP BY fp.facility_id HAVING MAX(r.period_id)"
-        " ) fp USING(facility_id) ORDER BY f.iso3, f.name"))})
+        " ) fp USING(facility_id) ORDER BY f.iso3, f.name"))
+    scored = [f["quality_score"] for f in facility_rows if f["quality_score"] is not None]
+    avg_quality_score = round(sum(scored) / len(scored)) if scored else None
+    if public:
+        facility_rows = [_redact_facility(f) for f in facility_rows]
+    write("facilities.json", {
+        "manifest": man,
+        "avg_quality_score": avg_quality_score,
+        "rows": facility_rows})
 
     for c in countries:
         iso3 = c["iso3"]
+        country_gold = [g for g in gold if g["iso3"] == iso3]
+        country_facilities = _d(con.execute(
+            "SELECT * FROM dim_facility WHERE iso3=? ORDER BY name", (iso3,)))
+        if public:
+            country_gold = [_redact_suppressed_gold(g) for g in country_gold]
+            country_facilities = [_redact_facility(f) for f in country_facilities]
         write(f"countries/{iso3}.json", {
             "manifest": man, "country": c,
-            "values": [g for g in gold if g["iso3"] == iso3],
-            "facilities": _d(con.execute(
-                "SELECT * FROM dim_facility WHERE iso3=? ORDER BY name", (iso3,))),
+            "values": country_gold,
+            "facilities": country_facilities,
             # One row per milestone_code: the most recent period that reported
             # it, not every historical period stacked -- a milestone's status
             # is a current state, not a series to list in full (contrast

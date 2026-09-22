@@ -1,12 +1,13 @@
 {
  "manifest": {
-  "built_at": "2026-09-22T01:54:56",
+  "built_at": "2026-09-22T15:52:40",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 111,
+  "returns_loaded": 110,
   "countries": 31,
   "periods": "2025-Q1,2025-Q2,2025-Q3,2025-Q4,2026-Q1",
   "suppress_below": 5,
+  "public": false,
   "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence."
  },
  "country": {
@@ -30,7 +31,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -45,7 +46,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -60,7 +61,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -75,7 +76,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -90,7 +91,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -105,7 +106,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -120,7 +121,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -135,7 +136,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -150,7 +151,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -165,7 +166,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -180,7 +181,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -195,7 +196,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -210,7 +211,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -225,7 +226,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -240,7 +241,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -255,7 +256,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -270,7 +271,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -285,7 +286,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -300,7 +301,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -315,7 +316,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -330,7 +331,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -345,7 +346,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -360,7 +361,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -375,7 +376,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -390,7 +391,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 1,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -405,7 +406,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -420,7 +421,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -435,7 +436,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -450,7 +451,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -465,7 +466,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   },
   {
    "iso3": "BDI",
@@ -480,7 +481,7 @@
    "completeness": 0.8571428571428571,
    "suppressed": 0,
    "as_of": "2026-03-31",
-   "basis": "historical"
+   "basis": "form"
   }
  ],
  "facilities": [
