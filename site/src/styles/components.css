@@ -800,8 +800,7 @@ tbody .phase-grid__pin {
   box-shadow: var(--shadow-md);
 }
 
-.lang-switch,
-.theme-switch {
+.lang-switch {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.28);
   color: var(--color-text-on-primary);
@@ -809,8 +808,7 @@ tbody .phase-grid__pin {
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-label);
 }
-.lang-switch option,
-.theme-switch option {
+.lang-switch option {
   color: var(--color-text);
 }
 

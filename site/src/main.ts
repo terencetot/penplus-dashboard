@@ -14,24 +14,6 @@ import { renderFacilities } from "@/screens/facilities";
 import { renderImplementation } from "@/screens/implementation";
 import { icon } from "@/components/icons";
 
-const THEME_KEY = "penplus.theme";
-type Theme = "system" | "light" | "dark";
-
-function applyTheme(theme: Theme) {
-  if (theme === "system") document.documentElement.removeAttribute("data-theme");
-  else document.documentElement.setAttribute("data-theme", theme);
-}
-
-function initialTheme(): Theme {
-  try {
-    const stored = localStorage.getItem(THEME_KEY);
-    if (stored === "light" || stored === "dark" || stored === "system") return stored;
-  } catch {
-    /* per-viewer convenience only */
-  }
-  return "system";
-}
-
 const NAV: { route: Route; num: number; key: string }[] = [
   { route: { screen: "overview" }, num: 1, key: "nav.overview" },
   { route: { screen: "indicator", code: "2.5" }, num: 2, key: "nav.indicator" },
@@ -74,11 +56,6 @@ async function renderApp() {
         <div class="app-header__controls">
           <select class="lang-switch no-print" id="lang-switch" aria-label="${t("footer.language")}">
             ${LANGS.map((l) => `<option value="${l}" ${l === getLang() ? "selected" : ""}>${LANG_LABELS[l]}</option>`).join("")}
-          </select>
-          <select class="theme-switch no-print" id="theme-switch" aria-label="${t("footer.theme")}">
-            <option value="system">Auto</option>
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
           </select>
           <button type="button" class="btn no-print" id="print-btn">${t("common.print")}</button>
           <button type="button" class="btn no-print" id="demo-toggle-btn">${isDemoMode() ? t("demo.exit") : t("demo.enter")}</button>
@@ -164,16 +141,6 @@ async function renderApp() {
   document.getElementById("lang-switch")!.addEventListener("change", (e) => {
     setLang((e.target as HTMLSelectElement).value as Lang);
   });
-  document.getElementById("theme-switch")!.addEventListener("change", (e) => {
-    const theme = (e.target as HTMLSelectElement).value as Theme;
-    applyTheme(theme);
-    try {
-      localStorage.setItem(THEME_KEY, theme);
-    } catch {
-      /* per-viewer convenience only */
-    }
-  });
-  (document.getElementById("theme-switch") as HTMLSelectElement).value = initialTheme();
   document.getElementById("print-btn")!.addEventListener("click", () => window.print());
   document.getElementById("demo-toggle-btn")!.addEventListener("click", () => {
     setDemoMode(!isDemoMode());
@@ -185,7 +152,6 @@ async function renderApp() {
   });
 }
 
-applyTheme(initialTheme());
 onLangChange(() => renderApp());
 renderApp().catch((err) => {
   console.error(err);

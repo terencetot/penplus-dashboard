@@ -120,8 +120,8 @@ effects, word clouds, and a choropleth used as the first element of a screen.
 
 Define tokens before components. One primary colour, WHO institutional navy. One
 accent, used only for gap to milestone and alerts. Neutral greys for everything
-else. Tabular figures for numbers so columns align. Light and dark themes both
-readable.
+else. Tabular figures for numbers so columns align. Light mode only, always
+readable regardless of the viewer's OS/browser colour-scheme preference.
 
 ## Build and test
 

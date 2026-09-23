@@ -382,7 +382,6 @@ img {
   .app-nav,
   .no-print,
   .lang-switch,
-  .theme-switch,
   .screen-controls {
     display: none !important;
   }
