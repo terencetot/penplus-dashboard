@@ -1,32 +1,16 @@
 import { getImplementation } from "@/lib/bundle";
-import { fmtCount, fmtDate } from "@/lib/format";
+import { fmtCount } from "@/lib/format";
 import { t } from "@/lib/i18n";
-import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
 import { renderStatus, statusFromImplementationStep, statusKey } from "@/lib/status";
 import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
-import { buildPaginatedTable, buildTable, tableToCSVData, type Column } from "@/components/table";
+import { buildTable, tableToCSVData, type Column } from "@/components/table";
+import { buildPhaseGrid } from "@/components/phase-grid";
 import { downloadCSV } from "@/components/csv";
 import { horizontalBars, type BarDatum } from "@/charts/bar";
-import type { ImplementationCountry, ImplementationStepDim } from "@/lib/types";
+import type { ImplementationCountry } from "@/lib/types";
 
 const PHASE_COUNT = 5;
-
-/**
- * A single glyph per status for the grid's narrow step columns. Not the
- * first letter of the translated label: "Not met" and "Not reported" both
- * start with "N" in English (and "Non atteint"/"Non déclaré" both start
- * with "N" in French), which would make two different statuses render the
- * same letter -- the status mark's shape and colour already differ
- * (components.css, `.status--*::before`), but the accessible text (the
- * `title` attribute, which carries the full word) must not collide too.
- */
-const STATUS_MARK: Record<string, string> = {
-  met: "✓",
-  partly_met: "~",
-  not_met: "✗",
-  not_reported: "·",
-};
 
 function highestPhaseLabel(n: number): string {
   return n === 0 ? t("screen_impl.not_started") : t("screen_impl.phase_n", { n });
@@ -45,7 +29,9 @@ function highestPhaseLabel(n: number): string {
  * finding: the full countries x steps grid is an audit view, not a briefing
  * view, and should not be the first thing this screen shows. The briefing
  * layer is the phase-distribution bar chart below the KPI row; the grid is
- * still here, in full, behind a closed-by-default disclosure.
+ * still here, in full, behind a closed-by-default disclosure, and built with
+ * components/phase-grid.ts -- a grouped two-row header (which phase each
+ * step belongs to) and a frozen country column, not a flat table.
  */
 export async function renderImplementation(container: HTMLElement): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
@@ -132,7 +118,7 @@ export async function renderImplementation(container: HTMLElement): Promise<void
     csvFilename: "implementation_phase_summary",
   });
 
-  // ---- phase/step legend, now above the detail table so a reader meets it
+  // ---- phase/step legend, above the detail table so a reader meets it
   // before the grid rather than after scrolling past it
   const legend = container.querySelector("#phase-legend")!;
   const phaseNos = [...new Set(stepDim.map((s) => s.phase_no))].sort((a, b) => a - b);
@@ -146,37 +132,24 @@ export async function renderImplementation(container: HTMLElement): Promise<void
     legend.append(dt, dd);
   }
 
-  const columns: Column<ImplementationCountry>[] = [
+  // Columns for CSV export only -- the visual table is components/phase-grid.ts,
+  // built directly from stepDim/countries, not from this Column[] list.
+  const csvColumns: Column<ImplementationCountry>[] = [
     { key: "name", label: t("common.select_country"), render: (c) => c.name },
     {
       key: "highest_phase_completed",
       label: t("screen_impl.column.highest_phase"),
-      html: true,
-      render: (c) => `<span class="chip">${highestPhaseLabel(c.highest_phase_completed)}</span>`,
-      csv: (c) => highestPhaseLabel(c.highest_phase_completed),
+      render: (c) => highestPhaseLabel(c.highest_phase_completed),
     },
-    ...stepDim.map((s: ImplementationStepDim): Column<ImplementationCountry> => ({
-      key: `step_${s.step_no}`,
-      label: String(s.step_no),
-      html: true,
-      render: (c) => {
-        const row = c.steps.find((r) => r.step_no === s.step_no);
-        const status = statusFromImplementationStep(row?.status ?? null);
-        const title = [
-          `${s.phase_label}: ${s.step_no}. ${s.step_label}`,
-          t(statusKey(status)),
-          row?.as_of ? `${t("common.as_of")} ${fmtDate(row.as_of)}` : "",
-          row?.source ?? "",
-        ]
-          .filter(Boolean)
-          .join(" · ");
-        return `<span title="${title.replace(/"/g, "&quot;")}">${renderStatus(status, STATUS_MARK[status] ?? "?")}</span>`;
-      },
-      csv: (c) => {
-        const row = c.steps.find((r) => r.step_no === s.step_no);
-        return row?.status ?? "not_reported";
-      },
-    })),
+    ...stepDim.map((s): Column<ImplementationCountry> => {
+      const row = (c: ImplementationCountry) => c.steps.find((r) => r.step_no === s.step_no);
+      return {
+        key: `step_${s.step_no}`,
+        label: String(s.step_no),
+        render: (c) => t(statusKey(statusFromImplementationStep(row(c)?.status ?? null))),
+        csv: (c) => row(c)?.status ?? "not_reported",
+      };
+    }),
   ];
 
   const sorted = [...countries].sort((a, b) => a.name.localeCompare(b.name));
@@ -187,20 +160,14 @@ export async function renderImplementation(container: HTMLElement): Promise<void
   function buildGridOnce() {
     if (built) return;
     built = true;
-    tableHost.appendChild(buildPaginatedTable(t("screen_impl.grid.title"), columns, sorted));
-    tableHost.querySelectorAll("tbody tr").forEach((tr, i) => {
-      const c = sorted[i];
-      if (!c) return;
-      tr.addEventListener("click", () => navigate({ screen: "country", iso3: c.iso3 }));
-      (tr as HTMLElement).style.cursor = "pointer";
-    });
+    tableHost.appendChild(buildPhaseGrid(t("screen_impl.grid.title"), stepDim, sorted));
   }
   // Build the (large) grid lazily, only once a reader actually opens the
   // disclosure -- most visits to this screen should never pay for it.
   detail.addEventListener("toggle", buildGridOnce, { once: true });
 
   container.querySelector("#export-btn")!.addEventListener("click", () => {
-    const { headers, rows } = tableToCSVData<ImplementationCountry>(columns, sorted);
+    const { headers, rows } = tableToCSVData<ImplementationCountry>(csvColumns, sorted);
     downloadCSV("implementation_phases", headers, rows);
   });
 }

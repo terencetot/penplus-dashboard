@@ -138,8 +138,15 @@ describe("screens render against the real bundle without throwing", () => {
     detail.open = true;
     detail.dispatchEvent(new Event("toggle"));
     const table = el.querySelector("#implementation-table")!;
-    // one "highest phase" column + one per of the fourteen steps + country name
-    expect(table.querySelectorAll("thead th").length).toBe(16);
+    // grouped two-row header: row 1 is (country + highest-phase, each
+    // rowspan 2) plus one <th> per phase group (5); row 2 is one <th> per
+    // step (14) -- see components/phase-grid.ts
+    const headerRows = table.querySelectorAll("thead tr");
+    expect(headerRows.length).toBe(2);
+    expect(headerRows[0]!.querySelectorAll("th").length).toBe(2 + 5);
+    expect(headerRows[1]!.querySelectorAll("th").length).toBe(14);
     expect(table.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
+    // the country column is frozen (sticky), not just another column
+    expect(table.querySelector("tbody td.phase-grid__pin")).toBeTruthy();
   });
 });

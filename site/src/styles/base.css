@@ -169,7 +169,7 @@ img {
   flex-shrink: 0;
 }
 .app-header__logos img {
-  height: 34px;
+  height: 52px;
   display: block;
   object-fit: contain;
 }
@@ -183,7 +183,7 @@ img {
 }
 .app-header__divider {
   width: 1px;
-  height: 28px;
+  height: 42px;
   background: rgba(255, 255, 255, 0.22);
   flex-shrink: 0;
 }
@@ -324,7 +324,7 @@ img {
   flex-wrap: wrap;
 }
 .app-footer__brand-logos img {
-  height: 28px;
+  height: 40px;
   object-fit: contain;
   opacity: 0.85;
   transition: opacity 150ms ease;

@@ -470,6 +470,76 @@ h2.screen-title {
   margin-left: 0.15em;
 }
 
+/* ------------------------------------------------- implementation phase grid */
+/* A purpose-built table (components/phase-grid.ts), not the generic
+   buildTable: sixteen columns need a grouped header (which phase each step
+   belongs to) and a frozen identity column (which country each row is),
+   neither of which a flat column list can express. */
+/* This table has two header rows, so the generic .data-table th sticky-top
+   (built for a single header row) would make both rows stick to the same
+   spot and overlap -- switched off here, and re-enabled, horizontally only,
+   on the frozen country column below. */
+.phase-grid thead th {
+  position: static;
+}
+.phase-grid__phase-row th {
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  text-align: center;
+  font-size: var(--font-label);
+  cursor: help;
+}
+.phase-grid__step-row th {
+  background: var(--color-bg-raised);
+  color: var(--color-text-muted);
+  text-align: center;
+  font-size: 0.75rem;
+  padding-top: var(--space-1);
+  padding-bottom: var(--space-1);
+  cursor: help;
+}
+/* Alternating neutral tint per phase group -- structure and shade carry the
+   grouping, not a second hue: the design system's one primary colour stays
+   the only colour in play (design tokens rule, tokens.css). */
+.phase-grid__step-row .phase-grid__phase-band--b,
+.phase-grid tbody td.phase-grid__phase-band--b {
+  background: var(--color-bg-muted);
+}
+.phase-grid__band-end {
+  border-right: 2px solid var(--color-border);
+}
+.phase-grid tbody td.phase-grid__cell {
+  text-align: center;
+}
+.phase-grid tbody td.phase-grid__cell .status {
+  padding: 0.3em 0.5em;
+}
+/* The country column stays on screen while fourteen step columns scroll
+   past it -- with sixteen columns on screen at once, losing track of which
+   row is which country is the single biggest readability risk this table
+   has. */
+.phase-grid__pin {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  border-right: 2px solid var(--color-border);
+}
+.phase-grid thead th.phase-grid__pin {
+  position: sticky;
+  z-index: 3;
+  background: var(--color-bg-raised);
+}
+tbody .phase-grid__pin {
+  background: var(--color-bg);
+  font-weight: 600;
+}
+.phase-grid tbody tr:hover td.phase-grid__pin {
+  background: var(--color-bg-muted);
+}
+.phase-grid-wrap {
+  border: 1px solid var(--color-border);
+}
+
 /* ----------------------------------------------------------------- charts */
 .chart-block {
   margin-bottom: var(--space-5);
