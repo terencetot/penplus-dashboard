@@ -52,6 +52,20 @@ describe("buildPhaseGrid", () => {
     expect(bodyPin.textContent).toBe("GHA");
   });
 
+  it("colours each cell by its own status, and the highest-phase chip by overall progress", () => {
+    // GHA: step 1 yes (met), step 2 no (not met), step 3 unreported
+    const el = buildPhaseGrid("test", steps, [makeCountry("GHA", ["yes", "no", null])]);
+    const cells = el.querySelectorAll("tbody td.phase-grid__cell .phase-grid__mark");
+    expect(cells[0]!.classList.contains("phase-grid__mark--met")).toBe(true);
+    expect(cells[1]!.classList.contains("phase-grid__mark--not_met")).toBe(true);
+    expect(cells[2]!.classList.contains("phase-grid__mark--not_reported")).toBe(true);
+    // every mark carries its full status as an accessible name, not colour alone
+    expect(cells[0]!.getAttribute("aria-label")).toContain("Met");
+
+    const chip = el.querySelector("tbody .chip")!;
+    expect(chip.className).toContain("chip--partly_met"); // highest_phase_completed=1 of 2 phases here
+  });
+
   it("paginates and updates the visible rows when Next is clicked", () => {
     const countries = Array.from({ length: 25 }, (_, i) =>
       makeCountry(`C${i.toString().padStart(2, "0")}`, ["yes", "no", null]),

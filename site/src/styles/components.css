@@ -417,6 +417,24 @@ h2.screen-title {
   background: var(--color-bg-muted);
   color: var(--color-text-muted);
 }
+/* Reuses the same status palette as the phase-grid marks and every status
+   pill on the site, so "highest phase completed" reads at a glance: grey
+   for not started, amber while a country is mid scale-up, green once every
+   phase is fully met. One country's own state, not a ranking against
+   others (CLAUDE.md rule 5 stays about comparing countries, not about
+   colour on a single fact). */
+.chip--not_reported {
+  background: var(--color-status-not-reported-bg);
+  color: var(--color-status-not-reported);
+}
+.chip--partly_met {
+  background: var(--color-status-partly-bg);
+  color: var(--color-status-partly);
+}
+.chip--met {
+  background: var(--color-status-met-bg);
+  color: var(--color-status-met);
+}
 
 /* ------------------------------------------------------------------ tables */
 .data-table-wrap {
@@ -482,37 +500,92 @@ h2.screen-title {
 .phase-grid thead th {
   position: static;
 }
-.phase-grid__phase-row th {
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
+/* Two navy shades (not a second hue -- design tokens rule, tokens.css: one
+   primary colour) alternate per phase group, white text, bold: this row is
+   the table's strongest visual band on purpose, the same weight as the
+   hero band's own dark panels, so "which phase" reads before anything
+   else. */
+/* Scoped to .phase-grid__phase-band specifically, not every th in the row:
+   the Country/Highest-phase header cells share this row (rowspan 2) but
+   keep their normal light background and dark text via .phase-grid__pin --
+   giving them the phase band's white text too was a real contrast bug
+   (white-on-light, effectively invisible), caught in visual review. */
+.phase-grid__phase-row th.phase-grid__phase-band {
+  color: var(--color-text-on-primary);
   text-align: center;
   font-size: var(--font-label);
+  letter-spacing: 0.02em;
   cursor: help;
 }
-.phase-grid__step-row th {
-  background: var(--color-bg-raised);
-  color: var(--color-text-muted);
+.phase-grid__phase-row th.phase-grid__phase-band--a {
+  background: var(--gradient-primary);
+}
+.phase-grid__phase-row th.phase-grid__phase-band--b {
+  background: var(--color-primary-deeper);
+}
+.phase-grid__step-row th.phase-grid__phase-band {
+  color: var(--color-text-on-primary);
   text-align: center;
   font-size: 0.75rem;
   padding-top: var(--space-1);
   padding-bottom: var(--space-1);
   cursor: help;
 }
-/* Alternating neutral tint per phase group -- structure and shade carry the
-   grouping, not a second hue: the design system's one primary colour stays
-   the only colour in play (design tokens rule, tokens.css). */
-.phase-grid__step-row .phase-grid__phase-band--b,
-.phase-grid tbody td.phase-grid__phase-band--b {
-  background: var(--color-bg-muted);
+.phase-grid__step-row th.phase-grid__phase-band--a {
+  background: var(--color-primary);
+  opacity: 0.82;
+}
+.phase-grid__step-row th.phase-grid__phase-band--b {
+  background: var(--color-primary-strong);
+  opacity: 0.82;
 }
 .phase-grid__band-end {
+  border-right: 2px solid var(--color-primary-deeper);
+}
+.phase-grid tbody td.phase-grid__band-end {
   border-right: 2px solid var(--color-border);
 }
+
+/* The status heatmap: each step cell's own background carries its status
+   colour (the same met/partly-met/not-met/not-reported palette every
+   status pill on the site already uses, components.css `.status--*`) --
+   colour is the loudest signal in the grid, exactly where a reader needs
+   it most, with the glyph and the full-word title/aria-label carrying the
+   same information for anyone not reading colour. */
 .phase-grid tbody td.phase-grid__cell {
   text-align: center;
+  padding: var(--space-2);
 }
-.phase-grid tbody td.phase-grid__cell .status {
-  padding: 0.3em 0.5em;
+.phase-grid__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.phase-grid__mark--met {
+  background: var(--color-status-met-bg);
+  color: var(--color-status-met);
+  box-shadow: inset 0 0 0 1.5px var(--color-status-met);
+}
+.phase-grid__mark--partly_met {
+  background: var(--color-status-partly-bg);
+  color: var(--color-status-partly);
+  box-shadow: inset 0 0 0 1.5px var(--color-status-partly);
+}
+.phase-grid__mark--not_met {
+  background: var(--color-status-not-met-bg);
+  color: var(--color-status-not-met);
+  box-shadow: inset 0 0 0 1.5px var(--color-status-not-met);
+}
+.phase-grid__mark--not_reported {
+  background: var(--color-bg-muted);
+  color: var(--color-status-not-reported);
+  box-shadow: inset 0 0 0 1.5px var(--color-border);
 }
 /* The country column stays on screen while fourteen step columns scroll
    past it -- with sixteen columns on screen at once, losing track of which

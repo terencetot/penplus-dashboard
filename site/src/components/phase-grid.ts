@@ -1,7 +1,7 @@
 import { t } from "@/lib/i18n";
 import { fmtDate } from "@/lib/format";
 import { navigate } from "@/router";
-import { renderStatus, statusFromImplementationStep, statusKey } from "@/lib/status";
+import { statusFromImplementationStep, statusKey } from "@/lib/status";
 import type { ImplementationCountry, ImplementationStepDim } from "@/lib/types";
 
 const STATUS_MARK: Record<string, string> = {
@@ -13,6 +13,14 @@ const STATUS_MARK: Record<string, string> = {
 
 function highestPhaseLabel(n: number): string {
   return n === 0 ? t("screen_impl.not_started") : t("screen_impl.phase_n", { n });
+}
+
+/** Same three-state read as the phase-grid marks: grey until started,
+ * amber while any phase is still open, green once every phase is met. */
+function highestPhaseChipClass(n: number, maxPhase: number): string {
+  if (n === 0) return "chip--not_reported";
+  if (n >= maxPhase) return "chip--met";
+  return "chip--partly_met";
 }
 
 /**
@@ -32,6 +40,7 @@ export function buildPhaseGrid(
 ): HTMLElement {
   const phaseNos = [...new Set(steps.map((s) => s.phase_no))].sort((a, b) => a - b);
   const stepsByPhase = new Map(phaseNos.map((p) => [p, steps.filter((s) => s.phase_no === p)]));
+  const maxPhase = Math.max(...phaseNos);
 
   const host = document.createElement("div");
   let page = 0;
@@ -111,10 +120,11 @@ export function buildPhaseGrid(
       tr.appendChild(nameTd);
 
       const highestTd = document.createElement("td");
-      highestTd.innerHTML = `<span class="chip">${highestPhaseLabel(c.highest_phase_completed)}</span>`;
+      const chipClass = highestPhaseChipClass(c.highest_phase_completed, maxPhase);
+      highestTd.innerHTML = `<span class="chip ${chipClass}">${highestPhaseLabel(c.highest_phase_completed)}</span>`;
       tr.appendChild(highestTd);
 
-      phaseNos.forEach((phaseNo, i) => {
+      phaseNos.forEach((phaseNo) => {
         const stepsOfPhase = stepsByPhase.get(phaseNo)!;
         stepsOfPhase.forEach((s, j) => {
           const row = c.steps.find((r) => r.step_no === s.step_no);
@@ -128,8 +138,9 @@ export function buildPhaseGrid(
             .filter(Boolean)
             .join(" · ");
           const td = document.createElement("td");
-          td.className = `phase-grid__cell phase-grid__phase-band phase-grid__phase-band--${i % 2 === 0 ? "a" : "b"}${j === stepsOfPhase.length - 1 ? " phase-grid__band-end" : ""}`;
-          td.innerHTML = `<span title="${title.replace(/"/g, "&quot;")}">${renderStatus(status, STATUS_MARK[status] ?? "?")}</span>`;
+          td.className = `phase-grid__cell${j === stepsOfPhase.length - 1 ? " phase-grid__band-end" : ""}`;
+          const escapedTitle = title.replace(/"/g, "&quot;");
+          td.innerHTML = `<span class="phase-grid__mark phase-grid__mark--${status}" title="${escapedTitle}" aria-label="${escapedTitle}">${STATUS_MARK[status] ?? "?"}</span>`;
           tr.appendChild(td);
         });
       });
