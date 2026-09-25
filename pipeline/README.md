@@ -64,10 +64,16 @@ dashboard's data-quality screen and the country's open-queries list.
 - **Stock is never summed across periods.** `ever_enrolled` and `active_end` are
   stocks; `new_enrolled` and the exit columns are flows. The tables are separate so
   the distinction cannot be lost in a join.
-- **Only the four tracer conditions enter the regional total.** Everything else is
-  carried as `other_reported` and reported separately.
-- **Retention is excluded where the regional ninety-day rule was not applied.**
-  `ltfu_compliant` gates indicator 2.6b.
+- **Only the priority conditions enter the regional total.** Three as of the
+  current form (t1d, scd, rhd); a historical return may carry a fourth,
+  severe hypertension, from the previous copy of the form (see
+  `docs/reporting-form.md`). Everything else is carried as `other_reported`
+  and reported separately.
+- **Retention is excluded only where a return explicitly said the regional
+  ninety-day rule was not applied.** `ltfu_compliant` gates indicator 2.6b;
+  the current form no longer asks the question at all (the rule is now a
+  fixed regional definition, not a per-quarter self-attestation), so a
+  return parsed from it defaults to compliant rather than excluded.
 - **Returns are immutable.** A correction is a new revision; the old one is marked
   superseded and kept. A published figure can always be reproduced.
 - **Historical returns are labelled.** `source_kind='historical'` and a provenance

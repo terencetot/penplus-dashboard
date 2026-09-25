@@ -1,10 +1,10 @@
 {
  "manifest": {
-  "built_at": "2026-09-23T00:36:39",
+  "built_at": "2026-09-25T03:47:50",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 110,
-  "countries": 30,
+  "countries": 31,
   "periods": "2025-Q1,2025-Q2,2025-Q3,2025-Q4,2026-Q1",
   "suppress_below": 5,
   "public": false,
@@ -218,7 +218,7 @@
     },
     {
      "step_no": 5,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
@@ -230,9 +230,9 @@
     },
     {
      "step_no": 7,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 8,
@@ -277,7 +277,7 @@
      "as_of": null
     }
    ],
-   "highest_phase_completed": 1
+   "highest_phase_completed": 3
   },
   {
    "iso3": "BWA",
@@ -394,7 +394,7 @@
     },
     {
      "step_no": 4,
-     "status": "no",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
@@ -412,9 +412,9 @@
     },
     {
      "step_no": 7,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 8,
@@ -459,7 +459,7 @@
      "as_of": null
     }
    ],
-   "highest_phase_completed": 1
+   "highest_phase_completed": 3
   },
   {
    "iso3": "BDI",
@@ -649,13 +649,13 @@
    "steps": [
     {
      "step_no": 1,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 2,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
@@ -667,21 +667,21 @@
     },
     {
      "step_no": 4,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 5,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 6,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 7,
@@ -732,7 +732,7 @@
      "as_of": null
     }
    ],
-   "highest_phase_completed": 0
+   "highest_phase_completed": 1
   },
   {
    "iso3": "COD",
@@ -922,45 +922,45 @@
    "steps": [
     {
      "step_no": 1,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 2,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 3,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 4,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 5,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 6,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 7,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 8,
@@ -1005,7 +1005,7 @@
      "as_of": null
     }
    ],
-   "highest_phase_completed": 0
+   "highest_phase_completed": 2
   },
   {
    "iso3": "GAB",
@@ -1104,188 +1104,6 @@
    "steps": [
     {
      "step_no": 1,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 2,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 3,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 4,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 5,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 6,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 7,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 8,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 9,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 10,
-     "status": "under_development",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 11,
-     "status": "under_development",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 12,
-     "status": "under_development",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 13,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 14,
-     "status": null,
-     "source": null,
-     "as_of": null
-    }
-   ],
-   "highest_phase_completed": 3
-  },
-  {
-   "iso3": "KEN",
-   "name": "Kenya",
-   "steps": [
-    {
-     "step_no": 1,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 2,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 3,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 4,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 5,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 6,
-     "status": "no",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 7,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 8,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 9,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 10,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 11,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 12,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 13,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 14,
-     "status": null,
-     "source": null,
-     "as_of": null
-    }
-   ],
-   "highest_phase_completed": 1
-  },
-  {
-   "iso3": "LSO",
-   "name": "Lesotho",
-   "steps": [
-    {
-     "step_no": 1,
      "status": null,
      "source": null,
      "as_of": null
@@ -1372,8 +1190,8 @@
    "highest_phase_completed": 0
   },
   {
-   "iso3": "LBR",
-   "name": "Liberia",
+   "iso3": "KEN",
+   "name": "Kenya",
    "steps": [
     {
      "step_no": 1,
@@ -1431,7 +1249,7 @@
     },
     {
      "step_no": 10,
-     "status": "no",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
@@ -1461,6 +1279,188 @@
     }
    ],
    "highest_phase_completed": 3
+  },
+  {
+   "iso3": "LSO",
+   "name": "Lesotho",
+   "steps": [
+    {
+     "step_no": 1,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 2,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 3,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 4,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 5,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 6,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 7,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 8,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 9,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 10,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 11,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 12,
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 13,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 14,
+     "status": null,
+     "source": null,
+     "as_of": null
+    }
+   ],
+   "highest_phase_completed": 3
+  },
+  {
+   "iso3": "LBR",
+   "name": "Liberia",
+   "steps": [
+    {
+     "step_no": 1,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 2,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 3,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 4,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 5,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 6,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 7,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 8,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 9,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 10,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 11,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 12,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 13,
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 14,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    }
+   ],
+   "highest_phase_completed": 4
   },
   {
    "iso3": "MWI",
@@ -1528,30 +1528,30 @@
     },
     {
      "step_no": 11,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 12,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 13,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 14,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     }
    ],
-   "highest_phase_completed": 3
+   "highest_phase_completed": 4
   },
   {
    "iso3": "MLI",
@@ -1692,48 +1692,48 @@
     },
     {
      "step_no": 8,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 9,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 10,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 11,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 12,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 13,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 14,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     }
    ],
-   "highest_phase_completed": 3
+   "highest_phase_completed": 4
   },
   {
    "iso3": "NER",
@@ -1741,203 +1741,21 @@
    "steps": [
     {
      "step_no": 1,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 2,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 3,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 4,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 5,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 6,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 7,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 8,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 9,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 10,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 11,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 12,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 13,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 14,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    }
-   ],
-   "highest_phase_completed": 5
-  },
-  {
-   "iso3": "NGA",
-   "name": "Nigeria",
-   "steps": [
-    {
-     "step_no": 1,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 2,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 3,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 4,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 5,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 6,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 7,
      "status": "under_development",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
-     "step_no": 8,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 9,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 10,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 11,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 12,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 13,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
-     "step_no": 14,
-     "status": null,
-     "source": null,
-     "as_of": null
-    }
-   ],
-   "highest_phase_completed": 2
-  },
-  {
-   "iso3": "COG",
-   "name": "Republic of the Congo",
-   "steps": [
-    {
-     "step_no": 1,
-     "status": null,
-     "source": null,
-     "as_of": null
-    },
-    {
      "step_no": 2,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 3,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "no",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 4,
@@ -2009,8 +1827,8 @@
    "highest_phase_completed": 0
   },
   {
-   "iso3": "RWA",
-   "name": "Rwanda",
+   "iso3": "NGA",
+   "name": "Nigeria",
    "steps": [
     {
      "step_no": 1,
@@ -2020,33 +1838,33 @@
     },
     {
      "step_no": 2,
-     "status": "yes",
+     "status": "under_development",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 3,
-     "status": "yes",
+     "status": "under_development",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 4,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 5,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 6,
-     "status": "under_development",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 7,
@@ -2097,7 +1915,189 @@
      "as_of": null
     }
    ],
-   "highest_phase_completed": 1
+   "highest_phase_completed": 0
+  },
+  {
+   "iso3": "COG",
+   "name": "Republic of the Congo",
+   "steps": [
+    {
+     "step_no": 1,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 2,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 3,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 4,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 5,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 6,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 7,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 8,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 9,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 10,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 11,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 12,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 13,
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 14,
+     "status": "under_development",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    }
+   ],
+   "highest_phase_completed": 4
+  },
+  {
+   "iso3": "RWA",
+   "name": "Rwanda",
+   "steps": [
+    {
+     "step_no": 1,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 2,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 3,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 4,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 5,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 6,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 7,
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
+    },
+    {
+     "step_no": 8,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 9,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 10,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 11,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 12,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 13,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 14,
+     "status": null,
+     "source": null,
+     "as_of": null
+    }
+   ],
+   "highest_phase_completed": 3
   },
   {
    "iso3": "SEN",
@@ -2202,69 +2202,69 @@
     },
     {
      "step_no": 2,
-     "status": "yes",
+     "status": "no",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 3,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 4,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 5,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 6,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 7,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
-    },
-    {
-     "step_no": 8,
      "status": "under_development",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
+     "step_no": 4,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 5,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 6,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 7,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
+     "step_no": 8,
+     "status": null,
+     "source": null,
+     "as_of": null
+    },
+    {
      "step_no": 9,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 10,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 11,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 12,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 13,
@@ -2279,7 +2279,7 @@
      "as_of": null
     }
    ],
-   "highest_phase_completed": 3
+   "highest_phase_completed": 0
   },
   {
    "iso3": "SSD",
@@ -2669,19 +2669,19 @@
     },
     {
      "step_no": 4,
-     "status": "under_development",
+     "status": "no",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 5,
-     "status": "yes",
+     "status": "under_development",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 6,
-     "status": "under_development",
+     "status": "no",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
@@ -2760,7 +2760,7 @@
     },
     {
      "step_no": 4,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
@@ -2772,60 +2772,60 @@
     },
     {
      "step_no": 6,
-     "status": "under_development",
+     "status": "yes",
      "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
      "as_of": "2026-06-30"
     },
     {
      "step_no": 7,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 8,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 9,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 10,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 11,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 12,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 13,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "yes",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     },
     {
      "step_no": 14,
-     "status": null,
-     "source": null,
-     "as_of": null
+     "status": "no",
+     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
+     "as_of": "2026-06-30"
     }
    ],
-   "highest_phase_completed": 1
+   "highest_phase_completed": 4
   },
   {
    "iso3": "ZWE",
@@ -2875,33 +2875,33 @@
     },
     {
      "step_no": 8,
-     "status": "under_development",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 9,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 10,
-     "status": "no",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 11,
-     "status": "no",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 12,
-     "status": "yes",
-     "source": "PEN_PLUS_MONITORING.xlsx (synthetic demo copy)",
-     "as_of": "2026-06-30"
+     "status": null,
+     "source": null,
+     "as_of": null
     },
     {
      "step_no": 13,

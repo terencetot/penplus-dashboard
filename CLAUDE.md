@@ -164,11 +164,12 @@ python3 src/penplus_pipeline/run.py --transform --export   # recompute + re-expo
 python3 src/penplus_pipeline/run.py --returns ../returns/*.docx --transform --export
 ```
 
-State at the time of writing: 41 returns loaded, 20 countries with data, 6 periods,
-383 rows in `gold_indicator`, bundle ~360 KB. All 41 are tagged `source_kind='historical'`,
-rebuilt from the ICPPA 2026 extraction and the phase 1 monitoring workbook -- no real
-Phase Two form return has been received yet. The dashboard makes that distinction
-visible (`common.historical` chip) and does not draw a continuous trend across it.
+State at the time of writing: 40 returns loaded, 20 countries with data, 5 periods,
+367 rows in `gold_indicator`, bundle ~457 KB (`--public`). All 40 are tagged
+`source_kind='historical'`, rebuilt from the ICPPA 2026 extraction and the phase 1
+monitoring workbook -- no real Phase Two form return has been received yet. The
+dashboard makes that distinction visible (`common.historical` chip) and does not draw
+a continuous trend across it.
 
 Build the site against this bundle, not against invented data. Where a screen looks
 empty, that is the real state of the evidence and the screen must say so rather than

@@ -47,6 +47,14 @@ PROVENANCE = "SYNTHETIC DEMONSTRATION DATA -- invented for design review, not a 
 # pre-programme evidence and hide it from any "Phase Two so far" framing.
 PHASE_BREAK_PERIOD = "2026-Q1"
 
+# From PHASE_BREAK_PERIOD on, a demo return models the current, validated
+# form: three priority conditions, not the four the pre-Phase-Two evidence
+# (TRACERS) carries. This mirrors the real transition the pipeline will go
+# through once an actual return arrives under the current form -- the point
+# of the demo bundle is to preview that, not to keep pretending the old
+# four-condition shape is still current (see docs/reporting-form.md).
+PRIORITY_CONDITIONS = ["t1d", "scd", "rhd"]
+
 CADRES = ["doctors", "clinical_officers", "nurses_midwives", "pharmacy_lab", "other"]
 PHASE1_PERIODS = ["2025-Q1", "2025-Q2", "2025-Q3", "2025-Q4", "2026-Q1"]
 PHASE2_PERIODS = ["2026-Q1"]  # Phase Two countries only start reporting once Phase Two begins
@@ -77,6 +85,7 @@ def build_country_series(iso3, name, cohort, periods, n_facilities):
     # facilities "mature" over time: more become operational in later periods
     recs = []
     for p_index, period in enumerate(periods):
+        conds = TRACERS if period < PHASE_BREAK_PERIOD else PRIORITY_CONDITIONS
         for c in TRACERS:
             ever[c] = _grow(ever[c], 3, 15)
         active = {c: max(0, ever[c] - rng.randint(5, 25)) for c in TRACERS}
@@ -134,18 +143,18 @@ def build_country_series(iso3, name, cohort, periods, n_facilities):
                  "document": "nop_costed_final.pdf" if maturity > 0.9 else None},
             ],
             "patient_stock": [
-                {"condition": c, "ever_enrolled": ever[c], "active_end": active[c]} for c in TRACERS
+                {"condition": c, "ever_enrolled": ever[c], "active_end": active[c]} for c in conds
             ],
             "patient_flow": [
                 {"condition": c, "new_enrolled": rng.randint(3, 15), "ltfu": rng.randint(0, 4),
                  "transferred_out": rng.randint(0, 3), "died": rng.randint(0, 2),
                  "stopped": rng.randint(0, 2)}
-                for c in TRACERS
+                for c in conds
             ],
             "retention": [
                 {"condition": c, "numerator": round(active[c] * rng.uniform(0.7, 0.95)),
                  "denominator": active[c]}
-                for c in TRACERS if period == periods[-1] and rng.random() > 0.1
+                for c in conds if period == periods[-1] and rng.random() > 0.1
             ],
             "ltfu_compliant": 1 if rng.random() > 0.15 else 0,
             "ltfu_rule": "Regional 90-day rule",
@@ -173,22 +182,37 @@ def build_country_series(iso3, name, cohort, periods, n_facilities):
                 "facilities_and_coverage": rng.choice(["high", "high", "medium"]),
                 "patients": rng.choice(["high", "medium", "medium", "low"]),
                 "workforce": rng.choice(["high", "medium"]),
-                "quality_and_mentorship": rng.choice(["medium", "low", "high"]),
+                "quality_mentorship": rng.choice(["medium", "low", "high"]),
                 "governance_financing_hmis": rng.choice(["high", "medium"]),
             },
             "facilities": [],
             "facility_period": [],
         }
-        for c in TRACERS:
+        for c in conds:
             rec["context"][f"guideline_disseminated_{c}"] = 1 if maturity > rng.uniform(0.2, 0.8) else 0
         rec["context"]["who_academy_f"] = rng.randint(2, 10)
         rec["context"]["who_academy_m"] = rng.randint(2, 10)
         rec["context"]["who_academy_ns"] = rng.randint(0, 2)
         rec["context"]["round_table_held"] = 1 if (p_index == len(periods) - 1 and rng.random() > 0.3) else 0
-        rec["context"]["budget_line_exists"] = 1 if maturity > 0.6 else 0
         rec["context"]["his_integration_level"] = 2 if maturity > 0.8 else (1 if maturity > 0.4 else 0)
         rec["context"]["comm_products_total"] = rng.randint(1, 8)
         rec["context"]["comm_consent_confirmed"] = 1
+        if period >= PHASE_BREAK_PERIOD:
+            # New on the current form: self-reported completeness/timeliness
+            # and the reconciliation self-attestation block. Kept close to
+            # (but not always exactly matching) the computed completeness, so
+            # the demo bundle also shows the occasional divergence a real
+            # data-quality reviewer would want flagged.
+            rec["quality"]["reported_completeness_pct"] = max(0, min(100,
+                completeness_pct + rng.choice([0, 0, 0, -5, 5, 15])))
+            rec["quality"]["reported_timeliness_pct"] = rng.choice([100, 90, 90, 80, 70, 50])
+            rec["reconciliation"] = {
+                "annex_a_vs_2_3": "Yes" if rng.random() > 0.1 else "No",
+                "patients_vs_2_5_2_6": "Yes" if rng.random() > 0.1 else "No",
+                "mentorship_vs_3_4": "Yes" if rng.random() > 0.15 else "No",
+                "definition_changed": "No" if rng.random() > 0.1 else "Yes",
+                "figure_corrected": "No" if rng.random() > 0.15 else "Yes",
+            }
 
         for i, (fid, fname) in enumerate(zip(facility_ids, facility_names, strict=True)):
             status = statuses[i]
@@ -201,7 +225,7 @@ def build_country_series(iso3, name, cohort, periods, n_facilities):
                     "services_started": CLOSING[periods[0]],
                     "status": status,
                     "project_supported": rng.choice(["yes", "yes", "no", "partial"]),
-                    "conditions": ",".join(rng.sample(TRACERS, k=rng.randint(1, 4))),
+                    "conditions": ",".join(rng.sample(conds, k=rng.randint(1, len(conds)))),
                 })
             else:
                 rec["facilities"].append({

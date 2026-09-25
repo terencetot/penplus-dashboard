@@ -22,8 +22,16 @@ COUNTRIES = {
     "Zimbabwe": ("ZWE", "phase_1"),
 }
 
-# The four tracer conditions of Phase Two. Everything else is reported once,
-# outside the regional total, under other_reported.
+# Every condition key transform.py and validate.py need to recognise when
+# summing 2.5/2.6, across both form revisions: t1d/scd/rhd are the three
+# priority conditions the current form asks about, and severe_htn is kept
+# here only so a historical return that reported it (the previous copy of
+# the form asked about four tracer conditions) still sums correctly --
+# removing it would silently drop that contribution from already-published
+# historical totals. Nothing downstream loops assuming every one of these
+# is present: each sum is `for c in TRACERS if c in stock`, so a return that
+# only ever reported three simply never has a fourth entry to sum. Anything
+# else is reported once, outside the regional total, under other_reported.
 TRACERS = ["t1d", "scd", "rhd", "severe_htn"]
 
 ICPPA_CONDITION_MAP = {
@@ -48,7 +56,8 @@ ICPPA_CADRE_MAP = {
     "Cadre split not reported": "other",
 }
 
-#: (code, label_en, family, direction, unit, definition, formula, milestone)
+#: (code, label_en, family, direction, unit, definition, formula, milestone,
+#:  reporting_frequency)
 #:
 #: This is the real sixteen-indicator list from the Results Framework
 #: (Phase_2_PEN-Plus_Reporting_Tools.docx, section 7's progress-summary
@@ -63,63 +72,95 @@ ICPPA_CADRE_MAP = {
 #: publishes the milestone value for that indicator; a screen must show that
 #: state rather than a fabricated number (see docs/architecture.md,
 #: "Milestones").
+#:
+#: `reporting_frequency` is section 7's own "RF frequency" column, added in
+#: the current revision of the form: 'annual', 'semi_annual', or
+#: 'semi_annual_annual' for 2.6 (active in care is semi-annual, twelve-month
+#: retention is annual). A country not reporting an annual or semi-annual
+#: indicator every quarter is not incomplete -- it is simply not due, and a
+#: screen showing this indicator should say so.
+#:
+#: Three priority conditions feed 2.1, 2.5 and 2.6 as of the current form
+#: revision (type 1 diabetes, sickle cell disease, rheumatic heart disease),
+#: not the four the previous copy asked about (severe hypertension is no
+#: longer a named tracer, only the general "other severe NCDs" line). This
+#: does not change historical figures already published under the four-
+#: condition definition -- see common.TRACERS and docs/reporting-form.md,
+#: "What changed from the previous copy of this form".
 INDICATORS = [
     ("1.1", "PEN-Plus integrated into national NCD strategy and UHC agenda", "governance",
      "increase", "count",
      "Countries with the milestone achieved and a document named",
-     "countries with status yes and a document title, over countries reporting", None),
+     "countries with status yes and a document title, over countries reporting", None,
+     "annual"),
     ("1.2", "PEN-Plus Plan developed, approved, launched and under implementation", "governance",
      "increase", "count",
      "Countries with the milestone achieved and a document named",
-     "countries with status yes and a document title, over countries reporting", None),
+     "countries with status yes and a document title, over countries reporting", None,
+     "annual"),
     ("1.3", "Costed National Operational Plan on PEN-Plus developed and launched", "governance",
      "increase", "count",
      "Countries with the milestone achieved and a document named",
-     "countries with status yes and a document title, over countries reporting", None),
+     "countries with status yes and a document title, over countries reporting", None,
+     "annual"),
     ("2.1", "National guidelines and protocols disseminated to all PEN-Plus sites", "service",
      "increase", "rate",
-     "Tracer conditions with an adapted, validated protocol disseminated to every site",
-     "count of the four tracers marked disseminated, over four", None),
+     "Priority conditions with an adapted, validated protocol disseminated to every site",
+     "count of priority conditions marked disseminated, over how many were reported", None,
+     "annual"),
     ("2.2", "Secondary-level facilities assessed for readiness", "capacity", "increase", "count",
      "Facilities assessed with the AFRO readiness tool during the year",
-     "count of facilities with a readiness class", None),
+     "count of facilities with a readiness class", None,
+     "annual"),
     ("2.3", "Health facilities initiating PEN-Plus services", "capacity", "increase", "count",
      "Facilities capacitated and offering PEN-Plus services",
-     "count of facilities with status operational or started_this_period", None),
+     "count of facilities with status operational or started_this_period", None,
+     "semi_annual"),
     ("2.4", "Facilities achieving PEN-Plus quality standards", "quality", "increase", "rate",
      "Facilities scoring at least 80 per cent with all critical criteria met",
-     "numerator over facilities assessed against the checklist", None),
+     "numerator over facilities assessed against the checklist", None,
+     "annual"),
     ("2.5", "Unique patients ever enrolled", "service", "increase", "count",
      "Cumulative patients since services began, deduplicated at facility level",
-     "sum of ever_enrolled over the four tracers", None),
+     "sum of ever_enrolled over the priority conditions", None,
+     "semi_annual"),
     ("2.6", "Patients enrolled and active in care", "service", "increase", "count",
      "Patients not lost, transferred, stopped or deceased",
-     "sum of active_end over the four tracers", None),
+     "sum of active_end over the priority conditions", None,
+     "semi_annual_annual"),
     ("2.6b", "Twelve-month retention rate", "service", "increase", "rate",
      "Cohort patients with a visit in the period over the cohort minus exits",
      "numerator over denominator, by condition (reported alongside 2.6, not a"
-     " seventeenth indicator)", None),
+     " seventeenth indicator)", None,
+     "semi_annual_annual"),
     ("3.1", "People completing a PEN-Plus WHO Academy course", "workforce", "increase", "count",
      "Cumulative course completions, pre-filled by WHO AFRO from the Academy system",
-     "sum of female, male and not-stated completions", None),
+     "sum of female, male and not-stated completions", None,
+     "semi_annual"),
     ("3.2", "Health workers trained as Trainers of Trainers", "workforce", "increase", "count",
      "Providers qualified to train others, cumulative by cadre",
-     "sum of female, male and not-stated ToT trained, cumulative", None),
+     "sum of female, male and not-stated ToT trained, cumulative", None,
+     "semi_annual"),
     ("3.3", "Health workers trained in PEN-Plus", "workforce", "increase", "count",
      "Providers trained at facility level this quarter, by cadre",
-     "sum of female, male and not-stated trained this quarter", None),
+     "sum of female, male and not-stated trained this quarter", None,
+     "annual"),
     ("3.4", "Facilities with an active clinical mentorship programme", "quality", "increase", "rate",
      "Facilities with at least one documented mentorship visit in the quarter",
-     "facilities with a mentorship visit this quarter over operational facilities", None),
+     "facilities with a mentorship visit this quarter over operational facilities", None,
+     "semi_annual"),
     ("4.1", "Annual resource-mobilization round table", "financing", "increase", "count",
      "Countries that held a round table to mobilize resources for PEN-Plus this year",
-     "countries with round table held = yes, over countries reporting", None),
+     "countries with round table held = yes, over countries reporting", None,
+     "annual"),
     ("5.1", "Reporting completeness, timeliness and HMIS integration", "data", "increase", "rate",
      "Complete facility returns over facilities expected",
-     "returns_complete over facilities_expected", None),
+     "returns_complete over facilities_expected", None,
+     "annual"),
     ("6.1", "Communication and visibility products", "communication", "increase", "count",
      "Consent-safeguarded products published in the year",
-     "sum of product counts across product types", None),
+     "sum of product counts across product types", None,
+     "annual"),
 ]
 
 

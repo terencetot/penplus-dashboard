@@ -41,14 +41,21 @@ CREATE TABLE IF NOT EXISTS dim_facility (
 );
 
 CREATE TABLE IF NOT EXISTS dim_indicator (
-  indicator_code  TEXT PRIMARY KEY,
-  label_en        TEXT NOT NULL,
-  family          TEXT,
-  direction       TEXT CHECK (direction IN ('increase','decrease','neutral')),
-  unit            TEXT CHECK (unit IN ('count','rate','status')),
-  definition      TEXT,
-  formula         TEXT,
-  milestone       REAL                        -- regional target; null until published
+  indicator_code      TEXT PRIMARY KEY,
+  label_en            TEXT NOT NULL,
+  family              TEXT,
+  direction           TEXT CHECK (direction IN ('increase','decrease','neutral')),
+  unit                TEXT CHECK (unit IN ('count','rate','status')),
+  definition          TEXT,
+  formula             TEXT,
+  milestone           REAL,                   -- regional target; null until published
+  reporting_frequency TEXT CHECK (reporting_frequency IN
+                        ('annual','semi_annual','semi_annual_annual'))
+                        -- from section 7 of the current form: each indicator
+                        -- now states its own cadence: a country not
+                        -- reporting an annual indicator mid-year is not due,
+                        -- not incomplete. Null for any indicator predating
+                        -- this revision of the form.
 );
 
 -- ------------------------------------------------------------------- returns
@@ -181,18 +188,28 @@ CREATE TABLE IF NOT EXISTS fact_facility_period (
 );
 
 CREATE TABLE IF NOT EXISTS fact_quality (
-  return_id            INTEGER PRIMARY KEY REFERENCES fact_return(return_id),
-  facilities_expected  INTEGER,
-  returns_complete     INTEGER,
-  returns_partial      INTEGER,
-  returns_none         INTEGER,
-  returns_on_time      INTEGER,        -- facilities whose return met the national deadline
-  completeness         REAL,
-  conf_facilities      TEXT,
-  conf_patients        TEXT,
-  conf_workforce       TEXT,
-  conf_quality         TEXT,           -- "quality and mentorship" domain, v3 form section 5.1
-  conf_governance      TEXT
+  return_id                INTEGER PRIMARY KEY REFERENCES fact_return(return_id),
+  facilities_expected      INTEGER,
+  returns_complete         INTEGER,
+  returns_partial          INTEGER,
+  returns_none             INTEGER,
+  returns_on_time          INTEGER,    -- facilities whose return met the national deadline;
+                                        -- gone from the current form, kept for older returns
+  completeness             REAL,
+  reported_completeness_pct REAL,      -- self-reported under 5.1, current form only
+  reported_timeliness_pct  REAL,       -- self-reported under 5.1, current form only
+  conf_facilities          TEXT,
+  conf_patients             TEXT,
+  conf_workforce            TEXT,
+  conf_quality              TEXT,      -- "quality / mentorship" domain, form section 5.1
+  conf_governance           TEXT,
+  -- Data-quality reconciliation self-attestation, new on the current form
+  -- (previously a note only the Regional Office checked on receipt):
+  recon_annex_a_vs_2_3     TEXT,
+  recon_patients_vs_2_5_2_6 TEXT,
+  recon_mentorship_vs_3_4  TEXT,
+  recon_definition_changed TEXT,
+  recon_figure_corrected   TEXT
 );
 
 -- Implementation phases: the five phases / fourteen steps a country goes

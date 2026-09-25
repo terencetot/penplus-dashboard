@@ -103,12 +103,18 @@ def clean(v):
 
 
 SECTION_RE = re.compile(r"^(\d+(?:\.\d+)?)[.\s]")
+# Current form: a sub-indicator banner's own cell reads "Indicator 2.5", not
+# the bare code the previous copy used ("2.5 | ..."). Both are recognised so
+# a fixture built against either copy still parses.
+INDICATOR_RE = re.compile(r"^indicator\s+(\d+(?:\.\d+)?)\b", re.I)
 ANNEX_RE = re.compile(r"^annex\s+([a-f])\b", re.I)
-# Annex A's two tables are introduced by plain paragraphs, not a "Block N"
-# label: "Facility register" (identity, slowly changing) and "Facility return
-# this quarter" (performance, one row of it created per period).
+# Annex A now holds a single table, the facility register. "Facility
+# register" itself is a one-row banner *table* ahead of it ("Facility
+# register | Update only when a facility changes"), not a plain paragraph as
+# in the previous copy of the form -- it carries no data of its own and is
+# dropped like the "feeds/version/round" banners below, so the register table
+# lands under the plain "annex_a" key.
 ANNEX_A_REGISTER_RE = re.compile(r"^facility register", re.I)
-ANNEX_A_RETURN_RE = re.compile(r"^facility return", re.I)
 
 
 def _blocks(doc):
@@ -134,10 +140,6 @@ def index_tables(path):
             a = ANNEX_RE.match(item)
             if a:
                 key = "annex_" + a.group(1).lower()
-            elif key and key.startswith("annex_a") and ANNEX_A_REGISTER_RE.match(item):
-                key = "annex_a_block1"
-            elif key and key.startswith("annex_a") and ANNEX_A_RETURN_RE.match(item):
-                key = "annex_a_block2"
             elif m:
                 key = "s" + m.group(1)
         else:
@@ -164,12 +166,17 @@ def index_tables(path):
                 if re.match(r"^\d+(?:\.\d+)?$", head):
                     key = "s" + head
                     continue
+                if INDICATOR_RE.match(head):
+                    key = "s" + INDICATOR_RE.match(head).group(1)
+                    continue
                 if SECTION_RE.match(head):
                     key = "s" + SECTION_RE.match(head).group(1)
                     continue
                 if ANNEX_RE.match(head):
                     key = "annex_" + ANNEX_RE.match(head).group(1).lower()
                     continue
+                if ANNEX_A_REGISTER_RE.match(head):
+                    continue                      # banner only, no data of its own
                 if head.lower().startswith(("feeds", "version", "round")):
                     continue                      # annotation strip, not data
             if key is None:
@@ -209,7 +216,7 @@ def pick(d, *fragments):
 
 # ----------------------------------------------------------------- the parser
 def parse_return(path: str) -> dict:
-    """Read a completed Phase_2_PEN-Plus_Reporting_Tools.docx (v3) return.
+    """Read a completed Phase_2_PEN-Plus_Reporting_Tools.docx return.
 
     Section numbers below are the form's own (0 identification, 1 governance,
     2 service delivery, 3 workforce, 4 financing, 5 health information, 6
@@ -221,7 +228,15 @@ def parse_return(path: str) -> dict:
     rec = {"source_file": os.path.basename(path),
            "checksum": hashlib.sha256(open(path, "rb").read()).hexdigest()[:16]}
 
-    # ---- Section 0: identification, national context, facility returns
+    # ---- Section 0: identification, national context and reporting
+    # completeness. The current form merges what used to be two tables
+    # (national context, then a separate facility-return-count table) into
+    # one "National context and reporting completeness" table -- both halves
+    # are read from the same block (index 1) below. "Closing date of the
+    # quarter" and "is this the country's first return" no longer exist on
+    # this form; "facilities whose return arrived by the national deadline"
+    # (returns_on_time) is gone too -- timeliness is now self-reported
+    # directly under indicator 5.1 instead (see below).
     ident = by_label(rows_of(idx, "s0", 0))
     if not ident:
         raise ValueError("Section 0 not found; the form structure has been altered")
@@ -232,27 +247,24 @@ def parse_return(path: str) -> dict:
     rec["period_id"] = _period_id(period, year, rec["rhythm"])
     rec["quarter_id"] = _quarter_id(rec["period_id"])
     rec["year"] = int(year) if year.isdigit() else None
-    rec["closing_date"] = clean(pick(ident, "closing date"))
+    rec["closing_date"] = clean(pick(ident, "closing date")) or _quarter_end_date(rec["period_id"])
     rec["me_officer"] = clean(pick(ident, "m&e focal point"))
     rec["npo"] = clean(pick(ident, "npo / who country office"))
     rec["focal_point"] = clean(pick(ident, "national programme focal point"))
     rec["first_return"] = enum(pick(ident, "is this the country"), YESNO_KEY)
 
-    ctx_rows = rows_of(idx, "s0", 1)
-    ctx = by_label(ctx_rows)
+    ctx = by_label(rows_of(idx, "s0", 1))
     rec["context"] = {
         "districts_total": num(pick(ctx, "health districts in the country")),
         "first_referral_total": num(pick(ctx, "first-referral")),
         "districts_with_penplus": num(pick(ctx, "health districts where pen-plus")),
     }
-
-    comp = by_label(rows_of(idx, "s0", 2))
     rec["quality"] = {
-        "facilities_expected": num(pick(comp, "pen-plus facilities expected")),
-        "returns_complete": num(pick(comp, "facilities submitting a complete")),
-        "returns_partial": num(pick(comp, "facilities submitting a partial")),
-        "returns_none": num(pick(comp, "facilities submitting no return")),
-        "returns_on_time": num(pick(comp, "facilities whose return arrived")),
+        "facilities_expected": num(pick(ctx, "pen-plus facilities expected")),
+        "returns_complete": num(pick(ctx, "facilities submitting a complete")),
+        "returns_partial": num(pick(ctx, "facilities submitting a partial")),
+        "returns_none": num(pick(ctx, "facilities submitting no return")),
+        "returns_on_time": None,
     }
 
     # ---- Section 1: governance -- the fixed codes 1.1, 1.2, 1.3
@@ -275,23 +287,50 @@ def parse_return(path: str) -> dict:
             rec["context"][f"guideline_disseminated_{c}"] = \
                 1 if enum(r[2], YESNO_KEY) == "yes" else (0 if r[2] else None)
 
-    # ---- Sections 2.2, 2.3, 2.4, 3.4: country-reported aggregates are not
-    # parsed here. Annex A's facility-level detail is the auditable source
-    # for these, and the two are not always reconcilable line for line; see
-    # docs/architecture.md.
+    # ---- Sections 2.2, 2.3, 2.4, 3.4: the country-reported aggregate tables
+    # in these sections are still not parsed here, on purpose -- Annex A's
+    # facility-level detail was always the auditable source for these, and
+    # the two were never guaranteed to reconcile line for line (see
+    # docs/architecture.md). Annex A no longer carries that facility-level
+    # detail on the current form (it moved to the new monthly facility
+    # return, not yet wired into this pipeline -- see docs/reporting-form.md),
+    # so until that form is read, 2.2, 2.4 and 3.4 have no source to compute
+    # from and correctly render as not-yet-reported rather than switching to
+    # the country's own aggregate answer, which this pipeline has never
+    # trusted as the primary source. 2.3 still resolves from the facility
+    # register's own status column (see the fallback a few lines below).
 
-    # ---- Section 2.5: patients ever enrolled, cumulative
+    # ---- Section 2.5: patients ever enrolled, cumulative, and newly
+    # enrolled this quarter -- the current form moved "newly enrolled" into
+    # this table's own third column; the previous copy carried it only in
+    # the optional supplementary block that used to follow 2.6. The
+    # deduplication-method question that used to sit beside this table is
+    # gone from the current form.
     rec["patient_stock"], rec["patient_flow"], rec["patient_age"] = [], [], []
+    flow_by_cond: dict[str, dict] = {}
     for r in rows_of(idx, "s2.5", 0)[1:]:
         c = CONDITION_KEY.get(r[0].strip().lower())
         if c:
             rec["patient_stock"].append(
                 {"condition": c, "ever_enrolled": num(r[1]), "active_end": None})
-    dedup = by_label(rows_of(idx, "s2.5", 1))
-    rec["dedup_basis"] = clean(pick(dedup, "how was the count deduplicated"))
+            if c != "total":
+                flow_by_cond[c] = {"condition": c, "new_enrolled": num(r[2]) if len(r) > 2 else None,
+                                    "ltfu": None, "transferred_out": None, "died": None, "stopped": None}
+    rec["dedup_basis"] = None
 
-    # ---- Section 2.6: active in care and twelve-month retention
+    # ---- Section 2.6: active in care and twelve-month retention. Three
+    # blocks follow this indicator's banner on the current form: the
+    # retention table itself: a supplementary patient-movement table
+    # (condition x lost-to-follow-up/transferred/stopped/died -- newly
+    # enrolled has moved out of this table and up into 2.5, and the column
+    # order is not the same as the previous copy's); and the focus area's
+    # activity log (not parsed). The "which loss-to-follow-up rule was
+    # applied" question the previous copy asked every quarter is gone
+    # entirely -- the regional 90-day rule is now the fixed definition
+    # rather than a per-return self-attestation, so retention is computed
+    # whenever a numerator/denominator is given, without that gate.
     stock_by_cond = {s["condition"]: s for s in rec["patient_stock"]}
+    retention_pct_reported = {}
     for r in rows_of(idx, "s2.6", 0)[1:]:
         c = CONDITION_KEY.get(r[0].strip().lower())
         if not c:
@@ -305,25 +344,28 @@ def parse_return(path: str) -> dict:
         if rn is not None or rd is not None:
             rec.setdefault("retention", []).append(
                 {"condition": c, "numerator": rn, "denominator": rd})
-    rule = by_label(rows_of(idx, "s2.6", 1))
-    applied = clean(pick(rule, "loss to follow-up rule applied"))
-    rec["ltfu_rule"] = applied
-    rec["ltfu_compliant"] = (1 if applied and "90" in applied
-                              else (0 if applied else None))
+        if len(r) > 4 and c != "total":
+            retention_pct_reported[c] = num(r[4])
+    rec["ltfu_rule"] = None
+    rec["ltfu_compliant"] = 1
+    rec["retention_pct_reported"] = retention_pct_reported
     rec.setdefault("retention", [])
 
-    # optional per-condition flow detail (n=2: the noise banner before it is
-    # dropped by index_tables, so the real table lands at this index)
-    for r in rows_of(idx, "s2.6", 2)[1:]:
+    for r in rows_of(idx, "s2.6", 1)[1:]:
         label = r[0].strip().lower()
         c = CONDITION_KEY.get(label)
         if not c and "other severe" in label:
             c = "other_reported"
-        if c:
-            rec["patient_flow"].append({
-                "condition": c, "new_enrolled": num(r[1]), "ltfu": num(r[2]),
-                "transferred_out": num(r[3]), "died": num(r[4]),
-                "stopped": num(r[5]) if len(r) > 5 else None})
+        if not c:
+            continue
+        entry = flow_by_cond.setdefault(
+            c, {"condition": c, "new_enrolled": None, "ltfu": None,
+                "transferred_out": None, "died": None, "stopped": None})
+        entry["ltfu"] = num(r[1]) if len(r) > 1 else None
+        entry["transferred_out"] = num(r[2]) if len(r) > 2 else None
+        entry["stopped"] = num(r[3]) if len(r) > 3 else None
+        entry["died"] = num(r[4]) if len(r) > 4 else None
+    rec["patient_flow"] = list(flow_by_cond.values())
 
     # ---- Section 3.1: WHO Academy course completions, cumulative
     who_academy = rows_of(idx, "s3.1", 0)
@@ -342,25 +384,29 @@ def parse_return(path: str) -> dict:
                 "cadre": c, "trained_f": num(r[1]), "trained_m": num(r[2]),
                 "trained_ns": num(r[3]) if len(r) > 3 else None})
 
-    # ---- Section 3.3: health workers trained this quarter, by cadre
+    # ---- Section 3.3: health workers trained this quarter, by cadre. Unlike
+    # 3.2, this table's fourth column is "Total trained this quarter" (a
+    # redundant, country-computed total, not a not-stated count) and a fifth
+    # column now gives a year-to-date total the country reports directly,
+    # rather than that figure being accumulated by the Regional Office from
+    # four quarterly returns.
     rec["workforce"] = []
     for r in rows_of(idx, "s3.3", 0)[1:]:
         c = CADRE_KEY.get(r[0].strip().lower())
         if c and c != "total":
             rec["workforce"].append({
                 "cadre": c, "trained_f": num(r[1]), "trained_m": num(r[2]),
-                "trained_ns": num(r[3]) if len(r) > 3 else None,
+                "trained_ns": None, "trained_ytd": num(r[4]) if len(r) > 4 else None,
                 "fully_trained": None, "working_at_site": None})
 
-    # ---- Section 4.1: resource mobilization, and tracer medicines/diagnostics
+    # ---- Section 4.1: resource mobilization, and tracer medicines/diagnostics.
+    # The "PEN-Plus or severe NCD budget line" question the previous copy
+    # asked alongside the round table is gone from the current form.
     round_table = rows_of(idx, "s4.1", 0)
     rt = by_label(round_table)
     rec["context"]["round_table_held"] = \
-        1 if enum(pick(rt, "round table held"), YESNO_KEY) == "yes" else \
-        (0 if pick(rt, "round table held") else None)
-    rec["context"]["budget_line_exists"] = \
-        1 if enum(pick(rt, "a pen-plus or severe ncd line"), YESNO_KEY) == "yes" else \
-        (0 if pick(rt, "a pen-plus or severe ncd line") else None)
+        1 if enum(pick(rt, "annual round table held"), YESNO_KEY) == "yes" else \
+        (0 if pick(rt, "annual round table held") else None)
 
     rec["supply"] = []
     for r in rows_of(idx, "s4.1", 1)[1:]:
@@ -370,11 +416,29 @@ def parse_return(path: str) -> dict:
                 "availability": enum(r[1], AVAIL_KEY, "not_reported"),
                 "facilities_stockout": num(r[2]) if len(r) > 2 else None})
 
-    # ---- Section 5.1: HMIS integration and confidence declarations
+    # ---- Section 5.1: HMIS/DHIS2 integration, reporting completeness and
+    # timeliness (now partly self-reported), the new data-quality
+    # reconciliation block, and confidence declarations.
     his = by_label(rows_of(idx, "s5.1", 0))
     HIS_KEY = {"not integrated": 0, "partially integrated": 1, "fully integrated": 2}
     rec["context"]["his_integration_level"] = \
-        HIS_KEY.get((pick(his, "extent of integration") or "").strip().lower())
+        HIS_KEY.get((pick(his, "pen-plus indicators integrated") or "").strip().lower())
+    rec["quality"]["reported_completeness_pct"] = num(pick(his, "reporting completeness for this quarter"))
+    rec["quality"]["reported_timeliness_pct"] = num(pick(his, "reporting timeliness for this quarter"))
+
+    # New: the country self-attests whether its own figures reconcile across
+    # sections, rather than that check being only the Regional Office's own
+    # note on receipt as it was on the previous copy of the form. Matched by
+    # fragment, not raw-slugged, so the stored key stays short and stable
+    # even if the question's wording is tightened later.
+    recon_rows = by_label(rows_of(idx, "s5.1", 1))
+    rec["reconciliation"] = {
+        "annex_a_vs_2_3": clean(pick(recon_rows, "facility counts in annex a")),
+        "patients_vs_2_5_2_6": clean(pick(recon_rows, "patient totals reconcile")),
+        "mentorship_vs_3_4": clean(pick(recon_rows, "mentorship totals reconcile")),
+        "definition_changed": clean(pick(recon_rows, "any change in definitions")),
+        "figure_corrected": clean(pick(recon_rows, "any correction to a previously")),
+    }
 
     conf = {}
     for r in rows_of(idx, "s5.1", 2)[1:]:
@@ -393,9 +457,17 @@ def parse_return(path: str) -> dict:
         1 if enum(pick(consent, "documented informed consent"), YESNO_KEY) == "yes" else \
         (0 if pick(consent, "documented informed consent") else None)
 
-    # ---- Annex A: facility register (identity) and quarterly return (performance)
+    # ---- Annex A: facility register only. The current form dropped the
+    # "facility return this quarter" performance columns that used to sit
+    # alongside the register (ever enrolled, active in care, mentorship,
+    # quality score, critical criteria, readiness class) -- that detail
+    # moves to the new, separate monthly facility return instead (see
+    # docs/reporting-form.md). `facility_period` stays an empty list here
+    # until that form is wired in; nothing downstream treats an empty list
+    # as a zero, so 2.2/2.4/3.4 correctly render as not-yet-reported rather
+    # than fabricating a per-facility figure this form no longer carries.
     rec["facilities"], rec["facility_period"] = [], []
-    for r in rows_of(idx, "annex_a_block1", 0)[1:]:
+    for r in rows_of(idx, "annex_a", 0)[1:]:
         if not clean(r[0]) and not clean(r[1]):
             continue
         rec["facilities"].append({
@@ -404,18 +476,6 @@ def parse_return(path: str) -> dict:
             "services_started": clean(r[5]), "status": enum(r[6], FSTATUS_KEY),
             "project_supported": enum(r[7], YESNO_KEY) if len(r) > 7 else None,
             "conditions": clean(r[8]) if len(r) > 8 else None})
-    for r in rows_of(idx, "annex_a_block2", 0)[1:]:
-        if not clean(r[0]) and not clean(r[1]):
-            continue
-        mentorship = enum(r[5], YESNO_KEY) if len(r) > 5 else None
-        rec["facility_period"].append({
-            "facility_id": clean(r[0]), "name": clean(r[1]),
-            "return_received": enum(r[2], YESNO_KEY),
-            "ever_enrolled": num(r[3]), "active_end": num(r[4]),
-            "mentorship_visit": 1 if mentorship == "yes" else (0 if mentorship == "no" else None),
-            "quality_score": num(r[6]) if len(r) > 6 else None,
-            "critical_met": enum(r[7], YESNO_KEY) if len(r) > 7 else None,
-            "readiness_class": (r[8] or "").strip().lower() if len(r) > 8 else None})
     return rec
 
 
@@ -429,6 +489,23 @@ def _period_id(period: str, year: str, rhythm: str) -> str:
     if p in MONTHS:
         return f"{y}-{MONTHS.index(p) + 1:02d}"
     return f"{y}-{p[:7] or 'NA'}"
+
+
+_QUARTER_END = {"1": "03-31", "2": "06-30", "3": "09-30", "4": "12-31"}
+
+
+def _quarter_end_date(period_id: str) -> str | None:
+    """The calendar closing date of a YYYY-Qn period.
+
+    The current form no longer asks for this directly (the previous copy's
+    "closing date of the quarter" field is gone), so it is derived instead --
+    every quarter's own end date is common knowledge, not something a country
+    should have to type in every return.
+    """
+    y, _, q = period_id.partition("-Q")
+    if q not in _QUARTER_END or not y.isdigit():
+        return None
+    return f"{y}-{_QUARTER_END[q]}"
 
 
 def _quarter_id(period_id: str) -> str:

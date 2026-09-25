@@ -180,12 +180,26 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
     quality_rows = _d(con.execute(
         "SELECT r.iso3, r.period_id, r.source_kind, r.verdict, r.ltfu_compliant,"
         " r.dedup_basis, r.patient_source, q.facilities_expected, q.returns_complete,"
-        " q.completeness, q.conf_facilities, q.conf_patients, q.conf_workforce,"
+        " q.completeness, q.reported_completeness_pct, q.reported_timeliness_pct,"
+        " q.conf_facilities, q.conf_patients, q.conf_workforce,"
         " q.conf_quality, q.conf_governance, q.returns_on_time,"
+        " q.recon_annex_a_vs_2_3, q.recon_patients_vs_2_5_2_6, q.recon_mentorship_vs_3_4,"
+        " q.recon_definition_changed, q.recon_figure_corrected,"
         " (SELECT COUNT(*) FROM query_register qr WHERE qr.return_id=r.return_id"
         "  AND qr.status='open') open_queries"
         " FROM fact_return r LEFT JOIN fact_quality q USING(return_id)"
         " WHERE r.superseded=0 ORDER BY r.iso3, r.period_id"))
+
+    # Where a country self-reports completeness under 5.1 as well as the
+    # counts the Regional Office computes it from, a gap between the two is
+    # itself a data-quality signal -- computed once here (CLAUDE.md rule 1),
+    # never by the browser comparing two numbers on the fly.
+    for row in quality_rows:
+        computed_pct = round(row["completeness"] * 100) if row["completeness"] is not None else None
+        reported_pct = row["reported_completeness_pct"]
+        row["completeness_divergence"] = (
+            abs(computed_pct - reported_pct)
+            if computed_pct is not None and reported_pct is not None else None)
 
     # The screen's headline figure is an average over each country's most
     # recent period, not every historical row -- computed here, once, so the

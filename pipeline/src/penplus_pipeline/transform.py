@@ -97,11 +97,17 @@ def build(db_path: str = DB_DEFAULT):
                         key="condition" if c != "total" else "all",
                         val=c if c != "total" else "all")
 
-        # ---- 2.1: guideline dissemination, tracers only
+        # ---- 2.1: guideline dissemination, tracers only. The denominator is
+        # how many conditions this return actually answered, not a hard-coded
+        # constant -- the current form asks about three priority conditions,
+        # the previous copy asked about four, and a historical return might
+        # answer fewer still. Hard-coding TRACERS' own length here would
+        # silently misstate the rate the moment the form's condition list
+        # changes again.
         disseminated = [ctx.get(f"guideline_disseminated_{c}") for c in TRACERS]
         reported = [v for v in disseminated if v is not None]
         if reported:
-            put("2.1", num=sum(1 for v in reported if v == 1), den=len(TRACERS), unit="rate")
+            put("2.1", num=sum(1 for v in reported if v == 1), den=len(reported), unit="rate")
 
         # ---- 1.1, 1.2, 1.3: governance milestones, per the fixed Results
         # Framework codes. A Yes without a document title is not counted.

@@ -1,4 +1,4 @@
-"""End-to-end: a synthetic v3 return through parse -> load -> transform.
+"""End-to-end: a synthetic return through parse -> load -> transform.
 
 The unit tests exercise parse_return() and transform.build() separately
 against hand-built dicts; this proves the two actually agree with each other
@@ -39,13 +39,14 @@ def test_v3_form_end_to_end(tmp_path):
     assert gold[("GHA", "1.1", "all", "all")]["numerator"] == 1
     assert gold[("GHA", "1.3", "all", "all")]["numerator"] == 0
 
-    # 2.1: two of the four tracers marked disseminated.
-    assert gold[("GHA", "2.1", "all", "all")]["numerator"] == 2
-    assert gold[("GHA", "2.1", "all", "all")]["denominator"] == 4
+    # 2.1: one of three priority conditions marked disseminated (denominator
+    # is the count actually answered, not a hard-coded four).
+    assert gold[("GHA", "2.1", "all", "all")]["numerator"] == 1
+    assert gold[("GHA", "2.1", "all", "all")]["denominator"] == 3
 
     # 2.5 / 2.6: from the corrected, separate ever-enrolled and active tables.
-    assert gold[("GHA", "2.5", "all", "all")]["numerator"] == 150 + 45  # t1d + rhd; scd/htn are NR
-    assert gold[("GHA", "2.6", "all", "all")]["numerator"] == 140 + 60 + 190  # t1d + scd + severe_htn
+    assert gold[("GHA", "2.5", "all", "all")]["numerator"] == 150 + 45  # t1d + rhd; scd is NR
+    assert gold[("GHA", "2.6", "all", "all")]["numerator"] == 140 + 60  # t1d + scd; rhd is "-"
 
     # 2.6b: retention, only reported for t1d, and the 90-day rule applied.
     assert gold[("GHA", "2.6b", "condition", "t1d")]["numerator"] == 80
@@ -58,12 +59,16 @@ def test_v3_form_end_to_end(tmp_path):
     # (this-quarter training, from fact_workforce) even though both are
     # keyed by the same cadres in the same return.
     assert gold[("GHA", "3.2", "all", "all")]["numerator"] == (2 + 3) + (1 + 1) + (4 + 2) + (1 + 0) + (0 + 1)
-    assert gold[("GHA", "3.3", "all", "all")]["numerator"] == (3 + 4) + (2 + 2) + (6 + 3 + 1) + (1 + 1) + (0 + 1)
+    # 3.3 has no not-stated column on the current form (unlike 3.2): just
+    # female + male per cadre.
+    assert gold[("GHA", "3.3", "all", "all")]["numerator"] == (3 + 4) + (2 + 2) + (6 + 3) + (1 + 1) + (0 + 1)
 
-    # 3.4: bottom-up from Annex A -- one of two operational-or-started
-    # facilities has a mentorship visit this quarter.
-    assert gold[("GHA", "3.4", "all", "all")]["numerator"] == 1
-    assert gold[("GHA", "3.4", "all", "all")]["denominator"] == 2
+    # 3.4: Annex A no longer carries facility-level performance (mentorship,
+    # quality, readiness) -- that moved to the new monthly facility return,
+    # not yet wired into this pipeline -- so 3.4 has no source to compute
+    # from this quarter and correctly does not appear at all, rather than
+    # being fabricated from the facility register's identity columns alone.
+    assert ("GHA", "3.4", "all", "all") not in gold
 
     # 4.1: round table held.
     assert gold[("GHA", "4.1", "all", "all")]["numerator"] == 1

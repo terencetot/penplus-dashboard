@@ -47,7 +47,7 @@ periods. *status* = a state that persists until it changes.
 | `dim_facility` | `status` | enum | `operational`, `started_this_period`, `under_preparation`, `suspended`, `closed` | no | Drives indicator 2.3 |
 | `fact_return` | `verdict` | enum | `accepted`, `query`, `hold` | no | A hold never reaches `gold_indicator` |
 | `fact_return` | `received_at` | date | – | no | Used for timeliness |
-| `fact_patient_stock` | `condition` | enum | `t1d`, `scd`, `rhd`, `severe_htn`, `other_reported` | no | Four tracers plus the declared other line |
+| `fact_patient_stock` | `condition` | enum | `t1d`, `scd`, `rhd`, `severe_htn`, `other_reported` | no | Three priority conditions as of the current form (t1d, scd, rhd) plus the declared other line; `severe_htn` is kept in the enum for historical returns reported under the previous, four-condition copy of the form, not populated by a current one (see `docs/reporting-form.md`) |
 | `fact_patient_stock` | `ever_enrolled` | integer or null | 0 or more, null means NR | yes | Cumulative; must never decrease between periods |
 | `fact_patient_stock` | `active_end` | integer or null | 0 or more, null means NR | yes | Stock; never summed across periods |
 | `fact_patient_flow` | `new_enrolled` | integer or null | 0 or more, null means NR | yes | Flow; summed across periods |

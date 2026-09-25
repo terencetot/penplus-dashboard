@@ -104,7 +104,7 @@
   "screen1.map.caption": "O mapa situa o PEN-Plus; não classifica os países por desempenho.",
   "screen1.milestone.title": "Progresso face aos marcos: cinco indicadores principais",
   "screen1.milestone.caption": "Último valor publicado face ao marco regional, apresentado como uma barra com um marcador de meta. Nem medidor, nem semáforo.",
-  "screen1.summary": "O PEN-Plus está a ser implementado em toda a Região Africana da OMS. No último período, <strong>{countriesReporting} de {countriesTotal}</strong> países publicaram pelo menos um valor, <strong>{facilities}</strong> unidades sanitárias oferecem os serviços, e <strong>{patients}</strong> doentes foram inscritos no total nas quatro condições traçadoras.",
+  "screen1.summary": "O PEN-Plus está a ser implementado em toda a Região Africana da OMS. No último período, <strong>{countriesReporting} de {countriesTotal}</strong> países publicaram pelo menos um valor, <strong>{facilities}</strong> unidades sanitárias oferecem os serviços, e <strong>{patients}</strong> doentes foram inscritos no total nas três condições prioritárias.",
 
   "screen2.title": "Detalhe do indicador",
   "screen2.question": "Este indicador está a evoluir, e quais os países que o determinam?",

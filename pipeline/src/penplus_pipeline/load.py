@@ -35,6 +35,8 @@ def _migrate(con: sqlite3.Connection) -> None:
     cols = {r["name"] for r in con.execute("PRAGMA table_info(dim_indicator)")}
     if "milestone" not in cols:
         con.execute("ALTER TABLE dim_indicator ADD COLUMN milestone REAL")
+    if "reporting_frequency" not in cols:
+        con.execute("ALTER TABLE dim_indicator ADD COLUMN reporting_frequency TEXT")
 
     # Corrected against the real v3 form (docs/architecture.md): the facility
     # mentorship field is a quarterly yes/no, not a 0-3 month count, and the
@@ -48,6 +50,15 @@ def _migrate(con: sqlite3.Connection) -> None:
         con.execute("ALTER TABLE fact_quality RENAME COLUMN conf_supply TO conf_quality")
     if "returns_on_time" not in q_cols:
         con.execute("ALTER TABLE fact_quality ADD COLUMN returns_on_time INTEGER")
+    # Current form revision: completeness/timeliness partly self-reported
+    # under 5.1, plus a new reconciliation self-attestation block.
+    for col in ("reported_completeness_pct REAL", "reported_timeliness_pct REAL",
+                "recon_annex_a_vs_2_3 TEXT", "recon_patients_vs_2_5_2_6 TEXT",
+                "recon_mentorship_vs_3_4 TEXT", "recon_definition_changed TEXT",
+                "recon_figure_corrected TEXT"):
+        name = col.split()[0]
+        if name not in q_cols:
+            con.execute(f"ALTER TABLE fact_quality ADD COLUMN {col}")
 
     wf_cols = {r["name"] for r in con.execute("PRAGMA table_info(fact_workforce)")}
     if "trained_ns" not in wf_cols:
@@ -63,8 +74,9 @@ def init_db(db_path: str = DB_DEFAULT) -> sqlite3.Connection:
                     (iso3, name, cohort))
     for row in INDICATORS:
         con.execute("INSERT OR REPLACE INTO dim_indicator"
-                    "(indicator_code,label_en,family,direction,unit,definition,formula,milestone)"
-                    " VALUES (?,?,?,?,?,?,?,?)", row)
+                    "(indicator_code,label_en,family,direction,unit,definition,formula,milestone,"
+                    "reporting_frequency)"
+                    " VALUES (?,?,?,?,?,?,?,?,?)", row)
     con.commit()
     return con
 
@@ -174,11 +186,16 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
     exp, comp = q.get("facilities_expected"), q.get("returns_complete")
     completeness = (comp / exp) if (exp and comp is not None and exp > 0) else None
     c = rec.get("confidence") or {}
-    con.execute("INSERT OR REPLACE INTO fact_quality VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+    rc = rec.get("reconciliation") or {}
+    con.execute("INSERT OR REPLACE INTO fact_quality VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (rid, exp, comp, q.get("returns_partial"), q.get("returns_none"),
                  q.get("returns_on_time"), completeness,
+                 q.get("reported_completeness_pct"), q.get("reported_timeliness_pct"),
                  c.get("facilities_and_coverage"), c.get("patients"), c.get("workforce"),
-                 c.get("quality_and_mentorship"), c.get("governance_financing_hmis")))
+                 c.get("quality_mentorship"), c.get("governance_financing_hmis"),
+                 rc.get("annex_a_vs_2_3"), rc.get("patients_vs_2_5_2_6"),
+                 rc.get("mentorship_vs_3_4"), rc.get("definition_changed"),
+                 rc.get("figure_corrected")))
     con.commit()
     return rid
 

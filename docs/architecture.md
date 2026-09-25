@@ -169,6 +169,76 @@ and cheap to revive if a future form revision restores the table) but
 `parse.py` no longer populates it, so it will read `null` for every real
 return until then.
 
+## Current form revision (2026-09-25)
+
+The country reporting tools were revalidated against a new copy (source
+folder `Data collection tools/`, alongside a brand-new
+`PEN-Plus_Monthly_Facility_Return.docx`). Full field-by-field detail is in
+`docs/reporting-form.md`, "What changed from the previous copy of this
+form"; this section is the pipeline-side record of what that meant for code.
+
+- **Three priority conditions, not four.** `common.py::TRACERS` still lists
+  `severe_htn` as a fourth entry — deliberately: it is the historical
+  condition vocabulary, kept so a previously-loaded return that reported
+  severe hypertension still sums correctly (`for c in TRACERS if c in
+  stock`, so a return that only ever reported three simply has no fourth
+  entry to sum). Nothing was reprocessed or reclassified; a total computed
+  under the four-condition definition and one computed under the
+  three-condition definition are genuinely different figures, per rule 8
+  (a series break belongs wherever the condition list changed), not a bug
+  to reconcile away.
+- **Indicator 2.1's denominator was a latent bug, now fixed.**
+  `transform.py` used to divide by `len(TRACERS)` — a hard-coded four —
+  rather than by how many conditions the return actually answered. That
+  happened to be correct only by coincidence, while every return asked
+  about exactly four conditions. Now divides by `len(reported)`, correct
+  for a three-condition return, a four-condition return, or whatever a
+  future revision asks about next.
+- **`dim_indicator.reporting_frequency`** (new column): the current form's
+  section 7 states each indicator's own cadence (annual, semi-annual, or
+  semi-annual/annual for 2.6) rather than treating every indicator as
+  either quarterly or "Q4, or when it changed". Populated as static
+  reference data in `common.py::INDICATORS`, not parsed per return — it is
+  a property of the indicator, not something that should vary by country.
+  Not yet surfaced on any screen; a screen showing a "not reported this
+  quarter" annual indicator should say "not due" instead once it is.
+- **5.1 is now partly self-reported.** `fact_quality` gained
+  `reported_completeness_pct` and `reported_timeliness_pct` (from the
+  country's own answer under 5.1) alongside the existing `completeness`
+  (computed by this pipeline from section 0's counts). `export.py` computes
+  `completeness_divergence` (the absolute gap between the two, in
+  percentage points) once, server-side, so a screen can flag a
+  self-reported figure that disagrees with the computed one without ever
+  subtracting two numbers itself.
+- **A data-quality reconciliation self-attestation block is new**
+  (`fact_quality.recon_*`, five columns): the country now answers directly
+  whether its own Annex A, patient and mentorship totals reconcile across
+  sections, and whether anything changed since the last return. Previously
+  this was only ever a note the Regional Office checked on receipt.
+- **Annex A lost its performance columns.** See "Indicators not aggregated
+  into `gold_indicator`" above.
+- **Smaller field changes**, each with its own comment at the call site in
+  `parse.py`: section 0 merged national-context and facility-return-count
+  into one table and dropped "closing date of the quarter" (now derived
+  from the period itself, see `parse.py::_quarter_end_date`) and "is this
+  your first return"; 4.1 dropped the "PEN-Plus or severe NCD budget line"
+  question; 3.3's fourth column is now a redundant this-quarter total
+  rather than a not-stated count, and a fifth column gives a
+  country-reported year-to-date total instead of that figure being
+  accumulated by the Regional Office from four quarterly returns; the
+  "which loss-to-follow-up rule was applied" question is gone from the form
+  entirely, so `ltfu_compliant` defaults to `1` for every return parsed
+  from the current form (the regional rule is now a fixed definition, not a
+  per-quarter self-attestation) rather than gating on a question that no
+  longer exists.
+- **The new monthly facility return is documented, not wired.** See
+  `docs/reporting-form.md`, "The new monthly facility return", for the
+  field-by-field mapping onto the existing schema (`dim_period.rhythm`
+  already supports `'monthly'`, and `fact_facility_period` already existed
+  for exactly this shape) and what remains to build: a parser, load-time
+  wiring, and a decision on how the Facilities and Data Quality screens
+  should present a monthly-cadence source alongside a quarterly one.
+
 ## Milestones
 
 Every indicator can carry a `milestone` (the regional target it is measured
@@ -195,13 +265,20 @@ documented in code where they'd otherwise look like an oversight:
 - **Country-reported aggregates for 2.2, 2.3, 2.4 and 3.4** (the "this
   quarter / year to date" or "facilities assessed" summary tables the form
   asks the country to fill in directly) are not parsed. These four
-  indicators are instead computed bottom-up from Annex A's facility-level
-  detail, which is auditable against the facility register and is not
+  indicators were instead computed bottom-up from Annex A's facility-level
+  detail, which was auditable against the facility register and was not
   always reconcilable line-for-line with the country's own top-level count
-  (the form's own guidance only promises that 2.3 "must match the
-  facilities listed in Annex A", not the other three). Capturing both and
-  reconciling them is a reasonable follow-up validate.py rule once real
-  returns exist to test it against.
+  (the form's own guidance only promised that 2.3 "must match the
+  facilities listed in Annex A", not the other three). **As of the current
+  form revision (see below), Annex A no longer carries that facility-level
+  detail at all** — it moved to a new, separate monthly facility return,
+  not yet wired into this pipeline. 2.3 still resolves from the facility
+  register's own status column (a fallback that already existed); 2.2, 2.4
+  and 3.4 currently have no source to compute from and correctly render as
+  not-yet-reported rather than switching over to the country's own aggregate
+  answer, which this pipeline has never treated as the primary source.
+  Reconciling the two, once the monthly form is wired, is still a reasonable
+  follow-up validate.py rule.
 - **5.1's HMIS integration extent** (`fact_context.his_integration_level`,
   encoded 0/1/2 for not/partially/fully integrated, since `fact_context`
   only stores integers) is parsed and stored but not folded into the 5.1

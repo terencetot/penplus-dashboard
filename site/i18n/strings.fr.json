@@ -104,7 +104,7 @@
   "screen1.map.caption": "La carte situe PEN-Plus ; elle ne classe pas les pays selon leur performance.",
   "screen1.milestone.title": "Progression vers les jalons : cinq indicateurs phares",
   "screen1.milestone.caption": "Dernière valeur publiée comparée au jalon régional, sous forme de barre avec un repère cible. Ni jauge, ni feu tricolore.",
-  "screen1.summary": "PEN-Plus est mis en œuvre dans la Région africaine de l'OMS. À la dernière période, <strong>{countriesReporting} pays sur {countriesTotal}</strong> ont publié au moins un chiffre, <strong>{facilities}</strong> formations sanitaires offrent les services, et <strong>{patients}</strong> patients ont été inscrits au total sur les quatre pathologies traceuses.",
+  "screen1.summary": "PEN-Plus est mis en œuvre dans la Région africaine de l'OMS. À la dernière période, <strong>{countriesReporting} pays sur {countriesTotal}</strong> ont publié au moins un chiffre, <strong>{facilities}</strong> formations sanitaires offrent les services, et <strong>{patients}</strong> patients ont été inscrits au total sur les trois pathologies prioritaires.",
 
   "screen2.title": "Détail d'un indicateur",
   "screen2.question": "Cet indicateur évolue-t-il, et quels pays en sont moteurs ?",
