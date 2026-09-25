@@ -109,6 +109,36 @@ def test_longitudinal_ignores_held_prior_return(db, make_rec):
     assert verdict == "accepted"
 
 
+# -------------------------------------------------------- plausible growth
+def test_plausible_growth_pass_within_normal_range(db, make_rec):
+    rec1 = make_rec()
+    load_return(db, rec1, verdict="accepted")
+
+    rec2 = make_rec(period_id="2026-Q2", quarter_id="2026-Q2")
+    rec2["patient_stock"][0]["ever_enrolled"] = 150  # up from 120: normal growth
+    verdict, findings = validate_return(db, rec2)
+    assert verdict == "accepted"
+    assert not any(f.section == "2.1" and f.severity == "Medium" for f in findings)
+
+
+def test_plausible_growth_violation_is_medium_not_high(db, make_rec):
+    """An implausible jump gets a second look, not a hold: unlike a cascade
+    or arithmetic error, it might be a real (if unusual) catch-up return."""
+    rec1 = make_rec()
+    load_return(db, rec1, verdict="accepted")
+
+    rec2 = make_rec(period_id="2026-Q2", quarter_id="2026-Q2")
+    rec2["patient_stock"][0]["ever_enrolled"] = 300  # more than double 120
+    # active_end (and the age bands that must sum to it) stay at their
+    # normal, passing values -- isolates the growth-plausibility rule from
+    # the cascade and age-reconciliation rules.
+    verdict, findings = validate_return(db, rec2)
+    assert verdict == "query"  # Medium findings query, they do not hold
+    f = next(f for f in findings if f.section == "2.1" and "more than doubled" in f.question)
+    assert f.severity == "Medium"
+    assert "t1d" in f.field
+
+
 # -------------------------------------------------------------- completeness
 def test_completeness_pass(db, make_rec):
     verdict, findings = validate_return(db, make_rec())

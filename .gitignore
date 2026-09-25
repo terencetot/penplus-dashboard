@@ -15,6 +15,12 @@ venv/
 # site/public/demo-data IS committed, since the deployed site serves it.
 pipeline/src/penplus_pipeline/demo.db
 
+# consolidate.py's outputs: an internal-view partner workbook and per-country
+# data-quality reports, regenerated on demand (`make reports`) and shared
+# directly, not published -- this repo is public, and a report can name a
+# specific country's data-quality gap the way the public bundle never does.
+/reports/
+
 # Node / frontend
 site/node_modules/
 site/dist/

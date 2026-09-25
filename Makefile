@@ -1,12 +1,22 @@
-.PHONY: pipeline rebuild test test-pipeline test-site site build lint fmt
+.PHONY: pipeline rebuild reports test test-pipeline test-site site build lint fmt
 
 # Recompute indicators and re-export the JSON bundle from the existing store.
+# --public: site/public/data ships to GitHub Pages with no non-public
+# audience -- CI refuses to deploy a bundle missing this flag, so building
+# without it here just means redoing the work.
 pipeline:
-	python3 pipeline/src/penplus_pipeline/run.py --transform --export
+	python3 pipeline/src/penplus_pipeline/run.py --transform --export --public
 
 # Full rebuild from raw evidence. Requires data/raw/*.xlsx (see docs/architecture.md).
 rebuild:
 	python3 pipeline/src/penplus_pipeline/run.py --rebuild
+
+# The partner workbook and one data-quality report per country, from the
+# current store. Run after `make pipeline`.
+reports:
+	python3 pipeline/src/penplus_pipeline/consolidate.py \
+		--workbook reports/partner_workbook.xlsx \
+		--reports-dir reports/country
 
 test: test-pipeline test-site
 

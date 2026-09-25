@@ -129,6 +129,39 @@ def _check_longitudinal(con, iso3, rec, reg: Register):
                      "the correction.")
 
 
+def _check_plausible_growth(con, iso3, rec, reg: Register):
+    """A cumulative figure that never decreases can still jump implausibly.
+
+    The longitudinal check above catches a fall; this one catches a rise a
+    reasonable reviewer would ask about before trusting it -- more than
+    doubling in a single period is well outside how a facility caseload
+    actually grows quarter to quarter. Medium, not High: an implausible jump
+    still gets a second look from the focal point, but a genuine catch-up
+    return (a country reporting for the first time in a year) is a real,
+    if unusual, figure and should not be held back from the regional total
+    the way a cascade or arithmetic error is.
+    """
+    for r in rec.get("patient_stock", []):
+        cond, ever = r["condition"], r.get("ever_enrolled")
+        if ever is None:
+            continue
+        prev = con.execute(
+            "SELECT s.ever_enrolled, r.period_id FROM fact_patient_stock s"
+            " JOIN fact_return r USING(return_id)"
+            " WHERE r.iso3=? AND s.condition=? AND r.superseded=0"
+            " AND r.verdict!='hold' AND r.period_id<? AND s.ever_enrolled IS NOT NULL"
+            " ORDER BY r.period_id DESC LIMIT 1",
+            (iso3, cond, rec["period_id"])).fetchone()
+        if prev and prev["ever_enrolled"] > 0 and ever > prev["ever_enrolled"] * 2:
+            reg.medium("2.1", f"{cond} / ever enrolled",
+                       f"{ever} this period, {prev['ever_enrolled']} in {prev['period_id']}",
+                       "growth in line with prior quarters",
+                       f"For {cond}, ever enrolled more than doubled since {prev['period_id']} "
+                       f"({prev['ever_enrolled']} to {ever}). Please confirm this is a real change "
+                       "(e.g. a catch-up return, a new facility, deduplication fixed) rather than "
+                       "a transcription error.")
+
+
 def _check_completeness(rec, reg: Register):
     q = rec.get("quality") or {}
     exp, comp = q.get("facilities_expected"), q.get("returns_complete")
@@ -162,6 +195,7 @@ def validate_return(con, rec) -> tuple[str, list[Finding]]:
         _check_patient_cascade(rec, reg)
         _check_age_reconciliation(rec, reg)
         _check_longitudinal(con, iso3, rec, reg)
+        _check_plausible_growth(con, iso3, rec, reg)
         _check_completeness(rec, reg)
         _check_retention(rec, reg)
 

@@ -3,16 +3,18 @@
 Turns completed Word country returns into a SQLite store and a static JSON bundle
 for the dashboard. No manual transcription anywhere in the chain.
 
-`parse.py` reads `../docs/Phase_2_PEN-Plus_Reporting_Tools.docx` (version 3)
-section by section -- section numbers in the code are the form's own (0
-identification, 1 governance, 2 service delivery, 3 workforce, 4 financing,
-5 health information, 6 communication, Annex A facilities), not the data
+`parse.py` reads `../docs/Phase_2_PEN-Plus_Reporting_Tools.docx` section by
+section -- section numbers in the code are the form's own (0 identification,
+1 governance, 2 service delivery, 3 workforce, 4 financing, 5 monitoring and
+data quality, 6 communication, Annex A facility register), not the data
 model workbook's numbering. See `../docs/architecture.md`, "Indicator list
-corrected against the real reporting forms", before assuming a section
-number or column order is a typo rather than the real form's own layout.
+corrected against the real reporting forms" and "Current form revision",
+before assuming a section number or column order is a typo rather than the
+real form's own layout.
 
 ```
 returns (.docx) -> parse -> validate -> load -> transform -> export -> site/public/data/*.json
+                                                                     \-> consolidate -> partner workbook + per-country reports
 ```
 
 ## Quick start
@@ -41,6 +43,7 @@ is the command to run when a formula changes.
 | `seed_history.py` | Rebuilds returns from the ICPPA extraction and the phase 1 monitoring workbook. |
 | `transform.py` | One implementation per indicator, writing `gold_indicator`. |
 | `export.py` | The JSON bundle, one file per screen plus a manifest. |
+| `consolidate.py` | The partner workbook (`.xlsx`) and one data-quality report per country (`.md`), from the same store `export.py` reads -- see "Consolidation and data-quality reports" below. |
 | `run.py` | The whole chain in one command. |
 | `qc.py` | A standalone query-register tool for an **older** form version (different section numbering). Not wired into the chain above -- see `docs/architecture.md`. |
 
@@ -49,12 +52,41 @@ is the command to run when a formula changes.
 A parsed return is checked before it is loaded: the patient cascade
 (`active_end` cannot exceed `ever_enrolled`), the age-band reconciliation
 (the age bands must sum to `active_end`), the longitudinal rule
-(`ever_enrolled` must never decrease from the previous period), and
-completeness/retention arithmetic. Any High-severity finding sets
-`verdict='hold'` -- `transform.py` excludes held returns from
-`gold_indicator` entirely, so a bad return is queried, never published.
-Every finding, High or not, is written to `query_register` and reaches the
-dashboard's data-quality screen and the country's open-queries list.
+(`ever_enrolled` must never decrease from the previous period), a
+plausible-growth check (more than doubling since the last period is Medium,
+not High -- worth a second look, but possibly a real catch-up return, not
+necessarily an error), and completeness/retention arithmetic. Any
+High-severity finding sets `verdict='hold'` -- `transform.py` excludes held
+returns from `gold_indicator` entirely, so a bad return is queried, never
+published. Every finding, High or not, is written to `query_register` and
+reaches the dashboard's data-quality screen and the country's open-queries
+list.
+
+## Consolidation and data-quality reports
+
+`consolidate.py` reads the same store `export.py` does and produces two
+things a focal point needs that the dashboard itself does not provide:
+
+- **A partner workbook** (`--workbook path.xlsx`): indicators by country, a
+  data-quality summary (computed vs. self-reported completeness and
+  timeliness, the reconciliation self-attestation), and the full open query
+  register -- a document to share, not a link to the dashboard.
+- **One data-quality report per country** (`--reports-dir path/`): reads
+  like a reviewer's own notes -- what changed since the last period
+  (flagging a fall or an implausible jump in ever-enrolled), whether the
+  country's self-reported completeness/timeliness agrees with what this
+  pipeline computed, what its own reconciliation check raised, what is open
+  in the query register, and a plain recommendation: contact the country, or
+  no action needed.
+
+```bash
+python3 consolidate.py --workbook ../../reports/partner_workbook.xlsx --reports-dir ../../reports/country
+```
+
+Both outputs are internal-view documents (`make reports`, gitignored under
+`/reports/`) -- this repository is public, and a report can name a specific
+country's data-quality gap the way the public bundle deliberately never
+does.
 
 ## The rules the code enforces
 
