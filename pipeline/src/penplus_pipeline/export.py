@@ -96,12 +96,20 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         if k not in latest or g["period_id"] > latest[k]["period_id"]:
             latest[k] = g
 
+    def coverage_pct(reporting, total):
+        """Share of countries with a published figure, as a whole per cent --
+        computed once, here, so a KPI card's "Partial · NN%" badge is never a
+        division the front end performs itself (CLAUDE.md rule 1)."""
+        return round(reporting / total * 100) if total else None
+
     def headline(code):
         vals = [v["numerator"] for (i, c), v in latest.items()
                 if c == code and v["numerator"] is not None]
+        reporting, total = len(vals), len(countries)
         return {"total": sum(vals) if vals else None,
-                "countries_reporting": len(vals),
-                "countries_total": len(countries)}
+                "countries_reporting": reporting,
+                "countries_total": total,
+                "coverage_pct": coverage_pct(reporting, total)}
 
     def regional_value(code, unit):
         """The one regional aggregate for `code`: sum of numerators for a
@@ -118,7 +126,16 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         else:
             nums = [v["numerator"] for v in rows if v["numerator"] is not None]
             value = sum(nums) if nums else None
-        return value, as_of, len(rows)
+        # "Reporting" means a country has a publishable figure for this
+        # indicator's latest period -- gold_indicator.value is already null
+        # unless both its inputs are (transform.py's own null discipline), so
+        # this is the one check that is right for both a count and a rate.
+        # `len(rows)` alone counts every country with *any* row for this
+        # code, including one whose value is null, which overstated
+        # countries_reporting for every rate indicator (e.g. 2.5 showed 20,
+        # not the 6 that actually have a published figure).
+        reporting = len([v for v in rows if v["value"] is not None])
+        return value, as_of, reporting
 
     # Every indicator carries its regional value and, once the Regional Office
     # publishes a target, its gap to milestone. dim_indicator.milestone is
@@ -129,6 +146,8 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         dim["regional_value"] = value
         dim["regional_as_of"] = as_of
         dim["countries_reporting"] = reporting
+        dim["countries_total"] = len(countries)
+        dim["coverage_pct"] = coverage_pct(reporting, len(countries))
         dim["gap"] = (dim["milestone"] - value) if (dim["milestone"] is not None and value is not None) else None
 
     # The five headline indicators for the screen 1 milestone strip: the four

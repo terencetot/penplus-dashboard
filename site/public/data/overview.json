@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-25T03:52:27",
+  "built_at": "2026-10-14T17:03:40",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 40,
@@ -14,22 +14,26 @@
   "facilities": {
    "total": 31,
    "countries_reporting": 15,
-   "countries_total": 31
+   "countries_total": 31,
+   "coverage_pct": 48
   },
   "ever_enrolled": {
    "total": 13222,
    "countries_reporting": 6,
-   "countries_total": 31
+   "countries_total": 31,
+   "coverage_pct": 19
   },
   "active": {
    "total": null,
    "countries_reporting": 0,
-   "countries_total": 31
+   "countries_total": 31,
+   "coverage_pct": 0
   },
   "trained": {
    "total": null,
    "countries_reporting": 0,
-   "countries_total": 31
+   "countries_total": 31,
+   "coverage_pct": 0
   }
  },
  "milestone_strip": [
@@ -52,7 +56,7 @@
    "as_of": "2026-09-22",
    "milestone": null,
    "gap": null,
-   "countries_reporting": 20,
+   "countries_reporting": 6,
    "countries_total": 31
   },
   {
@@ -63,7 +67,7 @@
    "as_of": "2026-09-22",
    "milestone": null,
    "gap": null,
-   "countries_reporting": 20,
+   "countries_reporting": 0,
    "countries_total": 31
   },
   {

@@ -36,6 +36,8 @@ export interface HeadlineFigure {
   total: number | null;
   countries_reporting: number;
   countries_total: number;
+  /** Whole per cent, computed in export.py -- never (re)derived in the browser. */
+  coverage_pct: number | null;
 }
 
 export interface MilestoneStripEntry {
@@ -80,6 +82,9 @@ export interface IndicatorDim {
   regional_value: number | null;
   regional_as_of: string | null;
   countries_reporting: number;
+  countries_total: number;
+  /** Whole per cent, computed in export.py -- never (re)derived in the browser. */
+  coverage_pct: number | null;
   gap: number | null;
 }
 
@@ -152,7 +157,7 @@ export type FacilityStatus =
 export interface FacilityRow {
   facility_id: string;
   iso3: string;
-  name: string;
+  name: string | null; // withheld (null) in the public export; fall back to facility_id
   district: string | null;
   region: string | null;
   facility_type: string | null;

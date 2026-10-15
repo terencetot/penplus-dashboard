@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-09-25T03:47:50",
+  "built_at": "2026-10-14T17:03:42",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 110,
@@ -2350,19 +2350,5 @@
    "period_id": "2026-Q1"
   }
  ],
- "open_queries": [
-  {
-   "iso3": "CMR",
-   "period_id": "2025-Q1",
-   "query_id": 4,
-   "severity": "Low",
-   "section": "2.6",
-   "field": "Retention denominator",
-   "observed": "reported lower than the prior quarter",
-   "expected": "a stable or growing cohort",
-   "question": "Please confirm the retention denominator against the facility register.",
-   "status": "open",
-   "raised_at": "2026-02-15"
-  }
- ]
+ "open_queries": []
 }
