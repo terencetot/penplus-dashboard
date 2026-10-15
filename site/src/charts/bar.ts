@@ -47,16 +47,23 @@ export function horizontalBars(
   const stub = known.length > 0 ? Math.max(...known) * 0.04 : 1;
   const plotValue = (d: BarDatum) => d.value ?? stub;
   return Plot.plot({
-    marginLeft: 140,
-    height: opts.height ?? Math.max(120, data.length * 22),
-    x: { label: opts.valueLabel, grid: true, nice: true },
-    y: { label: null, domain: data.map((d) => d.label) },
+    width: 1100,
+    ariaLabel: opts.valueLabel,
+    marginLeft: 230,
+    marginRight: 24,
+    height: opts.height ?? Math.max(120, data.length * 34 + 40),
+    // the panel title already names the indicator; an axis label here only
+    // collided with the tick labels
+    x: { label: null, grid: true, nice: true },
+    y: { label: null, domain: data.map((d) => d.label), padding: 0.45 },
     color: { legend: false },
+    style: { fontFamily: "var(--font-family)", fontSize: "13px" },
     marks: [
       Plot.barX(data, {
         y: "label",
         x: plotValue,
-        fill: (d: BarDatum) => (d.suppressed ? "var(--color-accent)" : "var(--color-primary)"),
+        rx: 5,
+        fill: (d: BarDatum) => (d.suppressed ? "var(--color-accent)" : "var(--navy-700)"),
         fillOpacity: (d: BarDatum) => (d.suppressed ? 0.55 : 1),
         tip: true,
         title: (d: BarDatum) => d.title ?? `${d.label}: ${d.value ?? "suppressed"}`,

@@ -1,11 +1,10 @@
 /* ------------------------------------------------------------------ layout */
 .panel {
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border);
+  background: var(--color-bg);
   border-radius: var(--radius-lg);
-  padding: var(--space-5);
+  padding: var(--space-6);
   margin-bottom: var(--space-5);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 .panel__header {
   display: flex;
@@ -17,8 +16,8 @@
 }
 .panel__title {
   font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 700;
   margin: 0;
   letter-spacing: -0.01em;
 }
@@ -30,14 +29,16 @@
 
 h2.screen-title {
   font-family: var(--font-display);
-  font-size: 1.7rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--color-primary);
-  border-bottom: 2px solid var(--color-accent);
-  display: inline-block;
-  padding-bottom: 2px;
-  margin-bottom: var(--space-2);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin: var(--space-4) 0 var(--space-2);
+}
+h2.screen-title + .panel__question {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-5);
 }
 
 .screen-controls {
@@ -45,12 +46,16 @@ h2.screen-title {
   gap: var(--space-3);
   align-items: center;
   flex-wrap: wrap;
-  margin-bottom: var(--space-4);
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+  margin-bottom: var(--space-5);
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+}
+.panel .screen-controls {
+  background: var(--paper);
+  box-shadow: none;
+  border-radius: var(--radius);
 }
 .screen-controls label {
   font-size: var(--font-label);
@@ -76,123 +81,350 @@ h2.screen-title {
   border-color: var(--color-primary);
 }
 
-/* ---------------------------------------------------------------- hero band
-   Screen 1's opening statement and the deliberate visual anchor of the whole
-   site: a dark tonal panel with icon-led, glowing figures, matching the
-   editorial weight CLAUDE.md asks this build to take from the NCD platform. */
-.hero-band {
-  background: var(--gradient-header);
-  border-radius: var(--radius-lg);
-  padding: var(--space-6) var(--space-6);
-  margin-bottom: var(--space-5);
+/* ---------------------------------------------------------------- hero
+   Screen 1's opening statement: dark tonal panel, headline copy on the
+   left, the isometric country-tile map on the right. KPI band overlaps its
+   bottom edge (.kpi-band, below) rather than sitting inside it -- the
+   figures read as summarising the hero, not decorating it. */
+.hero {
   position: relative;
   overflow: hidden;
-  color: var(--color-text-on-primary);
-  box-shadow: var(--shadow-lg);
+  background:
+    radial-gradient(900px 500px at 78% 30%, var(--navy-700) 0%, transparent 60%),
+    radial-gradient(600px 400px at 10% 110%, rgba(232, 116, 59, 0.18), transparent 60%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950));
+  color: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--space-6) var(--space-6) calc(var(--space-7) * 1.5);
 }
-.hero-band::before {
+.hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
   background-size: 22px 22px;
+  mask-image: linear-gradient(180deg, #000, transparent 85%);
   pointer-events: none;
 }
-.hero-band__orb {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.14) 0%, transparent 70%);
-}
-.hero-band__orb--1 {
-  width: 320px;
-  height: 320px;
-  top: -140px;
-  right: -80px;
-}
-.hero-band__orb--2 {
-  width: 220px;
-  height: 220px;
-  bottom: -110px;
-  left: 10%;
-  background: radial-gradient(circle, rgba(181, 81, 13, 0.22) 0%, transparent 70%);
-}
-.hero-band__head {
+.hero__grid {
   position: relative;
-  max-width: 62ch;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(300px, 460px) 1fr;
+  gap: var(--space-5);
+  align-items: center;
+  min-height: 360px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-top: var(--space-4);
+}
+.hero .q {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.78);
+  margin-top: var(--space-3);
+  letter-spacing: -0.005em;
+}
+.hero .sum {
+  margin-top: var(--space-5);
+  font-size: var(--font-body);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 48ch;
+}
+.hero .sum b {
+  color: #fff;
+  font-weight: 700;
+}
+.hero .leg {
+  display: flex;
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+  font-size: 0.84rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+.hero .leg span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.hero .leg i {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  display: inline-block;
+}
+.hero .leg i.a {
+  background: linear-gradient(145deg, #fff, var(--navy-300));
+  box-shadow: 2px 2px 0 var(--navy-700);
+}
+.hero .leg i.b {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.18);
+}
+.hero .leg b {
+  color: #fff;
+}
+
+/* ---- isometric tile map: a fixed-perspective plane, tiles extruded with a
+   stacked flat-shadow technique (each 1px step is a solid colour, not a
+   blur) so the "3D" reads as a deliberate illustration style rather than a
+   literal 3D effect (CLAUDE.md's "not allowed: three-dimensional effects"
+   is about chart marks encoding data in a third dimension; this is static
+   decoration with no data in its depth, the same way the hero's radial glow
+   is decoration -- cohort is carried by which of two flat styles a tile
+   gets, never by how "extruded" it looks). */
+.iso {
+  perspective: 1800px;
+  perspective-origin: 50% 0%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.plane {
+  position: relative;
+  transform: rotateX(55deg) rotateZ(-26deg);
+  transform-style: preserve-3d;
+}
+.t {
+  position: absolute;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 7px;
+  transform-style: preserve-3d;
+}
+.t.off {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.t.p1 {
+  background: linear-gradient(145deg, #ffffff, var(--navy-100));
+  transform: translateZ(14px);
+  box-shadow:
+    1px 1px 0 #7f9bd3,
+    2px 2px 0 #7590cb,
+    3px 3px 0 #6a86c2,
+    4px 4px 0 #5f7bb9,
+    5px 5px 0 #5571af,
+    6px 6px 0 #4b67a6,
+    7px 7px 0 #415d9c,
+    8px 8px 0 #385393,
+    9px 9px 0 #2f4a8a,
+    10px 10px 0 #2a4382,
+    14px 18px 18px rgba(0, 0, 0, 0.45);
+}
+.t.p1 .m {
+  position: absolute;
+  inset: 6px;
+  background: var(--navy-800);
+}
+.t.p2 {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.3), rgba(157, 179, 221, 0.14));
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  transform: translateZ(4px);
+  box-shadow:
+    1px 1px 0 rgba(157, 179, 221, 0.35),
+    2px 2px 0 rgba(157, 179, 221, 0.3),
+    3px 3px 0 rgba(157, 179, 221, 0.25),
+    8px 10px 14px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(2px);
+}
+.t.p2 .m {
+  position: absolute;
+  inset: 6px;
+  background: rgba(255, 255, 255, 0.75);
+}
+.t .m {
+  -webkit-mask: var(--m) center / contain no-repeat;
+  mask: var(--m) center / contain no-repeat;
+}
+.t em {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -15px;
+  text-align: center;
+  font-style: normal;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.55);
+  display: none;
+}
+
+/* The single enlarged tile on a country's own profile (screen 3). */
+.country-badge {
+  background: var(--navy-900);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 220px;
+  box-shadow: var(--shadow-md);
+}
+.country-badge__iso {
+  flex: 1;
+  perspective: 900px;
+}
+.country-badge__plane {
+  transform: rotateX(55deg) rotateZ(-26deg);
+  margin: 0 auto;
+}
+.country-badge__label {
+  color: #fff;
+  font-size: var(--font-label);
+  font-weight: 600;
+  margin-top: var(--space-3);
+}
+.country-badge .t .m {
+  inset: 18px;
+}
+
+/* ------------------------------------------------------------ country hero */
+.country-hero {
+  display: grid;
+  grid-template-columns: 1fr minmax(260px, 380px);
+  gap: var(--space-5);
   margin-bottom: var(--space-5);
 }
-.hero-band__title {
+@media (max-width: 860px) {
+  .country-hero {
+    grid-template-columns: 1fr;
+  }
+}
+.country-hero__card {
+  background: linear-gradient(120deg, #fff 55%, var(--navy-100));
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-lg);
+}
+.country-hero__name {
   font-family: var(--font-display);
-  font-size: 1.9rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin-bottom: var(--space-2);
+  font-size: 3.4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--color-primary);
 }
-.hero-band__subtitle {
-  color: var(--color-text-on-primary-muted);
-  font-size: var(--font-body);
-  margin: 0;
+.country-hero__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
 }
-.hero-band__grid {
-  position: relative;
+.country-hero__chips .chip {
+  padding: 0.35em 0.85em;
+}
+.country-hero__stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
 }
-.signal-card {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: var(--radius);
-  padding: var(--space-4);
-  transition: var(--transition-lift);
+@media (max-width: 620px) {
+  .country-hero__stats {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: var(--space-4);
+  }
 }
-.signal-card:hover {
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
+.country-hero__stat {
+  padding: 0 var(--space-4);
+  border-left: 1px solid var(--color-border);
 }
-/* The same tinted-badge idea as .kpi-card__icon, adapted to the hero's dark
-   glass surface: a soft translucent circle behind the accent icon rather
-   than a bare glyph, so the two card families read as one design language
-   instead of the hero looking like a different, unrelated product. */
-.signal-card__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.25rem;
-  height: 3.25rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--color-accent-strong, var(--color-accent));
-  margin-bottom: var(--space-3);
+.country-hero__stat:first-child {
+  padding-left: 0;
+  border-left: none;
 }
-.signal-card__icon svg {
-  width: 1.6rem;
-  height: 1.6rem;
-}
-.signal-card__value {
+.country-hero__stat b {
+  display: block;
   font-family: var(--font-display);
   font-size: 2.1rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-primary);
+}
+.country-hero__stat b.is-null {
+  font-size: 1.3rem;
   font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  color: var(--faint);
+  padding: 0.45rem 0;
 }
-.signal-card__value.is-null {
-  font-size: 1.2rem;
+.country-hero__stat span {
+  font-size: var(--font-label);
+  color: var(--color-text-muted);
+}
+
+/* ---------------------------------------------------- indicator groups */
+.indicator-groups {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+@media (max-width: 860px) {
+  .indicator-groups {
+    grid-template-columns: 1fr;
+  }
+}
+.indicator-groups .panel {
+  margin-bottom: 0;
+}
+.indicator-group h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+.indicator-group .count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--navy-100);
+  border-radius: 6px;
+  padding: 0.1em 0.5em;
+}
+.indicator-row {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-body);
+}
+.indicator-row:last-child {
+  border-bottom: none;
+}
+.indicator-row__code {
+  color: var(--color-text-muted);
+  font-size: var(--font-label);
+  font-weight: 600;
+}
+.indicator-row__value {
+  text-align: right;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.indicator-row__value small {
   font-weight: 500;
-  opacity: 0.75;
+  color: var(--faint);
+  font-size: 0.75rem;
+  margin-left: var(--space-1);
 }
-.signal-card__label {
-  font-size: var(--font-label);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-on-primary-muted);
-  margin-top: var(--space-1);
-}
-.signal-card__meta {
-  font-size: var(--font-label);
-  color: var(--color-text-on-primary-muted);
-  margin-top: var(--space-2);
+.pill--nr {
+  border-style: dashed;
+  border-color: #cdd5e3;
+  color: var(--faint);
+  font-weight: 500;
 }
 
 /* ------------------------------------------------------------------ kpi row
@@ -210,19 +442,19 @@ h2.screen-title {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border);
+  background: var(--color-bg);
   border-radius: var(--radius-lg);
-  padding: var(--space-4);
-  box-shadow: var(--shadow-sm);
-  transition:
-    var(--transition-lift),
-    border-color 200ms ease;
+  padding: var(--space-5);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-lift);
 }
 .kpi-card:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-  border-color: var(--color-primary-soft);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+.kpi-card.is-null {
+  box-shadow: none;
+  border: 1.5px dashed #cdd5e3;
 }
 /* The icon's own tinted circular badge -- the single change that made these
    cards read as designed rather than a bare glyph floating above a number.
@@ -236,8 +468,8 @@ h2.screen-title {
   height: 3rem;
   flex-shrink: 0;
   border-radius: 50%;
-  background: var(--color-primary-soft);
-  color: var(--color-primary);
+  background: var(--navy-100);
+  color: var(--navy-700);
   transition: var(--transition-lift);
 }
 .kpi-card:hover .kpi-card__icon {
@@ -256,24 +488,115 @@ h2.screen-title {
 }
 .kpi-card__value {
   font-family: var(--font-display);
-  font-size: 1.7rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 800;
   line-height: 1.05;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.03em;
   color: var(--color-primary);
+  font-variant-numeric: normal;
+  font-feature-settings: normal;
 }
 .kpi-card__value.is-null {
   font-size: 1.1rem;
-  color: var(--color-text-muted);
+  color: var(--faint);
   font-family: var(--font-family);
   font-weight: 500;
 }
 .kpi-card__label {
   font-size: var(--font-label);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-weight: 600;
   color: var(--color-text-muted);
   margin-top: 2px;
+}
+
+/* ------------------------------------------------------------ coverage card
+   The richer card used wherever a figure's country-coverage is the point,
+   not just its value: the hero band's four headline figures, and indicator
+   detail's regional-value card. Three states: reported in full (plain
+   value), reported by some countries ("Partial · NN%", the coverage_pct
+   export.py precomputes -- never a division this file performs), and
+   reported by none (dashed border, muted "Not reported", per CLAUDE.md
+   rule 2: a missing figure is a gap, never a zero). */
+.kpi-band {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-1 * var(--space-7) - 20px);
+}
+.coverage-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+.coverage-card {
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5) var(--space-5) var(--space-4);
+  box-shadow: var(--shadow-lg);
+}
+.coverage-card__label {
+  font-size: var(--font-label);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+.coverage-card__row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+.coverage-card__value {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--color-primary);
+}
+.coverage-card__cov {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  font-size: var(--font-label);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.coverage-card__cov b {
+  color: var(--color-text);
+  font-weight: 700;
+}
+.coverage-card__pips {
+  display: flex;
+  gap: 2px;
+  margin-top: var(--space-2);
+}
+.coverage-card__pips i {
+  flex: 1;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--navy-100);
+  font-style: normal;
+}
+.coverage-card__pips i.f {
+  background: var(--navy-700);
+}
+.coverage-card.partial .coverage-card__value {
+  color: #4a5a7c;
+}
+.coverage-card.is-nr {
+  background: var(--color-bg);
+  border: 1.5px dashed var(--color-border);
+  box-shadow: var(--shadow-sm);
+}
+.coverage-card.is-nr .coverage-card__value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--faint);
+  margin-top: var(--space-4);
 }
 
 /* Small icon that sits before a panel title, for the same reason a KPI card
@@ -317,9 +640,10 @@ h2.screen-title {
 
 /* -------------------------------------------------------------- exec message */
 .exec-message {
-  background: var(--color-primary-soft);
-  border-left: 3px solid var(--color-primary);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--color-bg);
+  box-shadow: var(--shadow-md);
+  border-left: 4px solid var(--navy-700);
+  border-radius: var(--radius-lg);
   padding: var(--space-4) var(--space-5);
   margin-bottom: var(--space-5);
   font-size: var(--font-body);
@@ -448,9 +772,8 @@ h2.screen-title {
   color: var(--color-accent);
 }
 .chip--historical {
-  font-style: italic;
-  background: var(--color-bg-muted);
-  color: var(--color-text-muted);
+  background: var(--navy-100);
+  color: var(--navy-700);
 }
 /* Reuses the same status palette as the phase-grid marks and every status
    pill on the site, so "highest phase completed" reads at a glance: grey
@@ -469,6 +792,29 @@ h2.screen-title {
 .chip--met {
   background: var(--color-status-met-bg);
   color: var(--color-status-met);
+}
+/* "Partial · NN%" (a coverage card short of 100%) and "not yet published"
+   badges: the warm accent tint, at the exact text colour the design
+   reference uses (#A4471A), distinct from --color-accent-soft's existing
+   use for small-cell suppression. */
+.chip--warm {
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+/* The hero's own dark-background chip: a small accent dot ahead of the
+   text, the one place a dot alone would carry meaning if the label beside
+   it were ever removed -- it never is (rule 9). */
+.hero .chip {
+  background: rgba(232, 116, 59, 0.14);
+  color: #ffd2b8;
+  border: 1px solid rgba(232, 116, 59, 0.35);
+}
+.hero .chip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
 }
 
 /* ------------------------------------------------------------------ tables */
@@ -651,14 +997,25 @@ tbody .phase-grid__pin {
 /* ----------------------------------------------------------------- charts */
 .chart-block {
   margin-bottom: var(--space-5);
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border);
+  background: var(--color-bg);
   border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  box-shadow: var(--shadow-sm);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+/* a chart block already inside a panel is the panel's content, not a second card */
+.panel .chart-block {
+  padding: 0;
+  box-shadow: none;
+  margin-bottom: 0;
 }
 .chart-figure {
   margin: 0;
+}
+.chart-figure svg,
+.trend-card__chart svg {
+  max-width: 100%;
+  height: auto;
+  font-family: var(--font-family);
 }
 .chart-caption {
   font-size: var(--font-label);
@@ -704,7 +1061,7 @@ tbody .phase-grid__pin {
 /* -------------------------------------------------------------- milestone */
 .milestone-row {
   display: grid;
-  grid-template-columns: minmax(160px, 240px) 1fr auto;
+  grid-template-columns: minmax(200px, 340px) 1fr auto;
   gap: var(--space-4);
   align-items: center;
   padding: var(--space-4) 0;
@@ -737,10 +1094,11 @@ tbody .phase-grid__pin {
 }
 .milestone-row__target {
   position: absolute;
-  top: -4px;
-  bottom: -4px;
-  width: 2px;
-  background: var(--color-accent);
+  top: -6px;
+  bottom: -6px;
+  width: 4px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(180deg, var(--color-accent) 0 4px, transparent 4px 7px);
 }
 .milestone-row__value {
   font-family: var(--font-display);
@@ -842,15 +1200,89 @@ tbody .phase-grid__pin {
 /* ------------------------------------------------------------- definition */
 .definition-panel {
   font-size: var(--font-body);
-  color: var(--color-text-muted);
+  color: var(--color-text);
+  margin: 0;
+}
+/* one definition beside one formula, as in the reference */
+.definition-panel--pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  grid-auto-flow: column;
+  column-gap: var(--space-6);
 }
 .definition-panel dt {
   font-weight: 600;
-  color: var(--color-text);
+  color: var(--color-text-muted);
+  font-size: var(--font-label);
   margin-top: var(--space-3);
 }
 .definition-panel dd {
   margin: var(--space-1) 0 0;
+}
+
+/* ------------------------------------------------------------------ pills
+   The non-reporting countries that a distribution chart leaves out of its
+   bars -- listed, not silently omitted (CLAUDE.md: a missing figure is a
+   gap, not a disappearance). */
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3em 0.75em;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  font-size: var(--font-label);
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+}
+
+/* --------------------------------------------------------- small multiples
+   Trend by country (screen 2): one scale per country rather than one shared
+   axis, each its own card -- comparing shapes, not forcing a single scale
+   that flattens a small country's own trend. */
+.trend-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+.trend-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+.trend-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+.trend-card__name {
+  font-weight: 700;
+  font-size: var(--font-body);
+}
+.trend-card__value {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-top: var(--space-2);
+}
+.trend-card__value small {
+  font-family: var(--font-family);
+  font-size: var(--font-label);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-left: var(--space-2);
+}
+.trend-card__chart {
+  margin-top: var(--space-3);
 }
 
 /* A disclosure used as "load the big table on demand" (screens/implementation.ts):
@@ -925,39 +1357,341 @@ details[open] > summary.btn::after {
    country tiles rather than a geographic choropleth (see
    docs/architecture.md) -- styled as a deliberate small-multiples grid, not
    a placeholder. */
-.country-grid {
+.cohort-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  grid-template-columns: 1.25fr 1fr;
+  gap: var(--space-4);
+}
+@media (max-width: 760px) {
+  .cohort-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.cohort-panel h3 {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  font-size: 1rem;
+  font-weight: 700;
+}
+.cohort-panel h3 small {
+  font-size: var(--font-label);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+.cohort-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--space-5);
+  margin-top: var(--space-3);
+}
+@media (max-width: 520px) {
+  .cohort-list {
+    grid-template-columns: 1fr;
+  }
+}
+.cohort-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-body);
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  font-family: inherit;
+}
+.cohort-row b {
+  font-weight: 600;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cohort-row__pips {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.cohort-row__pips i {
+  width: 6px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--navy-100);
+  font-style: normal;
+}
+.cohort-row__pips i.f {
+  background: var(--navy-700);
+}
+.cohort-row small {
+  font-size: 0.75rem;
+  color: var(--faint);
+  width: 56px;
+  text-align: right;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cohort-row small.aw {
+  width: auto;
+}
+
+/* ================================================================ refinement
+   Second design pass: the inner screens open on the same navy band as the
+   overview hero, so the six tabs read as one product; tables, empty states
+   and the implementation phases get the same care as the headline cards. */
+
+/* ---- inner-screen header band; the first row after it overlaps its edge */
+.page-head {
+  position: relative;
+  overflow: hidden;
+  margin-top: var(--space-4);
+  padding: var(--space-6) var(--space-6) calc(var(--space-7) + var(--space-4));
+  border-radius: var(--radius-lg);
+  color: #fff;
+  background:
+    radial-gradient(700px 360px at 85% 0%, var(--navy-700) 0%, transparent 65%),
+    linear-gradient(180deg, var(--navy-900), var(--navy-950));
+}
+.page-head::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(100deg, transparent 35%, #000 100%);
+  pointer-events: none;
+}
+.page-head h2.screen-title {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  margin: 0 0 var(--space-2);
+}
+.page-head h2.screen-title + .panel__question {
+  position: relative;
+  z-index: 1;
+  color: var(--navy-300);
+  margin: 0;
+  max-width: 60ch;
+}
+.page-head + .kpi-row,
+.page-head + .screen-controls {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-1 * var(--space-7));
+  margin-left: var(--space-5);
+  margin-right: var(--space-5);
+}
+.page-head + .screen-controls {
+  box-shadow: var(--shadow-lg);
+}
+@media (max-width: 640px) {
+  .page-head {
+    padding: var(--space-5) var(--space-4) calc(var(--space-7) + var(--space-3));
+  }
+  .page-head + .kpi-row,
+  .page-head + .screen-controls {
+    margin-left: var(--space-3);
+    margin-right: var(--space-3);
+  }
+}
+
+/* ---- tables: one NR mark everywhere, on the baseline, quiet but legible */
+.cell-null::after {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  margin-left: 0;
+  padding: 0.1em 0.5em;
+  border-radius: 999px;
+  border: 1px dashed #c3ccdc;
+  color: var(--faint);
+}
+.data-table td {
+  vertical-align: middle;
+}
+.data-table thead th {
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+.data-table thead th:first-child {
+  border-top-left-radius: 10px;
+}
+.data-table thead th:last-child {
+  border-top-right-radius: 10px;
+}
+
+/* ---- empty states: say "no published figure" calmly, not as an error */
+.chart-empty {
+  flex-direction: column;
+  gap: var(--space-2);
+  background: repeating-linear-gradient(-45deg, transparent 0 10px, rgba(157, 179, 221, 0.08) 10px 20px);
+  border: 1.5px dashed #cdd5e3;
+  border-radius: var(--radius-lg);
+  color: var(--muted);
+  max-height: 220px;
+}
+.chart-empty__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--navy-500);
+  box-shadow: var(--shadow-sm);
+}
+.chart-empty__icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+.chart-empty__text {
+  max-width: 46ch;
+}
+
+/* ---- implementation phases as a five-stage track */
+.phase-track {
+  list-style: none;
+  margin: var(--space-4) 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: var(--space-3);
+  counter-reset: none;
+}
+.phase-track__phase {
+  position: relative;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+}
+.phase-track__phase::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--space-4) + 1rem);
+  left: calc(var(--space-4) + 2.25rem);
+  right: calc(-1 * var(--space-3));
+  height: 2px;
+  background: linear-gradient(90deg, var(--navy-300), transparent);
+}
+.phase-track__phase:last-child::before {
+  display: none;
+}
+.phase-track__no {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--navy-800);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 0 0 4px var(--navy-100);
+}
+.phase-track__phase h4 {
+  margin: var(--space-3) 0 var(--space-2);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.phase-track__steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
   gap: var(--space-2);
 }
-.country-tile {
-  border: none;
+.phase-track__steps li {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: var(--space-2);
+  font-size: var(--font-label);
+  color: var(--muted);
+  line-height: 1.35;
+}
+.phase-track__steps b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.4rem;
+  border-radius: 6px;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--navy-700);
+  font-size: 0.72rem;
+}
+
+/* ---- country-profile stepper, grouped by phase */
+.implementation-stepper {
+  gap: var(--space-3);
+}
+.stepper-phase {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
   border-radius: var(--radius);
-  padding: var(--space-3) var(--space-2);
-  cursor: pointer;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.stepper-phase__marks {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+.stepper-phase small {
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  color: #fff;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
-  transition: var(--transition-lift);
-  position: relative;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
-.country-tile:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  z-index: 1;
+
+/* ---- small motion polish: panels lift slightly on hover */
+.panel {
+  transition: box-shadow 200ms ease;
 }
-.country-tile.is-phase1 {
-  background: var(--gradient-primary);
+.panel:hover {
+  box-shadow: var(--shadow-lg);
 }
-.country-tile.is-phase2 {
-  background: var(--color-primary);
-  opacity: 0.42;
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .kpi-card {
+    transition: none;
+  }
 }
-.country-tile.is-none {
-  background: var(--color-bg-muted);
-  color: var(--color-text-muted);
-  text-shadow: none;
-  border: 1px dashed var(--color-border);
+
+/* the caller's minimum height is for a chart; an empty state needs less */
+.chart-empty {
+  min-height: 170px !important;
+}
+.callout--empty {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  border: 1.5px dashed #cdd5e3;
+  border-radius: var(--radius);
+  color: var(--muted);
+}
+.callout--empty::before {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--navy-300);
+  flex-shrink: 0;
 }

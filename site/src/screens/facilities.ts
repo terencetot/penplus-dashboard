@@ -31,8 +31,10 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
   const countriesWithFacilities = new Set(facilities.rows.map((f) => f.iso3)).size;
 
   container.innerHTML = `
-    <h2 class="screen-title">${t("screen5.title")}</h2>
-    <p class="panel__question">${t("screen5.question")}</p>
+    <header class="page-head">
+      <h2 class="screen-title">${t("screen5.title")}</h2>
+      <p class="panel__question">${t("screen5.question")}</p>
+    </header>
 
     ${renderKpiRow([
       renderKpiCard("facility", fmtCount(facilities.rows.length), t("screen5.kpi.total")),
@@ -82,7 +84,14 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
   const statusSelect = container.querySelector<HTMLSelectElement>("#status-filter")!;
 
   const columns: Column<FacilityRow>[] = [
-    { key: "name", label: t("table.facility"), render: (f) => f.name },
+    {
+      key: "name",
+      label: t("table.facility"),
+      // Identity is withheld (name null) in the public export -- fall back
+      // to the facility_id rather than let a bare null render as the
+      // literal text "null".
+      render: (f) => f.name ?? f.facility_id,
+    },
     { key: "iso3", label: t("common.select_country"), render: (f) => nameByIso3.get(f.iso3) ?? f.iso3 },
     { key: "district", label: t("table.district"), render: (f) => f.district ?? NR },
     {

@@ -45,7 +45,7 @@ export function buildTable<T>(caption: string, columns: Column<T>[], rows: T[]):
       const td = document.createElement("td");
       const text = col.render(row);
       if (col.numeric) td.classList.add("num");
-      if (col.html) {
+      if (col.html && text !== "NR") {
         td.innerHTML = text;
       } else {
         if (text === "NR") td.classList.add("cell-null");

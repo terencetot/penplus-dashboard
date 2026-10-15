@@ -19,17 +19,26 @@ export interface TrendPoint {
  */
 export function lineTrend(
   points: TrendPoint[],
-  opts: { valueLabel: string; seriesBreakAt?: string; seriesBreakLabel?: string },
+  opts: {
+    valueLabel: string;
+    seriesBreakAt?: string;
+    seriesBreakLabel?: string;
+    height?: number;
+    /** small-multiples mode: narrower, no axis title, a light area under
+     * the line -- a panel shows one country's shape, its own scale */
+    compact?: boolean;
+  },
 ): SVGElement | HTMLElement {
+  const height = opts.height ?? 320;
   const knownCount = points.filter((p) => p.value !== null).length;
   if (knownCount === 0) {
-    return emptyChart(320);
+    return emptyChart(height);
   }
   // A single floating dot on a full-height, otherwise-empty axis reads as
   // "broken," not "early data" (design review, boardroom UX pass) -- a line
   // needs at least two real points to say anything about a trend at all.
   if (knownCount === 1) {
-    return emptyChart(320, t("empty.insufficient_trend"));
+    return emptyChart(height, t("empty.insufficient_trend"));
   }
 
   // Plot.lineY only breaks a line where y is null/NaN; a cohort boundary
@@ -42,6 +51,17 @@ export function lineTrend(
     : "series";
 
   const marks: Plot.Markish[] = [
+    ...(opts.compact
+      ? [
+          Plot.areaY(points, {
+            x: "period_id",
+            y: (d: TrendPoint) => (d.value === null ? NaN : d.value),
+            z: zOf,
+            fill: "var(--navy-500)",
+            fillOpacity: 0.08,
+          }),
+        ]
+      : []),
     Plot.lineY(points, {
       x: "period_id",
       y: (d: TrendPoint) => (d.value === null ? NaN : d.value),
@@ -80,9 +100,24 @@ export function lineTrend(
     }
   }
 
+  if (opts.compact) {
+    return Plot.plot({
+      width: 360,
+      height,
+      marginLeft: 44,
+      marginRight: 16,
+      ariaLabel: opts.valueLabel,
+      style: { fontSize: "11px" },
+      // annual period ids ("2024-A") read as the bare year at this size
+      x: { label: null, type: "point", tickFormat: (d: string) => d.replace(/-A$/, "") },
+      y: { label: null, grid: true, nice: true, zero: true, ticks: 4 },
+      color: { range: ["var(--navy-700)"] },
+      marks,
+    });
+  }
   return Plot.plot({
     marginLeft: 56,
-    height: 320,
+    height,
     x: { label: null, type: "point" },
     y: { label: opts.valueLabel, grid: true, nice: true, zero: true },
     color: { legend: points.length > 0 && new Set(points.map((p) => p.series)).size > 1 },

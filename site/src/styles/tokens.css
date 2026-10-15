@@ -1,33 +1,82 @@
 /*
  * Design tokens, defined before any component (per CLAUDE.md, "Design system").
- * One primary colour (WHO institutional navy). One accent, used only for gap to
- * milestone and alerts. Neutral greys for everything else. Status vocabulary is
- * exactly four states and is never conveyed by colour alone -- see
- * components.css for the mark/label pairing that goes with each status token.
+ * One primary colour (WHO institutional navy, as a full scale). One accent
+ * (#E8743B), used only for gap to milestone and alerts. Neutral greys for
+ * everything else. Status vocabulary is exactly four states and is never
+ * conveyed by colour alone -- see components.css for the mark/label pairing
+ * that goes with each status token.
  *
- * The visual language leans on type, elevation and motion rather than extra
- * hues to read as considered rather than corporate-flat: a serif display face
- * for the figures a reader's eye should land on first, layered shadows for
- * real depth, and a tonal (navy-on-navy) gradient instead of a second colour.
- * Both font stacks are system/web-safe -- no font file is fetched at runtime,
- * consistent with "no network calls at runtime" beyond the data bundle.
+ * Schibsted Grotesk, self-hosted (site/src/styles/fonts/, five static
+ * weights, referenced by a relative url() so Vite's asset pipeline hashes
+ * and rewrites it under `base: "./"` the same as every other built asset --
+ * public/ is for files referenced from TypeScript via BASE_URL, not from
+ * CSS). A local file fetched same-origin at build time is not a "network
+ * call at runtime" in the sense CLAUDE.md's stack rule means -- it is
+ * exactly the same kind of bundled asset as the WHO/Helmsley logos already
+ * are, not a Google Fonts fetch against a third party. No network call this
+ * site makes depends on anything outside its own origin.
  */
+@font-face {
+  font-family: "Schibsted Grotesk";
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/SchibstedGrotesk-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Schibsted Grotesk";
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/SchibstedGrotesk-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Schibsted Grotesk";
+  font-weight: 600;
+  font-display: swap;
+  src: url("./fonts/SchibstedGrotesk-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Schibsted Grotesk";
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/SchibstedGrotesk-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Schibsted Grotesk";
+  font-weight: 800;
+  font-display: swap;
+  src: url("./fonts/SchibstedGrotesk-800.woff2") format("woff2");
+}
+
 :root {
-  /* ---- colour: light theme (default) ---- */
-  --color-primary: #0a3161; /* WHO institutional navy */
-  --color-primary-strong: #06213f;
-  --color-primary-deeper: #04182e;
-  --color-primary-soft: #e7edf5;
-  --color-accent: #b5510d; /* gap to milestone, alerts -- nowhere else */
-  --color-accent-strong: #8f4009;
-  --color-accent-soft: #f7e7dc;
+  /* ---- colour: navy scale ---- */
+  --navy-950: #06122e;
+  --navy-900: #0a1c45;
+  --navy-800: #11295e;
+  --navy-700: #1b3a7a;
+  --navy-500: #3d5fa8;
+  --navy-300: #9db3dd;
+  --navy-100: #e4ebf7;
+
+  --color-primary: var(--navy-900); /* WHO institutional navy */
+  --color-primary-strong: var(--navy-950);
+  --color-primary-deeper: var(--navy-950);
+  --color-primary-soft: var(--navy-100);
+  --color-accent: #e8743b; /* gap to milestone, alerts -- nowhere else */
+  --color-accent-strong: #a4471a;
+  --color-accent-soft: #fcebdd;
+
+  --ink: #0b1a3a;
+  --muted: #55627c;
+  --faint: #8792a8;
+  --line: #e2e7f0;
+  --paper: #f4f6fa;
 
   --color-bg: #ffffff;
-  --color-bg-raised: #f7f8fa;
-  --color-bg-muted: #eef0f3;
-  --color-border: #d7dbe1;
-  --color-text: #16191f;
-  --color-text-muted: #565d69;
+  --color-bg-raised: var(--paper);
+  --color-bg-muted: var(--navy-100);
+  --color-border: var(--line);
+  --color-text: var(--ink);
+  --color-text-muted: var(--muted);
   --color-text-on-primary: #ffffff;
   --color-text-on-primary-muted: rgba(255, 255, 255, 0.72);
 
@@ -39,27 +88,21 @@
   --color-status-partly-bg: #faf0dc;
   --color-status-not-met: #9c2b1f;
   --color-status-not-met-bg: #fbe9e6;
-  --color-status-not-reported: #565d69;
-  --color-status-not-reported-bg: #eef0f3;
+  --color-status-not-reported: var(--muted);
+  --color-status-not-reported-bg: var(--navy-100);
 
-  --color-nr-gap: #b8bec7; /* the visual break drawn for a non-response */
+  --color-nr-gap: #cdd5e3; /* the visual break drawn for a non-response */
 
   /* ---- gradients: tonal, one hue, never decorative colour-mixing ---- */
-  --gradient-primary: linear-gradient(135deg, var(--color-primary-strong) 0%, var(--color-primary) 100%);
-  --gradient-header: linear-gradient(
-    160deg,
-    var(--color-primary-deeper) 0%,
-    var(--color-primary-strong) 45%,
-    var(--color-primary) 100%
-  );
+  --gradient-primary: linear-gradient(135deg, var(--navy-800) 0%, var(--navy-700) 100%);
+  --gradient-header: linear-gradient(180deg, var(--navy-950), var(--navy-900));
 
   /* ---- type ---- */
-  --font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  /* Editorial serif reserved for headline moments -- the hero figures and the
-     milestone values -- so a reader's eye lands on the number first. System
-     stack only, no web font fetch. */
-  --font-display:
-    Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, "Noto Serif", serif;
+  --font-family: "Schibsted Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
+  /* The display face is the same grotesk, not a separate serif -- the
+     reference reads headline figures in-family at heavier weight, letting
+     weight and size carry the hierarchy instead of a second typeface. */
+  --font-display: "Schibsted Grotesk", "Segoe UI", system-ui, -apple-system, sans-serif;
   --font-figure: 2.25rem; /* headline figures */
   --font-figure-lg: 3rem; /* hero-scale figures, screen 1 only */
   --font-label: 0.8125rem; /* labels, captions, table headers */
@@ -74,14 +117,19 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-  --radius: 10px;
-  --radius-lg: 14px;
+  --radius: 14px;
+  --radius-lg: 22px;
 
-  /* Layered shadows (tight contact + soft ambient) read as real elevation
-     rather than a single flat drop-shadow. */
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05), 0 3px 8px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 2px 6px rgba(15, 23, 42, 0.06), 0 12px 28px rgba(15, 23, 42, 0.1);
-  --shadow-lg: 0 4px 10px rgba(15, 23, 42, 0.08), 0 22px 50px rgba(15, 23, 42, 0.16);
+  /* Three card depth levels: resting, lifted (overlapping/overlaid content),
+     and the dashed "not reported" treatment -- never a fourth, so "how
+     raised is this card" stays a legible, three-rung scale throughout. */
+  --shadow-sm: 0 0 0 1px rgba(11, 26, 58, 0.05), 0 1px 2px rgba(11, 26, 58, 0.05);
+  --shadow-md:
+    0 0 0 1px rgba(11, 26, 58, 0.05), 0 1px 2px rgba(11, 26, 58, 0.05),
+    0 8px 24px -12px rgba(11, 26, 58, 0.16);
+  --shadow-lg:
+    0 0 0 1px rgba(11, 26, 58, 0.05), 0 2px 4px rgba(11, 26, 58, 0.05),
+    0 24px 48px -20px rgba(11, 26, 58, 0.32);
   --shadow-header: 0 4px 24px rgba(4, 24, 46, 0.35);
 
   --focus-ring: 0 0 0 3px rgba(10, 49, 97, 0.35);

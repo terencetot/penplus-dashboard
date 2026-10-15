@@ -1,4 +1,5 @@
 import { t } from "@/lib/i18n";
+import { icon } from "@/components/icons";
 
 /**
  * The element every chart function returns when it has nothing to draw --
@@ -14,6 +15,7 @@ export function emptyChart(height = 120, message?: string): HTMLElement {
   const el = document.createElement("div");
   el.className = "chart-empty";
   el.style.minHeight = `${height}px`;
-  el.textContent = message ?? t("empty.no_data");
+  el.innerHTML = `<span class="chart-empty__icon">${icon("map")}</span><span class="chart-empty__text"></span>`;
+  el.querySelector(".chart-empty__text")!.textContent = message ?? t("empty.no_data");
   return el;
 }

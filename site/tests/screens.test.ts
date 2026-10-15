@@ -23,12 +23,13 @@ function container(): HTMLElement {
 }
 
 describe("screens render against the real bundle without throwing", () => {
-  it("overview: hero figures, country grid, milestone strip", async () => {
+  it("overview: hero coverage cards, isometric map, cohort lists, milestone strip", async () => {
     const el = container();
     await renderOverview(el);
     expect(el.textContent).toContain("Regional overview");
-    expect(el.querySelectorAll(".signal-card").length).toBe(4);
-    expect(el.querySelectorAll(".country-tile").length).toBeGreaterThan(0);
+    expect(el.querySelectorAll(".coverage-card").length).toBe(4);
+    expect(el.querySelectorAll(".t.p1, .t.p2").length).toBeGreaterThan(0);
+    expect(el.querySelectorAll(".cohort-row").length).toBeGreaterThan(0);
     expect(el.querySelectorAll(".milestone-row").length).toBe(5);
   });
 
@@ -40,18 +41,21 @@ describe("screens render against the real bundle without throwing", () => {
     expect(el.querySelector("#trend-panel")!.textContent).not.toBe("");
   });
 
-  it("indicator detail: trend defaults to the country with the most reported periods, not the alphabetically first", async () => {
+  it("indicator detail: trend small multiples show the countries with the most reported periods", async () => {
     const el = container();
     await renderIndicatorDetail(el, "2.5");
-    // LBR, SLE and UGA are tied for most periods (5) in the real bundle for
-    // 2.5; LBR wins the alphabetical tie-break. Several countries with a
-    // single period (BFA, COD, ZWE...) sort before LBR alphabetically and
-    // would have been picked by the old "first in the dropdown" logic.
-    const select = el.querySelector<HTMLSelectElement>("#trend-country-select")!;
-    expect(select.value).toBe("LBR");
-    // and the initial trend panel must not be the "only one period" empty
-    // state, since a country with five periods was available
-    expect(el.querySelector("#trend-panel")!.textContent).not.toContain("at least two");
+    // LBR, SLE and UGA have the most periods (5) in the real bundle for 2.5;
+    // single-period countries (BFA, COD, ZWE...) must not take a panel.
+    const names = Array.from(el.querySelectorAll(".trend-card__name")).map((n) => n.textContent);
+    expect(names).toEqual(["Liberia", "Sierra Leone", "Uganda"]);
+    expect(el.querySelectorAll(".trend-card .chip--historical").length).toBe(3);
+  });
+
+  it("indicator detail: 2.5 counts only countries with a published value, and lists the rest", async () => {
+    const el = container();
+    await renderIndicatorDetail(el, "2.5");
+    expect(el.textContent).toContain("6 of 31");
+    expect(el.querySelectorAll("#distribution-panel .pill").length).toBe(25);
   });
 
   it("indicator detail: falls back gracefully for an unknown code", async () => {
@@ -65,7 +69,10 @@ describe("screens render against the real bundle without throwing", () => {
     const el = container();
     await renderCountryProfile(el, "GHA");
     expect(el.textContent).toContain("Ghana");
-    expect(el.querySelector("#indicator-table")!.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
+    // every indicator appears once, grouped by Results Framework family
+    expect(el.querySelectorAll("#indicator-groups .indicator-row").length).toBe(17);
+    expect(el.querySelectorAll("#indicator-groups .indicator-group").length).toBe(8);
+    expect(el.querySelector(".country-badge")).toBeTruthy();
   });
 
   it("country profile: a governance milestone linked to indicator 1.1-1.3 shows the same status pill in both the all-indicators table and the governance panel", async () => {
@@ -79,9 +86,7 @@ describe("screens render against the real bundle without throwing", () => {
     try {
       const el = container();
       await renderCountryProfile(el, "GHA");
-      const indicatorTable = el.querySelector("#indicator-table")!;
-      const rows = Array.from(indicatorTable.querySelectorAll("tbody tr"));
-      const row11 = rows.find((tr) => tr.querySelector("td")?.textContent === "1.1");
+      const row11 = el.querySelector('#indicator-groups .indicator-row[data-code="1.1"]');
       expect(row11).toBeTruthy();
       expect(row11!.querySelector(".status")).toBeTruthy();
     } finally {

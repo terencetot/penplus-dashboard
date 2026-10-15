@@ -46,14 +46,16 @@ export async function renderImplementation(container: HTMLElement): Promise<void
   ).length;
 
   container.innerHTML = `
-    <h2 class="screen-title">${t("screen_impl.title")}</h2>
-    <p class="panel__question">${t("screen_impl.question")}</p>
+    <header class="page-head">
+      <h2 class="screen-title">${t("screen_impl.title")}</h2>
+      <p class="panel__question">${t("screen_impl.question")}</p>
+    </header>
 
     ${renderKpiRow([
       renderKpiCard("country", fmtCount(reporting.length), t("screen_impl.kpi.reporting")),
       renderKpiCard("trend", String(midOrFurther), t("screen_impl.kpi.mid_scale_up")),
-      renderKpiCard("shield", String(atFullScale), t("screen_impl.kpi.full_scale"), atFullScale === 0),
-      renderKpiCard("alert", String(notStarted), t("screen_impl.kpi.not_started"), notStarted === 0),
+      renderKpiCard("shield", String(atFullScale), t("screen_impl.kpi.full_scale")),
+      renderKpiCard("alert", String(notStarted), t("screen_impl.kpi.not_started")),
     ])}
 
     <div id="phase-summary-panel"></div>
@@ -61,7 +63,7 @@ export async function renderImplementation(container: HTMLElement): Promise<void
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("grid", t("screen_impl.grid.title"))}</div>
       <p class="chart-caption">${t("screen_impl.grid.caption")}</p>
-      <dl class="definition-panel" id="phase-legend"></dl>
+      <ol class="phase-track" id="phase-legend"></ol>
       <div class="chart-legend">
         <span class="chart-legend__item">${renderStatus("met", t("status.met"))}</span>
         <span class="chart-legend__item">${renderStatus("partly_met", t("status.partly_met"))}</span>
@@ -125,11 +127,19 @@ export async function renderImplementation(container: HTMLElement): Promise<void
   for (const phaseNo of phaseNos) {
     const phaseLabel = stepDim.find((s) => s.phase_no === phaseNo)!.phase_label;
     const stepsOfPhase = stepDim.filter((s) => s.phase_no === phaseNo);
-    const dt = document.createElement("dt");
-    dt.textContent = phaseLabel;
-    const dd = document.createElement("dd");
-    dd.textContent = stepsOfPhase.map((s) => `${s.step_no}. ${s.step_label}`).join("; ");
-    legend.append(dt, dd);
+    const li = document.createElement("li");
+    li.className = "phase-track__phase";
+    li.innerHTML = `<span class="phase-track__no num">${phaseNo}</span>
+      <h4></h4>
+      <ol class="phase-track__steps">${stepsOfPhase
+        .map((s) => `<li><b class="num">${s.step_no}</b><span></span></li>`)
+        .join("")}</ol>`;
+    // labels come from the bundle; set as text, never parsed as markup
+    li.querySelector("h4")!.textContent = phaseLabel;
+    li.querySelectorAll(".phase-track__steps span").forEach((el, i) => {
+      el.textContent = stepsOfPhase[i]?.step_label ?? "";
+    });
+    legend.append(li);
   }
 
   // Columns for CSV export only -- the visual table is components/phase-grid.ts,

@@ -30,8 +30,10 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
   const highSeverity = quality.open_queries.filter((q) => q.severity === "High").length;
 
   container.innerHTML = `
-    <h2 class="screen-title">${t("screen4.title")}</h2>
-    <p class="panel__question">${t("screen4.question")}</p>
+    <header class="page-head">
+      <h2 class="screen-title">${t("screen4.title")}</h2>
+      <p class="panel__question">${t("screen4.question")}</p>
+    </header>
 
     ${renderKpiRow([
       renderKpiCard(
@@ -40,14 +42,9 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
         t("screen4.kpi.avg_completeness"),
         avgCompleteness === null,
       ),
-      renderKpiCard("alert", String(belowThreshold), t("screen4.kpi.below_threshold"), belowThreshold === 0),
-      renderKpiCard(
-        "flag",
-        String(quality.open_queries.length),
-        t("common.open_queries"),
-        quality.open_queries.length === 0,
-      ),
-      renderKpiCard("alert", String(highSeverity), t("screen4.kpi.high_severity"), highSeverity === 0),
+      renderKpiCard("alert", String(belowThreshold), t("screen4.kpi.below_threshold")),
+      renderKpiCard("flag", String(quality.open_queries.length), t("common.open_queries")),
+      renderKpiCard("alert", String(highSeverity), t("screen4.kpi.high_severity")),
     ])}
 
     <p class="exec-message">${t("screen4.summary", {
