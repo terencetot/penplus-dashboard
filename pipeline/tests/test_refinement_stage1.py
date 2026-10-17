@@ -88,7 +88,7 @@ def test_severe_htn_never_enters_the_sentinel_total(tmp_path, make_rec):
     transform.build(db_path)
     gold = {(g["indicator_code"], g["disagg_key"], g["disagg_value"]): g["numerator"]
             for g in connect(db_path).execute("SELECT * FROM gold_indicator WHERE iso3='UGA'")}
-    assert gold[("2.5", "all", "all")] == 2226
+    assert gold[("2.6", "all", "all")] == 2226
     assert gold[("2.5", "condition", "severe_htn")] == 15
 
 

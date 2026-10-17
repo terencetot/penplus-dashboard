@@ -43,13 +43,13 @@ def test_all_none_stock_produces_none_numerator_not_zero(tmp_path, make_rec):
 
     check = connect(db_path)
     row = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.5'"
+        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.6'"
         " AND disagg_key='all'").fetchone()
     assert row["numerator"] is None
     assert row["value"] is None
 
     row26 = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.6'"
+        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.6a'"
         " AND disagg_key='all'").fetchone()
     assert row26["numerator"] is None
     assert row26["value"] is None
@@ -75,13 +75,13 @@ def test_suppression_applies_to_disaggregated_not_to_all(tmp_path, make_rec):
 
     check = connect(db_path)
     country_total = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.5'"
+        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.6'"
         " AND disagg_key='all'").fetchone()
     assert country_total["numerator"] == 3
     assert country_total["suppressed"] == 0
 
     disagg = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.5'"
+        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.6'"
         " AND disagg_key='condition' AND disagg_value='t1d'").fetchone()
     assert disagg["numerator"] == 3
     assert disagg["suppressed"] == 1
@@ -113,10 +113,10 @@ def test_stock_is_read_per_period_never_summed_across_periods(tmp_path, make_rec
 
     g_q1 = check.execute(
         "SELECT numerator FROM gold_indicator WHERE iso3='GHA' AND period_id='2026-Q1'"
-        " AND indicator_code='2.5' AND disagg_key='all'").fetchone()
+        " AND indicator_code='2.6' AND disagg_key='all'").fetchone()
     g_q2 = check.execute(
         "SELECT numerator FROM gold_indicator WHERE iso3='GHA' AND period_id='2026-Q2'"
-        " AND indicator_code='2.5' AND disagg_key='all'").fetchone()
+        " AND indicator_code='2.6' AND disagg_key='all'").fetchone()
 
     assert g_q1["numerator"] == expected_q1
     assert g_q2["numerator"] == expected_q2

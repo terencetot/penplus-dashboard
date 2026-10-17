@@ -44,13 +44,18 @@ def test_v3_form_end_to_end(tmp_path):
     assert gold[("GHA", "2.1", "all", "all")]["numerator"] == 1
     assert gold[("GHA", "2.1", "all", "all")]["denominator"] == 3
 
-    # 2.5 / 2.6: from the corrected, separate ever-enrolled and active tables.
-    assert gold[("GHA", "2.5", "all", "all")]["numerator"] == 150 + 45  # t1d + rhd; scd is NR
-    assert gold[("GHA", "2.6", "all", "all")]["numerator"] == 140 + 60  # t1d + scd; rhd is "-"
+    # v3 history read under the new tool's codes: the v3 per-condition
+    # ever-enrolled table is the sentinel cohort (2.6), active is 2.6a. A v3
+    # return has no all-conditions figure, so 2.5 has no total row.
+    assert gold[("GHA", "2.6", "all", "all")]["numerator"] == 150 + 45  # t1d + rhd; scd is NR
+    assert gold[("GHA", "2.6a", "all", "all")]["numerator"] == 140 + 60  # t1d + scd; rhd is "-"
+    assert ("GHA", "2.5", "all", "all") not in gold
 
-    # 2.6b: retention, only reported for t1d, and the 90-day rule applied.
-    assert gold[("GHA", "2.6b", "condition", "t1d")]["numerator"] == 80
-    assert gold[("GHA", "2.6b", "condition", "t1d")]["denominator"] == 100
+    # 2.6b is the pipeline's approximate retention, (active - new) / (ever -
+    # new), over the conditions with all three figures (t1d only here):
+    # (140 - 20) / (150 - 20). The form's own retention columns are not read.
+    assert gold[("GHA", "2.6b", "all", "all")]["numerator"] == 120
+    assert gold[("GHA", "2.6b", "all", "all")]["denominator"] == 130
 
     # 3.1: WHO Academy completions summed across sex categories.
     assert gold[("GHA", "3.1", "all", "all")]["numerator"] == 6 + 4 + 0

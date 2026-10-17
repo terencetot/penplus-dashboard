@@ -95,12 +95,12 @@ def test_public_export_blanks_suppressed_cells_but_keeps_the_regional_total(tmp_
 
     indicators = json.loads((out_dir / "indicators.json").read_text(encoding="utf-8"))
     row_25 = next(v for v in indicators["values"]
-                  if v["indicator_code"] == "2.5" and v["disagg_key"] == "condition"
+                  if v["indicator_code"] == "2.6" and v["disagg_key"] == "condition"
                   and v["disagg_value"] == "t1d")
     assert row_25["suppressed"] == 1
     assert row_25["numerator"] is None  # withheld, not just flagged
 
-    dim = next(d for d in indicators["dim"] if d["indicator_code"] == "2.5")
+    dim = next(d for d in indicators["dim"] if d["indicator_code"] == "2.6")
     assert dim["regional_value"] == 3  # the real number still feeds the regional total
 
 
