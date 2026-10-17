@@ -1,0 +1,14 @@
+iso3,date,respondent_institution,q_no,question,response
+SSD,2026-10-14,Ministry of Health,1,How are patients with chronic NCDs recorded at district hospitals?,Mixed paper and electronic
+SSD,2026-10-14,Ministry of Health,2,Is there a standard national register or patient form for chronic NCDs?,"Yes, used in some facilities"
+SSD,2026-10-14,Ministry of Health,3,How are NCD patients identified from one visit to the next?,Patients receive a card or booklet with this number
+SSD,2026-10-14,Ministry of Health,4,How are NCD data reported in the national HMIS?,Platform: DHIS2
+SSD,2026-10-14,Ministry of Health,5,Which conditions are currently reported in the HMIS?,Hypertension; Diabetes; Heart disease; Sickle cell disease; Chronic respiratory disease; Cancer
+SSD,2026-10-14,Ministry of Health,6,Where are hospital NCD data entered into the HMIS?,At district level
+SSD,2026-10-14,Ministry of Health,7,Do district hospitals use an electronic medical record?,No
+SSD,2026-10-14,Ministry of Health,8,How does the hospital NCD report reach the district?,Paper form delivered (deadline: day of following month)
+SSD,2026-10-14,Ministry of Health,9,Who compiles and validates NCD data at district level?,District health information officer
+SSD,2026-10-14,Ministry of Health,10,Can the current NCD reporting channel carry an additional quarterly report?,"Yes, with support (tools, training)"
+SSD,2026-10-14,Ministry of Health,11,Who manages NCD data at national level?,Shared M&E officer
+SSD,2026-10-14,Ministry of Health,12,Can the NCD programme add new indicators to the HMIS?,"Yes, on request"
+SSD,2026-10-14,Ministry of Health,13,What is the main constraint to routine NCD reporting?,No feedback or use of data

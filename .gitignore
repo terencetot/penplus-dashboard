@@ -36,3 +36,8 @@ Thumbs.db
 
 # Build artifacts
 *.tmp
+
+# Raw evidence workbooks shipped inside the refinement pack: same rule as
+# /data/raw/ above (this repository is public). The pipeline reads its copies
+# in data/raw/; the CSVs next to them are curated inputs and are committed.
+/docs/refinement/02_data/*.xlsx

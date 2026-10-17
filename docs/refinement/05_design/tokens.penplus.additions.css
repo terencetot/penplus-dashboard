@@ -1,0 +1,22 @@
+/* Additions to site/src/styles/tokens.css. Nothing here replaces an existing token. */
+:root {
+  /* Conditions: chart series only. Never encode performance. */
+  --cond-t1d: #016294;
+  --cond-scd: #c8102e;
+  --cond-rhd: #6b4fa0;
+  --cond-other: #8792a8;      /* other conditions, or totals not split by condition */
+
+  /* HCT funding rounds (cohorts) */
+  --cohort-round-1: var(--navy-800);
+  --cohort-round-2: var(--navy-300);
+
+  /* Provenance chips: every published figure carries one */
+  --prov-historical-bg: #fcebdd;   --prov-historical-ink: #a4471a;   /* ICPPA 2026 country presentations */
+  --prov-validated-bg: #e3f3ec;    --prov-validated-ink: #14694f;    /* accepted form return */
+  --prov-held-bg: #ffffff;         --prov-held-ink: var(--color-accent-strong); /* open High query: accent outline */
+  --prov-noreturn-ink: var(--faint);                                  /* dashed outline */
+
+  /* Country identity (Country profile header) */
+  --country-map-size: 112px;
+  --country-arms-size: 44px;
+}
