@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-from common import TRACERS
+from common import OTHER_CONDITIONS, TRACERS
 from load import DB_DEFAULT, connect
 
 SUPPRESS_BELOW = 5
@@ -73,9 +73,12 @@ def build(db_path: str = DB_DEFAULT):
             if c in stock:
                 put("2.5", num=stock[c]["ever_enrolled"], key="condition", val=c)
                 put("2.6", num=stock[c]["active_end"], key="condition", val=c)
-        if "other_reported" in stock:
-            put("2.5", num=stock["other_reported"]["ever_enrolled"],
-                key="condition", val="other_reported")
+        # Conditions outside the sentinel set (severe hypertension since Sept
+        # 2026, and anything else a country reports) stay visible as their own
+        # disaggregation rows but never enter the sentinel sum above.
+        for c in OTHER_CONDITIONS:
+            if c in stock:
+                put("2.5", num=stock[c]["ever_enrolled"], key="condition", val=c)
 
         for a in con.execute(
                 "SELECT age_band, SUM(patients) n FROM fact_patient_age"

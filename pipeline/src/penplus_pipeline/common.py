@@ -7,6 +7,10 @@ COUNTRIES = {
     "Cameroon": ("CMR", "phase_1"),
     "Democratic Republic of the Congo": ("COD", "phase_1"),
     "Republic of the Congo": ("COG", "phase_1"), "Congo": ("COG", "phase_1"),
+    # Spellings used in PEN_PLUS_MONITORING.xlsx: without them the phases
+    # sheet matched neither Congo (audit v2, section 1).
+    "Democratic Republic of Congo": ("COD", "phase_1"),
+    "Congo, Republic of": ("COG", "phase_1"), "KEN Kenya": ("KEN", "phase_1"),
     "Eswatini": ("SWZ", "phase_2"), "Ethiopia": ("ETH", "phase_1"),
     "Gabon": ("GAB", "phase_2"), "The Gambia": ("GMB", "phase_2"),
     "Gambia": ("GMB", "phase_2"), "Ghana": ("GHA", "phase_1"),
@@ -22,17 +26,14 @@ COUNTRIES = {
     "Zimbabwe": ("ZWE", "phase_1"),
 }
 
-# Every condition key transform.py and validate.py need to recognise when
-# summing 2.5/2.6, across both form revisions: t1d/scd/rhd are the three
-# priority conditions the current form asks about, and severe_htn is kept
-# here only so a historical return that reported it (the previous copy of
-# the form asked about four tracer conditions) still sums correctly --
-# removing it would silently drop that contribution from already-published
-# historical totals. Nothing downstream loops assuming every one of these
-# is present: each sum is `for c in TRACERS if c in stock`, so a return that
-# only ever reported three simply never has a fourth entry to sum. Anything
-# else is reported once, outside the regional total, under other_reported.
-TRACERS = ["t1d", "scd", "rhd", "severe_htn"]
+# The sentinel conditions: the only ones that enter a sentinel total (2.6,
+# and the sentinel split of 2.5). Severe hypertension was dropped as a
+# priority condition in September 2026 and must not appear in any sentinel
+# total (audit v2, Q-REG-02): counting it inflated Uganda, Burkina Faso and
+# DRC by the "HTA" column of their slides. It is still recorded, under
+# OTHER_CONDITIONS, so the figure stays visible without being summed.
+TRACERS = ["t1d", "scd", "rhd"]
+OTHER_CONDITIONS = ["severe_htn", "other_reported"]
 
 ICPPA_CONDITION_MAP = {
     "Sickle cell disease": "scd",

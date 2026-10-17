@@ -65,10 +65,6 @@ def _int(v):
     return int(round(float(s))) if s else None
 
 
-def _facility_ids(iso3, names):
-    return [(f"{iso3}-{i + 1:04d}", n.strip()) for i, n in enumerate(names) if n and n.strip()]
-
-
 # ------------------------------------------------------------------- ICPPA
 def from_icppa(path):
     """Return {(country, year): record} rebuilt from the ICPPA extraction."""
@@ -103,10 +99,7 @@ def from_icppa(path):
         country = r.get("Country")
         if not country:
             continue
-        names = [n.strip() for n in re.split(r"[;\n]", str(r.get("Site or district names") or ""))
-                 if n.strip()]
         sites[country] = {"count": _int(r.get("Number of PEN-Plus sites / clinics")),
-                          "names": names,
                           "partners": r.get("Supporting partners and sites each"),
                           "status": r.get("Status / stage")}
 
@@ -115,7 +108,6 @@ def from_icppa(path):
     for country in sorted(countries):
         if country not in COUNTRIES:
             continue
-        iso3 = COUNTRIES[country][0]
         years = sorted({y for c, y in list(enrol) + list(staff) if c == country})
         if not years:
             years = [2026]
@@ -157,17 +149,13 @@ def from_icppa(path):
                     w["fully_trained"] = None
                     w["working_at_site"] = None
                     w["trained_total_historical"] = v
+            # Facilities are NOT built from "Site or district names": splitting
+            # that free text on ";" made Zimbabwe one site (comma-separated),
+            # turned "planned: Kambia and Moyamba" into an operational site and
+            # Ghana's sentence into three (audit v2, section 1). They come from
+            # the curated facility register instead (load_facility_register).
             if year == years[-1] and country in sites:
-                s = sites[country]
-                ids = _facility_ids(iso3, s["names"]) or \
-                      [(f"{iso3}-{i + 1:04d}", f"PEN-Plus site {i + 1}")
-                       for i in range(s["count"] or 0)]
-                rec["facilities"] = [
-                    {"facility_id": fid, "name": nm, "district": None, "region": None,
-                     "facility_type": None, "services_started": None, "conditions": None,
-                     "project_supported": None, "status": "operational"}
-                    for fid, nm in ids]
-                rec["context"]["sites_reported_icppa"] = s["count"]
+                rec["context"]["sites_reported_icppa"] = sites[country]["count"]
             out[(country, year)] = rec
     return out
 
@@ -310,7 +298,8 @@ def from_monitoring_phases(path):
     workbook's PEN-Plus-phases sheet.
 
     Headers span two rows (a step's number and its description are often on
-    separate lines in a hand-built sheet); country is the fourth column.
+    separate lines in a hand-built sheet); the country column is found by its
+    header (column C in the real workbook).
     Columns are mapped to a step by the header text, never by position --
     some rows in this workbook carry extra cells, which would otherwise
     shift every later column out of alignment.
@@ -324,11 +313,19 @@ def from_monitoring_phases(path):
     ws = wb[sheet_name]
 
     HEADER_ROWS = (7, 8)
-    COUNTRY_COL = 3  # the fourth column
 
     top = next(ws.iter_rows(min_row=HEADER_ROWS[0], max_row=HEADER_ROWS[0], values_only=True), ())
     bottom = next(ws.iter_rows(min_row=HEADER_ROWS[1], max_row=HEADER_ROWS[1], values_only=True), ())
     width = max(len(top), len(bottom))
+    # The country column is whichever header cell reads "Country"/"Countries".
+    # It used to be hard-coded as index 3; the real sheet has it in column C
+    # (index 2), so the reader matched 0 of 20 countries and the site showed
+    # all 31 as "not started" (audit v2, section 1). Index 2 is the fallback.
+    COUNTRY_COL = next(
+        (j for j in range(width)
+         for v in ((top[j] if j < len(top) else None), (bottom[j] if j < len(bottom) else None))
+         if v and str(v).strip().lower().startswith("countr")),
+        2)
     col_to_step: dict[int, int] = {}
     for j in range(width):
         label = " ".join(

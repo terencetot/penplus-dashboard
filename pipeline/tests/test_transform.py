@@ -105,8 +105,11 @@ def test_stock_is_read_per_period_never_summed_across_periods(tmp_path, make_rec
     transform.build(db_path)
 
     check = connect(db_path)
-    expected_q1 = 120 + 80 + 40 + 200  # tracer ever_enrolled in the base fixture
-    expected_q2 = 130 + 80 + 40 + 200
+    # Sentinel ever_enrolled in the base fixture. The fixture's severe_htn 200
+    # is no longer added: severe hypertension left the sentinel set in Sept
+    # 2026 (audit v2, Q-REG-02), so this published figure changes by design.
+    expected_q1 = 120 + 80 + 40
+    expected_q2 = 130 + 80 + 40
 
     g_q1 = check.execute(
         "SELECT numerator FROM gold_indicator WHERE iso3='GHA' AND period_id='2026-Q1'"

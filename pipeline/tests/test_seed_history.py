@@ -9,7 +9,6 @@ from __future__ import annotations
 import datetime as dt
 
 import openpyxl
-
 from seed_history import _closing_date_for_year, _match_step_no, from_monitoring_phases
 
 
