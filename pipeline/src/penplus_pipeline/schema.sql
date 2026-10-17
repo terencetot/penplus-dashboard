@@ -37,7 +37,20 @@ CREATE TABLE IF NOT EXISTS dim_facility (
   status            TEXT CHECK (status IN ('operational','started_this_period',
                                            'under_preparation','suspended','closed')),
   first_seen        TEXT,
-  last_seen         TEXT
+  last_seen         TEXT,
+  -- From the curated facility register (data/reference/facility_register.csv)
+  name_status       TEXT,     -- confirmed / to_confirm (name not on the slide)
+  town              TEXT,
+  partner           TEXT,
+  register_status   TEXT,     -- active / partial / planned / to_confirm, as in the register
+  source_ref        TEXT,     -- deck and slide, e.g. "D3M p200"
+  latitude          REAL,
+  longitude         REAL,
+  geo_precision     TEXT,     -- facility / town (never a district or country centroid)
+  geo_source        TEXT,     -- OpenStreetMap URL
+  geo_checked       TEXT,     -- 'yes' (human) or 'auto' (passed every protocol rule)
+  note              TEXT,
+  patients_reported TEXT      -- the figure printed for this facility on a slide, with its source
 );
 
 CREATE TABLE IF NOT EXISTS dim_indicator (
@@ -121,6 +134,8 @@ CREATE TABLE IF NOT EXISTS fact_workforce (          -- indicator 3.3: this quar
   trained_ns      INTEGER,                                -- flow, sex not stated
   fully_trained   INTEGER,                                -- legacy, unused by the v3 form
   working_at_site INTEGER,                                -- legacy, unused by the v3 form
+  trained_total   INTEGER,                                -- total as the country printed it (R07)
+  trained_ytd     INTEGER,                                -- year to date as printed (R07)
   PRIMARY KEY (return_id, cadre)
 );
 
@@ -263,6 +278,31 @@ CREATE TABLE IF NOT EXISTS gold_indicator (
   PRIMARY KEY (iso3, period_id, indicator_code, disagg_key, disagg_value)
 );
 
+-- Implementation phase to publish per country (reconciliation of the
+-- monitoring workbook's 14 steps with the official ICPPA 2026 phase map).
+-- No row, or a null phase, for a second-round country with no return yet.
+CREATE TABLE IF NOT EXISTS fact_phase (
+  iso3             TEXT PRIMARY KEY REFERENCES dim_country(iso3),
+  workbook_phase   INTEGER,
+  icppa_map_phase  INTEGER,
+  phase_to_publish INTEGER,
+  agreement        TEXT,      -- yes / no (no = flagged, query Q-PHS-01)
+  note             TEXT,
+  source           TEXT
+);
+
+-- Country NCD data-system assessment, one row per answered field.
+-- Respondent names and e-mail addresses are never stored.
+CREATE TABLE IF NOT EXISTS fact_dsa (
+  iso3        TEXT NOT NULL,
+  assessed_on TEXT,
+  institution TEXT,
+  field       TEXT NOT NULL,
+  question    TEXT,
+  response    TEXT,
+  PRIMARY KEY (iso3, field)
+);
+
 -- The query register as published: queries seeded from the evidence review
 -- (docs/refinement/02_data/data_queries.csv) plus every validate.py finding.
 -- scope is an ISO3, 'REG' (regional), or several ISO3 separated by "; ".
@@ -281,6 +321,18 @@ CREATE TABLE IF NOT EXISTS fact_query (
   rule       TEXT,              -- R01..R17 for a pipeline finding
   period_id  TEXT,
   opened_on  TEXT
+);
+
+-- One row per validation rule per return: passed / failed / not testable.
+-- Written by validate.run_checks() on every live return, form or historical.
+CREATE TABLE IF NOT EXISTS fact_check (
+  rule      TEXT NOT NULL,
+  return_id INTEGER NOT NULL REFERENCES fact_return(return_id),
+  iso3      TEXT NOT NULL,
+  period_id TEXT NOT NULL,
+  outcome   TEXT NOT NULL CHECK (outcome IN ('passed','failed','not_testable')),
+  detail    TEXT,
+  PRIMARY KEY (rule, return_id)
 );
 
 -- Provenance of each baseline value: which deck and slide, and what kind of

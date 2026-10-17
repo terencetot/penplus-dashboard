@@ -11,11 +11,11 @@ the form from what was reconstructed from earlier material.
   PEN_PLUS_MONITORING.xlsx            ->  governance milestones, districts, partners
 
 Two rules are enforced while converting.
-  - Only the four tracer conditions enter the tracer lines. Everything else goes to
-    other_reported and stays out of the regional total.
-  - A year row is a flow. The cumulative stock is the running sum of the flows, not
-    a figure lifted from a slide, except where the country published a cumulative
-    figure explicitly.
+  - Only the three sentinel conditions (T1D, SCD, RHD) enter a sentinel total.
+    Severe hypertension and everything else keep their own condition rows.
+  - The workbook's "Value type" column decides how a row is read: a flow row is
+    new enrolment in the year (ever enrolled is the running sum); a cumulative,
+    active or point-in-time row is a stock and is never added across years.
 
     python3 seed_history.py --icppa <xlsx> --monitoring <xlsx>
 """
@@ -28,7 +28,13 @@ import re
 from collections import defaultdict
 
 import openpyxl
-from common import COUNTRIES, ICPPA_CADRE_MAP, ICPPA_CONDITION_MAP, IMPLEMENTATION_STEPS
+from common import (
+    COUNTRIES,
+    ICPPA_CADRE_MAP,
+    ICPPA_CONDITION_MAP,
+    IMPLEMENTATION_STEPS,
+    SENTINEL_SUM,
+)
 from load import init_db, load_return
 
 PROV_ICPPA = "ICPPA 2026 country data extraction, rebuilt as a form return"
@@ -66,98 +72,267 @@ def _int(v):
 
 
 # ------------------------------------------------------------------- ICPPA
-def from_icppa(path):
-    """Return {(country, year): record} rebuilt from the ICPPA extraction."""
+def source_ref(document, slide) -> str | None:
+    """'Slide_Deck_-_Day_3_-_Main_room.pptx', 224 -> 'D3M p224'.
+
+    The short form the evidence pack uses for its slide images
+    (docs/refinement/06_evidence_slides/D3M_p224_...png)."""
+    if not document:
+        return None
+    d = str(document).lower()
+    day = re.search(r"day_(\d)", d)
+    code = f"D{day.group(1)}" if day else "D?"
+    if "mikoumi" in d or "mikumi" in d:
+        code += "K"
+    elif "main" in d:
+        code += "M"
+    pages = re.findall(r"\d+", str(slide or ""))
+    return f"{code} p{'-'.join(pages)}" if pages else code
+
+
+def _year(v):
+    """2026, '2026 (to May)', '2026 (to end March)' -> 2026."""
+    m = re.search(r"(19|20)\d{2}", str(v or ""))
+    return int(m.group(0)) if m else None
+
+
+def value_type(v) -> str | None:
+    """The workbook's "Value type" column, normalised. None means do not load.
+
+    flow = new in the year (years may be added); cumulative = a stock at that
+    date (never added across years); active = patients in care at that date;
+    point-in-time = one dated count ("as presented (2026 only)" and the
+    Zimbabwe district table are dated single counts too); unclear = not
+    loaded until confirmed (Malawi)."""
+    s = str(v or "").strip().lower()
+    if s.startswith("flow"):
+        return "flow"
+    if s.startswith("cumulative"):
+        return "cumulative"
+    if s.startswith("active"):
+        return "active"
+    if s.startswith("point-in-time") or s.startswith("as presented"):
+        return "point-in-time"
+    return None
+
+
+LOAD_MAP_CONDITION = {
+    "t1d": "t1d", "scd": "scd", "rhd": "rhd",
+    "cardiac, not split": "cardiac_not_split",
+    "sentinel, not split": "sentinel_not_split",
+}
+
+
+def from_icppa(path, skipped=None):
+    """Return {(country, year): record} rebuilt from the ICPPA 2026 extraction (v2).
+
+    Reading rules (workbook README, "Value type"):
+      - flow rows with Include = Y are new enrolments in that year; ever
+        enrolled is their running sum;
+      - cumulative and active rows are stocks: each loads as its own year's
+        value and is never added to another year. They load whatever their
+        Include flag, because the flag only stops the workbook's own summary
+        from adding years (Kenya's earlier cumulative rows, Rwanda's series);
+      - point-in-time rows with Include = Y are one dated count;
+      - unclear rows are not loaded (Malawi enrolment, Q-MWI-01).
+    Severe hypertension and the non-sentinel columns are kept as their own
+    conditions and never enter a sentinel total (common.TRACERS).
+    Every value keeps its deck and slide (fact_value_source).
+
+    `skipped`, if given, collects (country, sheet, reason) for the run log.
+    """
+    skipped = skipped if skipped is not None else []
     wb = openpyxl.load_workbook(path, data_only=True)
-    enrol, staff, sites = defaultdict(dict), defaultdict(dict), {}
+    # (country, year) -> {"flow": {cond: n}, "stock": {cond: n}, "active": {cond: n},
+    #                     "types": set, "refs": {cond: set}, "ctx": {...}}
+    cells = defaultdict(lambda: {"flow": defaultdict(int), "stock": defaultdict(int),
+                                 "active": defaultdict(int), "types": set(),
+                                 "refs": defaultdict(set), "ctx": {}, "ctx_refs": {},
+                                 "as_of": None})
 
     for r in _rows(wb["Enrolment_by_Year"]):
-        if str(r.get("Include in country total", "")).strip().upper() != "Y":
-            continue
-        country, year = r.get("Country"), _int(r.get("Year"))
+        country, year = r.get("Country"), _year(r.get("Year"))
         if not country or not year:
             continue
-        bucket = enrol[(country, year)]
+        vt = value_type(r.get("Value type"))
+        include = str(r.get("Include in country total", "")).strip().upper() == "Y"
+        if vt is None:
+            skipped.append((country, "Enrolment_by_Year",
+                            f"{year}: value type '{r.get('Value type')}' not loaded"))
+            continue
+        if vt in ("flow", "point-in-time") and not include:
+            skipped.append((country, "Enrolment_by_Year", f"{year}: Include = N"))
+            continue
+        bucket = {"flow": "flow", "point-in-time": "stock", "cumulative": "stock",
+                  "active": "active"}[vt]
+        ref = source_ref(r.get("Source document"), r.get("Slide no."))
+        c = cells[(country, year)]
+        c["types"].add(vt)
         for col, key in ICPPA_CONDITION_MAP.items():
             v = _int(r.get(col))
             if v is not None:
-                bucket[key] = bucket.get(key, 0) + v
+                c[bucket][key] += v
+                c["refs"][key].add(ref)
 
     for r in _rows(wb["Staff_Trained_by_Year"]):
-        if str(r.get("Include in country total", "")).strip().upper() != "Y":
-            continue
-        country, year = r.get("Country"), _int(r.get("Year"))
+        country, year = r.get("Country"), _year(r.get("Year"))
         if not country or not year:
             continue
-        bucket = staff[(country, year)]
-        for col, key in ICPPA_CADRE_MAP.items():
-            v = _int(r.get(col))
-            if v is not None:
-                bucket[key] = bucket.get(key, 0) + v
+        if str(r.get("Include in country total", "")).strip().upper() != "Y":
+            skipped.append((country, "Staff_Trained_by_Year", f"{year}: Include = N"))
+            continue
+        # The cadre cells, not the printed total: where the two disagree the
+        # cells are what the workbook transcribed (Liberia 407 not 490,
+        # Q-LBR-04; Sierra Leone PIH 2025 13 not 11, Q-SLE-02).
+        total = _sum_present(_int(r.get(col)) for col in ICPPA_CADRE_MAP)
+        if total is None:
+            continue
+        vt = value_type(r.get("Value type")) or "flow"
+        key = "trained_hist" if vt == "flow" else "trained_hist_cumulative"
+        c = cells[(country, year)]
+        c["ctx"][key] = c["ctx"].get(key, 0) + total
+        c["ctx_refs"].setdefault(key, set()).add(source_ref(r.get("Source document"), r.get("Slide no.")))
 
+    if "Load_Map_Other_Figures" in wb.sheetnames:
+        for r in _rows(wb["Load_Map_Other_Figures"]):
+            country = r.get("Country")
+            if not country:
+                continue
+            if str(r.get("Load?", "")).strip().upper() != "Y":
+                continue
+            v, vt = _int(r.get("Value")), value_type(r.get("Value type"))
+            as_of = r.get("As of")
+            year = _year(as_of)
+            if v is None or vt is None or not year:
+                skipped.append((country, "Load_Map_Other_Figures",
+                                f"{r.get('Load as')}: no usable value / type / date"))
+                continue
+            ref = source_ref(r.get("Source document"), r.get("Slide no."))
+            c = cells[(country, year)]
+            c["types"].add(vt)
+            as_of = as_of.date().isoformat() if hasattr(as_of, "date") else str(as_of)[:10]
+            c["as_of"] = max(filter(None, [c["as_of"], as_of]))
+            ind = str(r.get("Indicator") or "").strip()
+            cond = str(r.get("Condition") or "").strip().lower()
+            load_as = str(r.get("Load as") or "").lower()
+            if ind == "2.5":
+                c["ctx"]["patients_all_ever"] = v
+                c["ctx_refs"]["patients_all_ever"] = {ref}
+            elif ind == "2.6" and "active" in load_as and cond == "all":
+                # Zambia: active in care across ALL PEN-Plus conditions. Not a
+                # sentinel figure, so it is published with 2.5, not 2.6a.
+                c["ctx"]["patients_all_active"] = v
+                c["ctx_refs"]["patients_all_active"] = {ref}
+            elif ind == "2.6" and cond in LOAD_MAP_CONDITION:
+                key = LOAD_MAP_CONDITION[cond]
+                bucket = "active" if "active" in load_as else "stock"
+                c[bucket][key] += v
+                c["refs"][key].add(ref)
+            elif ind == "3.3":
+                key = "trained_hist" if vt == "flow" else "trained_hist_cumulative"
+                c["ctx"][key] = c["ctx"].get(key, 0) + v
+                c["ctx_refs"].setdefault(key, set()).add(ref)
+            else:
+                skipped.append((country, "Load_Map_Other_Figures",
+                                f"{r.get('Load as')} / {cond}: no mapping"))
+
+    sites = {}
     for r in _rows(wb["Sites_and_Clinics"]):
         country = r.get("Country")
-        if not country:
-            continue
-        sites[country] = {"count": _int(r.get("Number of PEN-Plus sites / clinics")),
-                          "partners": r.get("Supporting partners and sites each"),
-                          "status": r.get("Status / stage")}
+        if country:
+            m = re.match(r"\s*(\d+)", str(r.get("Number of PEN-Plus sites / clinics") or ""))
+            sites[country] = int(m.group(1)) if m else None
 
-    countries = {c for c, _ in list(enrol) + list(staff)} | set(sites)
     out = {}
-    for country in sorted(countries):
+    for country in sorted({c for c, _ in cells} | set(sites)):
         if country not in COUNTRIES:
+            skipped.append((country, "all sheets", "country not in the Phase Two list"))
             continue
-        years = sorted({y for c, y in list(enrol) + list(staff) if c == country})
-        if not years:
-            years = [2026]
+        years = sorted(y for c, y in cells if c == country) or [2026]
         running = defaultdict(int)
-        seen_any = defaultdict(bool)
+        seen = set()
+        trained_to_date = None
         for year in years:
-            flows = enrol.get((country, year), {})
-            for k, v in flows.items():
+            c = cells[(country, year)]
+            for k, v in c["flow"].items():
                 running[k] += v
-                seen_any[k] = True
+                seen.add(k)
+            ever = {k: running[k] for k in seen}
+            ever.update(c["stock"])          # a stock at this date replaces nothing summed
+            conds = sorted(set(ever) | set(c["active"]))
+            flow_trained = c["ctx"].get("trained_hist")
+            if flow_trained is not None:
+                trained_to_date = (trained_to_date or 0) + flow_trained
+            if c["ctx"].get("trained_hist_cumulative") is not None:
+                trained_to_date = c["ctx"]["trained_hist_cumulative"]
+
+            closing = c["as_of"] or _closing_date_for_year(year)
+            closing = min(closing, dt.date.today().isoformat())
             rec = {
                 "country_name": country,
                 "rhythm": "annual", "period_id": f"{year}-A",
                 "quarter_id": f"{year}-Q4", "year": year,
-                "closing_date": _closing_date_for_year(year),
+                "closing_date": closing,
                 "source_file": os.path.basename(path),
+                "form_version": "icppa_2026",
                 "patient_stock": [
-                    {"condition": k,
-                     "ever_enrolled": running[k] if seen_any[k] else None,
-                     "active_end": None}
-                    for k in ("t1d", "scd", "rhd", "severe_htn", "other_reported")],
+                    {"condition": k, "ever_enrolled": ever.get(k),
+                     "active_end": c["active"].get(k)} for k in conds],
                 "patient_flow": [
-                    {"condition": k, "new_enrolled": flows.get(k),
-                     "ltfu": None, "transferred_out": None, "stopped": None, "died": None}
-                    for k in ("t1d", "scd", "rhd", "severe_htn", "other_reported")],
-                "workforce": [
-                    {"cadre": k, "trained_f": None, "trained_m": None,
-                     "fully_trained": None, "working_at_site": None}
-                    for k in set(ICPPA_CADRE_MAP.values())],
+                    {"condition": k, "new_enrolled": v, "ltfu": None,
+                     "transferred_out": None, "stopped": None, "died": None}
+                    for k, v in c["flow"].items()],
+                "workforce": [], "governance": [],
                 "context": {}, "quality": {}, "confidence": {},
                 "facilities": [], "facility_period": [],
+                "value_sources": [],
             }
-            # trained this year, sex not reported at the time
-            sf = staff.get((country, year), {})
-            for w in rec["workforce"]:
-                v = sf.get(w["cadre"])
-                if v is not None:
-                    w["trained_f"], w["trained_m"] = None, None
-                    w["fully_trained"] = None
-                    w["working_at_site"] = None
-                    w["trained_total_historical"] = v
-            # Facilities are NOT built from "Site or district names": splitting
-            # that free text on ";" made Zimbabwe one site (comma-separated),
-            # turned "planned: Kambia and Moyamba" into an operational site and
-            # Ghana's sentence into three (audit v2, section 1). They come from
-            # the curated facility register instead (load_facility_register).
-            if year == years[-1] and country in sites:
-                rec["context"]["sites_reported_icppa"] = sites[country]["count"]
+            for key in ("patients_all_ever", "patients_all_active"):
+                if key in c["ctx"]:
+                    rec["context"][key] = c["ctx"][key]
+            if flow_trained is not None:
+                rec["context"]["trained_hist"] = flow_trained
+            if trained_to_date is not None:
+                rec["context"]["trained_hist_to_date"] = trained_to_date
+            if year == years[-1] and sites.get(country) is not None:
+                rec["context"]["sites_reported_icppa"] = sites[country]
+
+            # provenance: one row per published (indicator, disaggregation)
+            vtype = "/".join(sorted(c["types"])) or None
+            sentinel_refs = set().union(*(c["refs"][k] for k in conds if k in SENTINEL_SUM)) \
+                if any(k in SENTINEL_SUM for k in conds) else set()
+            if any(k in SENTINEL_SUM for k in ever):
+                rec["value_sources"].append(_vs("2.6", "all", vtype, sentinel_refs))
+            if any(k in SENTINEL_SUM for k in c["active"]):
+                rec["value_sources"].append(_vs("2.6a", "all", "active", sentinel_refs))
+            for k in conds:
+                rec["value_sources"].append(_vs("2.6" if k in SENTINEL_SUM else "2.5", k,
+                                                vtype, c["refs"][k]))
+                if k in c["active"]:
+                    rec["value_sources"].append(_vs("2.6a", k, "active", c["refs"][k]))
+            if "patients_all_ever" in c["ctx"]:
+                rec["value_sources"].append(_vs("2.5", "all", "cumulative",
+                                                c["ctx_refs"]["patients_all_ever"]))
+            if "patients_all_active" in c["ctx"]:
+                rec["value_sources"].append(_vs("2.5", "active", "active",
+                                                c["ctx_refs"]["patients_all_active"]))
+            trained_refs = set().union(*(c["ctx_refs"].get(k, set())
+                                         for k in ("trained_hist", "trained_hist_cumulative")))
+            if trained_refs:
+                rec["value_sources"].append(_vs("3.3", "all", "flow", trained_refs))
+                rec["value_sources"].append(_vs("3.3", "to_date", "cumulative", trained_refs))
             out[(country, year)] = rec
     return out
+
+
+def _vs(code, disagg, vtype, refs):
+    return {"indicator_code": code, "disagg_value": disagg, "value_type": vtype,
+            "source_ref": "; ".join(sorted(r for r in refs if r)) or None}
+
+
+def _sum_present(values):
+    vals = [v for v in values if v is not None]
+    return sum(vals) if vals else None
 
 
 # -------------------------------------------------------------- monitoring

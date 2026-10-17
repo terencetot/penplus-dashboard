@@ -68,7 +68,7 @@ def live_returns(con):
         "SELECT r.*, p.quarter_id, p.closing_date, q.completeness"
         " FROM fact_return r JOIN dim_period p USING(period_id)"
         " LEFT JOIN fact_quality q USING(return_id)"
-        " WHERE r.superseded=0 AND r.verdict IN ('accepted','query')"
+        " WHERE r.superseded=0 AND r.verdict IN ('accepted','query','hold')"
         " ORDER BY r.iso3, r.period_id"))
 
 
@@ -77,6 +77,9 @@ def build(db_path: str = DB_DEFAULT):
     con.execute("DELETE FROM gold_indicator")
     rows = []
     holds = query_holds(con)
+    latest_period = {r["iso3"]: r["p"] for r in con.execute(
+        "SELECT iso3, MAX(period_id) p FROM fact_return"
+        " WHERE superseded=0 AND verdict IN ('accepted','query') GROUP BY iso3")}
 
     for r in live_returns(con):
         rid, iso3, pid = r["return_id"], r["iso3"], r["period_id"]
@@ -87,14 +90,25 @@ def build(db_path: str = DB_DEFAULT):
         # so each redefinition of put() (once per return, every loop pass)
         # freezes that return's own values -- put() is always fully used
         # within the same iteration it's defined in, never deferred.
+        # A held return (a High validation failure) still publishes its
+        # figures, marked held and kept out of every total, so the screen can
+        # list what is held and why (DATA_QUALITY_SPEC.md, 4.4).
+        return_hold = None
+        if r["verdict"] == "hold":
+            ids = [q["query_id"] for q in con.execute(
+                "SELECT query_id FROM fact_query WHERE scope=? AND period_id=? AND severity='High'"
+                " AND status='open'", (iso3, pid))]
+            return_hold = ", ".join(ids) or "validation (High)"
+
         src = {(v["indicator_code"], v["disagg_value"]): v for v in con.execute(
             "SELECT * FROM fact_value_source WHERE return_id=?", (rid,))}
 
         def put(code, num=None, den=None, unit="count", key="all", val="all", value=None,
-                *, iso3=iso3, pid=pid, comp=comp, as_of=as_of, basis=basis, src=src):
+                *, iso3=iso3, pid=pid, comp=comp, as_of=as_of, basis=basis, src=src,
+                prov=None, return_hold=return_hold):
             v = value if value is not None else (num if unit == "count" else _rate(num, den))
-            prov = src.get((code, val)) or src.get((code, "all"))
-            hold = holds.get((iso3, code))
+            prov = prov or src.get((code, val)) or src.get((code, "all"))
+            hold = holds.get((iso3, code)) or return_hold
             rows.append((iso3, pid, code, key, val, num, den, v, unit, comp,
                          1 if (num is not None and num < SUPPRESS_BELOW and unit == "count"
                                and key != "all") else 0,
@@ -193,14 +207,23 @@ def build(db_path: str = DB_DEFAULT):
         fac = list(con.execute(
             "SELECT fp.*, f.status FROM fact_facility_period fp"
             " JOIN dim_facility f USING(facility_id) WHERE fp.return_id=?", (rid,)))
-        if not fac:
+        # Without per-period facility rows, 2.3 comes from the facility
+        # register -- but only for the country's latest return: the register
+        # describes today, and stamping it on every earlier year would
+        # invent a facility history nobody reported.
+        if not fac and pid == latest_period.get(iso3):
             fac = list(con.execute(
                 "SELECT NULL return_received, NULL mentorship_visit, NULL quality_score,"
                 " NULL critical_met, NULL readiness_class, f.status"
                 " FROM dim_facility f WHERE f.iso3=?", (iso3,)))
         operational = [f for f in fac if f["status"] in ("operational", "started_this_period")]
         if fac:
-            put("2.3", num=len(operational))
+            # a historical return has no Annex A: its 2.3 is the register
+            from_register = basis == "historical"
+            put("2.3", num=len(operational),
+                prov={"value_type": "point-in-time",
+                      "source_ref": "facility register (ICPPA 2026 decks)"}
+                if from_register else None)
             assessed = [f for f in fac if f["quality_score"] is not None]
             if assessed:
                 met = [f for f in assessed

@@ -24,8 +24,13 @@ def test_held_return_excluded_from_gold(tmp_path, make_rec):
 
     check = connect(db_path)
     gold = list(check.execute("SELECT * FROM gold_indicator"))
-    assert any(g["iso3"] == "GHA" for g in gold)
-    assert not any(g["iso3"] == "KEN" for g in gold)
+    assert any(g["iso3"] == "GHA" and not g["held"] for g in gold)
+    # A held return is published as held -- listed with its reason on the
+    # data-quality screen -- and kept out of every total (DATA_QUALITY_SPEC.md
+    # 4.4). It used to be dropped from gold altogether, which made a held
+    # figure indistinguishable from a missing one.
+    ken = [g for g in gold if g["iso3"] == "KEN"]
+    assert ken and all(g["held"] == 1 for g in ken)
 
 
 def test_all_none_stock_produces_none_numerator_not_zero(tmp_path, make_rec):

@@ -52,8 +52,10 @@ DEFAULT = {
     "hmis_52": ("Yes", 12),
     "comm_61_total": 3,
     "consent": "Yes",
-    "facilities": [("GHA-0001", "Synthetic Hospital A", "Region A", "District A", "District",
-                    "2023", "Active", "Yes", "T1D; SCD; RHD")],
+    # five Active facilities in Annex A, matching 2.3 "active during period" (R02)
+    "facilities": [(f"GHA-000{i}", f"Synthetic Hospital {c}", "Region A", f"District {c}",
+                    "District", "2023", "Active", "Yes", "T1D; SCD; RHD")
+                   for i, c in enumerate("ABCDE", start=1)],
 }
 
 

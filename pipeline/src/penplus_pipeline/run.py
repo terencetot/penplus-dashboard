@@ -12,7 +12,6 @@ revisions and supersedes the old ones, so history is never lost.
 from __future__ import annotations
 
 import argparse
-import datetime as dt
 import glob
 import os
 import re
@@ -21,18 +20,21 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 
+import baseline  # noqa: E402
 import export  # noqa: E402
 import seed_history  # noqa: E402
 import transform  # noqa: E402
-from load import init_db, load_implementation_steps, load_return  # noqa: E402
+from load import init_db, load_return  # noqa: E402
 from parse import parse_return  # noqa: E402
-from validate import record_findings, validate_return  # noqa: E402
+from validate import record_findings, run_checks, validate_return  # noqa: E402
 
 # Historical seed workbooks are Regional M&E evidence, not part of this
 # repository. Point --icppa/--monitoring at your own copies; --seed is a
 # no-op (with a warning) when the files are not found at those paths.
 RAW = os.path.join(HERE, "..", "..", "..", "data", "raw")
-ICPPA = os.path.join(RAW, "PEN-Plus_country_data_ICPPA2026.xlsx")
+# Version 2 of the extraction (17 Oct 2026): adds Kenya, Malawi, Nigeria, the
+# "Value type" column and the machine-readable Load_Map_Other_Figures sheet.
+ICPPA = os.path.join(RAW, "PEN-Plus_country_data_ICPPA2026_v2.xlsx")
 MONITORING = os.path.join(RAW, "PEN_PLUS_MONITORING.xlsx")
 
 # A worked example, demo or test fixture must never be loaded as a real
@@ -53,6 +55,9 @@ def main():
     ap.add_argument("--allow-synthetic", action="store_true",
                      help="permit a --returns filename that looks like a worked example, "
                           "demo, test or synthetic fixture to be loaded as a real return")
+    ap.add_argument("--reference", action="store_true",
+                     help="reload the curated reference files in data/reference/ (facility "
+                          "register, phases, query seed, data-system assessments)")
     ap.add_argument("--transform", action="store_true")
     ap.add_argument("--export", action="store_true")
     ap.add_argument("--out", default=os.path.join(HERE, "..", "..", "..", "site", "public", "data"))
@@ -78,21 +83,31 @@ def main():
                 load_return(con, rec, source_kind="historical",
                             provenance=seed_history.PROV_MON)
                 n += 1
+            # Implementation phases now come from the reconciliation file
+            # below (workbook steps + the official ICPPA phase map). The
+            # workbook reader still runs, as a check that it reads all 20.
             phases = seed_history.from_monitoring_phases(a.monitoring)
-            today = dt.date.today().isoformat()
-            for iso3, steps in sorted(phases.items()):
-                load_implementation_steps(con, iso3, steps, seed_history.PROV_MON, today)
-            print(f"seeded implementation-phase status for {len(phases)} countries")
+            print(f"monitoring workbook: phase steps read for {len(phases)} countries")
         else:
             print(f"skipping monitoring seed: {a.monitoring} not found")
         if os.path.exists(a.icppa):
-            for _key, rec in sorted(seed_history.from_icppa(a.icppa).items()):
+            skipped = []
+            for _key, rec in sorted(seed_history.from_icppa(a.icppa, skipped).items()):
                 load_return(con, rec, source_kind="historical",
                             provenance=seed_history.PROV_ICPPA)
                 n += 1
+            for country, sheet, reason in skipped:
+                print(f"  not loaded: {country} ({sheet}) {reason}")
         else:
             print(f"skipping ICPPA seed: {a.icppa} not found")
         print(f"seeded {n} historical returns")
+
+    if a.seed or a.reference:
+        print(f"facility register: {baseline.load_facility_register(con)} facilities")
+        print(f"implementation phases: {baseline.load_phase_reconciliation(con)} countries")
+        seeded, closed = baseline.load_queries(con)
+        print(f"query register: {seeded} seeded queries ({closed} closed by this build)")
+        print(f"data-system assessments: {baseline.load_data_system_assessments(con)} countries")
 
     paths = []
     for pat in a.returns:
@@ -121,6 +136,11 @@ def main():
             print(f"loaded {name} as return {rid}, no findings")
 
     if a.transform:
+        # R01-R17 on every live return before the figures are built: their
+        # High failures decide what is held.
+        failed = run_checks(con)
+        print("checks: " + ", ".join(f"{k} {v} failed" for k, v in failed.items() if v)
+              if any(failed.values()) else "checks: no failures")
         transform.build(a.db)
     if a.export:
         export.export(a.db, a.out, public=a.public)

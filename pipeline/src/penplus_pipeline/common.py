@@ -245,3 +245,11 @@ def resolve_iso3(country_name: str) -> str:
     if not entry:
         raise ValueError(f"country not in the Phase Two list: {country_name}")
     return entry[0]
+
+
+#: Publish facility names in the public build. Default taken for refinement v2
+#: (docs/refinement/RUN_LOG.md): these are public hospitals named at a public
+#: conference, so the suppression rule protects small patient counts
+#: (CLAUDE.md rule 7, still applied), not facility identity. Set to False to
+#: withhold name, district, region and town again.
+PUBLISH_FACILITY_NAMES = True
