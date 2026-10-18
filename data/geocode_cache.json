@@ -1,0 +1,3615 @@
+{
+"q=Abuja%2C+Federal+Capital+Territory%2C+Nigeria&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ng&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "NG-FC",
+"city": "Abuja",
+"country": "Nigeria",
+"country_code": "ng",
+"county": "Municipal Area Council",
+"postcode": "900001",
+"state": "Federal Capital Territory"
+},
+"addresstype": "city",
+"boundingbox": [
+"8.9043305",
+"9.2243305",
+"7.3292974",
+"7.6492974"
+],
+"category": "place",
+"display_name": "Abuja, Municipal Area Council, Federal Capital Territory, 900001, Nigeria",
+"extratags": {
+"capital": "yes",
+"capital_ISO3166-1": "yes",
+"is_capital": "country",
+"population": "776298",
+"wikidata": "Q3787",
+"wikipedia": "en:Abuja"
+},
+"importance": 0.6152395067911506,
+"lat": "9.0643305",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "7.4892974",
+"name": "Abuja",
+"osm_id": 31203257,
+"osm_type": "node",
+"place_id": 41335838,
+"place_rank": 15,
+"type": "city"
+}
+],
+"q=Addis+Zemen%2C+Amhara%2C+Ethiopia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=et&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ET-AM",
+"country": "ኢትዮጵያ",
+"country_code": "et",
+"state": "አማራ ክልል",
+"state_district": "South Gonder",
+"town": "አዲስ ዘመን / Adis Zemen"
+},
+"addresstype": "town",
+"boundingbox": [
+"12.0852879",
+"12.1652879",
+"37.7375173",
+"37.8175173"
+],
+"category": "place",
+"display_name": "አዲስ ዘመን / Adis Zemen, South Gonder, አማራ ክልል, ኢትዮጵያ",
+"extratags": {
+"ele": "1975",
+"population": "24849"
+},
+"importance": 0.16004000076295108,
+"lat": "12.1252879",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "37.7775173",
+"name": "አዲስ ዘመን / Adis Zemen",
+"osm_id": 321361857,
+"osm_type": "node",
+"place_id": 44633178,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Addis+Zemen+Primary+Hospital%2C+Addis+Zemen%2C+South+Gondar%2C+Amhara%2C+Ethiopia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=et&limit=5": [],
+"q=Addis+Zemen+Primary+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=et&limit=5": [],
+"q=Atutur%2C+Eastern%2C+Uganda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl3": "UG-E",
+"ISO3166-2-lvl4": "UG-208",
+"country": "Uganda",
+"country_code": "ug",
+"region": "Eastern Region",
+"state": "Kumi",
+"town": "Atutur"
+},
+"addresstype": "town",
+"boundingbox": [
+"1.3721093",
+"1.4521093",
+"33.9510496",
+"34.0310496"
+],
+"category": "place",
+"display_name": "Atutur, Kumi, Eastern Region, Uganda",
+"extratags": null,
+"importance": 0.16004000076295108,
+"lat": "1.4121093",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "33.9910496",
+"name": "Atutur",
+"osm_id": 1655767165,
+"osm_type": "node",
+"place_id": 43283035,
+"place_rank": 18,
+"type": "town"
+},
+{
+"address": {
+"ISO3166-2-lvl3": "UG-E",
+"ISO3166-2-lvl4": "UG-208",
+"country": "Uganda",
+"country_code": "ug",
+"region": "Eastern Region",
+"state": "Kumi",
+"village": "Atutur"
+},
+"addresstype": "village",
+"boundingbox": [
+"1.2966670",
+"1.3366670",
+"33.9300000",
+"33.9700000"
+],
+"category": "place",
+"display_name": "Atutur, Kumi, Eastern Region, Uganda",
+"extratags": {
+"GNS:dsg_code": "PPL",
+"GNS:dsg_string": "populated place",
+"GNS:id": "-1726314"
+},
+"importance": 0.14670666742961772,
+"lat": "1.3166670",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "33.9500000",
+"name": "Atutur",
+"osm_id": 2229100385,
+"osm_type": "node",
+"place_id": 43346790,
+"place_rank": 19,
+"type": "village"
+},
+{
+"address": {
+"ISO3166-2-lvl3": "UG-E",
+"ISO3166-2-lvl4": "UG-231",
+"country": "Uganda",
+"country_code": "ug",
+"region": "Eastern Region",
+"state": "Ngora",
+"village": "Atutur"
+},
+"addresstype": "village",
+"boundingbox": [
+"1.5589857",
+"1.5989857",
+"33.7565072",
+"33.7965072"
+],
+"category": "place",
+"display_name": "Atutur, Ngora, Eastern Region, Uganda",
+"extratags": null,
+"importance": 0.14670666742961772,
+"lat": "1.5789857",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "33.7765072",
+"name": "Atutur",
+"osm_id": 9798829475,
+"osm_type": "node",
+"place_id": 43345371,
+"place_rank": 19,
+"type": "village"
+},
+{
+"address": {
+"ISO3166-2-lvl3": "UG-E",
+"ISO3166-2-lvl4": "UG-236",
+"country": "Uganda",
+"country_code": "ug",
+"region": "Eastern Region",
+"state": "Kapelebyong",
+"village": "Atutur"
+},
+"addresstype": "village",
+"boundingbox": [
+"2.0002566",
+"2.0402566",
+"33.7375239",
+"33.7775239"
+],
+"category": "place",
+"display_name": "Atutur, Kapelebyong, Eastern Region, Uganda",
+"extratags": null,
+"importance": 0.14670416800183103,
+"lat": "2.0202566",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "33.7575239",
+"name": "Atutur",
+"osm_id": 10596189388,
+"osm_type": "node",
+"place_id": 43473357,
+"place_rank": 19,
+"type": "village"
+}
+],
+"q=Atutur+General+Hospital%2C+Atutur%2C+Kumi%2C+Eastern%2C+Uganda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl3": "UG-E",
+"ISO3166-2-lvl4": "UG-208",
+"amenity": "Atutur General Hospital",
+"country": "Uganda",
+"country_code": "ug",
+"county": "Bugisa sub-region",
+"region": "Eastern Region",
+"road": "Lira - Mbale Road",
+"state": "Kumi",
+"town": "Atutur"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"1.4086288",
+"1.4105192",
+"33.9900220",
+"33.9916957"
+],
+"category": "amenity",
+"display_name": "Atutur General Hospital, Lira - Mbale Road, Atutur, Bugisa sub-region, Kumi, Eastern Region, Uganda",
+"extratags": {
+"healthcare": "hospital",
+"wikidata": "Q25066633"
+},
+"importance": 0.12743869505990896,
+"lat": "1.4095834",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "33.9908569",
+"name": "Atutur General Hospital",
+"osm_id": 798789692,
+"osm_type": "way",
+"place_id": 43265625,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Bouss%C3%A9%2C+Plateau-Central%2C+Burkina+Faso&format=jsonv2&addressdetails=1&extratags=1&countrycodes=bf&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "BF-11",
+"ISO3166-2-lvl5": "BF-KOW",
+"country": "Burkina Faso",
+"country_code": "bf",
+"department": "Boussé",
+"province": "Kourwéogo",
+"region": "Plateau-Central",
+"town": "Boussé"
+},
+"addresstype": "town",
+"boundingbox": [
+"12.6230268",
+"12.7030268",
+"-1.9374878",
+"-1.8574878"
+],
+"category": "place",
+"display_name": "Boussé, Kourwéogo, Plateau-Central, Burkina Faso",
+"extratags": {
+"FIXME": "please check exact position and fix if inaccurate",
+"capital": "5",
+"is_in": "Boussé;Kourwéogo;Plateau-Central;Burkina Faso;Africa",
+"population": "13173",
+"population:date": "2006",
+"wikidata": "Q895281",
+"wikipedia": "fr:Boussé"
+},
+"importance": 0.4417491314623472,
+"lat": "12.6630268",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-1.8974878",
+"name": "Boussé",
+"osm_id": 431220390,
+"osm_type": "node",
+"place_id": 299478436,
+"place_rank": 18,
+"type": "town"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "BF-11",
+"ISO3166-2-lvl5": "BF-KOW",
+"country": "Burkina Faso",
+"country_code": "bf",
+"department": "Boussé",
+"province": "Kourwéogo",
+"region": "Plateau-Central"
+},
+"addresstype": "department",
+"boundingbox": [
+"12.5766900",
+"12.8254095",
+"-1.9388000",
+"-1.5968206"
+],
+"category": "boundary",
+"display_name": "Boussé, Kourwéogo, Plateau-Central, Burkina Faso",
+"extratags": {
+"admin_level": "6",
+"admin_type:BF": "commune urbaine",
+"capital": "5",
+"fixme:2": "ajouter les 5 secteurs du chef-lieu",
+"place": "department",
+"population": "43352",
+"population:date": "2012",
+"wikidata": "Q15204003",
+"wikipedia": "fr:Boussé (département)"
+},
+"importance": 0.31620884567581686,
+"lat": "12.7017616",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-1.8331252",
+"name": "Boussé",
+"osm_id": 5257768,
+"osm_type": "relation",
+"place_id": 299484947,
+"place_rank": 12,
+"type": "administrative"
+}
+],
+"q=Brazzaville%2C+Brazzaville%2C+Republic+of+the+Congo&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cg&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CG-BZV",
+"country": "Congo",
+"country_code": "cg",
+"municipality": "Brazzaville (commune)",
+"state": "Brazzaville (département)"
+},
+"addresstype": "municipality",
+"boundingbox": [
+"-4.3810505",
+"-4.0968398",
+"15.1389502",
+"15.3246433"
+],
+"category": "boundary",
+"display_name": "Brazzaville (commune), Brazzaville (département), Congo",
+"extratags": {
+"admin_level": "5",
+"capital": "yes",
+"ele": "320",
+"is_capital": "country",
+"linked_place": "city",
+"place": "municipality",
+"population": "1932610",
+"population:date": "2018",
+"wikidata": "Q3844",
+"wikipedia": "fr:Brazzaville"
+},
+"importance": 0.6220485706282567,
+"lat": "-4.2694407",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "15.2712256",
+"name": "Brazzaville (commune)",
+"osm_id": 16370691,
+"osm_type": "relation",
+"place_id": 40002151,
+"place_rank": 10,
+"type": "administrative"
+}
+],
+"q=Butaro%2C+Northern%2C+Rwanda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "RW-03",
+"city": "Butaro",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Burera District",
+"state": "Northern Province"
+},
+"addresstype": "city",
+"boundingbox": [
+"-1.4515841",
+"-1.3398189",
+"29.8092328",
+"29.8844471"
+],
+"category": "boundary",
+"display_name": "Butaro, Burera District, Northern Province, Rwanda",
+"extratags": {
+"admin_level": "8",
+"wikidata": "Q21481049"
+},
+"importance": 0.18670416800183104,
+"lat": "-1.3952585",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "29.8481114",
+"name": "Butaro",
+"osm_id": 1736838,
+"osm_type": "relation",
+"place_id": 38793651,
+"place_rank": 16,
+"type": "administrative"
+}
+],
+"q=Butaro+District+Hospital%2C+Butaro%2C+Northern%2C+Rwanda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "RW-03",
+"amenity": "Butaro Cancer Centre Of Excellence",
+"city": "Butaro",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Burera District",
+"road": "NR21",
+"state": "Northern Province"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-1.4087062",
+"-1.4086062",
+"29.8391900",
+"29.8392900"
+],
+"category": "amenity",
+"display_name": "Butaro Cancer Centre Of Excellence, NR21, Butaro, Burera District, Northern Province, Rwanda",
+"extratags": {
+"phone": "+250 788 331 114",
+"wikidata": "Q64138566"
+},
+"importance": 3.750133516437045e-05,
+"lat": "-1.4086562",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "29.8392400",
+"name": "Butaro Cancer Centre Of Excellence",
+"osm_id": 12950467483,
+"osm_type": "node",
+"place_id": 38693843,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Butaro+District+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "RW-03",
+"building": "Butaro Hospital",
+"city": "Butaro",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Burera District",
+"road": "NR21",
+"state": "Northern Province"
+},
+"addresstype": "building",
+"boundingbox": [
+"-1.4100606",
+"-1.4097806",
+"29.8397851",
+"29.8399621"
+],
+"category": "building",
+"display_name": "Butaro Hospital, NR21, Butaro, Burera District, Northern Province, Rwanda",
+"extratags": null,
+"importance": 3.750133516437045e-05,
+"lat": "-1.4099238",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "29.8398771",
+"name": "Butaro Hospital",
+"osm_id": 341899060,
+"osm_type": "way",
+"place_id": 38939289,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "RW-03",
+"amenity": "Butaro Level Two Teaching Hospital",
+"city": "Butaro",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Burera District",
+"road": "NR21",
+"state": "Northern Province"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-1.4094194",
+"-1.4093194",
+"29.8397454",
+"29.8398454"
+],
+"category": "amenity",
+"display_name": "Butaro Level Two Teaching Hospital, NR21, Butaro, Burera District, Northern Province, Rwanda",
+"extratags": null,
+"importance": 3.750133516437045e-05,
+"lat": "-1.4093694",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "29.8397954",
+"name": "Butaro Level Two Teaching Hospital",
+"osm_id": 12950467136,
+"osm_type": "node",
+"place_id": 38846995,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "RW-03",
+"amenity": "Butaro Cancer Centre Of Excellence",
+"city": "Butaro",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Burera District",
+"road": "NR21",
+"state": "Northern Province"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-1.4087062",
+"-1.4086062",
+"29.8391900",
+"29.8392900"
+],
+"category": "amenity",
+"display_name": "Butaro Cancer Centre Of Excellence, NR21, Butaro, Burera District, Northern Province, Rwanda",
+"extratags": {
+"phone": "+250 788 331 114",
+"wikidata": "Q64138566"
+},
+"importance": 3.750133516437045e-05,
+"lat": "-1.4086562",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "29.8392400",
+"name": "Butaro Cancer Centre Of Excellence",
+"osm_id": 12950467483,
+"osm_type": "node",
+"place_id": 38867098,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=C.B.+Dunbar+Hospital%2C+Gbarnga%2C+Bong%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "LR-BG",
+"amenity": "C.B. Dunbar Hospital",
+"community": "Civil Compound",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Jorquelleh",
+"hamlet": "Gbanta",
+"neighbourhood": "Sugar Hill Community",
+"road": "Baltimore Boulevard",
+"state": "Bong County",
+"zone": "Zone 7"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"7.0041998",
+"7.0059236",
+"-9.4778430",
+"-9.4758842"
+],
+"category": "amenity",
+"display_name": "C.B. Dunbar Hospital, Baltimore Boulevard, Sugar Hill Community, Gbanta, Civil Compound, Zone 7, Jorquelleh, Bong County, Liberia",
+"extratags": {
+"bed_count": "55",
+"county": "Bong",
+"dispensing": "yes",
+"district": "Jorquelleh",
+"emergency": "yes",
+"healthcare": "hospital",
+"opening_hours": "24/7",
+"operational_status": "functional",
+"operator": "Government",
+"ownership": "Government",
+"post_addr": "1000",
+"reg_id": "LRJUQ5",
+"sub_district": "Jorquelleh"
+},
+"importance": 4.5001144426596745e-05,
+"lat": "7.0050332",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.4769427",
+"name": "C.B. Dunbar Hospital",
+"osm_id": 524769663,
+"osm_type": "way",
+"place_id": 301073559,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Chibombo+District+Hospital+%28Mwachisompola%29%2C+Mwachisompola%2C+Chibombo%2C+Central%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [],
+"q=Chibombo+District+Hospital+%28Mwachisompola%29&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZM-02",
+"amenity": "Mwachisompola Clinic",
+"country": "Zambia",
+"country_code": "zm",
+"road": "D188",
+"state": "Central Province",
+"state_district": "Chibombo District"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-14.9072288",
+"-14.9046865",
+"27.9898395",
+"27.9926345"
+],
+"category": "amenity",
+"display_name": "Mwachisompola Clinic, D188, Chibombo District, Central Province, Zambia",
+"extratags": {
+"healthcare": "hospital"
+},
+"importance": 9.99999999995449e-06,
+"lat": "-14.9060661",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "27.9913583",
+"name": "Mwachisompola Clinic",
+"osm_id": 12265050,
+"osm_type": "relation",
+"place_id": 39438356,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Chifubu+Level+One+Hospital%2C+Ndola%2C+Ndola%2C+Copperbelt%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [],
+"q=Chifubu+Level+One+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [],
+"q=Chiredzi%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Chiredzi",
+"state": "Masvingo"
+},
+"addresstype": "county",
+"boundingbox": [
+"-22.4241096",
+"-20.3982226",
+"30.9432332",
+"32.4056014"
+],
+"category": "boundary",
+"display_name": "Chiredzi, Masvingo, Zimbabwe",
+"extratags": {
+"admin_level": "6",
+"wikidata": "Q5101881",
+"wikipedia": "en:Chiredzi District"
+},
+"importance": 0.3382445921771202,
+"lat": "-21.4164577",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.8233421",
+"name": "Chiredzi",
+"osm_id": 5556615,
+"osm_type": "relation",
+"place_id": 34497288,
+"place_rank": 12,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Chiredzi",
+"state": "Masvingo",
+"town": "Chiredzi"
+},
+"addresstype": "town",
+"boundingbox": [
+"-21.0852949",
+"-21.0052949",
+"31.6288771",
+"31.7088771"
+],
+"category": "place",
+"display_name": "Chiredzi, Masvingo, Zimbabwe",
+"extratags": {
+"population": "26129",
+"wikidata": "Q1074697"
+},
+"importance": 0.160039806973373,
+"lat": "-21.0452949",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.6688771",
+"name": "Chiredzi",
+"osm_id": 1243605851,
+"osm_type": "node",
+"place_id": 34601250,
+"place_rank": 18,
+"type": "town"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"river": "chiredzi",
+"state": "Masvingo",
+"village": "Zaka"
+},
+"addresstype": "river",
+"boundingbox": [
+"-20.2053939",
+"-20.0390438",
+"31.3567045",
+"31.3727534"
+],
+"category": "waterway",
+"display_name": "chiredzi, Zaka, Masvingo, Zimbabwe",
+"extratags": null,
+"importance": 0.14672166857404437,
+"lat": "-20.1235375",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.3614665",
+"name": "chiredzi",
+"osm_id": 249763240,
+"osm_type": "way",
+"place_id": 34476801,
+"place_rank": 19,
+"type": "river"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Chiredzi",
+"river": "Chiredzi",
+"state": "Masvingo"
+},
+"addresstype": "river",
+"boundingbox": [
+"-21.0112036",
+"-20.9099563",
+"31.6667392",
+"31.7479081"
+],
+"category": "waterway",
+"display_name": "Chiredzi, Masvingo, Zimbabwe",
+"extratags": null,
+"importance": 0.14670647364003964,
+"lat": "-20.9782824",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.6896323",
+"name": "Chiredzi",
+"osm_id": 1219281129,
+"osm_type": "way",
+"place_id": 34485134,
+"place_rank": 19,
+"type": "river"
+}
+],
+"q=Chiredzi+District+Hospital%2C+Chiredzi%2C+Chiredzi%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [],
+"q=Chiredzi+District+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [],
+"q=Djoum%2C+Sud%2C+Cameroon&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CM-SU",
+"country": "Cameroun",
+"country_code": "cm",
+"county": "Dja-et-Lobo",
+"state": "Sud",
+"town": "Djoum"
+},
+"addresstype": "town",
+"boundingbox": [
+"2.2229746",
+"3.0520467",
+"12.3074829",
+"13.2554656"
+],
+"category": "boundary",
+"display_name": "Djoum, Dja-et-Lobo, Sud, Cameroun",
+"extratags": {
+"admin_level": "8",
+"linked_place": "town",
+"rank": "0",
+"ref:COG": "SU0202",
+"wikidata": "Q3033077"
+},
+"importance": 0.31074813956852465,
+"lat": "2.6722719",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "12.6780673",
+"name": "Djoum",
+"osm_id": 3823822,
+"osm_type": "relation",
+"place_id": 40106857,
+"place_rank": 16,
+"type": "administrative"
+}
+],
+"q=Ewo%2C+Cuvette-Ouest%2C+Republic+of+the+Congo&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cg&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CG-15",
+"country": "Congo",
+"country_code": "cg",
+"county": "Ewo",
+"state": "Cuvette-Ouest",
+"town": "Ewo"
+},
+"addresstype": "town",
+"boundingbox": [
+"-0.9140998",
+"-0.8340998",
+"14.7768515",
+"14.8568515"
+],
+"category": "place",
+"display_name": "Ewo, Cuvette-Ouest, Congo",
+"extratags": {
+"population": "11457",
+"population:date": "2018",
+"wikidata": "Q2362433",
+"wikipedia": "fr:Ewo"
+},
+"importance": 0.3090170114439377,
+"lat": "-0.8740998",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "14.8168515",
+"name": "Ewo",
+"osm_id": 3300965105,
+"osm_type": "node",
+"place_id": 39887977,
+"place_rank": 18,
+"type": "town"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "CG-15",
+"aeroway": "Ewo Airport",
+"country": "Congo",
+"country_code": "cg",
+"county": "Ewo",
+"road": "Avenue du marché",
+"state": "Cuvette-Ouest",
+"town": "Ewo"
+},
+"addresstype": "aeroway",
+"boundingbox": [
+"-0.8657680",
+"-0.8503310",
+"14.7970176",
+"14.8122042"
+],
+"category": "aeroway",
+"display_name": "Ewo Airport, Avenue du marché, Ewo, Cuvette-Ouest, Congo",
+"extratags": {
+"wikidata": "Q5419071",
+"wikipedia": "en:Ewo Airport"
+},
+"importance": 0.25876906166717667,
+"lat": "-0.8591410",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "14.8054846",
+"name": "Ewo Airport",
+"osm_id": 594142083,
+"osm_type": "way",
+"place_id": 40127838,
+"place_rank": 30,
+"type": "aerodrome"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "CG-15",
+"country": "Congo",
+"country_code": "cg",
+"county": "Ewo",
+"state": "Cuvette-Ouest"
+},
+"addresstype": "county",
+"boundingbox": [
+"-1.1809531",
+"-0.2255673",
+"14.4203760",
+"15.1853577"
+],
+"category": "boundary",
+"display_name": "Ewo, Cuvette-Ouest, Congo",
+"extratags": {
+"admin_level": "6",
+"wikidata": "Q5419068",
+"wikipedia": "en:Ewo District"
+},
+"importance": 0.24000999999999997,
+"lat": "-0.7034740",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "14.7618983",
+"name": "Ewo",
+"osm_id": 3221150,
+"osm_type": "relation",
+"place_id": 39888023,
+"place_rank": 12,
+"type": "administrative"
+}
+],
+"q=Gbarnga%2C+Bong%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "LR-BG",
+"city": "Gbarnga",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Jorquelleh",
+"state": "Bong County",
+"zone": "Zone 3"
+},
+"addresstype": "city",
+"boundingbox": [
+"6.8362690",
+"7.1562690",
+"-9.6309050",
+"-9.3109050"
+],
+"category": "place",
+"display_name": "Gbarnga, Zone 3, Jorquelleh, Bong County, Liberia",
+"extratags": {
+"capital": "4",
+"gns_ufi": "-2131839",
+"unocha:pcode": "LBR06040000160",
+"wikidata": "Q985291",
+"wikipedia": "ru:Гбарнга"
+},
+"importance": 0.18671166781109327,
+"lat": "6.9962690",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.4709050",
+"name": "Gbarnga",
+"osm_id": 2189951896,
+"osm_type": "node",
+"place_id": 300037268,
+"place_rank": 16,
+"type": "city"
+}
+],
+"q=H%C3%B4pital+de+District+de+Djoum%2C+Djoum%2C+Djoum%2C+Sud%2C+Cameroon&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CM-SU",
+"amenity": "Hôpital de district",
+"country": "Cameroun",
+"country_code": "cm",
+"county": "Dja-et-Lobo",
+"road": "N9",
+"state": "Sud",
+"town": "Djoum",
+"village": "Aveubé"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"2.6721533",
+"2.6722533",
+"12.6793209",
+"12.6794209"
+],
+"category": "amenity",
+"display_name": "Hôpital de district, N9, Aveubé, Djoum, Dja-et-Lobo, Sud, Cameroun",
+"extratags": null,
+"importance": 3.786907759208083e-05,
+"lat": "2.6722033",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "12.6793709",
+"name": "Hôpital de district",
+"osm_id": 9053775218,
+"osm_type": "node",
+"place_id": 40103444,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=H%C3%B4pital+de+District+de+Djoum&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CM-SU",
+"amenity": "Hôpital de district",
+"country": "Cameroun",
+"country_code": "cm",
+"county": "Dja-et-Lobo",
+"road": "N9",
+"state": "Sud",
+"town": "Djoum",
+"village": "Aveubé"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"2.6721533",
+"2.6722533",
+"12.6793209",
+"12.6794209"
+],
+"category": "amenity",
+"display_name": "Hôpital de district, N9, Aveubé, Djoum, Dja-et-Lobo, Sud, Cameroun",
+"extratags": null,
+"importance": 3.786907759208083e-05,
+"lat": "2.6722033",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "12.6793709",
+"name": "Hôpital de district",
+"osm_id": 9053775218,
+"osm_type": "node",
+"place_id": 40103444,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=H%C3%B4pital+de+District+de+Mak%C3%A9l%C3%A9k%C3%A9l%C3%A9%2C+Brazzaville%2C+Mak%C3%A9l%C3%A9k%C3%A9l%C3%A9%2C+Brazzaville%2C+Republic+of+the+Congo&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cg&limit=5": [],
+"q=H%C3%B4pital+de+District+de+Mak%C3%A9l%C3%A9k%C3%A9l%C3%A9&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cg&limit=5": [],
+"q=H%C3%B4pital+de+District+de+Mfou%2C+Mfou%2C+Mfou%2C+Centre%2C+Cameroon&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cm&limit=5": [],
+"q=H%C3%B4pital+de+District+de+Mfou&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cm&limit=5": [],
+"q=Hamisi%2C+Vihiga%2C+Kenya&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ke&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "KE-45",
+"country": "Kenya",
+"country_code": "ke",
+"county": "Hamisi",
+"state": "Vihiga"
+},
+"addresstype": "county",
+"boundingbox": [
+"-0.0241829",
+"0.2038445",
+"34.7112576",
+"34.9265438"
+],
+"category": "boundary",
+"display_name": "Hamisi, Vihiga, Kenya",
+"extratags": {
+"admin_level": "6",
+"admin_type:KE": "subcounty",
+"political_division": "constituency"
+},
+"importance": 0.24004500114442662,
+"lat": "0.0898352",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "34.8325958",
+"name": "Hamisi",
+"osm_id": 16013957,
+"osm_type": "relation",
+"place_id": 43063413,
+"place_rank": 12,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "KE-45",
+"city": "Banja ward",
+"country": "Kenya",
+"country_code": "ke",
+"county": "Hamisi",
+"state": "Vihiga",
+"town": "Hamisi"
+},
+"addresstype": "town",
+"boundingbox": [
+"0.0282884",
+"0.1082884",
+"34.7575650",
+"34.8375650"
+],
+"category": "place",
+"display_name": "Hamisi, Banja ward, Hamisi, Vihiga, Kenya",
+"extratags": null,
+"importance": 0.16004500114442663,
+"lat": "0.0682884",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "34.7975650",
+"name": "Hamisi",
+"osm_id": 4390992811,
+"osm_type": "node",
+"place_id": 43080136,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Hamisi+Sub-County+Hospital%2C+Hamisi%2C+Hamisi%2C+Vihiga%2C+Kenya&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ke&limit=5": [],
+"q=Hamisi+Sub-County+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ke&limit=5": [],
+"q=Harper%2C+Maryland%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "LR-MY",
+"country": "Liberia",
+"country_code": "lr",
+"state": "Maryland County",
+"town": "Harper"
+},
+"addresstype": "town",
+"boundingbox": [
+"4.3539078",
+"4.4995901",
+"-7.8333822",
+"-7.5297198"
+],
+"category": "boundary",
+"display_name": "Harper, Maryland County, Liberia",
+"extratags": {
+"admin_level": "6",
+"capital": "4",
+"linked_place": "town",
+"wikidata": "Q1019486",
+"wikipedia": "en:Harper, Liberia"
+},
+"importance": 0.2400435698481727,
+"lat": "4.3789381",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-7.7060988",
+"name": "Harper",
+"osm_id": 4001314,
+"osm_type": "relation",
+"place_id": 300593757,
+"place_rank": 12,
+"type": "administrative"
+}
+],
+"q=Hospital+Rural+de+Nhamatanda%2C+Nhamatanda%2C+Nhamatanda%2C+Sofala%2C+Mozambique&format=jsonv2&addressdetails=1&extratags=1&countrycodes=mz&limit=5": [],
+"q=Hospital+Rural+de+Nhamatanda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=mz&limit=5": [],
+"q=J.J.+Dossen+Memorial+Hospital%2C+Harper%2C+Harper%2C+Maryland%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [],
+"q=J.J.+Dossen+Memorial+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [],
+"q=Kambia%2C+North+West%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-NW",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Kambia District"
+},
+"addresstype": "state",
+"boundingbox": [
+"8.8355062",
+"9.6074935",
+"-13.3020720",
+"-12.3666884"
+],
+"category": "boundary",
+"display_name": "Kambia District, North Western Province, Sierra Leone",
+"extratags": {
+"admin_level": "5",
+"linked_place": "state",
+"unocha:pcode": "SLE02020300014",
+"wikidata": "Q1722895",
+"wikipedia": "en:Kambia District"
+},
+"importance": 0.3801813898984569,
+"lat": "9.1246846",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-12.9189134",
+"name": "Kambia District",
+"osm_id": 3228942,
+"osm_type": "relation",
+"place_id": 298803299,
+"place_rank": 10,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-NW",
+"city": "Kambia",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Kambia District"
+},
+"addresstype": "city",
+"boundingbox": [
+"8.9650730",
+"9.2850730",
+"-13.0793370",
+"-12.7593370"
+],
+"category": "place",
+"display_name": "Kambia, Kambia District, North Western Province, Sierra Leone",
+"extratags": {
+"gns_ufi": "-1316828",
+"unocha:pcode": "SLE02020300022",
+"wikidata": "Q1722889",
+"wikipedia": "en:Kambia, Sierra Leone"
+},
+"importance": 0.29823583006172555,
+"lat": "9.1250730",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-12.9193370",
+"name": "Kambia",
+"osm_id": 320058940,
+"osm_type": "node",
+"place_id": 298864627,
+"place_rank": 16,
+"type": "city"
+}
+],
+"q=Kambia+Government+Hospital%2C+Kambia%2C+Kambia%2C+North+West%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [],
+"q=Kambia+Government+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [],
+"q=Kapiri+Mposhi%2C+Central%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZM-02",
+"country": "Zambia",
+"country_code": "zm",
+"state": "Central Province",
+"state_district": "Kapiri Mposhi District",
+"town": "Kapiri Mposhi"
+},
+"addresstype": "town",
+"boundingbox": [
+"-14.0099056",
+"-13.9299056",
+"28.6386012",
+"28.7186012"
+],
+"category": "place",
+"display_name": "Kapiri Mposhi, Kapiri Mposhi District, Central Province, Zambia",
+"extratags": {
+"population": "14792",
+"wikidata": "Q985822",
+"wikipedia": "en:Kapiri Mposhi"
+},
+"importance": 0.37441119788714866,
+"lat": "-13.9699056",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "28.6786012",
+"name": "Kapiri Mposhi",
+"osm_id": 776377628,
+"osm_type": "node",
+"place_id": 39539142,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Kapiri+Mposhi+District+Hospital%2C+Kapiri+Mposhi%2C+Kapiri+Mposhi%2C+Central%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [],
+"q=Kapiri+Mposhi+District+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [],
+"q=Karatu%2C+Arusha%2C+United+Republic+of+Tanzania&format=jsonv2&addressdetails=1&extratags=1&countrycodes=tz&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "TZ-01",
+"country": "Tanzania",
+"country_code": "tz",
+"region": "Northern Zone",
+"state": "Arusha",
+"state_district": "Karatu"
+},
+"addresstype": "state_district",
+"boundingbox": [
+"-3.9468139",
+"-3.0322252",
+"34.7500383",
+"35.9763543"
+],
+"category": "boundary",
+"display_name": "Karatu, Arusha, Northern Zone, Tanzania",
+"extratags": {
+"admin_level": "5",
+"wikidata": "Q940198",
+"wikipedia": "en:Karatu District"
+},
+"importance": 0.32316133360556143,
+"lat": "-3.4901971",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "35.5682879",
+"name": "Karatu",
+"osm_id": 1243792,
+"osm_type": "relation",
+"place_id": 38039824,
+"place_rank": 10,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "TZ-01",
+"country": "Tanzania",
+"country_code": "tz",
+"postcode": "23601",
+"region": "Northern Zone",
+"state": "Arusha",
+"state_district": "Karatu",
+"town": "Karatu"
+},
+"addresstype": "town",
+"boundingbox": [
+"-3.3786568",
+"-3.2986568",
+"35.6333489",
+"35.7133489"
+],
+"category": "place",
+"display_name": "Karatu, Arusha, Northern Zone, 23601, Tanzania",
+"extratags": null,
+"importance": 0.16004000076295108,
+"lat": "-3.3386568",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "35.6733489",
+"name": "Karatu",
+"osm_id": 255653806,
+"osm_type": "node",
+"place_id": 38319171,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Karatu+Lutheran+Hospital%2C+Karatu%2C+Karatu%2C+Arusha%2C+United+Republic+of+Tanzania&format=jsonv2&addressdetails=1&extratags=1&countrycodes=tz&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "TZ-01",
+"amenity": "Karatu Lutheran Hospital",
+"country": "Tanzania",
+"country_code": "tz",
+"postcode": "23601",
+"region": "Northern Zone",
+"road": "Lutheran Road",
+"state": "Arusha",
+"state_district": "Karatu",
+"town": "Karatu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-3.3383476",
+"-3.3370328",
+"35.6258243",
+"35.6275704"
+],
+"category": "amenity",
+"display_name": "Karatu Lutheran Hospital, Lutheran Road, Karatu, Arusha, Northern Zone, 23601, Tanzania",
+"extratags": null,
+"importance": 4.0000762951049326e-05,
+"lat": "-3.3376259",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "35.6266794",
+"name": "Karatu Lutheran Hospital",
+"osm_id": 652944858,
+"osm_type": "way",
+"place_id": 37880331,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "TZ-01",
+"amenity": "Karatu Lutheran Hospital",
+"country": "Tanzania",
+"country_code": "tz",
+"postcode": "23601",
+"region": "Northern Zone",
+"road": "Lutheran Road",
+"state": "Arusha",
+"state_district": "Karatu",
+"town": "Karatu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-3.3376371",
+"-3.3375371",
+"35.6266836",
+"35.6267836"
+],
+"category": "amenity",
+"display_name": "Karatu Lutheran Hospital, Lutheran Road, Karatu, Arusha, Northern Zone, 23601, Tanzania",
+"extratags": null,
+"importance": 4.0000762951049326e-05,
+"lat": "-3.3375871",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "35.6267336",
+"name": "Karatu Lutheran Hospital",
+"osm_id": 7548952377,
+"osm_type": "node",
+"place_id": 37799899,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Kinna%2C+Isiolo%2C+Kenya&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ke&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "KE-09",
+"country": "Kenya",
+"country_code": "ke",
+"county": "Garbatulla",
+"state": "Isiolo",
+"village": "Kinna"
+},
+"addresstype": "village",
+"boundingbox": [
+"0.2991225",
+"0.3391225",
+"38.1869906",
+"38.2269906"
+],
+"category": "place",
+"display_name": "Kinna, Garbatulla, Isiolo, Kenya",
+"extratags": {
+"is_in": "Isiolo,Kenya"
+},
+"importance": 0.14670416800183103,
+"lat": "0.3191225",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "38.2069906",
+"name": "Kinna",
+"osm_id": 44933047,
+"osm_type": "node",
+"place_id": 43733487,
+"place_rank": 19,
+"type": "village"
+}
+],
+"q=Kinna+Health+Centre%2C+Kinna%2C+Isiolo%2C+Isiolo%2C+Kenya&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ke&limit=5": [],
+"q=Kinna+Health+Centre&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ke&limit=5": [],
+"q=Kinshasa%2C+Kinshasa%2C+Democratic+Republic+of+the+Congo&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cd&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CD-KN",
+"city": "Kinshasa",
+"country": "République démocratique du Congo",
+"country_code": "cd",
+"municipality": "Kinshasa",
+"state": "Kinshasa"
+},
+"addresstype": "city",
+"boundingbox": [
+"-4.4817100",
+"-4.1617100",
+"15.1522511",
+"15.4722511"
+],
+"category": "place",
+"display_name": "Kinshasa, Aketi, Kinshasa, République démocratique du Congo",
+"extratags": {
+"capital": "yes",
+"capital_ISO3166-1": "yes",
+"ele": "240",
+"is_capital": "country",
+"population": "17032322",
+"population:date": "2024",
+"wikidata": "Q3838",
+"wikipedia": "en:Kinshasa"
+},
+"importance": 0.6471746707503888,
+"lat": "-4.3217100",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "15.3122511",
+"name": "Kinshasa",
+"osm_id": 27043346,
+"osm_type": "node",
+"place_id": 39959492,
+"place_rank": 15,
+"type": "city"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "CD-KN",
+"country": "République démocratique du Congo",
+"country_code": "cd",
+"municipality": "Kinshasa",
+"state": "Kinshasa"
+},
+"addresstype": "municipality",
+"boundingbox": [
+"-4.3339911",
+"-4.3104843",
+"15.3027387",
+"15.3211305"
+],
+"category": "boundary",
+"display_name": "Kinshasa, République démocratique du Congo",
+"extratags": {
+"admin_level": "7",
+"wikidata": "Q3091458",
+"wikipedia": "en:Kinshasa (commune)"
+},
+"importance": 0.3294460664555125,
+"lat": "-4.3219402",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "15.3118474",
+"name": "Kinshasa",
+"osm_id": 388103,
+"osm_type": "relation",
+"place_id": 40226608,
+"place_rank": 14,
+"type": "administrative"
+}
+],
+"q=Kirehe%2C+Eastern%2C+Rwanda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "RW-02",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Kirehe District",
+"state": "Eastern Province"
+},
+"addresstype": "county",
+"boundingbox": [
+"-2.4194066",
+"-1.9712303",
+"30.4584881",
+"30.8990738"
+],
+"category": "boundary",
+"display_name": "Kirehe District, Eastern Province, Rwanda",
+"extratags": {
+"admin_level": "6",
+"wikidata": "Q596210",
+"wikipedia": "fr:District de Kirehe",
+"wikipedia:en": "Kirehe District"
+},
+"importance": 0.36467385585497514,
+"lat": "-2.1953632",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "30.7347838",
+"name": "Kirehe District",
+"osm_id": 171655,
+"osm_type": "relation",
+"place_id": 38627055,
+"place_rank": 12,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "RW-02",
+"city": "Kirehe",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Kirehe District",
+"state": "Eastern Province"
+},
+"addresstype": "city",
+"boundingbox": [
+"-2.2955730",
+"-2.2267100",
+"30.5792231",
+"30.6772032"
+],
+"category": "boundary",
+"display_name": "Kirehe, Kirehe District, Eastern Province, Rwanda",
+"extratags": {
+"admin_level": "8",
+"wikidata": "Q21451738"
+},
+"importance": 0.18670666742961772,
+"lat": "-2.2613168",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "30.6285285",
+"name": "Kirehe",
+"osm_id": 1716715,
+"osm_type": "relation",
+"place_id": 38670824,
+"place_rank": 16,
+"type": "administrative"
+}
+],
+"q=Kirehe+District+Hospital%2C+Kirehe%2C+Eastern%2C+Rwanda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "RW-02",
+"amenity": "Kirehe District Hospital",
+"city": "Kirehe",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Kirehe District",
+"residential": "Cyunuzi",
+"road": "NR4",
+"state": "Eastern Province",
+"village": "Rwanteru"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-2.2680261",
+"-2.2672237",
+"30.6525749",
+"30.6535838"
+],
+"category": "amenity",
+"display_name": "Kirehe District Hospital, NR4, Cyunuzi, Rwanteru, Kirehe, Kirehe District, Eastern Province, Rwanda",
+"extratags": {
+"healthcare": "hospital"
+},
+"importance": 4.0000762951049326e-05,
+"lat": "-2.2676729",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "30.6530537",
+"name": "Kirehe District Hospital",
+"osm_id": 788838197,
+"osm_type": "way",
+"place_id": 38719717,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Koidu%2C+Eastern%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Kono District"
+},
+"addresstype": "city",
+"boundingbox": [
+"8.4822810",
+"8.8022810",
+"-11.1316310",
+"-10.8116310"
+],
+"category": "place",
+"display_name": "Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": {
+"population": "124662",
+"unocha:pcode": "SLE01039100001",
+"wikidata": "Q1002580",
+"wikipedia": "en:Koidutown-Sefadu"
+},
+"importance": 0.36712697163315744,
+"lat": "8.6422810",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.9716310",
+"name": "Koidu",
+"osm_id": 314007819,
+"osm_type": "node",
+"place_id": 298893239,
+"place_rank": 16,
+"type": "city"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"hamlet": "Koidu",
+"state": "Kono District"
+},
+"addresstype": "hamlet",
+"boundingbox": [
+"8.5951767",
+"8.6351767",
+"-10.9124277",
+"-10.8724277"
+],
+"category": "place",
+"display_name": "Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": {
+"gns_ufi": "-1317260",
+"unocha:pcode": "SLE01030100030"
+},
+"importance": 0.1333772388799878,
+"lat": "8.6151767",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.8924277",
+"name": "Koidu",
+"osm_id": 3055546978,
+"osm_type": "node",
+"place_id": 298884797,
+"place_rank": 20,
+"type": "hamlet"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"country": "Sierra Leone",
+"country_code": "sl",
+"hamlet": "Koidu",
+"state": "Kono District",
+"village": "Bambara"
+},
+"addresstype": "hamlet",
+"boundingbox": [
+"8.5181380",
+"8.5581380",
+"-10.6744374",
+"-10.6344374"
+],
+"category": "place",
+"display_name": "Koidu, Bambara, Kono District, Eastern Province, Sierra Leone",
+"extratags": {
+"gns_ufi": "-1317259",
+"unocha:pcode": "SLE01031200100"
+},
+"importance": 0.1333733340962844,
+"lat": "8.5381380",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.6544374",
+"name": "Koidu",
+"osm_id": 3043971108,
+"osm_type": "node",
+"place_id": 298887381,
+"place_rank": 20,
+"type": "hamlet"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"country": "Sierra Leone",
+"country_code": "sl",
+"hamlet": "Koidu",
+"state": "Eastern Province",
+"state_district": "Kailahun District"
+},
+"addresstype": "hamlet",
+"boundingbox": [
+"8.1971754",
+"8.2371754",
+"-10.7848337",
+"-10.7448337"
+],
+"category": "place",
+"display_name": "Koidu, Kailahun District, Eastern Province, Sierra Leone",
+"extratags": {
+"gns_ufi": "-1317271",
+"unocha:pcode": "SLE01010600030"
+},
+"importance": 0.13336833524071104,
+"lat": "8.2171754",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.7648337",
+"name": "Koidu",
+"osm_id": 2935379407,
+"osm_type": "node",
+"place_id": 299029844,
+"place_rank": 20,
+"type": "hamlet"
+}
+],
+"q=Koidu+Government+Hospital%2C+Koidu%2C+Kono%2C+Eastern%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"amenity": "Koidu Government Hospital",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"road": "Couplegboyah Street",
+"state": "Kono District",
+"suburb": "Kamadu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"8.6475698",
+"8.6498617",
+"-10.9667756",
+"-10.9646714"
+],
+"category": "amenity",
+"display_name": "Koidu Government Hospital, Couplegboyah Street, Kamadu, Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": {
+"healthcare": "hospital",
+"operator": "Koidu Government, Partners in Health (PIH)",
+"operator:type": "government"
+},
+"importance": 4.3905546654413936e-05,
+"lat": "8.6487836",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.9656935",
+"name": "Koidu Government Hospital",
+"osm_id": 932956441,
+"osm_type": "way",
+"place_id": 297619568,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"amenity": "Koidu government hospital",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"road": "Couplegboyah Street",
+"state": "Kono District",
+"suburb": "Kamadu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"8.6486812",
+"8.6487812",
+"-10.9647959",
+"-10.9646959"
+],
+"category": "amenity",
+"display_name": "Koidu government hospital, Couplegboyah Street, Kamadu, Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": null,
+"importance": 4.3905546654413936e-05,
+"lat": "8.6487312",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.9647459",
+"name": "Koidu government hospital",
+"osm_id": 11195855737,
+"osm_type": "node",
+"place_id": 297621144,
+"place_rank": 30,
+"type": "clinic"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"amenity": "Koidu government hospital",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"road": "Couplegboyah Street",
+"state": "Kono District",
+"suburb": "Kamadu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"8.6492498",
+"8.6493498",
+"-10.9652097",
+"-10.9651097"
+],
+"category": "amenity",
+"display_name": "Koidu government hospital, Couplegboyah Street, Kamadu, Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": null,
+"importance": 4.3905546654413936e-05,
+"lat": "8.6492998",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.9651597",
+"name": "Koidu government hospital",
+"osm_id": 11195855937,
+"osm_type": "node",
+"place_id": 300430935,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Koidu+Government+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"amenity": "Koidu Government Hospital",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"road": "Bona Street",
+"state": "Kono District",
+"suburb": "Kamadu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"8.6475698",
+"8.6498617",
+"-10.9667756",
+"-10.9646714"
+],
+"category": "amenity",
+"display_name": "Koidu Government Hospital, Bona Street, Kamadu, Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": {
+"healthcare": "hospital",
+"operator": "Koidu Government, Partners in Health (PIH)",
+"operator:type": "government"
+},
+"importance": 4.3905546654413936e-05,
+"lat": "8.6487836",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.9656935",
+"name": "Koidu Government Hospital",
+"osm_id": 932956441,
+"osm_type": "way",
+"place_id": 300113358,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"amenity": "Koidu government hospital",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"road": "Couplegboyah Street",
+"state": "Kono District",
+"suburb": "Kamadu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"8.6487108",
+"8.6488108",
+"-10.9648152",
+"-10.9647152"
+],
+"category": "amenity",
+"display_name": "Koidu government hospital, Couplegboyah Street, Kamadu, Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": null,
+"importance": 4.3905546654413936e-05,
+"lat": "8.6487608",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.9647652",
+"name": "Koidu government hospital",
+"osm_id": 11195855837,
+"osm_type": "node",
+"place_id": 298883832,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-E",
+"amenity": "Koidu government hospital",
+"city": "Koidu",
+"country": "Sierra Leone",
+"country_code": "sl",
+"road": "Couplegboyah Street",
+"state": "Kono District",
+"suburb": "Kamadu"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"8.6486812",
+"8.6487812",
+"-10.9647959",
+"-10.9646959"
+],
+"category": "amenity",
+"display_name": "Koidu government hospital, Couplegboyah Street, Kamadu, Koidu, Kono District, Eastern Province, Sierra Leone",
+"extratags": null,
+"importance": 4.3905546654413936e-05,
+"lat": "8.6487312",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-10.9647459",
+"name": "Koidu government hospital",
+"osm_id": 11195855737,
+"osm_type": "node",
+"place_id": 298889274,
+"place_rank": 30,
+"type": "clinic"
+}
+],
+"q=Kondoa%2C+Dodoma%2C+United+Republic+of+Tanzania&format=jsonv2&addressdetails=1&extratags=1&countrycodes=tz&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "TZ-03",
+"country": "Tanzania",
+"country_code": "tz",
+"region": "Central Zone",
+"state": "Dodoma",
+"state_district": "Kondoa"
+},
+"addresstype": "state_district",
+"boundingbox": [
+"-4.9704819",
+"-4.3150763",
+"35.5054934",
+"36.3461762"
+],
+"category": "boundary",
+"display_name": "Kondoa, Dodoma, Central Zone, Tanzania",
+"extratags": {
+"admin_level": "5",
+"wikidata": "Q1327204",
+"wikipedia": "en:Kondoa District"
+},
+"importance": 0.3140788844789178,
+"lat": "-4.6431136",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "35.9590402",
+"name": "Kondoa",
+"osm_id": 1600794,
+"osm_type": "relation",
+"place_id": 38018323,
+"place_rank": 10,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "TZ-03",
+"country": "Tanzania",
+"country_code": "tz",
+"region": "Central Zone",
+"state": "Dodoma",
+"state_district": "Kondoa Town",
+"town": "Kondoa"
+},
+"addresstype": "town",
+"boundingbox": [
+"-4.9465127",
+"-4.8665127",
+"35.7396312",
+"35.8196312"
+],
+"category": "place",
+"display_name": "Kondoa, Kondoa Town, Dodoma, Central Zone, Tanzania",
+"extratags": {
+"is_in": "Dodoma, Tanzania",
+"population": "80443"
+},
+"importance": 0.16004000076295108,
+"lat": "-4.9065127",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "35.7796312",
+"name": "Kondoa",
+"osm_id": 258589880,
+"osm_type": "node",
+"place_id": 38055033,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Kondoa+District+Hospital%2C+Kondoa%2C+Kondoa%2C+Dodoma%2C+United+Republic+of+Tanzania&format=jsonv2&addressdetails=1&extratags=1&countrycodes=tz&limit=5": [],
+"q=Kondoa+District+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=tz&limit=5": [],
+"q=Koup%C3%A9la%2C+Centre-Est%2C+Burkina+Faso&format=jsonv2&addressdetails=1&extratags=1&countrycodes=bf&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "BF-04",
+"ISO3166-2-lvl5": "BF-KOT",
+"country": "Burkina Faso",
+"country_code": "bf",
+"province": "Kouritenga",
+"region": "Centre-Est",
+"town": "Koupéla"
+},
+"addresstype": "town",
+"boundingbox": [
+"12.1389320",
+"12.2189320",
+"-0.3939332",
+"-0.3139332"
+],
+"category": "place",
+"display_name": "Koupéla, Kouritenga, Centre-Est, Burkina Faso",
+"extratags": {
+"FIXME": "please check exact position and fix if inaccurate",
+"capital": "5",
+"population": "22000",
+"wikidata": "Q116524",
+"wikipedia": "fr:Koupéla"
+},
+"importance": 0.45934507089358295,
+"lat": "12.1789320",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-0.3539332",
+"name": "Koupéla",
+"osm_id": 322555843,
+"osm_type": "node",
+"place_id": 299386126,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Lubumbashi%2C+Haut-Katanga%2C+Democratic+Republic+of+the+Congo&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cd&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CD-HK",
+"city": "Lubumbashi",
+"country": "République démocratique du Congo",
+"country_code": "cd",
+"county": "Ville de Lubumbashi",
+"state": "Haut-Katanga"
+},
+"addresstype": "city",
+"boundingbox": [
+"-11.6987625",
+"-11.6059633",
+"27.4113823",
+"27.4942483"
+],
+"category": "boundary",
+"display_name": "Lubumbashi, Ville de Lubumbashi, Haut-Katanga, République démocratique du Congo",
+"extratags": {
+"admin_level": "7",
+"capital": "4",
+"linked_place": "city",
+"population": "1139064",
+"wikidata": "Q187593",
+"wikipedia": "fr:Lubumbashi"
+},
+"importance": 0.5449265354441895,
+"lat": "-11.6642316",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "27.4826264",
+"name": "Lubumbashi",
+"osm_id": 5399777,
+"osm_type": "relation",
+"place_id": 39232391,
+"place_rank": 14,
+"type": "administrative"
+}
+],
+"q=Lusaka%2C+Lusaka%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZM-09",
+"city": "Lusaka",
+"country": "Zambia",
+"country_code": "zm",
+"postcode": "10101",
+"state": "Lusaka Province",
+"state_district": "Lusaka District"
+},
+"addresstype": "city",
+"boundingbox": [
+"-15.5763395",
+"-15.2563395",
+"28.1218414",
+"28.4418414"
+],
+"category": "place",
+"display_name": "Lusaka, Lusaka District, Lusaka Province, 10101, Zambia",
+"extratags": {
+"capital": "yes",
+"is_capital": "country",
+"population": "1742979",
+"website": "https://www.lcc.gov.zm/the-city-of-lusaka/",
+"wikidata": "Q3881",
+"wikipedia": "en:Lusaka"
+},
+"importance": 0.602100502612426,
+"lat": "-15.4163395",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "28.2818414",
+"name": "Lusaka",
+"osm_id": 27564994,
+"osm_type": "node",
+"place_id": 39662775,
+"place_rank": 15,
+"type": "city"
+}
+],
+"q=Luwero%2C+Central%2C+Uganda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl3": "UG-C",
+"ISO3166-2-lvl4": "UG-104",
+"country": "Uganda",
+"country_code": "ug",
+"state": "Luweero",
+"town": "Luweero"
+},
+"addresstype": "town",
+"boundingbox": [
+"0.8009356",
+"0.8809356",
+"32.4535273",
+"32.5335273"
+],
+"category": "place",
+"display_name": "Luweero, Central Region, Uganda",
+"extratags": {
+"ele": "1100",
+"population": "42734",
+"wikidata": "Q2318123",
+"wikipedia": "en:Luweero"
+},
+"importance": 0.1600375013351644,
+"lat": "0.8409356",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "32.4935273",
+"name": "Luweero",
+"osm_id": 3496962324,
+"osm_type": "node",
+"place_id": 42929640,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Luwero+Hospital%2C+Luwero%2C+Luwero%2C+Central%2C+Uganda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [],
+"q=Luwero+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl3": "UG-C",
+"ISO3166-2-lvl4": "UG-104",
+"amenity": "Luwero Health Center IV",
+"country": "Uganda",
+"country_code": "ug",
+"road": "Kasiiso Road",
+"state": "Luweero",
+"suburb": "Kasana",
+"village": "Ngogolo"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"0.8335286",
+"0.8355674",
+"32.4981498",
+"32.5001513"
+],
+"category": "amenity",
+"display_name": "Luwero Health Center IV, Kasiiso Road, Kasana, Ngogolo, Luweero, Central Region, Uganda",
+"extratags": {
+"emergency": "yes"
+},
+"importance": 3.750133516437045e-05,
+"lat": "0.8345051",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "32.4992934",
+"name": "Luwero Health Center IV",
+"osm_id": 349909944,
+"osm_type": "way",
+"place_id": 42930314,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl3": "UG-C",
+"ISO3166-2-lvl4": "UG-104",
+"amenity": "Bishop Caesar Asili Hospital",
+"country": "Uganda",
+"country_code": "ug",
+"neighbourhood": "Binyonyi",
+"road": "Gulu - Kampala Road",
+"state": "Luweero",
+"suburb": "Kasana",
+"town": "Luweero"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"0.8243410",
+"0.8258336",
+"32.5002630",
+"32.5019823"
+],
+"category": "amenity",
+"display_name": "Bishop Caesar Asili Hospital, Gulu - Kampala Road, Binyonyi, Kasana, Luweero, Central Region, Uganda",
+"extratags": {
+"barrier": "fence",
+"emergency": "yes"
+},
+"importance": 3.750133516437045e-05,
+"lat": "0.8251643",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "32.5011094",
+"name": "Bishop Caesar Asili Hospital",
+"osm_id": 362994867,
+"osm_type": "way",
+"place_id": 42942944,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Madingo-Kayes%2C+Kouilou%2C+Republic+of+the+Congo&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cg&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CG-5",
+"country": "Congo",
+"country_code": "cg",
+"county": "Madingo-Kayes",
+"state": "Kouilou"
+},
+"addresstype": "county",
+"boundingbox": [
+"-4.4752620",
+"-3.5233660",
+"11.4559051",
+"12.0111038"
+],
+"category": "boundary",
+"display_name": "Madingo-Kayes, Kouilou, Congo",
+"extratags": {
+"admin_level": "6",
+"wikidata": "Q6727799",
+"wikipedia": "fr:Madingo-Kayes (district)"
+},
+"importance": 0.24003750133516438,
+"lat": "-3.9992486",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "11.7208263",
+"name": "Madingo-Kayes",
+"osm_id": 3223108,
+"osm_type": "relation",
+"place_id": 40278997,
+"place_rank": 12,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "CG-5",
+"country": "Congo",
+"country_code": "cg",
+"county": "Madingo-Kayes",
+"state": "Kouilou",
+"town": "Madingo-Kayes"
+},
+"addresstype": "town",
+"boundingbox": [
+"-4.4711310",
+"-4.3911310",
+"11.6616211",
+"11.7416211"
+],
+"category": "place",
+"display_name": "Madingo-Kayes, Kouilou, Congo",
+"extratags": {
+"wikidata": "Q3307115",
+"wikipedia": "en:Madingo-Kayes"
+},
+"importance": 0.22697289548003588,
+"lat": "-4.4311310",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "11.7016211",
+"name": "Madingo-Kayes",
+"osm_id": 2467887447,
+"osm_type": "node",
+"place_id": 39868611,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Madingou%2C+Bouenza%2C+Republic+of+the+Congo&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cg&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CG-11",
+"city": "Madingou",
+"country": "Congo",
+"country_code": "cg",
+"state": "Bouenza"
+},
+"addresstype": "city",
+"boundingbox": [
+"-4.3523121",
+"-4.0025310",
+"13.4001610",
+"13.8755341"
+],
+"category": "boundary",
+"display_name": "Madingou, Bouenza, Congo",
+"extratags": {
+"admin_level": "6",
+"capital": "4",
+"is_in": "Congo, Bouenza",
+"linked_place": "city",
+"wikidata": "Q3891811",
+"wikipedia": "en:Madingou District"
+},
+"importance": 0.24004307240405887,
+"lat": "-4.1642624",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "13.5516478",
+"name": "Madingou",
+"osm_id": 3224443,
+"osm_type": "relation",
+"place_id": 39793078,
+"place_rank": 12,
+"type": "administrative"
+}
+],
+"q=Mashoko%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Bikita",
+"state": "Masvingo",
+"village": "Mashoko"
+},
+"addresstype": "village",
+"boundingbox": [
+"-20.5133840",
+"-20.4733840",
+"31.7308941",
+"31.7708941"
+],
+"category": "place",
+"display_name": "Mashoko, Bikita, Masvingo, Zimbabwe",
+"extratags": null,
+"importance": 0.14670416800183103,
+"lat": "-20.4933840",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.7508941",
+"name": "Mashoko",
+"osm_id": 2722866913,
+"osm_type": "node",
+"place_id": 34552966,
+"place_rank": 19,
+"type": "village"
+}
+],
+"q=Mashoko+Christian+Hospital%2C+Mashoko%2C+Bikita%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [],
+"q=Mashoko+Christian+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [],
+"q=Masvingo%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"city": "Masvingo",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Masvingo",
+"state": "Masvingo"
+},
+"addresstype": "city",
+"boundingbox": [
+"-20.2320142",
+"-19.9120142",
+"30.6741936",
+"30.9941936"
+],
+"category": "place",
+"display_name": "Masvingo, Zimbabwe",
+"extratags": {
+"capital": "4",
+"population": "72527",
+"wikidata": "Q601142",
+"wikipedia": "en:Masvingo"
+},
+"importance": 0.43753274145943666,
+"lat": "-20.0720142",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "30.8341936",
+"name": "Masvingo",
+"osm_id": 253129357,
+"osm_type": "node",
+"place_id": 34712335,
+"place_rank": 16,
+"type": "city"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Masvingo",
+"state": "Masvingo"
+},
+"addresstype": "county",
+"boundingbox": [
+"-20.9285657",
+"-19.6872697",
+"30.4191632",
+"31.4175555"
+],
+"category": "boundary",
+"display_name": "Masvingo, Zimbabwe",
+"extratags": {
+"admin_level": "6",
+"wikidata": "Q6785738",
+"wikipedia": "en:Masvingo District"
+},
+"importance": 0.33557113795112237,
+"lat": "-20.3071186",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "30.8813770",
+"name": "Masvingo",
+"osm_id": 5556619,
+"osm_type": "relation",
+"place_id": 35101675,
+"place_rank": 12,
+"type": "administrative"
+}
+],
+"q=Masvingo+Provincial+Hospital%2C+Masvingo%2C+Masvingo%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [],
+"q=Masvingo+Provincial+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [],
+"q=Matero+Level+1+Hospital%2C+Lusaka%2C+Lusaka%2C+Lusaka%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZM-09",
+"building": "Matero Level 1 Hospital",
+"city": "Lusaka",
+"country": "Zambia",
+"country_code": "zm",
+"road": "Chitimukulu Road",
+"state": "Lusaka Province",
+"state_district": "Lusaka District",
+"suburb": "Mulobela"
+},
+"addresstype": "building",
+"boundingbox": [
+"-15.3730719",
+"-15.3721044",
+"28.2639786",
+"28.2647338"
+],
+"category": "building",
+"display_name": "Matero Level 1 Hospital, Chitimukulu Road, Mulobela, Lusaka, Lusaka District, Lusaka Province, Zambia",
+"extratags": null,
+"importance": 6.490501258864755e-05,
+"lat": "-15.3726271",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "28.2644390",
+"name": "Matero Level 1 Hospital",
+"osm_id": 543269980,
+"osm_type": "way",
+"place_id": 39473778,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "ZM-09",
+"amenity": "Matero Level 1 Hospital",
+"city": "Lusaka",
+"country": "Zambia",
+"country_code": "zm",
+"postcode": "10101",
+"road": "Chitimukulu Road",
+"state": "Lusaka Province",
+"state_district": "Lusaka District",
+"suburb": "Mulobela"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-15.3728679",
+"-15.3727679",
+"28.2643780",
+"28.2644780"
+],
+"category": "amenity",
+"display_name": "Matero Level 1 Hospital, Chitimukulu Road, Mulobela, Lusaka, Lusaka District, Lusaka Province, 10101, Zambia",
+"extratags": {
+"emergency": "no",
+"healthcare": "hospital",
+"operator": "Government",
+"operator:type": "public"
+},
+"importance": 6.490501258864755e-05,
+"lat": "-15.3728179",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "28.2644280",
+"name": "Matero Level 1 Hospital",
+"osm_id": 7557175178,
+"osm_type": "node",
+"place_id": 39825553,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Mfou%2C+Centre%2C+Cameroon&format=jsonv2&addressdetails=1&extratags=1&countrycodes=cm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "CM-CE",
+"city": "Mfou",
+"country": "Cameroun",
+"country_code": "cm",
+"county": "Méfou-et-Afamba",
+"state": "Centre"
+},
+"addresstype": "city",
+"boundingbox": [
+"3.5418220",
+"3.8337710",
+"11.5015280",
+"11.7597602"
+],
+"category": "boundary",
+"display_name": "Mfou, Méfou-et-Afamba, Centre, Cameroun",
+"extratags": {
+"admin_level": "8",
+"linked_place": "city",
+"rank": "0",
+"ref:COG": "CE0901"
+},
+"importance": 0.18671166781109327,
+"lat": "3.7158818",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "11.6432106",
+"name": "Mfou",
+"osm_id": 3822612,
+"osm_type": "relation",
+"place_id": 40260105,
+"place_rank": 16,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "CM-CE",
+"country": "Cameroun",
+"country_code": "cm",
+"county": "Méfou-et-Afamba",
+"state": "Centre",
+"town": "Olanguina",
+"village": "Mfou"
+},
+"addresstype": "village",
+"boundingbox": [
+"3.9436263",
+"3.9836263",
+"11.9073558",
+"11.9473558"
+],
+"category": "place",
+"display_name": "Mfou, Olanguina, Méfou-et-Afamba, Centre, Cameroun",
+"extratags": null,
+"importance": 0.14670416800183103,
+"lat": "3.9636263",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "11.9273558",
+"name": "Mfou",
+"osm_id": 2460908047,
+"osm_type": "node",
+"place_id": 40031439,
+"place_rank": 19,
+"type": "village"
+}
+],
+"q=Moyamba%2C+Southern%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Moyamba District"
+},
+"addresstype": "state",
+"boundingbox": [
+"7.6628268",
+"8.3968350",
+"-13.0100709",
+"-11.7995046"
+],
+"category": "boundary",
+"display_name": "Moyamba District, Southern Province, Sierra Leone",
+"extratags": {
+"admin_level": "5",
+"linked_place": "state",
+"unocha:pcode": "SLE03030600015",
+"wikidata": "Q597538",
+"wikipedia": "en:Moyamba District"
+},
+"importance": 0.38548409705301084,
+"lat": "8.1591530",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-12.4314374",
+"name": "Moyamba District",
+"osm_id": 2541142,
+"osm_type": "relation",
+"place_id": 299082696,
+"place_rank": 10,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Moyamba District",
+"town": "Moyamba"
+},
+"addresstype": "town",
+"boundingbox": [
+"8.1193455",
+"8.1993455",
+"-12.4713893",
+"-12.3913893"
+],
+"category": "place",
+"display_name": "Moyamba, Moyamba District, Southern Province, Sierra Leone",
+"extratags": {
+"unocha:pcode": "SLE03030600046",
+"wikidata": "Q913292",
+"wikipedia": "en:Moyamba"
+},
+"importance": 0.3022467077917196,
+"lat": "8.1593455",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-12.4313893",
+"name": "Moyamba",
+"osm_id": 496344427,
+"osm_type": "node",
+"place_id": 299152258,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Moyamba+Government+Hospital%2C+Moyamba%2C+Moyamba%2C+Southern%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [],
+"q=Moyamba+Government+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [],
+"q=Muketuri%2C+Oromia%2C+Ethiopia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=et&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ET-OR",
+"country": "ኢትዮጵያ",
+"country_code": "et",
+"state": "ኦሮሚያ ክልል Oromia أوروميا",
+"state_district": "North Shewa (Oromia Region)",
+"town": "ሙከጡሪ / Mukaturi"
+},
+"addresstype": "town",
+"boundingbox": [
+"9.5100862",
+"9.5900862",
+"38.8326608",
+"38.9126608"
+],
+"category": "place",
+"display_name": "ሙከጡሪ / Mukaturi, North Shewa (Oromia Region), ኦሮሚያ ክልል Oromia أوروميا, ኢትዮጵያ",
+"extratags": null,
+"importance": 0.16004000076295108,
+"lat": "9.5500862",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "38.8726608",
+"name": "ሙከጡሪ / Mukaturi",
+"osm_id": 595139687,
+"osm_type": "node",
+"place_id": 43856377,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Muketuri+Primary+Hospital%2C+Muketuri%2C+North+Shewa%2C+Oromia%2C+Ethiopia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=et&limit=5": [],
+"q=Muketuri+Primary+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=et&limit=5": [],
+"q=Mwachisompola%2C+Central%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZM-02",
+"country": "Zambia",
+"country_code": "zm",
+"state": "Central Province",
+"state_district": "Chibombo District",
+"village": "Mwachisompola"
+},
+"addresstype": "village",
+"boundingbox": [
+"-14.9147213",
+"-14.8980193",
+"27.9437792",
+"27.9592969"
+],
+"category": "place",
+"display_name": "Mwachisompola, Chibombo District, Central Province, Zambia",
+"extratags": {
+"landuse": "residential"
+},
+"importance": 0.14667666666666662,
+"lat": "-14.9059920",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "27.9527887",
+"name": "Mwachisompola",
+"osm_id": 289033662,
+"osm_type": "way",
+"place_id": 39638291,
+"place_rank": 19,
+"type": "village"
+}
+],
+"q=Nakaseke%2C+Central%2C+Uganda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl3": "UG-C",
+"ISO3166-2-lvl4": "UG-116",
+"country": "Uganda",
+"country_code": "ug",
+"state": "Nakaseke"
+},
+"addresstype": "state",
+"boundingbox": [
+"0.5367101",
+"1.4693879",
+"31.8207463",
+"32.4997488"
+],
+"category": "boundary",
+"display_name": "Nakaseke, Central Region, Uganda",
+"extratags": {
+"admin_level": "4",
+"border_type": "district",
+"wikidata": "Q432438",
+"wikipedia": "en:Nakaseke District"
+},
+"importance": 0.465736727088338,
+"lat": "1.0022373",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "32.1758087",
+"name": "Nakaseke",
+"osm_id": 3498004,
+"osm_type": "relation",
+"place_id": 43227746,
+"place_rank": 8,
+"type": "administrative"
+}
+],
+"q=Nakaseke+General+Hospital%2C+Nakaseke%2C+Nakaseke%2C+Central%2C+Uganda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [],
+"q=Nakaseke+General+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ug&limit=5": [],
+"q=Ndanga%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Masvingo",
+"highway": "Ndanga",
+"road": "Roy-Buffalo Range Road",
+"state": "Masvingo",
+"village": "Zaka"
+},
+"addresstype": "highway",
+"boundingbox": [
+"-20.1823338",
+"-20.1822338",
+"31.3205393",
+"31.3206393"
+],
+"category": "highway",
+"display_name": "Ndanga, Roy-Buffalo Range Road, Zaka, Masvingo, Zimbabwe",
+"extratags": null,
+"importance": 5.5001907377691576e-05,
+"lat": "-20.1822838",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.3205893",
+"name": "Ndanga",
+"osm_id": 2838985836,
+"osm_type": "node",
+"place_id": 34730227,
+"place_rank": 30,
+"type": "bus_stop"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"country": "Zimbabwe",
+"country_code": "zw",
+"hamlet": "Ndanga Business Centre",
+"state": "Masvingo",
+"village": "Zaka"
+},
+"addresstype": "hamlet",
+"boundingbox": [
+"-20.1957723",
+"-20.1557723",
+"31.2923036",
+"31.3323036"
+],
+"category": "place",
+"display_name": "Ndanga Business Centre, Zaka, Masvingo, Zimbabwe",
+"extratags": null,
+"importance": 0.13338833524071106,
+"lat": "-20.1757723",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.3123036",
+"name": "Ndanga Business Centre",
+"osm_id": 3170057128,
+"osm_type": "node",
+"place_id": 34656749,
+"place_rank": 20,
+"type": "hamlet"
+}
+],
+"q=Ndanga+District+Hospital%2C+Ndanga%2C+Zaka%2C+Masvingo%2C+Zimbabwe&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [],
+"q=Ndanga+District+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZW-MV",
+"amenity": "Ndanga District Hospital",
+"country": "Zimbabwe",
+"country_code": "zw",
+"county": "Masvingo",
+"road": "Roy-Buffalo Range Road",
+"state": "Masvingo",
+"village": "Zaka"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"-20.1823921",
+"-20.1771895",
+"31.3204957",
+"31.3258042"
+],
+"category": "amenity",
+"display_name": "Ndanga District Hospital, Roy-Buffalo Range Road, Zaka, Masvingo, Zimbabwe",
+"extratags": null,
+"importance": 5.5001907377691576e-05,
+"lat": "-20.1795921",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "31.3226250",
+"name": "Ndanga District Hospital",
+"osm_id": 265785950,
+"osm_type": "way",
+"place_id": 34670662,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Ndola%2C+Copperbelt%2C+Zambia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=zm&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "ZM-08",
+"city": "Ndola",
+"country": "Zambia",
+"country_code": "zm",
+"state": "Copperbelt Province",
+"state_district": "Ndola District"
+},
+"addresstype": "city",
+"boundingbox": [
+"-13.1293056",
+"-12.8093056",
+"28.4765894",
+"28.7965894"
+],
+"category": "place",
+"display_name": "Ndola, Ndola District, Copperbelt Province, Zambia",
+"extratags": {
+"capital": "4",
+"population": "455194",
+"population:date": "2010",
+"wikidata": "Q219671",
+"wikipedia": "en:Ndola"
+},
+"importance": 0.5129227921129198,
+"lat": "-12.9693056",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "28.6365894",
+"name": "Ndola",
+"osm_id": 315260631,
+"osm_type": "node",
+"place_id": 39407900,
+"place_rank": 16,
+"type": "city"
+}
+],
+"q=Nhamatanda%2C+Sofala%2C+Mozambique&format=jsonv2&addressdetails=1&extratags=1&countrycodes=mz&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "MZ-S",
+"country": "Moçambique",
+"country_code": "mz",
+"region": "Zona Centro",
+"state": "Sofala",
+"state_district": "Nhamatanda"
+},
+"addresstype": "state_district",
+"boundingbox": [
+"-19.6642299",
+"-18.9464840",
+"33.9297373",
+"34.5688275"
+],
+"category": "boundary",
+"display_name": "Nhamatanda, Sofala, Zona Centro, Moçambique",
+"extratags": {
+"admin_level": "5",
+"wikidata": "Q10336659",
+"wikipedia": "en:Nhamatanda District"
+},
+"importance": 0.4059416820298136,
+"lat": "-19.3054168",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "34.2457548",
+"name": "Nhamatanda",
+"osm_id": 11623602,
+"osm_type": "relation",
+"place_id": 36374615,
+"place_rank": 10,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "MZ-S",
+"country": "Moçambique",
+"country_code": "mz",
+"region": "Zona Centro",
+"state": "Sofala",
+"state_district": "Nhamatanda",
+"town": "Nhamatanda"
+},
+"addresstype": "town",
+"boundingbox": [
+"-19.3102970",
+"-19.2302970",
+"34.1683400",
+"34.2483400"
+],
+"category": "place",
+"display_name": "Nhamatanda, Sofala, Zona Centro, Moçambique",
+"extratags": {
+"wikidata": "Q1390721"
+},
+"importance": 0.26244239079806453,
+"lat": "-19.2702970",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "34.2083400",
+"name": "Nhamatanda",
+"osm_id": 2470375864,
+"osm_type": "node",
+"place_id": 36822461,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Phebe+Hospital%2C+Suakoko%2C+Bong%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "LR-BG",
+"amenity": "Phebe Hospital",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Suakoko",
+"neighbourhood": "Cutting Garden",
+"road": "Gbarnga - Monrovia",
+"state": "Bong County",
+"suburb": "Phebe Hospital Compound",
+"town": "S.G. Kollie"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"7.0270370",
+"7.0292678",
+"-9.5551255",
+"-9.5519820"
+],
+"category": "amenity",
+"display_name": "Phebe Hospital, Gbarnga - Monrovia, Cutting Garden, Phebe Hospital Compound, S.G. Kollie, Suakoko, Bong County, Liberia",
+"extratags": {
+"bed_count": "175",
+"dispensing": "yes",
+"emergency": "yes",
+"healthcare": "hospital",
+"opening_hours": "24/7",
+"operator": "Government Of Liberia",
+"operator_name": "Faith-based ND government",
+"phone": "0886540813"
+},
+"importance": 4.268635080486789e-05,
+"lat": "7.0282792",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.5539830",
+"name": "Phebe Hospital",
+"osm_id": 524510758,
+"osm_type": "way",
+"place_id": 299703400,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "LR-BG",
+"building": "Phebe Hospital",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Suakoko",
+"neighbourhood": "Cutting Garden",
+"road": "Gbarnga - Monrovia",
+"state": "Bong County",
+"suburb": "Phebe Hospital Compound",
+"town": "S.G. Kollie"
+},
+"addresstype": "building",
+"boundingbox": [
+"7.0275558",
+"7.0283481",
+"-9.5537501",
+"-9.5528905"
+],
+"category": "building",
+"display_name": "Phebe Hospital, Gbarnga - Monrovia, Cutting Garden, Phebe Hospital Compound, S.G. Kollie, Suakoko, Bong County, Liberia",
+"extratags": {
+"building:levels": "1",
+"building:material": "cement_block"
+},
+"importance": 4.268635080486789e-05,
+"lat": "7.0279488",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.5532291",
+"name": "Phebe Hospital",
+"osm_id": 486322297,
+"osm_type": "way",
+"place_id": 299713457,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "LR-BG",
+"amenity": "Phebe Hospital",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Suakoko",
+"neighbourhood": "Cutting Garden",
+"postcode": "1000",
+"road": "Gbarnga - Monrovia",
+"state": "Bong County",
+"suburb": "Phebe Hospital Compound",
+"town": "S.G. Kollie"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"7.0280718",
+"7.0281718",
+"-9.5534622",
+"-9.5533622"
+],
+"category": "amenity",
+"display_name": "Phebe Hospital, Gbarnga - Monrovia, Cutting Garden, Phebe Hospital Compound, S.G. Kollie, Suakoko, Bong County, 1000, Liberia",
+"extratags": {
+"healthcare": "hospital",
+"operational_status": "functional",
+"ownership": "private",
+"reg_id": "LR6H26"
+},
+"importance": 4.268635080486789e-05,
+"lat": "7.0281218",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.5534122",
+"name": "Phebe Hospital",
+"osm_id": 7677255721,
+"osm_type": "node",
+"place_id": 299727585,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Pujehun%2C+Southern%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Pujehun District"
+},
+"addresstype": "state",
+"boundingbox": [
+"6.9215892",
+"7.6714207",
+"-11.9601980",
+"-11.1411875"
+],
+"category": "boundary",
+"display_name": "Pujehun District, Southern Province, Sierra Leone",
+"extratags": {
+"admin_level": "5",
+"border_type": "district",
+"linked_place": "state",
+"unocha:pcode": "SLE03040400044",
+"wikidata": "Q927464",
+"wikipedia": "en:Pujehun District"
+},
+"importance": 0.3791875842706339,
+"lat": "7.3572120",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-11.7228935",
+"name": "Pujehun District",
+"osm_id": 2607579,
+"osm_type": "relation",
+"place_id": 299740500,
+"place_rank": 10,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Pujehun District",
+"town": "Pujehun"
+},
+"addresstype": "town",
+"boundingbox": [
+"7.3166114",
+"7.3966114",
+"-11.7612785",
+"-11.6812785"
+],
+"category": "place",
+"display_name": "Pujehun, Pujehun District, Southern Province, Sierra Leone",
+"extratags": {
+"gns_ufi": "-1320512;112096",
+"unocha:pcode": "SLE03040400050",
+"wikidata": "Q623298",
+"wikipedia": "en:Pujehun"
+},
+"importance": 0.2853231881743613,
+"lat": "7.3566114",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-11.7212785",
+"name": "Pujehun",
+"osm_id": 320060535,
+"osm_type": "node",
+"place_id": 299961514,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Pujehun+Government+Hospital%2C+Pujehun%2C+Pujehun%2C+Southern%2C+Sierra+Leone&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"amenity": "Pujehun Government Hospital",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Pujehun District",
+"town": "Pujehun"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"7.3497543",
+"7.3514126",
+"-11.7194233",
+"-11.7182340"
+],
+"category": "amenity",
+"display_name": "Pujehun Government Hospital, Pujehun, Pujehun District, Southern Province, Sierra Leone",
+"extratags": {
+"healthcare": "hospital"
+},
+"importance": 3.750133516437045e-05,
+"lat": "7.3506433",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-11.7187372",
+"name": "Pujehun Government Hospital",
+"osm_id": 678487707,
+"osm_type": "way",
+"place_id": 301043377,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"country": "Sierra Leone",
+"country_code": "sl",
+"office": "Pujehun Government Hospital",
+"state": "Pujehun District",
+"town": "Pujehun"
+},
+"addresstype": "office",
+"boundingbox": [
+"7.3569545",
+"7.3573900",
+"-11.7208791",
+"-11.7203038"
+],
+"category": "office",
+"display_name": "Pujehun Government Hospital, Pujehun, Pujehun District, Southern Province, Sierra Leone",
+"extratags": {
+"operator": "District Health Management Team (DHMT)"
+},
+"importance": 3.750133516437045e-05,
+"lat": "7.3571645",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-11.7205852",
+"name": "Pujehun Government Hospital",
+"osm_id": 367627189,
+"osm_type": "way",
+"place_id": 300960079,
+"place_rank": 30,
+"type": "government"
+}
+],
+"q=Pujehun+Government+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=sl&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"amenity": "Pujehun Government Hospital",
+"country": "Sierra Leone",
+"country_code": "sl",
+"state": "Pujehun District",
+"town": "Pujehun"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"7.3497543",
+"7.3514126",
+"-11.7194233",
+"-11.7182340"
+],
+"category": "amenity",
+"display_name": "Pujehun Government Hospital, Pujehun, Pujehun District, Southern Province, Sierra Leone",
+"extratags": {
+"healthcare": "hospital"
+},
+"importance": 3.750133516437045e-05,
+"lat": "7.3506433",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-11.7187372",
+"name": "Pujehun Government Hospital",
+"osm_id": 678487707,
+"osm_type": "way",
+"place_id": 299802050,
+"place_rank": 30,
+"type": "hospital"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "SL-S",
+"country": "Sierra Leone",
+"country_code": "sl",
+"office": "Pujehun Government Hospital",
+"state": "Pujehun District",
+"town": "Pujehun"
+},
+"addresstype": "office",
+"boundingbox": [
+"7.3569545",
+"7.3573900",
+"-11.7208791",
+"-11.7203038"
+],
+"category": "office",
+"display_name": "Pujehun Government Hospital, Pujehun, Pujehun District, Southern Province, Sierra Leone",
+"extratags": {
+"operator": "District Health Management Team (DHMT)"
+},
+"importance": 3.750133516437045e-05,
+"lat": "7.3571645",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-11.7205852",
+"name": "Pujehun Government Hospital",
+"osm_id": 367627189,
+"osm_type": "way",
+"place_id": 299894845,
+"place_rank": 30,
+"type": "government"
+}
+],
+"q=Rwinkwavu%2C+Eastern%2C+Rwanda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "RW-02",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Kayonza District",
+"state": "Eastern Province",
+"village": "Rwinkwavu"
+},
+"addresstype": "village",
+"boundingbox": [
+"-1.9953646",
+"-1.8987680",
+"30.5623270",
+"30.6801500"
+],
+"category": "boundary",
+"display_name": "Rwinkwavu, Kayonza District, Eastern Province, Rwanda",
+"extratags": {
+"admin_level": "8",
+"linked_place": "village",
+"wikidata": "Q21445455"
+},
+"importance": 0.18670416800183104,
+"lat": "-1.9592922",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "30.6151796",
+"name": "Rwinkwavu",
+"osm_id": 1715257,
+"osm_type": "relation",
+"place_id": 38962018,
+"place_rank": 16,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "RW-02",
+"country": "Rwanda",
+"country_code": "rw",
+"county": "Kayonza District",
+"residential": "Rwinkwavu",
+"state": "Eastern Province",
+"village": "Rwinkwavu"
+},
+"addresstype": "residential",
+"boundingbox": [
+"-1.9800460",
+"-1.9558674",
+"30.6001913",
+"30.6302753"
+],
+"category": "landuse",
+"display_name": "Rwinkwavu, Kayonza District, Eastern Province, Rwanda",
+"extratags": null,
+"importance": 0.08003750133516438,
+"lat": "-1.9679065",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "30.6121415",
+"name": "Rwinkwavu",
+"osm_id": 475342548,
+"osm_type": "way",
+"place_id": 38836118,
+"place_rank": 24,
+"type": "residential"
+}
+],
+"q=Rwinkwavu+District+Hospital%2C+Rwinkwavu%2C+Eastern%2C+Rwanda&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [],
+"q=Rwinkwavu+District+Hospital&format=jsonv2&addressdetails=1&extratags=1&countrycodes=rw&limit=5": [],
+"q=Suakoko%2C+Bong%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "LR-BG",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Suakoko",
+"state": "Bong County"
+},
+"addresstype": "county",
+"boundingbox": [
+"6.8892472",
+"7.2474344",
+"-9.7703405",
+"-9.4563449"
+],
+"category": "boundary",
+"display_name": "Suakoko, Bong County, Liberia",
+"extratags": {
+"admin_level": "6",
+"wikidata": "Q3031879",
+"wikipedia": "en:Suakoko District"
+},
+"importance": 0.3836391712731274,
+"lat": "7.0685044",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.6223307",
+"name": "Suakoko",
+"osm_id": 4001371,
+"osm_type": "relation",
+"place_id": 299717333,
+"place_rank": 12,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "LR-BG",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Suakoko",
+"state": "Bong County",
+"town": "Suacoco"
+},
+"addresstype": "town",
+"boundingbox": [
+"6.9494564",
+"7.0294564",
+"-9.6215777",
+"-9.5415777"
+],
+"category": "place",
+"display_name": "Suacoco, Suakoko, Bong County, Liberia",
+"extratags": {
+"gns_ufi": "-2135140",
+"unmil:id": "LBR13195",
+"unocha:pcode": "LBR06140000176"
+},
+"importance": 0.1600426863508049,
+"lat": "6.9894564",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.5815777",
+"name": "Suacoco",
+"osm_id": 3025531444,
+"osm_type": "node",
+"place_id": 299775781,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Tellewoyan+Memorial+Hospital%2C+Voinjama%2C+Lofa%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "LR-LO",
+"building": "Tellewoyan Memorial Hospital",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Voinjama",
+"state": "Lofa County",
+"town": "Voinjama"
+},
+"addresstype": "building",
+"boundingbox": [
+"8.4258373",
+"8.4262514",
+"-9.7471500",
+"-9.7468093"
+],
+"category": "building",
+"display_name": "Tellewoyan Memorial Hospital, Voinjama, Lofa County, Liberia",
+"extratags": null,
+"importance": 4.023270008387911e-05,
+"lat": "8.4260444",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.7469796",
+"name": "Tellewoyan Memorial Hospital",
+"osm_id": 272012128,
+"osm_type": "way",
+"place_id": 298955106,
+"place_rank": 30,
+"type": "clinic"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "LR-LO",
+"amenity": "Tellewoyan Memorial Hospital",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Voinjama",
+"state": "Lofa County",
+"town": "Voinjama"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"8.4259912",
+"8.4262283",
+"-9.7474092",
+"-9.7472857"
+],
+"category": "amenity",
+"display_name": "Tellewoyan Memorial Hospital, Voinjama, Lofa County, Liberia",
+"extratags": {
+"building": "yes",
+"healthcare": "hospital",
+"operational": "functional",
+"ownership": "public",
+"reg_id": "LRNCC7"
+},
+"importance": 4.023270008387911e-05,
+"lat": "8.4260869",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.7473723",
+"name": "Tellewoyan Memorial Hospital",
+"osm_id": 1313521613,
+"osm_type": "way",
+"place_id": 298916630,
+"place_rank": 30,
+"type": "hospital"
+}
+],
+"q=Voinjama%2C+Lofa%2C+Liberia&format=jsonv2&addressdetails=1&extratags=1&countrycodes=lr&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "LR-LO",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Voinjama",
+"state": "Lofa County"
+},
+"addresstype": "county",
+"boundingbox": [
+"7.9317749",
+"8.5519251",
+"-10.0315567",
+"-9.5892156"
+],
+"category": "boundary",
+"display_name": "Voinjama, Lofa County, Liberia",
+"extratags": {
+"admin_level": "6",
+"wikidata": "Q3031987",
+"wikipedia": "en:Voinjama District"
+},
+"importance": 0.37878580059237354,
+"lat": "8.2451269",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.8089923",
+"name": "Voinjama",
+"osm_id": 4001382,
+"osm_type": "relation",
+"place_id": 298907868,
+"place_rank": 12,
+"type": "administrative"
+},
+{
+"address": {
+"ISO3166-2-lvl4": "LR-LO",
+"country": "Liberia",
+"country_code": "lr",
+"county": "Voinjama",
+"state": "Lofa County",
+"town": "Voinjama"
+},
+"addresstype": "town",
+"boundingbox": [
+"8.3824190",
+"8.4624190",
+"-9.7925832",
+"-9.7125832"
+],
+"category": "place",
+"display_name": "Voinjama, Lofa County, Liberia",
+"extratags": {
+"capital": "4",
+"gns_ufi": "-2135606",
+"unocha:pcode": "LBR21100000125",
+"wikidata": "Q1024888"
+},
+"importance": 0.1600402327000839,
+"lat": "8.4224190",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "-9.7525832",
+"name": "Voinjama",
+"osm_id": 2189959219,
+"osm_type": "node",
+"place_id": 298906794,
+"place_rank": 18,
+"type": "town"
+}
+],
+"q=Wuse+General+Hospital%2C+Abuja%2C+Abuja+Municipal%2C+Federal+Capital+Territory%2C+Nigeria&format=jsonv2&addressdetails=1&extratags=1&countrycodes=ng&limit=5": [
+{
+"address": {
+"ISO3166-2-lvl4": "NG-FC",
+"amenity": "Wuse General Hospital",
+"city": "Abuja",
+"country": "Nigeria",
+"country_code": "ng",
+"county": "Municipal Area Council",
+"house_number": "15",
+"postcode": "900283",
+"road": "Conakry Street",
+"state": "Federal Capital Territory",
+"suburb": "Wuse"
+},
+"addresstype": "amenity",
+"boundingbox": [
+"9.0620482",
+"9.0636255",
+"7.4682176",
+"7.4696895"
+],
+"category": "amenity",
+"display_name": "Wuse General Hospital, 15, Conakry Street, Wuse, Abuja, Municipal Area Council, Federal Capital Territory, 900283, Nigeria",
+"extratags": {
+"healthcare": "hospital"
+},
+"importance": 6.618066681921137e-05,
+"lat": "9.0628619",
+"licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+"lon": "7.4689733",
+"name": "Wuse General Hospital",
+"osm_id": 299202483,
+"osm_type": "way",
+"place_id": 40975650,
+"place_rank": 30,
+"type": "hospital"
+}
+]
+}

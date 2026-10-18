@@ -1,112 +1,66 @@
 {
  "manifest": {
-  "built_at": "2026-10-14T17:03:40",
+  "built_at": "2026-10-18T10:22:28",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 40,
-  "countries": 20,
-  "periods": "2022-A,2023-A,2024-A,2025-A,2026-A",
+  "returns_loaded": 61,
+  "countries": 17,
+  "periods": "2015-A,2016-A,2017-A,2018-A,2019-A,2020-A,2021-A,2022-A,2023-A,2024-A,2025-A,2026-A",
   "suppress_below": 5,
   "public": true,
-  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence. This is the public export: facility identity is withheld and cells under 5 are suppressed, not merely flagged."
+  "publish_facility_names": true,
+  "baseline_only": true,
+  "form_returns": 0,
+  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks the ICPPA 2026 baseline (country presentations, June 2026), not a validated quarterly return. held=1 marks a figure held by an open High query; it is excluded from every regional total. Cells under 5 are suppressed, not merely flagged."
  },
  "country": {
   "iso3": "ZMB",
   "name": "Zambia",
   "cohort": "phase_1",
   "returns": 2,
-  "last_period": "2026-A"
+  "last_period": "2026-A",
+  "form_returns": 0,
+  "has_data": true,
+  "phase": 4
  },
  "values": [
   {
    "iso3": "ZMB",
-   "period_id": "2025-A",
-   "indicator_code": "2.5",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2025-A",
-   "indicator_code": "2.6",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2025-A",
-   "indicator_code": "2.3",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": 5,
-   "denominator": null,
-   "value": 5.0,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-A",
-   "indicator_code": "2.5",
-   "disagg_key": "all",
-   "disagg_value": "all",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
    "period_id": "2026-A",
    "indicator_code": "2.6",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": null,
+   "numerator": 1025,
    "denominator": null,
-   "value": null,
+   "value": 1025.0,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": "active/cumulative",
+   "source_ref": "D3M p200-201",
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZMB",
    "period_id": "2026-A",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "t1d",
+   "indicator_code": "2.6a",
+   "disagg_key": "all",
+   "disagg_value": "all",
    "numerator": null,
    "denominator": null,
    "value": null,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": null,
+   "source_ref": null,
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZMB",
@@ -114,29 +68,18 @@
    "indicator_code": "2.6",
    "disagg_key": "condition",
    "disagg_value": "t1d",
-   "numerator": null,
+   "numerator": 93,
    "denominator": null,
-   "value": null,
+   "value": 93.0,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-A",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "scd",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": "active/cumulative",
+   "source_ref": "D3M p200-201",
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZMB",
@@ -144,89 +87,75 @@
    "indicator_code": "2.6",
    "disagg_key": "condition",
    "disagg_value": "scd",
-   "numerator": null,
+   "numerator": 712,
    "denominator": null,
-   "value": null,
+   "value": 712.0,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-A",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "rhd",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": "active/cumulative",
+   "source_ref": "D3M p200-201",
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZMB",
    "period_id": "2026-A",
    "indicator_code": "2.6",
    "disagg_key": "condition",
-   "disagg_value": "rhd",
-   "numerator": null,
+   "disagg_value": "cardiac_not_split",
+   "numerator": 220,
    "denominator": null,
-   "value": null,
+   "value": 220.0,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": "active/cumulative",
+   "source_ref": "D3M p200-201",
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZMB",
    "period_id": "2026-A",
    "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": null,
+   "disagg_key": "all",
+   "disagg_value": "all",
+   "numerator": 1397,
    "denominator": null,
-   "value": null,
+   "value": 1397.0,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZMB",
-   "period_id": "2026-A",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": "cumulative",
+   "source_ref": "D3M p200-201",
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZMB",
    "period_id": "2026-A",
    "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "other_reported",
-   "numerator": null,
+   "disagg_key": "measure",
+   "disagg_value": "active",
+   "numerator": 1328,
    "denominator": null,
-   "value": null,
+   "value": 1328.0,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": "active",
+   "source_ref": "D3M p200-201",
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZMB",
@@ -240,174 +169,269 @@
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
-   "as_of": "2026-09-22",
-   "basis": "historical"
+   "as_of": "2026-06-30",
+   "basis": "historical",
+   "value_type": "point-in-time",
+   "source_ref": "facility register (ICPPA 2026 decks)",
+   "held": 0,
+   "held_by": null
   }
  ],
  "facilities": [
   {
-   "facility_id": "ZMB-0005",
+   "facility_id": "ZMB-0001",
    "iso3": "ZMB",
-   "name": null,
-   "district": null,
-   "region": null,
-   "facility_type": "First level hospital",
+   "name": "Chifubu Level One Hospital",
+   "district": "Ndola",
+   "region": "Copperbelt",
+   "facility_type": "First-level hospital",
    "services_started": null,
-   "conditions": "SCD, T1D, cardiac",
-   "project_supported": "yes",
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
    "status": "operational",
    "first_seen": "2026-A",
-   "last_seen": "2026-A"
-  },
-  {
-   "facility_id": "ZMB-0004",
-   "iso3": "ZMB",
-   "name": null,
-   "district": null,
-   "region": null,
-   "facility_type": "District hospital",
-   "services_started": null,
-   "conditions": "SCD, T1D, cardiac",
-   "project_supported": "yes",
-   "status": "operational",
-   "first_seen": "2026-A",
-   "last_seen": "2026-A"
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Ndola",
+   "partner": "CIDRZ",
+   "register_status": "active",
+   "source_ref": "D3M p200",
+   "latitude": -12.969306,
+   "longitude": 28.636589,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/node/315260631",
+   "geo_checked": null,
+   "note": null,
+   "patients_reported": "88 ever enrolled [D3M p200-201]",
+   "country": "Zambia",
+   "mapped": false
   },
   {
    "facility_id": "ZMB-0002",
    "iso3": "ZMB",
-   "name": null,
+   "name": "Chipata District Hospital",
    "district": null,
    "region": null,
    "facility_type": "District hospital",
    "services_started": null,
-   "conditions": "SCD, T1D, cardiac",
-   "project_supported": "yes",
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
    "status": "operational",
    "first_seen": "2026-A",
-   "last_seen": "2026-A"
-  },
-  {
-   "facility_id": "ZMB-0001",
-   "iso3": "ZMB",
-   "name": null,
-   "district": null,
-   "region": null,
-   "facility_type": "First level hospital",
-   "services_started": null,
-   "conditions": "SCD, T1D, cardiac",
-   "project_supported": "yes",
-   "status": "operational",
-   "first_seen": "2026-A",
-   "last_seen": "2026-A"
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": null,
+   "partner": "CIDRZ",
+   "register_status": "active",
+   "source_ref": "D3M p200",
+   "latitude": null,
+   "longitude": null,
+   "geo_precision": null,
+   "geo_source": null,
+   "geo_checked": null,
+   "note": "AMBIGUOUS: \"Chipata\" is both a Lusaka first-level hospital and the Eastern Province town. Confirm before geocoding (Q-ZMB-02).",
+   "patients_reported": "201 ever enrolled [D3M p200-201]",
+   "country": "Zambia",
+   "mapped": false
   },
   {
    "facility_id": "ZMB-0003",
    "iso3": "ZMB",
-   "name": null,
-   "district": null,
-   "region": null,
-   "facility_type": "First level hospital",
+   "name": "Kapiri Mposhi District Hospital",
+   "district": "Kapiri Mposhi",
+   "region": "Central",
+   "facility_type": "District hospital",
    "services_started": null,
-   "conditions": "SCD, T1D, cardiac",
-   "project_supported": "yes",
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
    "status": "operational",
    "first_seen": "2026-A",
-   "last_seen": "2026-A"
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Kapiri Mposhi",
+   "partner": "CIDRZ",
+   "register_status": "active",
+   "source_ref": "D3M p200",
+   "latitude": -13.969906,
+   "longitude": 28.678601,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/node/776377628",
+   "geo_checked": null,
+   "note": null,
+   "patients_reported": "282 ever enrolled [D3M p200-201]",
+   "country": "Zambia",
+   "mapped": false
+  },
+  {
+   "facility_id": "ZMB-0004",
+   "iso3": "ZMB",
+   "name": "Matero Level 1 Hospital",
+   "district": "Lusaka",
+   "region": "Lusaka",
+   "facility_type": "First-level hospital",
+   "services_started": null,
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
+   "status": "operational",
+   "first_seen": "2026-A",
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Lusaka",
+   "partner": "CIDRZ",
+   "register_status": "active",
+   "source_ref": "D3M p173",
+   "latitude": -15.372818,
+   "longitude": 28.264428,
+   "geo_precision": "facility",
+   "geo_source": "https://www.openstreetmap.org/node/7557175178",
+   "geo_checked": "auto",
+   "note": null,
+   "patients_reported": "568 ever enrolled [D3M p200-201]",
+   "country": "Zambia",
+   "mapped": true
+  },
+  {
+   "facility_id": "ZMB-0005",
+   "iso3": "ZMB",
+   "name": "Chibombo District Hospital (Mwachisompola)",
+   "district": "Chibombo",
+   "region": "Central",
+   "facility_type": "District hospital",
+   "services_started": null,
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
+   "status": "operational",
+   "first_seen": "2026-A",
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Mwachisompola",
+   "partner": "CIDRZ",
+   "register_status": "active",
+   "source_ref": "D3M p173",
+   "latitude": -14.905992,
+   "longitude": 27.952789,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/way/289033662",
+   "geo_checked": null,
+   "note": null,
+   "patients_reported": "258 ever enrolled [D3M p200-201]",
+   "country": "Zambia",
+   "mapped": false
   }
  ],
  "implementation": {
+  "phase": 4,
+  "workbook_phase": 4,
+  "icppa_map_phase": 4,
+  "agreement": "yes",
+  "note": null,
+  "source": "implementation_phase_reconciliation.csv: PEN_PLUS_MONITORING.xlsx steps and the official WHO AFRO phase map shown at ICPPA 2026 (D2M p7)",
+  "has_steps": true,
   "steps": [
    {
     "step_no": 1,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 2,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 3,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 4,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 5,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 6,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 7,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 8,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 9,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 10,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 11,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 12,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 13,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 14,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "no",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    }
+  ]
+ },
+ "provenance": {
+  "iso3": "ZMB",
+  "name": "Zambia",
+  "cohort": "phase_1",
+  "evidence_source": "historical",
+  "latest_period": "2026-A",
+  "value_types": [
+   "active/cumulative",
+   "cumulative",
+   "point-in-time"
   ],
-  "highest_phase_completed": 0
+  "open_queries": 2,
+  "highest_severity": "Medium",
+  "status": "historical"
  },
  "governance": [
   {
-   "return_id": 17,
+   "return_id": 20,
    "milestone_code": "facility_indicators_defined",
    "milestone": "Establish facility-based indicators to monitor service uptake and patient outcomes",
    "indicator_code": null,
@@ -417,7 +441,7 @@
    "period_id": "2025-A"
   },
   {
-   "return_id": 17,
+   "return_id": 20,
    "milestone_code": "national_me_framework",
    "milestone": "Develop regional M&E frameworks to track PEN-Plus implementation",
    "indicator_code": null,
@@ -427,7 +451,7 @@
    "period_id": "2025-A"
   },
   {
-   "return_id": 17,
+   "return_id": 20,
    "milestone_code": "national_protocol_disseminated",
    "milestone": "Establish and disseminate clinical protocols.",
    "indicator_code": null,
@@ -437,7 +461,7 @@
    "period_id": "2025-A"
   },
   {
-   "return_id": 17,
+   "return_id": 20,
    "milestone_code": "operational_tools_disseminated",
    "milestone": "Establish and disseminate operational tools, and national frameworks.",
    "indicator_code": null,
@@ -447,7 +471,7 @@
    "period_id": "2025-A"
   },
   {
-   "return_id": 17,
+   "return_id": 20,
    "milestone_code": "penplus_in_national_policy",
    "milestone": "Support countries in integrating PEN-Plus into national health policies and operational plans.",
    "indicator_code": null,
@@ -457,7 +481,7 @@
    "period_id": "2025-A"
   },
   {
-   "return_id": 17,
+   "return_id": 20,
    "milestone_code": "training_modules_developed",
    "milestone": "Develop training modules and protocols for frontline healthcare workers",
    "indicator_code": null,
@@ -467,5 +491,37 @@
    "period_id": "2025-A"
   }
  ],
- "open_queries": []
+ "queries": [
+  {
+   "query_id": "Q-NOD-01",
+   "scope": "LSO; NER; ZMB",
+   "severity": "Low",
+   "indicator": "all",
+   "issue": "Lesotho, Niger and Zambia were scheduled for country sessions but no country slides exist in the decks received (Zambia figures come from its M&E presentation).",
+   "evidence": "D2K p60; D3M p211",
+   "action": "Request the missing decks.",
+   "status": "open",
+   "resolution": null,
+   "source": "evidence review",
+   "rule": null,
+   "period_id": null,
+   "opened_on": "2026-10-17"
+  },
+  {
+   "query_id": "Q-ZMB-02",
+   "scope": "ZMB",
+   "severity": "Medium",
+   "indicator": "geo",
+   "issue": "\"Chipata District Hospital\": Lusaka first-level hospital or Eastern Province town?",
+   "evidence": "D3M p197, p200",
+   "action": "Confirm before geocoding.",
+   "status": "open",
+   "resolution": null,
+   "source": "evidence review",
+   "rule": null,
+   "period_id": null,
+   "opened_on": "2026-10-17"
+  }
+ ],
+ "data_system": null
 }

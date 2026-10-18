@@ -32,6 +32,8 @@ CONDITION_KEY = {
     "sickle cell disease": "scd",
     "rheumatic heart disease": "rhd",
     "severe hypertension": "severe_htn",
+    # national quarterly tool (new): the free "Other (specify)" row of 2.6
+    "other (specify)": "other_reported",
     "total": "total",
 }
 CADRE_KEY = {
@@ -44,6 +46,8 @@ CADRE_KEY = {
 }
 AGE_KEY = {"under 15": "u15", "15 to 29": "15_29", "30 and over": "30plus", "total": "total"}
 AVAIL_KEY = {
+    # national quarterly tool (new): Yes / No / Partial across all sites
+    "yes": "always", "partial": "sometimes", "no": "never",
     "always available": "always", "sometimes available": "sometimes",
     "never available": "never", "not applicable": "not_applicable",
     "not reported": "not_reported",
@@ -58,6 +62,8 @@ YESNO_KEY = {
     "partial": "partial",
 }
 FSTATUS_KEY = {
+    # national quarterly tool (new): Active / Suspended / Closed / Not yet initiated
+    "active": "operational", "suspended": "suspended", "not yet initiated": "under_preparation",
     "operational": "operational", "opened this period": "started_this_period",
     "under preparation": "under_preparation", "services suspended": "suspended",
     "closed": "closed",
@@ -252,6 +258,8 @@ def parse_return(path: str) -> dict:
     rec["npo"] = clean(pick(ident, "npo / who country office"))
     rec["focal_point"] = clean(pick(ident, "national programme focal point"))
     rec["first_return"] = enum(pick(ident, "is this the country"), YESNO_KEY)
+    rec["date_completed"] = clean(pick(ident, "date completed"))
+    rec["form_version"] = _form_version(idx)
 
     ctx = by_label(rows_of(idx, "s0", 1))
     rec["context"] = {
@@ -281,11 +289,16 @@ def parse_return(path: str) -> dict:
             "document": clean(r[4]) if len(r) > 4 else None})
 
     # ---- Section 2.1: guideline dissemination, by tracer condition
+    rec["guidelines"] = []
     for r in rows_of(idx, "s2.1", 0)[1:]:
         c = CONDITION_KEY.get(r[0].strip().lower())
-        if c and c != "total":
+        if c and c not in ("total", "other_reported"):
             rec["context"][f"guideline_disseminated_{c}"] = \
                 1 if enum(r[2], YESNO_KEY) == "yes" else (0 if r[2] else None)
+            rec["guidelines"].append({
+                "condition": c, "validated": enum(r[1], YESNO_KEY),
+                "disseminated": enum(r[2], YESNO_KEY),
+                "document": clean(r[3]) if len(r) > 3 else None})
 
     # ---- Sections 2.2, 2.3, 2.4, 3.4: the country-reported aggregate tables
     # in these sections are still not parsed here, on purpose -- Annex A's
@@ -300,6 +313,81 @@ def parse_return(path: str) -> dict:
     # trusted as the primary source. 2.3 still resolves from the facility
     # register's own status column (see the fallback a few lines below).
 
+    # ---- Sections 2.2, 2.3, 2.4 (new national tool): the country's own
+    # aggregate answers. They are read as inputs to the validation rules
+    # (R02, R03, R08, R09, R10 in validate.py), not as published figures:
+    # 2.3 is still published from the Annex A register.
+    agg23 = by_label(rows_of(idx, "s2.3", 0))
+    rec["context"]["fac_initiated"] = num(pick(agg23, "facilities that have initiated"))
+    rec["context"]["fac_active"] = num(pick(agg23, "of these, facilities active"))
+    agg24 = by_label(rows_of(idx, "s2.4", 0))
+    rec["context"]["quality_assessed"] = num(pick(agg24, "facilities assessed with"))
+    rec["context"]["quality_met"] = num(pick(agg24, "facilities meeting criteria",
+                                             "facilities scoring"))
+    rec["context"]["quality_pct_reported"] = num(pick(agg24, "proportion achieving"))
+    agg22 = by_label(rows_of(idx, "s2.2", 0))
+    rec["context"]["readiness_assessed"] = num(pick(agg22, "number of secondary-level"))
+
+    if rec["form_version"] == "national_v4":
+        _parse_patients_v4(idx, rec)
+    else:
+        _parse_patients_v3(idx, rec)
+    _parse_after_patients(idx, rec)
+    return rec
+
+
+def _form_version(idx) -> str:
+    """'national_v4' for the new national quarterly tool, 'v3' otherwise.
+
+    Recognised by what the new tool changed, not by a version string a country
+    could leave untouched: indicator 2.6 now opens with an "Ever enrolled"
+    column, and HMIS integration sits under 5.2.
+    """
+    head = rows_of(idx, "s2.6", 0)
+    if head and len(head[0]) > 1 and "ever enrolled" in head[0][1].lower():
+        return "national_v4"
+    if "s5.2" in idx:
+        return "national_v4"
+    return "v3"
+
+
+def _col(row, j):
+    return num(row[j]) if row and len(row) > j else None
+
+
+def _parse_patients_v4(idx, rec):
+    """New national tool: 2.5 is ONE row, all PEN-Plus patients (sentinel and
+    country-defined conditions); 2.6 is the sentinel cohort per condition with
+    ever enrolled, new and active. The printed retention % is never read: its
+    formula divides by the patients no longer in care and can exceed 100%
+    (DATA_QUALITY_SPEC.md, section 3). transform.py computes retention itself."""
+    rec["patient_stock"], rec["patient_flow"], rec["patient_age"] = [], [], []
+    all_rows = rows_of(idx, "s2.5", 0)[1:]
+    first = next((r for r in all_rows if r and not r[0].strip().lower().startswith("total")), None)
+    total = next((r for r in all_rows if r and r[0].strip().lower().startswith("total")), None)
+    ever_all = _col(first, 1) if _col(first, 1) is not None else _col(total, 1)
+    new_all = _col(first, 2) if _col(first, 2) is not None else _col(total, 2)
+    rec["context"]["patients_all_ever"] = ever_all
+    rec["context"]["patients_all_new"] = new_all
+
+    for r in rows_of(idx, "s2.6", 0)[1:]:
+        c = CONDITION_KEY.get(r[0].strip().lower()) if r else None
+        if not c or c == "total":
+            continue
+        rec["patient_stock"].append({"condition": c, "ever_enrolled": _col(r, 1),
+                                     "active_end": _col(r, 3)})
+        rec["patient_flow"].append({"condition": c, "new_enrolled": _col(r, 2), "ltfu": None,
+                                    "transferred_out": None, "stopped": None, "died": None})
+    rec["retention"] = []
+    rec["retention_pct_reported"] = {}
+    rec["ltfu_rule"] = None
+    rec["ltfu_compliant"] = None
+    rec["dedup_basis"] = None
+
+
+def _parse_patients_v3(idx, rec):
+    """The v3 form: 2.5 per priority condition, 2.6 active and retention.
+    Kept so v3 returns still load as history."""
     # ---- Section 2.5: patients ever enrolled, cumulative, and newly
     # enrolled this quarter -- the current form moved "newly enrolled" into
     # this table's own third column; the previous copy carried it only in
@@ -367,6 +455,11 @@ def parse_return(path: str) -> dict:
         entry["died"] = num(r[4]) if len(r) > 4 else None
     rec["patient_flow"] = list(flow_by_cond.values())
 
+
+
+def _parse_after_patients(idx, rec):
+    """Sections 3 to 6 and Annex A: the same on both form versions, apart from
+    the labels the new tool reworded (matched by fragment below)."""
     # ---- Section 3.1: WHO Academy course completions, cumulative
     who_academy = rows_of(idx, "s3.1", 0)
     if len(who_academy) > 1:
@@ -397,16 +490,27 @@ def parse_return(path: str) -> dict:
             rec["workforce"].append({
                 "cadre": c, "trained_f": num(r[1]), "trained_m": num(r[2]),
                 "trained_ns": None, "trained_ytd": num(r[4]) if len(r) > 4 else None,
+                "trained_total_reported": num(r[3]) if len(r) > 3 else None,
                 "fully_trained": None, "working_at_site": None})
+
+    # ---- Section 3.4: mentorship, the country's own numerator/denominator
+    # (validation input for R08; not published, see sections 2.2-2.4 above)
+    ment = by_label(rows_of(idx, "s3.4", 0))
+    rec["context"]["mentorship_num"] = num(pick(ment, "facilities receiving"))
+    rec["context"]["mentorship_den"] = num(pick(ment, "total facilities providing"))
 
     # ---- Section 4.1: resource mobilization, and tracer medicines/diagnostics.
     # The "PEN-Plus or severe NCD budget line" question the previous copy
     # asked alongside the round table is gone from the current form.
     round_table = rows_of(idx, "s4.1", 0)
     rt = by_label(round_table)
+    # v3: "Annual round table held..."; new tool: "Meeting, for example an
+    # annual round table, held to mobilize resources..."
+    rt_answer = pick(rt, "annual round table held", "meeting, for example")
     rec["context"]["round_table_held"] = \
-        1 if enum(pick(rt, "annual round table held"), YESNO_KEY) == "yes" else \
-        (0 if pick(rt, "annual round table held") else None)
+        1 if enum(rt_answer, YESNO_KEY) == "yes" else (0 if rt_answer else None)
+    rt_rows = [r for r in round_table[1:] if r and r[0].strip()]
+    rec["round_table_evidence"] = clean(rt_rows[0][2]) if rt_rows and len(rt_rows[0]) > 2 else None
 
     rec["supply"] = []
     for r in rows_of(idx, "s4.1", 1)[1:]:
@@ -425,6 +529,15 @@ def parse_return(path: str) -> dict:
         HIS_KEY.get((pick(his, "pen-plus indicators integrated") or "").strip().lower())
     rec["quality"]["reported_completeness_pct"] = num(pick(his, "reporting completeness for this quarter"))
     rec["quality"]["reported_timeliness_pct"] = num(pick(his, "reporting timeliness for this quarter"))
+
+    # ---- Section 5.2 (new national tool): HMIS / DHIS2 integration moved
+    # here from 5.1, answered Yes / No / Partial, plus how many indicators
+    # are configured. 5.1 no longer exists on the new tool.
+    hmis = by_label(rows_of(idx, "s5.2", 0))
+    if hmis:
+        answer = enum(pick(hmis, "pen-plus indicators integrated"), YESNO_KEY)
+        rec["context"]["his_integration_level"] = {"no": 0, "partial": 1, "yes": 2}.get(answer)
+        rec["context"]["his_indicators_configured"] = num(pick(hmis, "number of pen-plus indicators"))
 
     # New: the country self-attests whether its own figures reconcile across
     # sections, rather than that check being only the Regional Office's own
@@ -478,12 +591,12 @@ def parse_return(path: str) -> dict:
             "conditions": clean(r[8]) if len(r) > 8 else None})
     return rec
 
-
 # ---------------------------------------------------------------- period ids
 def _period_id(period: str, year: str, rhythm: str) -> str:
     p = (period or "").strip().lower()
     y = year if year.isdigit() else "0000"
-    m = re.search(r"quarter\s*([1-4])", p)
+    # v3 wrote "Quarter 3"; the new national tool's drop-down reads "Q3"
+    m = re.search(r"(?:quarter|\bq)\s*([1-4])\b", p)
     if m:
         return f"{y}-Q{m.group(1)}"
     if p in MONTHS:

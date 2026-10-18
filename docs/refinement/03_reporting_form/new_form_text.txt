@@ -1,0 +1,183 @@
+| 
+PEN-Plus project country reporting form
+NCD, PEN-Plus Second Phase
+Purpose
+The NCD National Professional Officer in each WHO Country Office completes this form with the national programme and the PEN-Plus sites. The returns from all countries are aggregated at regional level to follow progress and to produce the regional reports.
+How to complete
+1.	One return per country per quarter. Report the quarter named in section 0 and no other.
+2.	Write 0 where there were none. Leave a cell blank only if the figure cannot be produced; a blank is read as not reported, never as zero.
+3.	Choose from the drop-down lists rather than typing. The permitted answers are printed in italics under each heading.
+4.	Every Yes on a policy or plan needs the title of the document that proves it.
+5.	Do not add, delete or move rows, tables or sections. The return is read automatically.
+| 0. Identification and reporting completeness | 
+| Field | Entry
+| Country | the 31 PEN-Plus countries
+| Reporting quarter | Q1 / Q2 / Q3 / Q4
+| Period covered (from - to) | 
+| Year | 2026 / 2027 / 2028 / 2029
+| NPO / WHO Country Office focal point | 
+| National programme focal point | 
+| M&E focal point | 
+| Date completed | 
+|  | National context and reporting completeness | 
+| Item | Count
+| Health districts in the country | 
+| First-referral / district hospitals in the country | 
+| Health districts where PEN-Plus services are offered | 
+| PEN-Plus facilities expected to report this quarter | 
+| Facilities submitting a complete return | 
+| Facilities submitting a partial return | 
+| Facilities submitting no return | 
+| 1. Governance and leadership | Focus area 1
+| Code | Results Framework indicator | Status Yes / Under development / No | Year achieved any year from 2015 to 2029 | Document / evidence
+| 1.1 | PEN-Plus integrated into the national NCD strategy and UHC agenda | 
+| 1.2 | Integrated or stand-alone PEN-Plus Plan developed, approved, launched and under implementation | 
+| 1.3 | Costed National Operational Plan (NOP) on PEN-Plus developed and launched | 
+|  | Other activities this quarter under focus area 1, governance | 
+| Activity (as named in the country workplan) | Status Completed / Ongoing / Delayed / Not started / Cancelled | Output or evidence
+| 
+| 
+| 
+| 
+| 2. Service delivery and disease management | Focus area 2
+| Indicator 2.1 | National treatment guidelines / protocols adapted, validated and disseminated | 
+| Condition | Adapted & validated? Yes / No | Disseminated to all PEN-Plus sites? Yes / No | Document title / date
+| Type 1 diabetes | 
+| Sickle cell disease | 
+| Rheumatic heart disease | 
+| Other PEN-Plus condition (specify) | 
+| Indicator 2.2 | Secondary-level facilities assessed for readiness | 
+| Measure | This quarter | Year to date
+| Number of secondary-level facilities assessed | 
+| Facilities in low readiness band | 
+| Facilities in medium readiness band | 
+| Facilities in high readiness band | 
+| Indicator 2.3 | Facilities initiating and actively providing PEN-Plus services | 
+| Measure | Cumulative / current count
+| Facilities that have initiated PEN-Plus services (cumulative) | 
+| Of these, facilities active during the reporting period | 
+Must match the facilities listed in Annex A.
+| Indicator 2.4 | Facilities achieving PEN-Plus quality standards | 
+| Measure | Count / %
+| Facilities assessed with a PEN-Plus quality checklist | 
+| Facilities meeting criteria for quality standards | 
+| Proportion achieving quality standards (%) | 
+| Indicator 2.5 | PEN-Plus patients ever enrolled | 
+| PEN-Plus condition | Ever enrolled, cumulative | Newly enrolled this quarter
+| Type 1 diabetes, sickle cell disease, rheumatic heart disease and other PEN-Plus conditions as defined by the country (e.g. severe asthma, severe hypertension, type 2 diabetes requiring insulin, renal patients, heart failure patients etc.) | 
+| TOTAL - unique priority-condition patients | 
+| Indicator 2.6 | Unique / sentinel patients enrolled and active in care with PEN-Plus conditions (T1D, RHD, SCD) | 
+| Priority / sentinel PEN-Plus condition | Ever enrolled, cumulative | Newly enrolled this quarter | Active in care this quarter | Retention % = [active in care - newly enrolled] ÷ [ever enrolled - active in care] × 100
+| Type 1 diabetes | 
+| Sickle cell disease | 
+| Rheumatic heart disease | 
+| Other (specify) | 
+| TOTAL - unique priority-condition patients | 
+|  | Other activities this quarter under focus area 2, service delivery | 
+| Activity (as named in the country workplan) | Status Completed / Ongoing / Delayed / Not started / Cancelled | Output or evidence
+| 
+| 
+| 
+| 
+| 3. Capacity building and workforce development | Focus area 3
+| Indicator 3.1 | WHO Academy PEN-Plus course completion | 
+| Measure | Female | Male | Other / not stated | Total
+| People completing a PEN-Plus WHO Academy course - cumulative | 
+| Indicator 3.2 | Health workers trained as Trainers of Trainers (ToTs) | 
+| Cadre | Female cumulative | Male cumulative | Other / not stated | Total cumulative
+| Medical doctors / specialists | 
+| Clinical officers / associates | 
+| Nurses / midwives | 
+| Pharmacy / laboratory staff | 
+| Other cadres | 
+| TOTAL | 
+| Indicator 3.3 | Health workers trained in PEN-Plus (service providers) | 
+| Cadre | Female trained this quarter | Male trained this quarter | Total trained this quarter | Year-to-date total
+| Medical doctors / specialists | 
+| Clinical officers / associates | 
+| Nurses / midwives | 
+| Pharmacy / laboratory staff | 
+| Other cadres | 
+| TOTAL | 
+| Indicator 3.4 | Facilities with an active mentorship programme | 
+| Measure | Count
+| Facilities receiving ≥1 documented mentorship visit this quarter (numerator) | 
+| Total facilities providing PEN-Plus services (denominator) | 
+| Proportion with active mentorship (%) | 
+|  | Other activities this quarter under focus area 3, workforce | 
+| Activity (as named in the country workplan) | Status Completed / Ongoing / Delayed / Not started / Cancelled | Output or evidence
+| 
+| 
+| 
+| 
+| 4. Health financing, medicines and service continuity | Focus area 4
+| Indicator 4.1 | Annual resource-mobilization round table | Annual
+| Item | Response Yes / No | Evidence / date
+| Meeting, for example an annual round table, held to mobilize resources for PEN-Plus or broader NCD services | 
+|  | Quarterly tracer medicines and diagnostics | 
+| Tracer item | Available across all PEN-Plus sites? Yes / No / Partial | Number of facilities with ≥1 day stock-out this quarter
+| Insulin | 
+| Insulin delivery supplies / syringes / needles | 
+| Blood glucose test strips | 
+| Hydroxyurea | 
+| Benzathine benzylpenicillin | 
+| Sickle cell rapid / confirmatory tests | 
+| HbA1c testing | 
+| Echocardiography / ultrasound access | 
+|  | Other activities this quarter under focus area 4, financing and supplies | 
+| Activity (as named in the country workplan) | Status Completed / Ongoing / Delayed / Not started / Cancelled | Output or evidence
+| 
+| 
+| 
+| 
+| 5. Monitoring, evaluation and data quality | Focus area 5
+| Indicator 5.2 | PEN-Plus indicators integrated into national HMIS / DHIS2 | 
+| Item | Response Yes / No / Partial
+| PEN-Plus indicators integrated / configured in the national HMIS / DHIS2 | 
+| Number of PEN-Plus indicators configured | 
+|  | Other activities this quarter under focus area 5, monitoring and evaluation | 
+| Activity (as named in the country workplan) | Status Completed / Ongoing / Delayed / Not started / Cancelled | Output or evidence
+| 
+| 
+| 
+| 
+| 6. Communication and visibility | Focus area 6
+| Indicator 6.1 | Communication and visibility products | 
+| Product type | Number published / disseminated during the quarter | Language(s) | Evidence / link or file reference
+| Press releases / media stories | 
+| Videos / patient stories | 
+| Advocacy briefs / reports | 
+| Social media campaigns / digital products | 
+| Other | 
+| TOTAL | 
+| Safeguard | Response Yes / No / Not applicable
+| Documented informed consent held for every product featuring a patient (and parent / guardian consent for minors) | 
+|  | Other activities this quarter under focus area 6, communication | 
+| Activity (as named in the country workplan) | Status Completed / Ongoing / Delayed / Not started / Cancelled | Output or evidence
+| 
+| 
+| 
+| 
+| 7. Quarterly narrative and management actions | 
+| Area | Quarterly update
+| Key achievements | 
+| Main implementation bottlenecks | 
+| Corrective actions agreed, responsible person and due date | 
+| Support required from WHO AFRO / partners | 
+| Major risks or assumptions that changed this quarter | 
+| Annex A. Facility register and quarterly performance return | 
+|  | Facility register | Update only when a facility changes
+| Facility ID | Facility name | Region / province / State | District / County | Level | Service start date | Status Active / Suspended / Closed / Not yet initiated | Project-supported? Yes / No | Conditions managed
+| 
+| 
+| 
+| 
+| 
+| 
+| 
+| 
+| 
+| 
+| 
+| 
+| 

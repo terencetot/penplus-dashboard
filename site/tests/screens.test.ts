@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { setLang } from "@/lib/i18n";
-import { setDemoMode } from "@/lib/demo";
 import { renderOverview } from "@/screens/overview";
 import { renderIndicatorDetail } from "@/screens/indicator-detail";
 import { renderCountryProfile } from "@/screens/country-profile";
@@ -12,7 +11,9 @@ import { renderImplementation } from "@/screens/implementation";
  * These render each screen against the REAL bundle in site/public/data (via
  * the fetch stub in tests/setup.ts), not a hand-written fixture -- so a
  * change to export.py's output shape that a screen can't handle fails here,
- * not in a browser during a demo.
+ * not in a browser during a demo. The assertions are the refinement v2
+ * definition of done (docs/refinement/01_AUDIT_REPORT.md): no screen shows
+ * "not started" for missing data, no "0 open queries", all 31 countries.
  */
 setLang("en");
 
@@ -22,136 +23,128 @@ function container(): HTMLElement {
   return el;
 }
 
-describe("screens render against the real bundle without throwing", () => {
-  it("overview: hero coverage cards, isometric map, cohort lists, milestone strip", async () => {
+const NOT_STARTED = /not (yet )?started/i;
+
+describe("screens render against the real bundle", () => {
+  it("overview: five headline cards, patient totals held by Q-REG-01, all 31 countries", async () => {
     const el = container();
     await renderOverview(el);
     expect(el.textContent).toContain("Regional overview");
-    expect(el.querySelectorAll(".coverage-card").length).toBe(4);
-    expect(el.querySelectorAll(".t.p1, .t.p2").length).toBeGreaterThan(0);
-    expect(el.querySelectorAll(".cohort-row").length).toBeGreaterThan(0);
+    expect(el.querySelectorAll(".coverage-card").length).toBe(5);
+    // regional patient totals held: shown as Held with the query, never a number
+    const held = el.querySelectorAll(".coverage-card.is-held");
+    expect(held.length).toBe(3);
+    expect(held[0]!.textContent).toContain("Q-REG-01");
+    // "published at least one figure" counts non-null values only
+    expect(el.textContent).toContain("17 of 31");
+    expect(el.querySelectorAll(".cohort-row").length).toBe(31);
+    expect(el.querySelectorAll(".t.p1, .t.p2").length).toBe(31);
     expect(el.querySelectorAll(".milestone-row").length).toBe(5);
+    expect(el.textContent).not.toMatch(NOT_STARTED);
   });
 
-  it("indicator detail: definition, distribution and trend", async () => {
+  it("indicator detail 2.6: sentinel definition, held Zimbabwe bar, provenance per value", async () => {
     const el = container();
-    await renderIndicatorDetail(el, "2.5");
-    expect(el.textContent).toContain("Unique patients ever enrolled");
+    await renderIndicatorDetail(el, "2.6");
+    expect(el.textContent).toContain("Sentinel patients ever enrolled");
+    expect(el.textContent).toContain("1 country figure(s) held");
     expect(el.querySelector("#distribution-panel")!.textContent).not.toBe("");
-    expect(el.querySelector("#trend-panel")!.textContent).not.toBe("");
   });
 
-  it("indicator detail: trend small multiples show the countries with the most reported periods", async () => {
+  it("indicator detail 2.6: trend lines only where a real series exists", async () => {
     const el = container();
-    await renderIndicatorDetail(el, "2.5");
-    // LBR, SLE and UGA have the most periods (5) in the real bundle for 2.5;
-    // single-period countries (BFA, COD, ZWE...) must not take a panel.
+    await renderIndicatorDetail(el, "2.6");
     const names = Array.from(el.querySelectorAll(".trend-card__name")).map((n) => n.textContent);
-    expect(names).toEqual(["Liberia", "Sierra Leone", "Uganda"]);
-    expect(el.querySelectorAll(".trend-card .chip--historical").length).toBe(3);
+    expect(names).toEqual(["Kenya", "Liberia", "Sierra Leone", "Uganda"]);
+    expect(el.querySelectorAll(".trend-card .prov--historical").length).toBe(4);
   });
 
-  it("indicator detail: 2.5 counts only countries with a published value, and lists the rest", async () => {
+  it("indicator detail 2.6a: Rwanda's active series is drawn", async () => {
+    const el = container();
+    await renderIndicatorDetail(el, "2.6a");
+    const names = Array.from(el.querySelectorAll(".trend-card__name")).map((n) => n.textContent);
+    expect(names).toContain("Rwanda");
+  });
+
+  it("indicator detail 2.5: counts only countries with a value, lists the rest", async () => {
     const el = container();
     await renderIndicatorDetail(el, "2.5");
-    expect(el.textContent).toContain("6 of 31");
-    expect(el.querySelectorAll("#distribution-panel .pill").length).toBe(25);
+    expect(el.textContent).toContain("4 of 31");
+    expect(el.querySelectorAll("#distribution-panel .pill").length).toBe(27);
   });
 
   it("indicator detail: falls back gracefully for an unknown code", async () => {
     const el = container();
     await renderIndicatorDetail(el, "9.9");
-    // dim.find fails, falls back to bundle.dim[0] rather than throwing
     expect(el.querySelector(".callout--empty") || el.querySelector("select")).toBeTruthy();
   });
 
-  it("country profile: all indicators, facilities, governance, queries", async () => {
+  it("country profile: phase from the official map, disagreement flagged, figures with source slides", async () => {
     const el = container();
     await renderCountryProfile(el, "GHA");
     expect(el.textContent).toContain("Ghana");
-    // every indicator appears once, grouped by Results Framework family
-    expect(el.querySelectorAll("#indicator-groups .indicator-row").length).toBe(17);
     expect(el.querySelectorAll("#indicator-groups .indicator-group").length).toBe(8);
     expect(el.querySelector(".country-badge")).toBeTruthy();
+    expect(el.querySelector(".country-hero .phase-chip")!.textContent).toBe("Phase 4");
+    expect(el.querySelector("#implementation-stepper .callout--flag")!.textContent).toContain("phase 3");
+    expect(el.querySelectorAll("#implementation-stepper .implementation-stepper__mark").length).toBe(14);
+    expect(el.querySelectorAll("#indicator-groups .source-ref").length).toBeGreaterThan(0);
   });
 
-  it("country profile: a governance milestone linked to indicator 1.1-1.3 shows the same status pill in both the all-indicators table and the governance panel", async () => {
-    // The real bundle's governance rows predate the v3-form correction and
-    // carry indicator_code=null throughout (pre-existing historical data,
-    // not this fix's concern) -- this fixture proves the wiring works
-    // whenever a governance row IS linked to an indicator, which the demo
-    // bundle's generator (built from the current v3-form pipeline path)
-    // always produces for 1.1-1.3.
-    setDemoMode(true);
-    try {
-      const el = container();
-      await renderCountryProfile(el, "GHA");
-      const row11 = el.querySelector('#indicator-groups .indicator-row[data-code="1.1"]');
-      expect(row11).toBeTruthy();
-      expect(row11!.querySelector(".status")).toBeTruthy();
-    } finally {
-      setDemoMode(false);
-    }
-  });
-
-  it("country profile: implementation-phase stepper shows all fourteen steps", async () => {
-    const el = container();
-    await renderCountryProfile(el, "GHA");
-    const stepper = el.querySelector("#implementation-stepper")!;
-    expect(stepper.querySelectorAll(".implementation-stepper__mark").length).toBe(14);
-  });
-
-  it("country profile: a country with zero returns says so instead of erroring", async () => {
+  it("country profile: a second-round country says no return yet, never not started", async () => {
     const el = container();
     await renderCountryProfile(el, "AGO");
-    expect(el.textContent).toMatch(/no return|Angola/i);
+    expect(el.textContent).toContain("No return yet");
+    expect(el.textContent).not.toMatch(NOT_STARTED);
   });
 
-  it("data quality: completeness distribution and open query register", async () => {
+  it("country profile: queries and facilities from the register", async () => {
+    const el = container();
+    await renderCountryProfile(el, "ZWE");
+    expect(el.querySelectorAll("#queries-list .query-card").length).toBeGreaterThan(0);
+    expect(el.textContent).toContain("Q-ZWE-01");
+    expect(el.querySelectorAll("#facility-table tbody tr").length).toBe(4);
+  });
+
+  it("data quality: all 31 countries, 17 rules, no 'Accepted', no '0 open queries'", async () => {
     const el = container();
     await renderDataQuality(el);
     expect(el.textContent).toContain("Data quality");
-    expect(el.querySelector("#quality-table")!.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
+    expect(el.querySelectorAll("#provenance-table tbody tr").length).toBe(31);
+    expect(el.querySelectorAll("#coverage-matrix tbody tr").length).toBe(31);
+    expect(el.querySelectorAll("#coverage-matrix thead th").length).toBe(1 + 16);
+    expect(el.querySelectorAll("#checks-table tbody tr").length).toBe(17);
+    expect(el.textContent).not.toContain("Accepted");
+    expect(el.textContent).not.toMatch(/\b0 open queries/i);
+    expect(el.querySelectorAll("#queries-list .query-card").length).toBeGreaterThan(0);
+    expect(el.querySelectorAll(".dsa-card").length).toBe(1);
   });
 
-  it("facilities: table renders and country/status filters narrow it", async () => {
+  it("facilities: map points only for checked locations, the rest listed to confirm", async () => {
     const el = container();
     await renderFacilities(el);
-    const rowsBefore = el.querySelectorAll("#facility-table tbody tr").length;
-    expect(rowsBefore).toBeGreaterThan(0);
+    expect(el.querySelector("#facility-map svg")).toBeTruthy();
+    expect(el.textContent).toContain("Location to confirm");
+    expect(el.querySelectorAll("#to-confirm .pill").length).toBe(32);
+    expect(el.querySelector(".map-disclaimer")!.textContent).toContain("WHO");
 
+    const rowsBefore = el.querySelectorAll("#facility-table tbody tr").length;
+    expect(rowsBefore).toBe(25);
     const statusFilter = el.querySelector<HTMLSelectElement>("#status-filter")!;
-    statusFilter.value = "operational";
+    statusFilter.value = "planned";
     statusFilter.dispatchEvent(new Event("change"));
-    const rowsAfter = el.querySelectorAll("#facility-table tbody tr").length;
-    expect(rowsAfter).toBeLessThanOrEqual(rowsBefore);
+    expect(el.querySelectorAll("#facility-table tbody tr").length).toBe(6);
   });
 
-  it("implementation phases: leads with a phase-distribution summary chart", async () => {
+  it("implementation phases: 1 / 15 / 3 / 1 + 11 no return, no 'not started'", async () => {
     const el = container();
     await renderImplementation(el);
     expect(el.textContent).toContain("Implementation phases");
     expect(el.querySelector("#phase-summary-panel")!.textContent).not.toBe("");
-    // the detailed grid is not built until the disclosure is opened
-    expect(el.querySelector("#implementation-table")!.querySelectorAll("tbody tr").length).toBe(0);
-  });
-
-  it("implementation phases: the full grid builds lazily once the detail disclosure opens", async () => {
-    const el = container();
-    await renderImplementation(el);
-    const detail = el.querySelector<HTMLDetailsElement>("#grid-detail")!;
-    detail.open = true;
-    detail.dispatchEvent(new Event("toggle"));
     const table = el.querySelector("#implementation-table")!;
-    // grouped two-row header: row 1 is (country + highest-phase, each
-    // rowspan 2) plus one <th> per phase group (5); row 2 is one <th> per
-    // step (14) -- see components/phase-grid.ts
-    const headerRows = table.querySelectorAll("thead tr");
-    expect(headerRows.length).toBe(2);
-    expect(headerRows[0]!.querySelectorAll("th").length).toBe(2 + 5);
-    expect(headerRows[1]!.querySelectorAll("th").length).toBe(14);
-    expect(table.querySelectorAll("tbody tr").length).toBeGreaterThan(0);
-    // the country column is frozen (sticky), not just another column
-    expect(table.querySelector("tbody td.phase-grid__pin")).toBeTruthy();
+    expect(table.querySelectorAll("tbody tr").length).toBe(31);
+    expect(table.querySelectorAll(".phase-grid__noreturn").length).toBe(11);
+    expect(table.querySelectorAll(".flag-mark").length).toBe(5);
+    expect(el.textContent).not.toMatch(NOT_STARTED);
   });
 });

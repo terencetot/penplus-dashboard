@@ -5,9 +5,10 @@ from __future__ import annotations
 
 import json
 
+import baseline
 import export
 import transform
-from load import init_db, load_implementation_steps, load_return
+from load import connect, init_db, load_return
 from validate import Finding, record_findings
 
 
@@ -40,23 +41,6 @@ def _build_store_with_facility(tmp_path, make_rec):
     con.close()
     transform.build(db_path)
     return db_path
-
-
-def test_public_export_withholds_facility_identity(tmp_path, make_rec):
-    db_path = _build_store_with_facility(tmp_path, make_rec)
-    out_dir = tmp_path / "site_data"
-    export.export(db_path, str(out_dir), public=True)
-
-    facilities = json.loads((out_dir / "facilities.json").read_text(encoding="utf-8"))
-    row = facilities["rows"][0]
-    assert row["name"] is None
-    assert row["district"] is None
-    assert row["region"] is None
-    assert row["status"] == "operational"  # non-identifying fields survive
-
-    gha = json.loads((out_dir / "countries" / "GHA.json").read_text(encoding="utf-8"))
-    assert gha["facilities"][0]["name"] is None
-    assert facilities["manifest"]["public"] is True
 
 
 def test_non_public_export_keeps_facility_identity(tmp_path, make_rec):
@@ -95,12 +79,12 @@ def test_public_export_blanks_suppressed_cells_but_keeps_the_regional_total(tmp_
 
     indicators = json.loads((out_dir / "indicators.json").read_text(encoding="utf-8"))
     row_25 = next(v for v in indicators["values"]
-                  if v["indicator_code"] == "2.5" and v["disagg_key"] == "condition"
+                  if v["indicator_code"] == "2.6" and v["disagg_key"] == "condition"
                   and v["disagg_value"] == "t1d")
     assert row_25["suppressed"] == 1
     assert row_25["numerator"] is None  # withheld, not just flagged
 
-    dim = next(d for d in indicators["dim"] if d["indicator_code"] == "2.5")
+    dim = next(d for d in indicators["dim"] if d["indicator_code"] == "2.6")
     assert dim["regional_value"] == 3  # the real number still feeds the regional total
 
 
@@ -139,27 +123,121 @@ def test_milestone_strip_has_five_entries_with_null_gap(tmp_path, make_rec):
         assert entry["gap"] is None
 
 
-def test_open_queries_scoped_by_country(tmp_path, make_rec):
+def test_public_export_keeps_facility_names_by_default(tmp_path, make_rec):
+    """Refinement v2 default: PUBLISH_FACILITY_NAMES = True. Facility names
+    are public hospitals named at a public conference; small patient counts
+    are still suppressed (CLAUDE.md rule 7)."""
+    db_path = _build_store_with_facility(tmp_path, make_rec)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir), public=True)
+    facilities = json.loads((out_dir / "facilities.json").read_text(encoding="utf-8"))
+    assert facilities["rows"][0]["name"] == "Ridge Regional Hospital"
+    assert facilities["manifest"]["publish_facility_names"] is True
+
+
+def test_public_export_withholds_facility_identity_when_the_flag_is_off(tmp_path, make_rec,
+                                                                        monkeypatch):
+    monkeypatch.setattr(export, "PUBLISH_FACILITY_NAMES", False)
+    db_path = _build_store_with_facility(tmp_path, make_rec)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir), public=True)
+
+    facilities = json.loads((out_dir / "facilities.json").read_text(encoding="utf-8"))
+    row = facilities["rows"][0]
+    assert row["name"] is None
+    assert row["district"] is None
+    assert row["region"] is None
+    assert row["status"] == "operational"  # non-identifying fields survive
+
+    gha = json.loads((out_dir / "countries" / "GHA.json").read_text(encoding="utf-8"))
+    assert gha["facilities"][0]["name"] is None
+    assert facilities["manifest"]["public"] is True
+
+
+def _add_query(db_path, query_id, scope, severity, indicator, status="open"):
+    con = connect(db_path)
+    con.execute("INSERT INTO fact_query(query_id,scope,severity,indicator,issue,status,source)"
+                " VALUES (?,?,?,?,?,?,?)",
+                (query_id, scope, severity, indicator, "test issue", status, "evidence review"))
+    con.commit()
+    con.close()
+
+
+def test_queries_scoped_by_country_including_multi_country_scope(tmp_path, make_rec):
     db_path = _build_store(tmp_path, make_rec)
+    _add_query(db_path, "Q-GHA-01", "GHA", "Medium", "2.3")
+    _add_query(db_path, "Q-NOD-01", "LSO; NER; ZMB", "Low", "all")
+    _add_query(db_path, "Q-OLD-01", "GHA", "Low", "2.3", status="closed")
     out_dir = tmp_path / "site_data"
     export.export(db_path, str(out_dir))
 
     quality = json.loads((out_dir / "quality.json").read_text(encoding="utf-8"))
-    assert len(quality["open_queries"]) == 1
-    assert quality["open_queries"][0]["iso3"] == "GHA"
-    gha_row = next(r for r in quality["rows"] if r["iso3"] == "GHA")
+    assert quality["kpis"]["open_queries"]["total"] == 2
+    assert quality["kpis"]["queries_closed"] == 1
+    gha_row = next(r for r in quality["provenance"] if r["iso3"] == "GHA")
     assert gha_row["open_queries"] == 1
+    assert gha_row["highest_severity"] == "Medium"
 
     gha = json.loads((out_dir / "countries" / "GHA.json").read_text(encoding="utf-8"))
-    assert len(gha["open_queries"]) == 1
-    assert gha["open_queries"][0]["section"] == "2.1"
-
-    # a country with no findings gets an empty, correctly-scoped list
+    assert {q["query_id"] for q in gha["queries"]} == {"Q-GHA-01", "Q-OLD-01"}
+    ner = json.loads((out_dir / "countries" / "NER.json").read_text(encoding="utf-8"))
+    assert [q["query_id"] for q in ner["queries"]] == ["Q-NOD-01"]
     ken = json.loads((out_dir / "countries" / "KEN.json").read_text(encoding="utf-8"))
-    assert ken["open_queries"] == []
+    assert ken["queries"] == []
 
 
-def test_implementation_json_has_all_31_countries_and_14_steps(tmp_path, make_rec):
+def test_all_31_countries_appear_in_provenance_and_coverage(tmp_path, make_rec):
+    db_path = _build_store(tmp_path, make_rec)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir))
+    quality = json.loads((out_dir / "quality.json").read_text(encoding="utf-8"))
+    assert len(quality["provenance"]) == 31
+    assert len(quality["coverage"]["rows"]) == 31
+    assert quality["coverage"]["rows"][0]["cells"].keys() == set(export.CORE_INDICATORS)
+    statuses = {r["iso3"]: r["status"] for r in quality["provenance"]}
+    assert statuses["GHA"] == "validated"        # a form return in this fixture
+    assert statuses["AGO"] == "no_return"        # never omitted, never "accepted"
+
+
+def test_open_high_query_holds_the_figure_and_keeps_it_out_of_the_total(tmp_path, make_rec):
+    db_path = str(tmp_path / "store.db")
+    con = init_db(db_path)
+    load_return(con, make_rec(country_name="Ghana", period_id="2026-Q1", quarter_id="2026-Q1"),
+                verdict="accepted")
+    load_return(con, make_rec(country_name="Kenya", period_id="2026-Q1", quarter_id="2026-Q1"),
+                verdict="accepted")
+    con.close()
+    _add_query(db_path, "Q-KEN-99", "KEN", "High", "2.5")
+    transform.build(db_path)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir))
+
+    ind = json.loads((out_dir / "indicators.json").read_text(encoding="utf-8"))
+    dim = next(d for d in ind["dim"] if d["indicator_code"] == "2.6")
+    ken = next(v for v in ind["values"] if v["iso3"] == "KEN" and v["indicator_code"] == "2.6"
+               and v["disagg_key"] == "all")
+    gha = next(v for v in ind["values"] if v["iso3"] == "GHA" and v["indicator_code"] == "2.6"
+               and v["disagg_key"] == "all")
+    assert ken["held"] == 1 and ken["held_by"] == "Q-KEN-99"
+    assert dim["regional_value"] == gha["numerator"]      # Kenya's held figure is not added
+    assert dim["countries_reporting"] == 1
+    assert dim["countries_held"] == 1
+
+
+def test_regional_high_query_holds_the_regional_figure(tmp_path, make_rec):
+    db_path = _build_store(tmp_path, make_rec)
+    _add_query(db_path, "Q-REG-01", "REG", "High", "2.5")
+    transform.build(db_path)
+    out_dir = tmp_path / "site_data"
+    export.export(db_path, str(out_dir))
+    overview = json.loads((out_dir / "overview.json").read_text(encoding="utf-8"))
+    assert overview["headline"]["sentinel_ever"]["total"] is None
+    assert overview["headline"]["sentinel_ever"]["total_held_by"] == "Q-REG-01"
+    # the country figures behind it are still published
+    assert overview["headline"]["sentinel_ever"]["countries_reporting"] == 1
+
+
+def test_implementation_json_without_phase_evidence_has_no_phase(tmp_path, make_rec):
     db_path = _build_store(tmp_path, make_rec)
     out_dir = tmp_path / "site_data"
     export.export(db_path, str(out_dir))
@@ -169,38 +247,34 @@ def test_implementation_json_has_all_31_countries_and_14_steps(tmp_path, make_re
     assert len(impl["countries"]) == 31
     gha = next(c for c in impl["countries"] if c["iso3"] == "GHA")
     assert len(gha["steps"]) == 14
-    # no implementation-phase evidence loaded in this fixture: every step is
-    # unreported, and the highest phase completed is 0 -- not fabricated.
+    # No phase evidence: no phase -- never "not started" (phase 0).
     assert all(s["status"] is None for s in gha["steps"])
-    assert gha["highest_phase_completed"] == 0
+    assert gha["phase"] is None
+    assert impl["no_return"] == 31
 
 
-def test_highest_phase_completed_requires_every_step_of_the_phase(tmp_path, make_rec):
-    db_path = str(tmp_path / "store.db")
-    con = init_db(db_path)
-    load_return(con, make_rec(country_name="Ghana", period_id="2026-Q1", quarter_id="2026-Q1"),
-                verdict="accepted")
-    # Phase 1 = steps 1-3, all yes: phase 1 complete.
-    # Phase 2 = steps 4-6, step 5 not yes: phase 2 incomplete, so despite
-    # step 7 (phase 3) being 'yes', the highest phase completed stays 1 --
-    # phases are sequential, a later one does not count while an earlier one
-    # is still open.
-    load_implementation_steps(con, "GHA", {
-        1: "yes", 2: "yes", 3: "yes",
-        4: "yes", 5: "under_development", 6: "yes",
-        7: "yes",
-    }, source="test fixture", as_of="2026-01-01")
+def test_phase_is_published_from_the_reconciliation_with_disagreements_flagged(tmp_path, make_rec):
+    db_path = _build_store(tmp_path, make_rec)
+    csv_path = tmp_path / "phases.csv"
+    steps = ",".join(f"step_{i}" for i in range(1, 15))
+    csv_path.write_text(
+        f"country,{steps},workbook_phase,icppa_map_phase,phase_to_publish,agreement,note\n"
+        "Ghana," + ",".join(["Y"] * 8 + ["N"] * 6) + ",3,4,4,NO,Map is more recent\n"
+        "Rwanda," + ",".join(["Y"] * 14) + ",5,5,5,yes,\n"
+        "Angola," + "," * 13 + ",,,,,Second HCT round: no return yet.\n",
+        encoding="utf-8")
+    con = connect(db_path)
+    baseline.load_phase_reconciliation(con, str(csv_path))
     con.close()
-    transform.build(db_path)
-
     out_dir = tmp_path / "site_data"
     export.export(db_path, str(out_dir))
-    impl = json.loads((out_dir / "implementation.json").read_text(encoding="utf-8"))
-    gha = next(c for c in impl["countries"] if c["iso3"] == "GHA")
-    assert gha["highest_phase_completed"] == 1
-    step1 = next(s for s in gha["steps"] if s["step_no"] == 1)
-    assert step1["status"] == "yes"
-    assert step1["source"] == "test fixture"
 
-    gha_country = json.loads((out_dir / "countries" / "GHA.json").read_text(encoding="utf-8"))
-    assert gha_country["implementation"]["highest_phase_completed"] == 1
+    impl = json.loads((out_dir / "implementation.json").read_text(encoding="utf-8"))
+    by = {c["iso3"]: c for c in impl["countries"]}
+    assert by["GHA"]["phase"] == 4 and by["GHA"]["workbook_phase"] == 3
+    assert by["GHA"]["agreement"] == "no"
+    assert by["GHA"]["steps"][8]["status"] == "no"        # step 9 as the workbook has it
+    assert by["RWA"]["phase"] == 5
+    assert by["AGO"]["phase"] is None
+    assert impl["disagreements"] == 1
+    assert {p["phase"]: p["countries"] for p in impl["phase_counts"]}[4] == 1

@@ -37,7 +37,20 @@ CREATE TABLE IF NOT EXISTS dim_facility (
   status            TEXT CHECK (status IN ('operational','started_this_period',
                                            'under_preparation','suspended','closed')),
   first_seen        TEXT,
-  last_seen         TEXT
+  last_seen         TEXT,
+  -- From the curated facility register (data/reference/facility_register.csv)
+  name_status       TEXT,     -- confirmed / to_confirm (name not on the slide)
+  town              TEXT,
+  partner           TEXT,
+  register_status   TEXT,     -- active / partial / planned / to_confirm, as in the register
+  source_ref        TEXT,     -- deck and slide, e.g. "D3M p200"
+  latitude          REAL,
+  longitude         REAL,
+  geo_precision     TEXT,     -- facility / town (never a district or country centroid)
+  geo_source        TEXT,     -- OpenStreetMap URL
+  geo_checked       TEXT,     -- 'yes' (human) or 'auto' (passed every protocol rule)
+  note              TEXT,
+  patients_reported TEXT      -- the figure printed for this facility on a slide, with its source
 );
 
 CREATE TABLE IF NOT EXISTS dim_indicator (
@@ -78,6 +91,8 @@ CREATE TABLE IF NOT EXISTS fact_return (
   dedup_basis     TEXT,
   patient_source  TEXT,
   provenance      TEXT,
+  form_version    TEXT,       -- 'v3' or 'national_v4' (the new national tool)
+  date_completed  TEXT,       -- section 0 "Date completed", for timeliness (R16)
   UNIQUE (iso3, period_id, revision)
 );
 
@@ -85,7 +100,8 @@ CREATE TABLE IF NOT EXISTS fact_return (
 CREATE TABLE IF NOT EXISTS fact_patient_stock (          -- stock: never summed
   return_id     INTEGER NOT NULL REFERENCES fact_return(return_id),
   condition     TEXT NOT NULL CHECK (condition IN
-                  ('t1d','scd','rhd','severe_htn','other_reported','total')),
+                  ('t1d','scd','rhd','severe_htn','other_reported','total',
+                   'cardiac_not_split','sentinel_not_split')),
   ever_enrolled INTEGER,
   active_end    INTEGER,
   PRIMARY KEY (return_id, condition)
@@ -118,6 +134,8 @@ CREATE TABLE IF NOT EXISTS fact_workforce (          -- indicator 3.3: this quar
   trained_ns      INTEGER,                                -- flow, sex not stated
   fully_trained   INTEGER,                                -- legacy, unused by the v3 form
   working_at_site INTEGER,                                -- legacy, unused by the v3 form
+  trained_total   INTEGER,                                -- total as the country printed it (R07)
+  trained_ytd     INTEGER,                                -- year to date as printed (R07)
   PRIMARY KEY (return_id, cadre)
 );
 
@@ -253,7 +271,79 @@ CREATE TABLE IF NOT EXISTS gold_indicator (
   suppressed     INTEGER NOT NULL DEFAULT 0,
   as_of          TEXT,
   basis          TEXT,
+  value_type     TEXT,       -- flow / cumulative / active / point-in-time (baseline)
+  source_ref     TEXT,       -- e.g. "D3M p224": deck and slide the value came from
+  held           INTEGER NOT NULL DEFAULT 0,  -- 1: an open High query holds it
+  held_by        TEXT,       -- the query id(s) holding it
   PRIMARY KEY (iso3, period_id, indicator_code, disagg_key, disagg_value)
+);
+
+-- Implementation phase to publish per country (reconciliation of the
+-- monitoring workbook's 14 steps with the official ICPPA 2026 phase map).
+-- No row, or a null phase, for a second-round country with no return yet.
+CREATE TABLE IF NOT EXISTS fact_phase (
+  iso3             TEXT PRIMARY KEY REFERENCES dim_country(iso3),
+  workbook_phase   INTEGER,
+  icppa_map_phase  INTEGER,
+  phase_to_publish INTEGER,
+  agreement        TEXT,      -- yes / no (no = flagged, query Q-PHS-01)
+  note             TEXT,
+  source           TEXT
+);
+
+-- Country NCD data-system assessment, one row per answered field.
+-- Respondent names and e-mail addresses are never stored.
+CREATE TABLE IF NOT EXISTS fact_dsa (
+  iso3        TEXT NOT NULL,
+  assessed_on TEXT,
+  institution TEXT,
+  field       TEXT NOT NULL,
+  question    TEXT,
+  response    TEXT,
+  PRIMARY KEY (iso3, field)
+);
+
+-- The query register as published: queries seeded from the evidence review
+-- (docs/refinement/02_data/data_queries.csv) plus every validate.py finding.
+-- scope is an ISO3, 'REG' (regional), or several ISO3 separated by "; ".
+-- An OPEN High query holds the figure it concerns (transform.py).
+CREATE TABLE IF NOT EXISTS fact_query (
+  query_id   TEXT PRIMARY KEY,
+  scope      TEXT NOT NULL,
+  severity   TEXT NOT NULL CHECK (severity IN ('High','Medium','Low')),
+  indicator  TEXT,
+  issue      TEXT,
+  evidence   TEXT,
+  action     TEXT,
+  status     TEXT NOT NULL DEFAULT 'open' CHECK (status IN ('open','answered','closed')),
+  resolution TEXT,
+  source     TEXT,              -- 'evidence review' or 'validate.py <rule>'
+  rule       TEXT,              -- R01..R17 for a pipeline finding
+  period_id  TEXT,
+  opened_on  TEXT
+);
+
+-- One row per validation rule per return: passed / failed / not testable.
+-- Written by validate.run_checks() on every live return, form or historical.
+CREATE TABLE IF NOT EXISTS fact_check (
+  rule      TEXT NOT NULL,
+  return_id INTEGER NOT NULL REFERENCES fact_return(return_id),
+  iso3      TEXT NOT NULL,
+  period_id TEXT NOT NULL,
+  outcome   TEXT NOT NULL CHECK (outcome IN ('passed','failed','not_testable')),
+  detail    TEXT,
+  PRIMARY KEY (rule, return_id)
+);
+
+-- Provenance of each baseline value: which deck and slide, and what kind of
+-- figure it is. Every published baseline figure carries one (audit v2).
+CREATE TABLE IF NOT EXISTS fact_value_source (
+  return_id      INTEGER NOT NULL REFERENCES fact_return(return_id),
+  indicator_code TEXT NOT NULL,
+  disagg_value   TEXT NOT NULL DEFAULT 'all',
+  value_type     TEXT,
+  source_ref     TEXT,
+  PRIMARY KEY (return_id, indicator_code, disagg_value)
 );
 
 CREATE TABLE IF NOT EXISTS build_manifest (

@@ -16,7 +16,7 @@ import { icon } from "@/components/icons";
 
 const NAV: { route: Route; num: number; key: string }[] = [
   { route: { screen: "overview" }, num: 1, key: "nav.overview" },
-  { route: { screen: "indicator", code: "2.5" }, num: 2, key: "nav.indicator" },
+  { route: { screen: "indicator", code: "2.6" }, num: 2, key: "nav.indicator" },
   { route: { screen: "country", iso3: "GHA" }, num: 3, key: "nav.country" },
   { route: { screen: "implementation" }, num: 4, key: "nav.implementation" },
   { route: { screen: "quality" }, num: 5, key: "nav.quality" },
@@ -68,6 +68,13 @@ async function renderApp() {
       </nav>
     </header>
     ${isDemoMode() ? `<div class="demo-banner no-print" role="status">${t("demo.banner")}</div>` : ""}
+    ${
+      // Shown on every screen while no validated second-round return exists
+      // (audit v2, section 4): the figures are the ICPPA 2026 baseline.
+      manifest.baseline_only && !isDemoMode()
+        ? `<div class="baseline-banner" role="note"><span class="baseline-banner__icon">${icon("flag")}</span><span>${t("baseline.banner")}</span></div>`
+        : ""
+    }
     <main class="app-main" id="main-content" tabindex="-1"></main>
     <footer class="app-footer">
       <div class="app-footer__bar app-footer__brand">

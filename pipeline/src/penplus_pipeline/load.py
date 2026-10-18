@@ -60,9 +60,29 @@ def _migrate(con: sqlite3.Connection) -> None:
         if name not in q_cols:
             con.execute(f"ALTER TABLE fact_quality ADD COLUMN {col}")
 
+    r_cols = {r["name"] for r in con.execute("PRAGMA table_info(fact_return)")}
+    for col in ("form_version TEXT", "date_completed TEXT"):
+        if col.split()[0] not in r_cols:
+            con.execute(f"ALTER TABLE fact_return ADD COLUMN {col}")
+    g_cols = {r["name"] for r in con.execute("PRAGMA table_info(gold_indicator)")}
+    for col in ("value_type TEXT", "source_ref TEXT", "held INTEGER NOT NULL DEFAULT 0",
+                "held_by TEXT"):
+        if col.split()[0] not in g_cols:
+            con.execute(f"ALTER TABLE gold_indicator ADD COLUMN {col}")
+
+    f_cols = {r["name"] for r in con.execute("PRAGMA table_info(dim_facility)")}
+    for col in ("name_status TEXT", "town TEXT", "partner TEXT", "register_status TEXT",
+                "source_ref TEXT", "latitude REAL", "longitude REAL", "geo_precision TEXT",
+                "geo_source TEXT", "geo_checked TEXT", "note TEXT", "patients_reported TEXT"):
+        if col.split()[0] not in f_cols:
+            con.execute(f"ALTER TABLE dim_facility ADD COLUMN {col}")
+
     wf_cols = {r["name"] for r in con.execute("PRAGMA table_info(fact_workforce)")}
     if "trained_ns" not in wf_cols:
         con.execute("ALTER TABLE fact_workforce ADD COLUMN trained_ns INTEGER")
+    for col in ("trained_total INTEGER", "trained_ytd INTEGER"):
+        if col.split()[0] not in wf_cols:
+            con.execute(f"ALTER TABLE fact_workforce ADD COLUMN {col}")
 
 
 def init_db(db_path: str = DB_DEFAULT) -> sqlite3.Connection:
@@ -72,6 +92,11 @@ def init_db(db_path: str = DB_DEFAULT) -> sqlite3.Connection:
     for name, (iso3, cohort) in COUNTRIES.items():
         con.execute("INSERT OR IGNORE INTO dim_country(iso3,name,cohort) VALUES (?,?,?)",
                     (iso3, name, cohort))
+    # An indicator dropped from the list (5.1 left the new national tool)
+    # must not linger in a store built before the change.
+    codes = [row[0] for row in INDICATORS]
+    con.execute(f"DELETE FROM dim_indicator WHERE indicator_code NOT IN ({','.join('?' * len(codes))})",
+                codes)
     for row in INDICATORS:
         con.execute("INSERT OR REPLACE INTO dim_indicator"
                     "(indicator_code,label_en,family,direction,unit,definition,formula,milestone,"
@@ -104,12 +129,19 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
     cur = con.execute(
         "INSERT INTO fact_return(iso3,period_id,revision,superseded,source_file,source_kind,"
         "checksum,received_at,verdict,first_return,ltfu_rule,ltfu_compliant,dedup_basis,"
-        "patient_source,provenance) VALUES (?,?,?,0,?,?,?,?,?,?,?,?,?,?,?)",
+        "patient_source,provenance,form_version,date_completed)"
+        " VALUES (?,?,?,0,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         (iso3, rec["period_id"], revision, rec.get("source_file"), source_kind,
          rec.get("checksum"), dt.date.today().isoformat(), verdict,
          rec.get("first_return"), rec.get("ltfu_rule"), rec.get("ltfu_compliant"),
-         rec.get("dedup_basis"), rec.get("patient_source"), provenance))
+         rec.get("dedup_basis"), rec.get("patient_source"), provenance,
+         rec.get("form_version"), rec.get("date_completed")))
     rid = cur.lastrowid
+
+    for v in rec.get("value_sources", []):
+        con.execute("INSERT OR REPLACE INTO fact_value_source VALUES (?,?,?,?,?)",
+                    (rid, v["indicator_code"], v.get("disagg_value", "all"),
+                     v.get("value_type"), v.get("source_ref")))
 
     for r in rec.get("patient_stock", []):
         con.execute("INSERT OR REPLACE INTO fact_patient_stock VALUES (?,?,?,?)",
@@ -122,9 +154,12 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
         con.execute("INSERT OR REPLACE INTO fact_patient_age VALUES (?,?,?,?)",
                     (rid, r["condition"], r["age_band"], r.get("patients")))
     for r in rec.get("workforce", []):
-        con.execute("INSERT OR REPLACE INTO fact_workforce VALUES (?,?,?,?,?,?,?)",
+        con.execute("INSERT OR REPLACE INTO fact_workforce(return_id,cadre,trained_f,trained_m,"
+                    "trained_ns,fully_trained,working_at_site,trained_total,trained_ytd)"
+                    " VALUES (?,?,?,?,?,?,?,?,?)",
                     (rid, r["cadre"], r.get("trained_f"), r.get("trained_m"), r.get("trained_ns"),
-                     r.get("fully_trained"), r.get("working_at_site")))
+                     r.get("fully_trained"), r.get("working_at_site"),
+                     r.get("trained_total_reported"), r.get("trained_ytd")))
     for r in rec.get("workforce_tot", []):
         con.execute("INSERT OR REPLACE INTO fact_workforce_tot VALUES (?,?,?,?,?)",
                     (rid, r["cadre"], r.get("trained_f"), r.get("trained_m"), r.get("trained_ns")))
@@ -141,6 +176,17 @@ def load_return(con, rec, source_kind="form", provenance=None, verdict="accepted
         con.execute("INSERT OR REPLACE INTO fact_governance VALUES (?,?,?,?,?,?,?)",
                     (rid, r["milestone_code"], r["milestone"], r.get("indicator_code"),
                      r.get("status"), r.get("achieved_in"), r.get("document")))
+    # Yes answers that must carry a document title (R11) and their year
+    # achieved (R12): 2.1 per condition and 4.1, stored beside 1.1-1.3.
+    for g in rec.get("guidelines", []):
+        con.execute("INSERT OR REPLACE INTO fact_governance VALUES (?,?,?,?,?,?,?)",
+                    (rid, f"2.1-{g['condition']}", f"2.1 guideline, {g['condition']}", "2.1",
+                     g.get("disseminated") or "not_reported", None, g.get("document")))
+    rt = (rec.get("context") or {}).get("round_table_held")
+    if rt is not None:
+        con.execute("INSERT OR REPLACE INTO fact_governance VALUES (?,?,?,?,?,?,?)",
+                    (rid, "4.1", "Resource-mobilization meeting held", "4.1",
+                     "yes" if rt == 1 else "no", None, rec.get("round_table_evidence")))
     for k, v in (rec.get("context") or {}).items():
         con.execute("INSERT OR REPLACE INTO fact_context VALUES (?,?,?)", (rid, k, v))
     for k, v in (rec.get("training_capacity") or {}).items():

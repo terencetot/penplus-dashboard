@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import datetime as dt
 
-from common import TRACERS
+from common import OTHER_CONDITIONS, SENTINEL_SUM, TRACERS
 from load import DB_DEFAULT, connect
 
 SUPPRESS_BELOW = 5
@@ -31,12 +31,44 @@ def _rate(num, den):
     return round(num / den, 4)
 
 
+#: The indicators a patient query concerns. The query register predates the
+#: new tool's split of patients into 2.5 / 2.6, so a query on either patient
+#: code holds every patient figure for that country.
+PATIENT_CODES = ("2.5", "2.6", "2.6a", "2.6b")
+
+
+def _codes_for(indicator: str | None) -> set[str]:
+    parts = {p.strip() for p in (indicator or "").replace(",", "/").split("/") if p.strip()}
+    if parts & set(PATIENT_CODES):
+        parts |= set(PATIENT_CODES)
+    return parts
+
+
+def query_holds(con) -> dict[tuple[str, str], str]:
+    """{(iso3, indicator_code): query ids} for every OPEN High query.
+
+    An open High query holds the figure it concerns: the figure stays in the
+    bundle, marked held, and out of every regional total (DATA_QUALITY_SPEC.md
+    section 4.4). Regional-scope queries ('REG') are applied in export.py,
+    where the regional figure itself is built.
+    """
+    holds: dict[tuple[str, str], str] = {}
+    for q in con.execute("SELECT * FROM fact_query WHERE status='open' AND severity='High'"):
+        for iso3 in (x.strip() for x in q["scope"].split(";")):
+            if not iso3 or iso3 == "REG":
+                continue
+            for code in _codes_for(q["indicator"]):
+                key = (iso3, code)
+                holds[key] = f"{holds[key]}, {q['query_id']}" if key in holds else q["query_id"]
+    return holds
+
+
 def live_returns(con):
     return list(con.execute(
         "SELECT r.*, p.quarter_id, p.closing_date, q.completeness"
         " FROM fact_return r JOIN dim_period p USING(period_id)"
         " LEFT JOIN fact_quality q USING(return_id)"
-        " WHERE r.superseded=0 AND r.verdict IN ('accepted','query')"
+        " WHERE r.superseded=0 AND r.verdict IN ('accepted','query','hold')"
         " ORDER BY r.iso3, r.period_id"))
 
 
@@ -44,6 +76,10 @@ def build(db_path: str = DB_DEFAULT):
     con = connect(db_path)
     con.execute("DELETE FROM gold_indicator")
     rows = []
+    holds = query_holds(con)
+    latest_period = {r["iso3"]: r["p"] for r in con.execute(
+        "SELECT iso3, MAX(period_id) p FROM fact_return"
+        " WHERE superseded=0 AND verdict IN ('accepted','query') GROUP BY iso3")}
 
     for r in live_returns(con):
         rid, iso3, pid = r["return_id"], r["iso3"], r["period_id"]
@@ -54,48 +90,93 @@ def build(db_path: str = DB_DEFAULT):
         # so each redefinition of put() (once per return, every loop pass)
         # freezes that return's own values -- put() is always fully used
         # within the same iteration it's defined in, never deferred.
+        # A held return (a High validation failure) still publishes its
+        # figures, marked held and kept out of every total, so the screen can
+        # list what is held and why (DATA_QUALITY_SPEC.md, 4.4).
+        return_hold = None
+        if r["verdict"] == "hold":
+            ids = [q["query_id"] for q in con.execute(
+                "SELECT query_id FROM fact_query WHERE scope=? AND period_id=? AND severity='High'"
+                " AND status='open'", (iso3, pid))]
+            return_hold = ", ".join(ids) or "validation (High)"
+
+        src = {(v["indicator_code"], v["disagg_value"]): v for v in con.execute(
+            "SELECT * FROM fact_value_source WHERE return_id=?", (rid,))}
+
         def put(code, num=None, den=None, unit="count", key="all", val="all", value=None,
-                *, iso3=iso3, pid=pid, comp=comp, as_of=as_of, basis=basis):
+                *, iso3=iso3, pid=pid, comp=comp, as_of=as_of, basis=basis, src=src,
+                prov=None, return_hold=return_hold):
             v = value if value is not None else (num if unit == "count" else _rate(num, den))
+            prov = prov or src.get((code, val)) or src.get((code, "all"))
+            hold = holds.get((iso3, code)) or return_hold
             rows.append((iso3, pid, code, key, val, num, den, v, unit, comp,
                          1 if (num is not None and num < SUPPRESS_BELOW and unit == "count"
                                and key != "all") else 0,
-                         as_of, basis))
+                         as_of, basis, prov["value_type"] if prov else None,
+                         prov["source_ref"] if prov else None,
+                         1 if hold else 0, hold))
 
-        # ---- 2.5 and 2.6: patients, tracers only
+        # ---- 2.5, 2.6, 2.6a, 2.6b: patients (new national tool definitions)
         stock = {s["condition"]: s for s in con.execute(
             "SELECT * FROM fact_patient_stock WHERE return_id=?", (rid,))}
-        ever = _sum(stock[c]["ever_enrolled"] for c in TRACERS if c in stock)
-        active = _sum(stock[c]["active_end"] for c in TRACERS if c in stock)
-        put("2.5", num=ever)
-        put("2.6", num=active)
-        for c in TRACERS:
-            if c in stock:
-                put("2.5", num=stock[c]["ever_enrolled"], key="condition", val=c)
-                put("2.6", num=stock[c]["active_end"], key="condition", val=c)
-        if "other_reported" in stock:
-            put("2.5", num=stock["other_reported"]["ever_enrolled"],
-                key="condition", val="other_reported")
-
-        for a in con.execute(
-                "SELECT age_band, SUM(patients) n FROM fact_patient_age"
-                " WHERE return_id=? AND condition!='total' GROUP BY age_band", (rid,)):
-            if a["age_band"] != "total":
-                put("2.6", num=a["n"], key="age_band", val=a["age_band"])
-
+        flow = {f["condition"]: f for f in con.execute(
+            "SELECT * FROM fact_patient_flow WHERE return_id=?", (rid,))}
         # fact_context holds everything sourced from a single Item/Response
         # cell rather than a per-condition or per-cadre table: read it once.
         ctx = {c["measure"]: c["value"] for c in con.execute(
             "SELECT measure,value FROM fact_context WHERE return_id=?", (rid,))}
 
-        # ---- 2.6b: retention, only where the regional rule was applied
-        if r["ltfu_compliant"] == 1:
-            for c in TRACERS + ["total"]:
-                n, d = ctx.get(f"retention_num_{c}"), ctx.get(f"retention_den_{c}")
-                if n is not None or d is not None:
-                    put("2.6b", num=n, den=d, unit="rate",
-                        key="condition" if c != "total" else "all",
-                        val=c if c != "total" else "all")
+        sentinel = [c for c in SENTINEL_SUM if c in stock]
+        ever = _sum(stock[c]["ever_enrolled"] for c in sentinel)
+        active = _sum(stock[c]["active_end"] for c in sentinel)
+        new = _sum(flow[c]["new_enrolled"] for c in sentinel if c in flow)
+        if sentinel:
+            # A null here is "returned, not reported" and stays null.
+            put("2.6", num=ever)
+            put("2.6a", num=active)
+        if new is not None:
+            put("2.6", num=new, key="measure", val="new_this_period")
+        for c in sentinel:
+            if stock[c]["ever_enrolled"] is not None:
+                put("2.6", num=stock[c]["ever_enrolled"], key="condition", val=c)
+            if stock[c]["active_end"] is not None:
+                put("2.6a", num=stock[c]["active_end"], key="condition", val=c)
+        # Conditions outside the sentinel set (severe hypertension since Sept
+        # 2026, and anything else a country reports) stay visible as 2.5
+        # condition rows but never enter a sentinel total.
+        for c in OTHER_CONDITIONS:
+            if c in stock and stock[c]["ever_enrolled"] is not None:
+                put("2.5", num=stock[c]["ever_enrolled"], key="condition", val=c)
+
+        # 2.5 is the country's own all-conditions total. It is never rebuilt
+        # by adding condition columns: which extra conditions a country
+        # counts as PEN-Plus is the country's definition, not ours.
+        if ctx.get("patients_all_ever") is not None:
+            put("2.5", num=ctx["patients_all_ever"])
+        if ctx.get("patients_all_new") is not None:
+            put("2.5", num=ctx["patients_all_new"], key="measure", val="new_this_period")
+        if ctx.get("patients_all_active") is not None:
+            put("2.5", num=ctx["patients_all_active"], key="measure", val="active")
+
+        # 2.6b: approximate retention, computed here and never read from the
+        # form (its printed formula divides by patients no longer in care).
+        # Quarterly form returns only: "newly enrolled this quarter" has no
+        # meaning in a yearly baseline row.
+        # Only conditions with all three figures enter it, so a condition
+        # missing one of them cannot push the ratio above 100%.
+        if basis == "form":
+            complete = [c for c in sentinel if c in flow and None not in (
+                stock[c]["ever_enrolled"], stock[c]["active_end"], flow[c]["new_enrolled"])]
+            r_num = _sum(stock[c]["active_end"] - flow[c]["new_enrolled"] for c in complete)
+            r_den = _sum(stock[c]["ever_enrolled"] - flow[c]["new_enrolled"] for c in complete)
+            if r_num is not None and r_den and r_den > 0:
+                put("2.6b", num=r_num, den=r_den, unit="rate")
+
+        for a in con.execute(
+                "SELECT age_band, SUM(patients) n FROM fact_patient_age"
+                " WHERE return_id=? AND condition!='total' GROUP BY age_band", (rid,)):
+            if a["age_band"] != "total":
+                put("2.6a", num=a["n"], key="age_band", val=a["age_band"])
 
         # ---- 2.1: guideline dissemination, tracers only. The denominator is
         # how many conditions this return actually answered, not a hard-coded
@@ -126,14 +207,23 @@ def build(db_path: str = DB_DEFAULT):
         fac = list(con.execute(
             "SELECT fp.*, f.status FROM fact_facility_period fp"
             " JOIN dim_facility f USING(facility_id) WHERE fp.return_id=?", (rid,)))
-        if not fac:
+        # Without per-period facility rows, 2.3 comes from the facility
+        # register -- but only for the country's latest return: the register
+        # describes today, and stamping it on every earlier year would
+        # invent a facility history nobody reported.
+        if not fac and pid == latest_period.get(iso3):
             fac = list(con.execute(
                 "SELECT NULL return_received, NULL mentorship_visit, NULL quality_score,"
                 " NULL critical_met, NULL readiness_class, f.status"
                 " FROM dim_facility f WHERE f.iso3=?", (iso3,)))
         operational = [f for f in fac if f["status"] in ("operational", "started_this_period")]
         if fac:
-            put("2.3", num=len(operational))
+            # a historical return has no Annex A: its 2.3 is the register
+            from_register = basis == "historical"
+            put("2.3", num=len(operational),
+                prov={"value_type": "point-in-time",
+                      "source_ref": "facility register (ICPPA 2026 decks)"}
+                if from_register else None)
             assessed = [f for f in fac if f["quality_score"] is not None]
             if assessed:
                 met = [f for f in assessed
@@ -166,24 +256,34 @@ def build(db_path: str = DB_DEFAULT):
         wf = list(con.execute(
             "SELECT * FROM fact_workforce WHERE return_id=? AND cadre!='total'", (rid,)))
         trained = _sum([_sum([w["trained_f"], w["trained_m"], w["trained_ns"]]) for w in wf])
+        if trained is None:
+            trained = ctx.get("trained_hist")      # ICPPA baseline: trained in that year
         if trained is not None:
             put("3.3", num=trained)
+        # Health workers trained since the programme began in the country:
+        # the running sum of the yearly flows, or a cumulative figure the
+        # country published as such -- built in seed_history, never by adding
+        # a stock to itself.
+        if ctx.get("trained_hist_to_date") is not None:
+            put("3.3", num=ctx["trained_hist_to_date"], key="measure", val="to_date")
 
         # ---- 6.1: communication and visibility products
         if ctx.get("comm_products_total") is not None:
             put("6.1", num=ctx["comm_products_total"])
 
-        # ---- 5.1: reporting completeness (HMIS integration is descriptive,
-        # not folded into this rate -- see fact_context.his_integration_level
-        # and docs/architecture.md)
-        q = con.execute("SELECT * FROM fact_quality WHERE return_id=?", (rid,)).fetchone()
-        if q and q["facilities_expected"]:
-            put("5.1", num=q["returns_complete"], den=q["facilities_expected"], unit="rate")
+        # ---- 5.2: PEN-Plus indicators integrated into the HMIS / DHIS2.
+        # 2 = Yes, 1 = Partial, 0 = No (parse.py). Only Yes counts; Partial is
+        # published as its own response row so it is seen, not rounded up.
+        his = ctx.get("his_integration_level")
+        if his is not None:
+            put("5.2", num=1 if his == 2 else 0)
+            put("5.2", num=1, key="response", val={2: "yes", 1: "partial", 0: "no"}[his])
 
     con.executemany(
         "INSERT OR REPLACE INTO gold_indicator(iso3,period_id,indicator_code,disagg_key,"
-        "disagg_value,numerator,denominator,value,unit,completeness,suppressed,as_of,basis)"
-        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
+        "disagg_value,numerator,denominator,value,unit,completeness,suppressed,as_of,basis,"
+        "value_type,source_ref,held,held_by)"
+        " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", rows)
 
     con.execute("DELETE FROM build_manifest")
     periods = [p["period_id"] for p in con.execute(

@@ -5,7 +5,7 @@
  * rendering the raw enum token, so a French or Portuguese viewer never sees
  * an English code like "operational" sitting in an otherwise translated row.
  */
-import type { FacilityRow, Severity, Verdict } from "./types";
+import type { Severity, Verdict } from "./types";
 
 export function severityKey(severity: Severity): string {
   return `severity.${severity.toLowerCase()}`;
@@ -23,16 +23,4 @@ export function severityKey(severity: Severity): string {
  */
 export function verdictKey(verdict: Verdict): string {
   return `verdict.${verdict}`;
-}
-
-export function facilityStatusKey(status: FacilityRow["status"]): string {
-  return status ? `facility_status.${status}` : "";
-}
-
-export function projectSupportedKey(value: FacilityRow["project_supported"]): string {
-  return value ? `project_supported.${value}` : "";
-}
-
-export function readinessKey(value: FacilityRow["readiness_class"]): string {
-  return value ? `readiness.${value}` : "";
 }

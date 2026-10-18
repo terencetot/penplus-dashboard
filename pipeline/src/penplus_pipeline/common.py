@@ -7,6 +7,7 @@ COUNTRIES = {
     "Cameroon": ("CMR", "phase_1"),
     "Democratic Republic of the Congo": ("COD", "phase_1"),
     "Republic of the Congo": ("COG", "phase_1"), "Congo": ("COG", "phase_1"),
+
     "Eswatini": ("SWZ", "phase_2"), "Ethiopia": ("ETH", "phase_1"),
     "Gabon": ("GAB", "phase_2"), "The Gambia": ("GMB", "phase_2"),
     "Gambia": ("GMB", "phase_2"), "Ghana": ("GHA", "phase_1"),
@@ -20,19 +21,29 @@ COUNTRIES = {
     "United Republic of Tanzania": ("TZA", "phase_1"), "Tanzania": ("TZA", "phase_1"),
     "Uganda": ("UGA", "phase_1"), "Zambia": ("ZMB", "phase_1"),
     "Zimbabwe": ("ZWE", "phase_1"),
+    # Spellings used in PEN_PLUS_MONITORING.xlsx: without them the phases
+    # sheet matched neither Congo (audit v2, section 1). Kept last: the first
+    # name listed for an ISO3 is the one dim_country displays.
+    "Democratic Republic of Congo": ("COD", "phase_1"),
+    "Congo, Republic of": ("COG", "phase_1"), "KEN Kenya": ("KEN", "phase_1"),
 }
 
-# Every condition key transform.py and validate.py need to recognise when
-# summing 2.5/2.6, across both form revisions: t1d/scd/rhd are the three
-# priority conditions the current form asks about, and severe_htn is kept
-# here only so a historical return that reported it (the previous copy of
-# the form asked about four tracer conditions) still sums correctly --
-# removing it would silently drop that contribution from already-published
-# historical totals. Nothing downstream loops assuming every one of these
-# is present: each sum is `for c in TRACERS if c in stock`, so a return that
-# only ever reported three simply never has a fourth entry to sum. Anything
-# else is reported once, outside the regional total, under other_reported.
-TRACERS = ["t1d", "scd", "rhd", "severe_htn"]
+# The sentinel conditions: the only ones that enter a sentinel total (2.6,
+# and the sentinel split of 2.5). Severe hypertension was dropped as a
+# priority condition in September 2026 and must not appear in any sentinel
+# total (audit v2, Q-REG-02): counting it inflated Uganda, Burkina Faso and
+# DRC by the "HTA" column of their slides. It is still recorded, under
+# OTHER_CONDITIONS, so the figure stays visible without being summed.
+TRACERS = ["t1d", "scd", "rhd"]
+OTHER_CONDITIONS = ["severe_htn", "other_reported"]
+
+# Sentinel figures a country published without the T1D / SCD / RHD split:
+# they count in the sentinel total (that is what the country reported) but
+# have no condition of their own. Zambia's "cardiac, not split" (RHD not
+# separated from other cardiac conditions) and Tanzania's "sentinel, not
+# split" active figure are the two cases in the ICPPA 2026 baseline.
+UNSPLIT_SENTINEL = ["cardiac_not_split", "sentinel_not_split"]
+SENTINEL_SUM = TRACERS + UNSPLIT_SENTINEL
 
 ICPPA_CONDITION_MAP = {
     "Sickle cell disease": "scd",
@@ -120,18 +131,28 @@ INDICATORS = [
      "Facilities scoring at least 80 per cent with all critical criteria met",
      "numerator over facilities assessed against the checklist", None,
      "annual"),
-    ("2.5", "Unique patients ever enrolled", "service", "increase", "count",
-     "Cumulative patients since services began, deduplicated at facility level",
-     "sum of ever_enrolled over the priority conditions", None,
+    # 2.5 and 2.6 follow the new national quarterly tool
+    # (docs/refinement/03_reporting_form/): 2.5 is every PEN-Plus patient,
+    # including the conditions each country adds; 2.6 is the sentinel cohort.
+    ("2.5", "PEN-Plus patients ever enrolled, all conditions", "service", "increase", "count",
+     "All PEN-Plus patients ever enrolled: T1D, SCD, RHD and the other conditions"
+     " the country manages in PEN-Plus clinics",
+     "the country's all-conditions total; never rebuilt from condition columns", None,
      "semi_annual"),
-    ("2.6", "Patients enrolled and active in care", "service", "increase", "count",
-     "Patients not lost, transferred, stopped or deceased",
-     "sum of active_end over the priority conditions", None,
+    ("2.6", "Sentinel patients ever enrolled (T1D, SCD, RHD)", "service", "increase", "count",
+     "Patients ever enrolled with a sentinel condition: type 1 diabetes, sickle cell"
+     " disease, rheumatic heart disease",
+     "sum of ever_enrolled over T1D, SCD and RHD (severe hypertension excluded)", None,
      "semi_annual_annual"),
-    ("2.6b", "Twelve-month retention rate", "service", "increase", "rate",
-     "Cohort patients with a visit in the period over the cohort minus exits",
-     "numerator over denominator, by condition (reported alongside 2.6, not a"
-     " seventeenth indicator)", None,
+    ("2.6a", "Sentinel patients active in care", "service", "increase", "count",
+     "Sentinel-condition patients active in care at the end of the period",
+     "sum of active in care over T1D, SCD and RHD (reported alongside 2.6)", None,
+     "semi_annual_annual"),
+    ("2.6b", "Approximate retention (excludes patients enrolled this quarter)", "service",
+     "increase", "rate",
+     "Sentinel patients still in care, among those enrolled before this quarter",
+     "(active in care - newly enrolled) / (ever enrolled - newly enrolled), computed by"
+     " the pipeline; the country-entered retention % is never read", None,
      "semi_annual_annual"),
     ("3.1", "People completing a PEN-Plus WHO Academy course", "workforce", "increase", "count",
      "Cumulative course completions, pre-filled by WHO AFRO from the Academy system",
@@ -153,9 +174,10 @@ INDICATORS = [
      "Countries that held a round table to mobilize resources for PEN-Plus this year",
      "countries with round table held = yes, over countries reporting", None,
      "annual"),
-    ("5.1", "Reporting completeness, timeliness and HMIS integration", "data", "increase", "rate",
-     "Complete facility returns over facilities expected",
-     "returns_complete over facilities_expected", None,
+    ("5.2", "PEN-Plus indicators integrated into national HMIS / DHIS2", "data", "increase",
+     "count",
+     "Countries answering Yes: PEN-Plus indicators configured in the national HMIS / DHIS2",
+     "countries answering Yes (Partial is shown, not counted)", None,
      "annual"),
     ("6.1", "Communication and visibility products", "communication", "increase", "count",
      "Consent-safeguarded products published in the year",
@@ -225,3 +247,11 @@ def resolve_iso3(country_name: str) -> str:
     if not entry:
         raise ValueError(f"country not in the Phase Two list: {country_name}")
     return entry[0]
+
+
+#: Publish facility names in the public build. Default taken for refinement v2
+#: (docs/refinement/RUN_LOG.md): these are public hospitals named at a public
+#: conference, so the suppression rule protects small patient counts
+#: (CLAUDE.md rule 7, still applied), not facility identity. Set to False to
+#: withhold name, district, region and town again.
+PUBLISH_FACILITY_NAMES = True

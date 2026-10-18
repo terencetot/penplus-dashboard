@@ -1,25 +1,38 @@
 {
  "manifest": {
-  "built_at": "2026-10-14T17:03:40",
+  "built_at": "2026-10-18T10:22:28",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 40,
-  "countries": 20,
-  "periods": "2022-A,2023-A,2024-A,2025-A,2026-A",
+  "returns_loaded": 61,
+  "countries": 17,
+  "periods": "2015-A,2016-A,2017-A,2018-A,2019-A,2020-A,2021-A,2022-A,2023-A,2024-A,2025-A,2026-A",
   "suppress_below": 5,
   "public": true,
-  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence. This is the public export: facility identity is withheld and cells under 5 are suppressed, not merely flagged."
+  "publish_facility_names": true,
+  "baseline_only": true,
+  "form_returns": 0,
+  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks the ICPPA 2026 baseline (country presentations, June 2026), not a validated quarterly return. held=1 marks a figure held by an open High query; it is excluded from every regional total. Cells under 5 are suppressed, not merely flagged."
  },
  "country": {
   "iso3": "SSD",
   "name": "South Sudan",
   "cohort": "phase_2",
   "returns": 0,
-  "last_period": null
+  "last_period": null,
+  "form_returns": 0,
+  "has_data": false,
+  "phase": null
  },
  "values": [],
  "facilities": [],
  "implementation": {
+  "phase": null,
+  "workbook_phase": null,
+  "icppa_map_phase": null,
+  "agreement": null,
+  "note": "Second HCT round: no return yet. Show as not reported, never as not started.",
+  "source": "implementation_phase_reconciliation.csv: PEN_PLUS_MONITORING.xlsx steps and the official WHO AFRO phase map shown at ICPPA 2026 (D2M p7)",
+  "has_steps": false,
   "steps": [
    {
     "step_no": 1,
@@ -105,9 +118,36 @@
     "source": null,
     "as_of": null
    }
-  ],
-  "highest_phase_completed": 0
+  ]
+ },
+ "provenance": {
+  "iso3": "SSD",
+  "name": "South Sudan",
+  "cohort": "phase_2",
+  "evidence_source": "none",
+  "latest_period": null,
+  "value_types": [],
+  "open_queries": 0,
+  "highest_severity": null,
+  "status": "no_return"
  },
  "governance": [],
- "open_queries": []
+ "queries": [],
+ "data_system": {
+  "iso3": "SSD",
+  "assessed_on": "2026-10-14",
+  "institution": "Ministry of Health",
+  "fields": {
+   "can_add_indicators": "Yes, on request",
+   "can_carry_quarterly": "Yes, with support (tools, training)",
+   "emr_district": "No",
+   "hmis_platform": "DHIS2",
+   "how_recorded": "Mixed paper and electronic",
+   "main_constraint": "No feedback or use of data",
+   "patient_id": "Patients receive a card or booklet with this number",
+   "standard_register": "Yes, used in some facilities",
+   "where_entered": "At district level"
+  },
+  "name": "South Sudan"
+ }
 }

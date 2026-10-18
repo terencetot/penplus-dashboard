@@ -1,0 +1,32 @@
+country,step_1,step_2,step_3,step_4,step_5,step_6,step_7,step_8,step_9,step_10,step_11,step_12,step_13,step_14,workbook_phase,icppa_map_phase,phase_to_publish,agreement,note
+Benin,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Burkina Faso,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Cameroon,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Democratic Republic of the Congo,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,4,4,4,yes,
+Republic of the Congo,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,N,N,N,3,3,3,yes,
+Ethiopia,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Ghana,Y,Y,Y,Y,Y,Y,Y,Y,N,N,N,N,N,N,3,4,4,NO,Map (June 2026) is the more recent source: update the workbook steps for this country.
+Kenya,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,Y,Y,N,3,4,4,NO,Map (June 2026) is the more recent source: update the workbook steps for this country.
+Liberia,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Lesotho,Y,Y,Y,Y,Y,Y,Y,N,N,N,N,N,N,N,3,3,3,yes,
+Mozambique,Y,N,N,N,N,N,N,N,N,N,N,N,N,N,0,4,4,NO,Map (June 2026) is the more recent source: update the workbook steps for this country.
+Malawi,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Niger,Y,Y,Y,Y,Y,Y,N,Y,N,N,N,N,N,N,2,3,3,NO,Map (June 2026) is the more recent source: update the workbook steps for this country.
+Nigeria,N,N,N,N,N,N,N,N,N,N,N,N,N,N,0,2,2,NO,Map (June 2026) is the more recent source: update the workbook steps for this country.
+Rwanda,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,5,5,5,yes,
+Sierra Leone,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+United Republic of Tanzania,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,N,4,4,4,yes,
+Uganda,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Zambia,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Zimbabwe,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,Y,N,4,4,4,yes,
+Angola,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Botswana,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Burundi,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Cabo Verde,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Eswatini,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Gabon,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+The Gambia,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Mali,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Senegal,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+South Sudan,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."
+Togo,,,,,,,,,,,,,,,,,,,"Second HCT round: no return yet. Show as not reported, never as not started."

@@ -19,7 +19,7 @@ a point where they conflict.
 
 Thirty-one countries return a Word form each quarter. A pipeline parses it,
 validates it, computes sixteen indicators and exports static JSON. The site reads
-that JSON and draws five screens. Nothing is computed in the browser.
+that JSON and draws six screens. Nothing is computed in the browser.
 
 ## Repository layout
 
@@ -89,8 +89,9 @@ produces a wrong decision, not an ugly screen.
 | 1 | Regional overview | Where is PEN-Plus and how big is it? |
 | 2 | Indicator detail | Is this indicator moving, and who drives it? |
 | 3 | Country profile | What is the position of one country? |
-| 4 | Data quality | How much of this can be trusted? |
-| 5 | Facilities | Where are the sites and what state are they in? |
+| 4 | Implementation phases | How far has each country gone? |
+| 5 | Data quality | How much of this can be trusted? |
+| 6 | Facilities | Where are the sites and what state are they in? |
 
 One screen, one question. If a screen answers two, split it.
 
@@ -164,12 +165,18 @@ python3 src/penplus_pipeline/run.py --transform --export   # recompute + re-expo
 python3 src/penplus_pipeline/run.py --returns ../returns/*.docx --transform --export
 ```
 
-State at the time of writing: 40 returns loaded, 20 countries with data, 5 periods,
-367 rows in `gold_indicator`, bundle ~457 KB (`--public`). All 40 are tagged
-`source_kind='historical'`, rebuilt from the ICPPA 2026 extraction and the phase 1
-monitoring workbook -- no real Phase Two form return has been received yet. The
-dashboard makes that distinction visible (`common.historical` chip) and does not draw
-a continuous trend across it.
+State at the time of writing (refinement v2, October 2026, see
+`docs/refinement/RUN_LOG.md`): no Phase Two form return has been received. Every
+figure is the ICPPA 2026 baseline (country presentations, June 2026), loaded from
+`data/raw/PEN-Plus_country_data_ICPPA2026_v2.xlsx` under its "Value type" rules, with
+deck and slide kept on every value, plus the curated files in `data/reference/`
+(facility register, implementation-phase reconciliation, query seed, data-system
+assessments). All of it is `source_kind='historical'`, and every screen carries the
+baseline banner. Indicator definitions follow the new national quarterly tool: 2.5 =
+all PEN-Plus patients, 2.6 = sentinel T1D/SCD/RHD (severe hypertension is never in a
+sentinel total), HMIS integration = 5.2. An open High query holds the figure it
+concerns; held figures stay published, marked held, and out of every total.
+`pipeline/tools/reconcile.py` checks the published figures against the evidence.
 
 Build the site against this bundle, not against invented data. Where a screen looks
 empty, that is the real state of the evidence and the screen must say so rather than

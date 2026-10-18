@@ -30,11 +30,13 @@ export function renderMilestoneStrip(entries: MilestoneStripEntry[]): string {
     .map((e) => {
       const hasMilestone = e.milestone !== null && e.value !== null;
       const pct = hasMilestone ? Math.max(0, Math.min(100, (e.value! / e.milestone!) * 100)) : 0;
-      const valueText = e.value === null ? NR : fmtCount(e.value);
-      const gap = gapText(e.gap);
+      // A held regional total (open regional High query) is shown as held,
+      // with the query id, never as "not reported" and never as a number.
+      const valueText = e.held_by ? t("prov.held") : e.value === null ? NR : fmtCount(e.value);
+      const gap = e.held_by ? `<span class="prov prov--held">${e.held_by}</span>` : gapText(e.gap);
       return `<div class="milestone-row${hasMilestone ? "" : " milestone-row--no-target"}">
         <div class="milestone-row__label">${e.label_en}<small>${e.as_of ? `${t("common.as_of")} ${fmtDate(e.as_of)}` : ""}</small></div>
-        <div class="milestone-row__track" role="img" aria-label="${e.label_en}: ${valueText}${hasMilestone ? `, ${gap.toLowerCase()}` : ""}">
+        <div class="milestone-row__track" role="img" aria-label="${e.label_en}: ${valueText}${hasMilestone && !e.held_by ? `, ${gap.toLowerCase()}` : ""}">
           ${hasMilestone ? `<div class="milestone-row__fill" style="width:${pct}%"></div><div class="milestone-row__target" style="left:100%"></div>` : ""}
         </div>
         <div class="milestone-row__value num">${valueText}<span class="gap">${gap}</span></div>

@@ -1,27 +1,71 @@
 {
  "manifest": {
-  "built_at": "2026-10-14T17:03:40",
+  "built_at": "2026-10-18T10:22:28",
   "form_version": "3.0",
   "model_version": "1.0",
-  "returns_loaded": 40,
-  "countries": 20,
-  "periods": "2022-A,2023-A,2024-A,2025-A,2026-A",
+  "returns_loaded": 61,
+  "countries": 17,
+  "periods": "2015-A,2016-A,2017-A,2018-A,2019-A,2020-A,2021-A,2022-A,2023-A,2024-A,2025-A,2026-A",
   "suppress_below": 5,
   "public": true,
-  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks a return rebuilt from pre-Phase Two evidence. This is the public export: facility identity is withheld and cells under 5 are suppressed, not merely flagged."
+  "publish_facility_names": true,
+  "baseline_only": true,
+  "form_returns": 0,
+  "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks the ICPPA 2026 baseline (country presentations, June 2026), not a validated quarterly return. held=1 marks a figure held by an open High query; it is excluded from every regional total. Cells under 5 are suppressed, not merely flagged."
  },
  "country": {
   "iso3": "ZWE",
   "name": "Zimbabwe",
   "cohort": "phase_1",
-  "returns": 1,
-  "last_period": "2025-A"
+  "returns": 2,
+  "last_period": "2025-A",
+  "form_returns": 0,
+  "has_data": true,
+  "phase": 4
  },
  "values": [
   {
    "iso3": "ZWE",
+   "period_id": "2024-A",
+   "indicator_code": "3.3",
+   "disagg_key": "all",
+   "disagg_value": "all",
+   "numerator": 33,
+   "denominator": null,
+   "value": 33.0,
+   "unit": "count",
+   "completeness": null,
+   "suppressed": 0,
+   "as_of": "2024-12-31",
+   "basis": "historical",
+   "value_type": "flow",
+   "source_ref": "D3K p73",
+   "held": 0,
+   "held_by": null
+  },
+  {
+   "iso3": "ZWE",
+   "period_id": "2024-A",
+   "indicator_code": "3.3",
+   "disagg_key": "measure",
+   "disagg_value": "to_date",
+   "numerator": 33,
+   "denominator": null,
+   "value": 33.0,
+   "unit": "count",
+   "completeness": null,
+   "suppressed": 0,
+   "as_of": "2024-12-31",
+   "basis": "historical",
+   "value_type": "cumulative",
+   "source_ref": "D3K p73",
+   "held": 0,
+   "held_by": null
+  },
+  {
+   "iso3": "ZWE",
    "period_id": "2025-A",
-   "indicator_code": "2.5",
+   "indicator_code": "2.6",
    "disagg_key": "all",
    "disagg_value": "all",
    "numerator": 4590,
@@ -31,12 +75,16 @@
    "completeness": null,
    "suppressed": 0,
    "as_of": "2025-12-31",
-   "basis": "historical"
+   "basis": "historical",
+   "value_type": "point-in-time",
+   "source_ref": "D3K p76",
+   "held": 1,
+   "held_by": "Q-ZWE-01"
   },
   {
    "iso3": "ZWE",
    "period_id": "2025-A",
-   "indicator_code": "2.6",
+   "indicator_code": "2.6a",
    "disagg_key": "all",
    "disagg_value": "all",
    "numerator": null,
@@ -46,12 +94,16 @@
    "completeness": null,
    "suppressed": 0,
    "as_of": "2025-12-31",
-   "basis": "historical"
+   "basis": "historical",
+   "value_type": null,
+   "source_ref": null,
+   "held": 1,
+   "held_by": "Q-ZWE-01"
   },
   {
    "iso3": "ZWE",
    "period_id": "2025-A",
-   "indicator_code": "2.5",
+   "indicator_code": "2.6",
    "disagg_key": "condition",
    "disagg_value": "t1d",
    "numerator": 3201,
@@ -61,27 +113,16 @@
    "completeness": null,
    "suppressed": 0,
    "as_of": "2025-12-31",
-   "basis": "historical"
+   "basis": "historical",
+   "value_type": "point-in-time",
+   "source_ref": "D3K p76",
+   "held": 1,
+   "held_by": "Q-ZWE-01"
   },
   {
    "iso3": "ZWE",
    "period_id": "2025-A",
    "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "t1d",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZWE",
-   "period_id": "2025-A",
-   "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "scd",
    "numerator": 800,
@@ -91,27 +132,16 @@
    "completeness": null,
    "suppressed": 0,
    "as_of": "2025-12-31",
-   "basis": "historical"
+   "basis": "historical",
+   "value_type": "point-in-time",
+   "source_ref": "D3K p76",
+   "held": 1,
+   "held_by": "Q-ZWE-01"
   },
   {
    "iso3": "ZWE",
    "period_id": "2025-A",
    "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "scd",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZWE",
-   "period_id": "2025-A",
-   "indicator_code": "2.5",
    "disagg_key": "condition",
    "disagg_value": "rhd",
    "numerator": 589,
@@ -121,52 +151,11 @@
    "completeness": null,
    "suppressed": 0,
    "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZWE",
-   "period_id": "2025-A",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "rhd",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZWE",
-   "period_id": "2025-A",
-   "indicator_code": "2.5",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
-  },
-  {
-   "iso3": "ZWE",
-   "period_id": "2025-A",
-   "indicator_code": "2.6",
-   "disagg_key": "condition",
-   "disagg_value": "severe_htn",
-   "numerator": null,
-   "denominator": null,
-   "value": null,
-   "unit": "count",
-   "completeness": null,
-   "suppressed": 0,
-   "as_of": "2025-12-31",
-   "basis": "historical"
+   "basis": "historical",
+   "value_type": "point-in-time",
+   "source_ref": "D3K p76",
+   "held": 1,
+   "held_by": "Q-ZWE-01"
   },
   {
    "iso3": "ZWE",
@@ -181,7 +170,11 @@
    "completeness": null,
    "suppressed": 0,
    "as_of": "2025-12-31",
-   "basis": "historical"
+   "basis": "historical",
+   "value_type": "point-in-time",
+   "source_ref": "D3K p76",
+   "held": 1,
+   "held_by": "Q-ZWE-01"
   },
   {
    "iso3": "ZWE",
@@ -189,121 +182,294 @@
    "indicator_code": "2.3",
    "disagg_key": "all",
    "disagg_value": "all",
-   "numerator": 1,
+   "numerator": 4,
    "denominator": null,
-   "value": 1.0,
+   "value": 4.0,
    "unit": "count",
    "completeness": null,
    "suppressed": 0,
    "as_of": "2025-12-31",
-   "basis": "historical"
+   "basis": "historical",
+   "value_type": "point-in-time",
+   "source_ref": "facility register (ICPPA 2026 decks)",
+   "held": 0,
+   "held_by": null
+  },
+  {
+   "iso3": "ZWE",
+   "period_id": "2025-A",
+   "indicator_code": "3.3",
+   "disagg_key": "measure",
+   "disagg_value": "to_date",
+   "numerator": 33,
+   "denominator": null,
+   "value": 33.0,
+   "unit": "count",
+   "completeness": null,
+   "suppressed": 0,
+   "as_of": "2025-12-31",
+   "basis": "historical",
+   "value_type": null,
+   "source_ref": null,
+   "held": 0,
+   "held_by": null
   }
  ],
  "facilities": [
   {
    "facility_id": "ZWE-0001",
    "iso3": "ZWE",
-   "name": null,
-   "district": null,
-   "region": null,
-   "facility_type": null,
-   "services_started": null,
-   "conditions": null,
+   "name": "Mashoko Christian Hospital",
+   "district": "Bikita",
+   "region": "Masvingo",
+   "facility_type": "Mission hospital",
+   "services_started": "2022",
+   "conditions": "T1D; SCD; RHD",
    "project_supported": null,
    "status": "operational",
-   "first_seen": "2025-A",
-   "last_seen": "2025-A"
+   "first_seen": "2026-A",
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Mashoko",
+   "partner": "SolidarMed; CHAI",
+   "register_status": "active",
+   "source_ref": "D3K p75",
+   "latitude": -20.493384,
+   "longitude": 31.750894,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/node/2722866913",
+   "geo_checked": null,
+   "note": null,
+   "patients_reported": null,
+   "country": "Zimbabwe",
+   "mapped": false
+  },
+  {
+   "facility_id": "ZWE-0002",
+   "iso3": "ZWE",
+   "name": "Ndanga District Hospital",
+   "district": "Zaka",
+   "region": "Masvingo",
+   "facility_type": "District hospital",
+   "services_started": "2022",
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
+   "status": "operational",
+   "first_seen": "2026-A",
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Ndanga",
+   "partner": "SolidarMed; CHAI",
+   "register_status": "active",
+   "source_ref": "D3K p75",
+   "latitude": -20.179592,
+   "longitude": 31.322625,
+   "geo_precision": "facility",
+   "geo_source": "https://www.openstreetmap.org/way/265785950",
+   "geo_checked": "auto",
+   "note": null,
+   "patients_reported": null,
+   "country": "Zimbabwe",
+   "mapped": true
+  },
+  {
+   "facility_id": "ZWE-0003",
+   "iso3": "ZWE",
+   "name": "Masvingo Provincial Hospital",
+   "district": "Masvingo",
+   "region": "Masvingo",
+   "facility_type": "Provincial hospital",
+   "services_started": null,
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
+   "status": "operational",
+   "first_seen": "2026-A",
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Masvingo",
+   "partner": "SolidarMed; CHAI",
+   "register_status": "active",
+   "source_ref": "D3K p75",
+   "latitude": -20.072014,
+   "longitude": 30.834194,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/node/253129357",
+   "geo_checked": null,
+   "note": "Centre of excellence / training hub.",
+   "patients_reported": null,
+   "country": "Zimbabwe",
+   "mapped": false
+  },
+  {
+   "facility_id": "ZWE-0004",
+   "iso3": "ZWE",
+   "name": "Chiredzi District Hospital",
+   "district": "Chiredzi",
+   "region": "Masvingo",
+   "facility_type": "District hospital",
+   "services_started": null,
+   "conditions": "T1D; SCD; RHD",
+   "project_supported": null,
+   "status": "operational",
+   "first_seen": "2026-A",
+   "last_seen": "2026-A",
+   "name_status": "confirmed",
+   "town": "Chiredzi",
+   "partner": "SolidarMed; CHAI",
+   "register_status": "active",
+   "source_ref": "D3K p75",
+   "latitude": -21.045295,
+   "longitude": 31.668877,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/node/1243605851",
+   "geo_checked": null,
+   "note": null,
+   "patients_reported": null,
+   "country": "Zimbabwe",
+   "mapped": false
   }
  ],
  "implementation": {
+  "phase": 4,
+  "workbook_phase": 4,
+  "icppa_map_phase": 4,
+  "agreement": "yes",
+  "note": null,
+  "source": "implementation_phase_reconciliation.csv: PEN_PLUS_MONITORING.xlsx steps and the official WHO AFRO phase map shown at ICPPA 2026 (D2M p7)",
+  "has_steps": true,
   "steps": [
    {
     "step_no": 1,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 2,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 3,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 4,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 5,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 6,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 7,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 8,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 9,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 10,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 11,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 12,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 13,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "yes",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    },
    {
     "step_no": 14,
-    "status": null,
-    "source": null,
-    "as_of": null
+    "status": "no",
+    "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
+    "as_of": "2026-10-18"
    }
+  ]
+ },
+ "provenance": {
+  "iso3": "ZWE",
+  "name": "Zimbabwe",
+  "cohort": "phase_1",
+  "evidence_source": "historical",
+  "latest_period": "2025-A",
+  "value_types": [
+   "flow",
+   "point-in-time"
   ],
-  "highest_phase_completed": 0
+  "open_queries": 2,
+  "highest_severity": "High",
+  "status": "held"
  },
  "governance": [],
- "open_queries": []
+ "queries": [
+  {
+   "query_id": "Q-ZWE-01",
+   "scope": "ZWE",
+   "severity": "High",
+   "indicator": "2.5",
+   "issue": "3,201 T1D patients in 8 scale-up districts (2025) is implausible for type 1 alone; likely insulin-treated diabetes of any type. Dashboard publishes 4,590 from this table.",
+   "evidence": "D3K p76",
+   "action": "Hold the figure until the MoHCC confirms the case definition.",
+   "status": "open",
+   "resolution": null,
+   "source": "evidence review",
+   "rule": null,
+   "period_id": null,
+   "opened_on": "2026-10-17"
+  },
+  {
+   "query_id": "V-R15-ZWE-2025-A",
+   "scope": "ZWE",
+   "severity": "Medium",
+   "indicator": "2.6",
+   "issue": "Plausibility: T1D patients per active facility at most the ceiling (default 300): 3201 T1D patients over 4 active facilities",
+   "evidence": "validate.py R15, historical return",
+   "action": "Ask the WCO to confirm or correct the figure.",
+   "status": "open",
+   "resolution": null,
+   "source": "validate.py R15",
+   "rule": "R15",
+   "period_id": "2025-A",
+   "opened_on": "2026-10-18"
+  }
+ ],
+ "data_system": null
 }

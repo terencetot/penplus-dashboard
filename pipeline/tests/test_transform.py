@@ -24,8 +24,13 @@ def test_held_return_excluded_from_gold(tmp_path, make_rec):
 
     check = connect(db_path)
     gold = list(check.execute("SELECT * FROM gold_indicator"))
-    assert any(g["iso3"] == "GHA" for g in gold)
-    assert not any(g["iso3"] == "KEN" for g in gold)
+    assert any(g["iso3"] == "GHA" and not g["held"] for g in gold)
+    # A held return is published as held -- listed with its reason on the
+    # data-quality screen -- and kept out of every total (DATA_QUALITY_SPEC.md
+    # 4.4). It used to be dropped from gold altogether, which made a held
+    # figure indistinguishable from a missing one.
+    ken = [g for g in gold if g["iso3"] == "KEN"]
+    assert ken and all(g["held"] == 1 for g in ken)
 
 
 def test_all_none_stock_produces_none_numerator_not_zero(tmp_path, make_rec):
@@ -43,13 +48,13 @@ def test_all_none_stock_produces_none_numerator_not_zero(tmp_path, make_rec):
 
     check = connect(db_path)
     row = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.5'"
+        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.6'"
         " AND disagg_key='all'").fetchone()
     assert row["numerator"] is None
     assert row["value"] is None
 
     row26 = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.6'"
+        "SELECT * FROM gold_indicator WHERE iso3='NGA' AND indicator_code='2.6a'"
         " AND disagg_key='all'").fetchone()
     assert row26["numerator"] is None
     assert row26["value"] is None
@@ -75,13 +80,13 @@ def test_suppression_applies_to_disaggregated_not_to_all(tmp_path, make_rec):
 
     check = connect(db_path)
     country_total = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.5'"
+        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.6'"
         " AND disagg_key='all'").fetchone()
     assert country_total["numerator"] == 3
     assert country_total["suppressed"] == 0
 
     disagg = check.execute(
-        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.5'"
+        "SELECT * FROM gold_indicator WHERE iso3='RWA' AND indicator_code='2.6'"
         " AND disagg_key='condition' AND disagg_value='t1d'").fetchone()
     assert disagg["numerator"] == 3
     assert disagg["suppressed"] == 1
@@ -105,15 +110,18 @@ def test_stock_is_read_per_period_never_summed_across_periods(tmp_path, make_rec
     transform.build(db_path)
 
     check = connect(db_path)
-    expected_q1 = 120 + 80 + 40 + 200  # tracer ever_enrolled in the base fixture
-    expected_q2 = 130 + 80 + 40 + 200
+    # Sentinel ever_enrolled in the base fixture. The fixture's severe_htn 200
+    # is no longer added: severe hypertension left the sentinel set in Sept
+    # 2026 (audit v2, Q-REG-02), so this published figure changes by design.
+    expected_q1 = 120 + 80 + 40
+    expected_q2 = 130 + 80 + 40
 
     g_q1 = check.execute(
         "SELECT numerator FROM gold_indicator WHERE iso3='GHA' AND period_id='2026-Q1'"
-        " AND indicator_code='2.5' AND disagg_key='all'").fetchone()
+        " AND indicator_code='2.6' AND disagg_key='all'").fetchone()
     g_q2 = check.execute(
         "SELECT numerator FROM gold_indicator WHERE iso3='GHA' AND period_id='2026-Q2'"
-        " AND indicator_code='2.5' AND disagg_key='all'").fetchone()
+        " AND indicator_code='2.6' AND disagg_key='all'").fetchone()
 
     assert g_q1["numerator"] == expected_q1
     assert g_q2["numerator"] == expected_q2

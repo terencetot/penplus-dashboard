@@ -1,0 +1,29 @@
+query_id,iso3,severity,indicator,issue,evidence,action,status
+Q-REG-01,REG,High,2.5,"WHO AFRO regional headline says 170,000+ patients enrolled and 120 district hospitals in 16 countries (D2M p9); Day 1 says ""Several"" patients (D1 p19); the dashboard shows 13,222.",D2M p9; D1 p19,"Agree one regional figure, its scope (PEN-Plus clinics only?) and source before any public use.",open
+Q-REG-02,REG,High,2.5/2.6,Severe hypertension is no longer a priority condition (dropped Sept 2026) but the pipeline still counts severe_htn in the regional total (common.TRACERS).,common.py TRACERS; new form 2.6,Remove severe_htn from the sentinel total; report it under other conditions.,open
+Q-REG-03,REG,High,2.5,"Overview text ""20 of 31 countries have published at least one figure"" contradicts ""6 of 31 countries reporting"" for patients.","Current site, overview","Define ""published a figure"" as a non-null value; show per-indicator coverage.",open
+Q-BFA-01,BFA,Medium,2.5,"SCD enrolled: 500 in the table, 480 in the headline and summary slides.","D2M p198, p211, p214",Ask the WCO which figure is current.,open
+Q-BFA-02,BFA,High,2.5,"Dashboard shows 3,902 = 4,313 minus T2D: it counts 3,402 ""HTA"" (hypertension of unstated severity) as a priority condition.",D2M p211; indicators.json,Republish BFA priority conditions = SCD only (T1D not reported).,open
+Q-COD-01,COD,High,2.5,Dashboard 570 = SCD 7 + HTA 563. T1D is merged with T2D (422).,D2M p241; indicators.json,Republish COD priority = SCD 7; request T1D split.,open
+Q-COD-02,COD,Low,2.3,"Partner table: 3 WHO/Helmsley sites; text: 2 pilots (Kinshasa, Lubumbashi).","D2M p238, p240",Confirm site count and names.,open
+Q-UGA-01,UGA,Medium,2.5,"Dashboard 2,241 = SCD+T1D+RHD 2,226 + severe HTN 15.",D3M p254,"Republish 2,226 for priority conditions.",open
+Q-ZWE-01,ZWE,High,2.5,"3,201 T1D patients in 8 scale-up districts (2025) is implausible for type 1 alone; likely insulin-treated diabetes of any type. Dashboard publishes 4,590 from this table.",D3K p76,Hold the figure until the MoHCC confirms the case definition.,open
+Q-LBR-01,LBR,Medium,2.5,National table totals 90 patients ever enrolled (2022-May 2026) while Maryland County alone has 104 active PEN-Plus patients.,D3M p241; D2M p285,Confirm whether the 90 covers WHO-supported sites only.,open
+Q-LBR-03,LBR,Low,2.3,"Sites: slide 233 says scaled from 3 to 7 sites; partner table on slide 240 lists 1 + 3 + 4 = 8. Phebe, C.B. Dunbar and Tellewoyan are named as orientation sites.","D3M p233, p240; D3K p109",Confirm the 7 site names.,open
+Q-MWI-01,MWI,High,2.5,"Yearly values (42, 974, 1,429, 1,643, 1,430) are not labelled as new enrolments or patients seen. The 2024 row prints 1,429 but its cells sum to 1,249; 2026 prints 1,430 vs 1,428.",D2K p80,Ask PIH/MoH; publish nothing until answered.,open
+Q-MWI-02,MWI,Medium,3.3,"Printed sub-totals 2023 (162) and 2024 (215) differ from the cadre sums (252, 188); grand total 1,057 vs 1,121.",D2K p80,Confirm the correct totals.,open
+Q-MWI-03,MWI,Medium,2.3,"16 PIH-supported sites, no names presented; dashboard has 1 facility.",D2K p79,Request the facility list.,open
+Q-ZMB-02,ZMB,Medium,geo,"""Chipata District Hospital"": Lusaka first-level hospital or Eastern Province town?","D3M p197, p200",Confirm before geocoding.,open
+Q-CMR-01,CMR,Low,2.5,"""CRH/CF"" read as rheumatic heart disease / cardiac failure.",D2M p228,Confirm the abbreviation.,open
+Q-CMR-02,CMR,Low,phase,"Phase 4 in the slide legend, Phase 2 colour on the map.",D2M p7,Correct the map or the list.,open
+Q-BEN-01,BEN,Medium,phase,"Official map: Phase 4. Country deck: pilot centre still being identified, next steps dated 2024.",D2M p7; D2M p271-277,Confirm Benin's current phase and site.,open
+Q-GHA-01,GHA,Medium,2.3,"WHO pilot = 5 facilities in 4 regions, names not presented; dashboard has 3.",D3K p64,Request facility names.,open
+Q-KEN-01,KEN,Medium,2.3/2.5,Kenya has 4 sites and 559 patients (cumulative 2026) but the dashboard shows no facility and no patients.,D2K p92-93; D3M p173,Load from the corrected extraction.,open
+Q-NGA-01,NGA,Low,2.3,Wuse General Hospital is the flagship site; dashboard shows no facility.,"D2K p65, p67",Load from the corrected extraction.,open
+Q-SLE-01,SLE,Low,2.3,Dashboard shows 3 facilities; evidence: 2 operational + 2 planned.,D3M p223,Use the facility register status.,open
+Q-COG-01,COG,Low,2.3,Dashboard shows 2 facilities; evidence: 1 unit opened June 2026 + 3 pilot districts planned.,D2M p250-256,Use the facility register status.,open
+Q-NOD-01,LSO; NER; ZMB,Low,all,"Lesotho, Niger and Zambia were scheduled for country sessions but no country slides exist in the decks received (Zambia figures come from its M&E presentation).",D2K p60; D3M p211,Request the missing decks.,open
+Q-LBR-04,LBR,Medium,3.3,"Health workers trained: slide prints 490; annual sub-totals and cadre totals both give 407 (the 2026 sub-total, 83, appears counted twice).",D3M p241,Use 407 unless the country confirms 490.,open
+Q-SLE-02,SLE,Low,3.3,"PIH-SL 2025 training row prints 11, its cells sum to 13; CUAMM cadre totals give 22 vs printed 21.","D3M p224, p225",Confirm.,open
+Q-PHS-01,GHA; KEN; MOZ; NER; NGA,Medium,phase,"Implementation phase differs between PEN_PLUS_MONITORING.xlsx steps (GHA 3, KEN 3, MOZ 0, NER 2, NGA 0) and the official WHO AFRO map at ICPPA (GHA 4, KEN 4, MOZ 4, NER 3, NGA 2).",PEN plus phases sheet; D2M p7,Publish the map phase; update the workbook steps with the focal points.,open
+Q-PHS-02,KEN,Low,phase,Kenya: steps 10-11 answered No but steps 12-13 Yes (scale-up without the M&E framework step).,PEN plus phases sheet,Confirm steps 10 and 11.,open

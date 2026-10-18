@@ -13,7 +13,7 @@ export type Route =
   | { screen: "facilities" }
   | { screen: "implementation" };
 
-const DEFAULT_INDICATOR = "2.5";
+const DEFAULT_INDICATOR = "2.6";
 const DEFAULT_COUNTRY = "GHA";
 
 export function parseRoute(hash: string): Route {
