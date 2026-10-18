@@ -25,10 +25,16 @@ export function provenanceOf(v: Pick<GoldRow, "held" | "basis" | "held_by">): st
  * that sits next to a patient figure so a stock, a flow and a dated count are
  * never read as the same thing.
  */
-export function valueTypeLabel(vt: ValueType | null | undefined, asOf?: string | null): string {
+export function valueTypeLabel(
+  vt: ValueType | null | undefined,
+  asOf?: string | null,
+  /** the indicator: workforce figures are "trained", not "enrolled" */
+  code?: string,
+): string {
   if (!vt) return "";
   if (vt === "point-in-time" && asOf) return t("value_type.as_of", { date: fmtDate(asOf) });
-  const key = `value_type.${vt.split("/")[0]}`;
+  const prefix = code?.startsWith("3.") ? "value_type.trained_" : "value_type.";
+  const key = `${prefix}${vt.split("/")[0]}`;
   const label = t(key);
   return label === key ? vt : label;
 }

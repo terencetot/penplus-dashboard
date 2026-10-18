@@ -88,7 +88,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
   const patientStat = (code: string, label: string) => {
     const v = latestPerIndicator.get(code);
     if (!v || v.value === null) return stat(t("status.not_reported"), label, "", true);
-    const sub = `${valueTypeLabel(v.value_type, v.as_of)} ${renderSourceRef(v.source_ref)}${v.held ? ` ${renderProvenance("held", v.held_by)}` : ""}`;
+    const sub = `${valueTypeLabel(v.value_type, v.as_of, v.indicator_code)} ${renderSourceRef(v.source_ref)}${v.held ? ` ${renderProvenance("held", v.held_by)}` : ""}`;
     return stat(fmtCount(v.value), label, sub);
   };
 
@@ -189,7 +189,10 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     if (!v || (v.value === null && v.suppressed !== 1)) {
       return `<span class="pill pill--nr">${t("status.not_reported")}</span>`;
     }
-    const vt = v.disagg_value === "to_date" ? t("value_type.to_date") : valueTypeLabel(v.value_type, v.as_of);
+    const vt =
+      v.disagg_value === "to_date"
+        ? t("value_type.to_date")
+        : valueTypeLabel(v.value_type, v.as_of, v.indicator_code);
     return `${renderValueWithCompleteness(valueText(v), v.completeness)}
       <small class="indicator-row__meta">${vt ? `${vt} · ` : ""}${v.period_id} ${renderSourceRef(v.source_ref)} ${provenanceOf(v)}</small>`;
   };

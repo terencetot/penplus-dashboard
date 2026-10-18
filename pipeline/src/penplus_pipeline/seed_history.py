@@ -38,6 +38,9 @@ from common import (
 from load import init_db, load_return
 
 PROV_ICPPA = "ICPPA 2026 country data extraction, rebuilt as a form return"
+#: The latest date any ICPPA 2026 baseline figure can describe: the decks were
+#: presented on 23-25 June 2026 and the load map dates nothing after 30 June.
+ICPPA_EVIDENCE_CUTOFF = "2026-06-30"
 PROV_MON = "PEN_PLUS_MONITORING.xlsx, phase 1 country monitoring workbook"
 
 
@@ -266,7 +269,10 @@ def from_icppa(path, skipped=None):
             if c["ctx"].get("trained_hist_cumulative") is not None:
                 trained_to_date = c["ctx"]["trained_hist_cumulative"]
 
-            closing = c["as_of"] or _closing_date_for_year(year)
+            # A row with no date of its own is dated by the evidence it comes
+            # from: the ICPPA 2026 presentations (June 2026), never the day
+            # the pipeline ran (the overview said "as of" the build date).
+            closing = c["as_of"] or min(_closing_date_for_year(year), ICPPA_EVIDENCE_CUTOFF)
             closing = min(closing, dt.date.today().isoformat())
             rec = {
                 "country_name": country,

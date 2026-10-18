@@ -149,7 +149,7 @@
   "screen_impl.question": "How far has each country gone in implementing PEN-Plus?",
   "screen_impl.kpi.reporting_short": "Countries",
   "screen_impl.kpi.full_scale": "At national coverage (phase 5)",
-  "screen_impl.summary.title": "Countries by highest phase reached",
+  "screen_impl.summary.title": "Countries by published phase",
   "screen_impl.summary.caption": "Countries per published phase (official WHO AFRO map, June 2026), then the second-round countries with no return yet. A count, not a ranking of countries.",
   "screen_impl.grid.title": "Countries by phase and step",
   "screen_impl.grid.caption": "Phase published from the official ICPPA 2026 map; the fourteen steps as the monitoring workbook records them. Where the two disagree the row says so. Second-round countries have no step evidence yet.",
@@ -307,5 +307,7 @@
   "table.partner": "Partner",
   "table.patients_reported": "Patients on the slide",
   "table.resolution": "Resolution",
-  "table.rule": "Rule"
+  "table.rule": "Rule",
+  "value_type.trained_flow": "trained in the year",
+  "value_type.trained_cumulative": "trained, cumulative"
 }

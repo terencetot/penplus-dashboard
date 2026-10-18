@@ -149,7 +149,7 @@
   "screen_impl.question": "Até onde chegou cada país na implementação do PEN-Plus?",
   "screen_impl.kpi.reporting_short": "Países",
   "screen_impl.kpi.full_scale": "Cobertura nacional (fase 5)",
-  "screen_impl.summary.title": "Países por fase mais avançada atingida",
+  "screen_impl.summary.title": "Países por fase publicada",
   "screen_impl.summary.caption": "Países por fase publicada (mapa oficial OMS AFRO, junho de 2026), depois os países do segundo ciclo sem relatório. Uma contagem, não uma classificação.",
   "screen_impl.grid.title": "Países por fase e etapa",
   "screen_impl.grid.caption": "Fase publicada a partir do mapa oficial ICPPA 2026; as catorze etapas tal como o livro de monitorização as regista. Quando divergem, a linha indica-o. Os países do segundo ciclo ainda não têm evidência de etapas.",
@@ -307,5 +307,7 @@
   "table.partner": "Parceiro",
   "table.patients_reported": "Doentes no diapositivo",
   "table.resolution": "Resolução",
-  "table.rule": "Regra"
+  "table.rule": "Regra",
+  "value_type.trained_flow": "formados no ano",
+  "value_type.trained_cumulative": "formados, cumulativo"
 }

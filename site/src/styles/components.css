@@ -2139,3 +2139,105 @@ details[open] > summary.btn::after {
     gap: var(--space-2);
   }
 }
+
+/* ---- phone width (390 px): header wraps, tabs scroll inside their own row,
+   the decorative tile map gives way (cohort is also in the lists below) */
+@media (max-width: 640px) {
+  .app-header__bar {
+    padding: var(--space-3) 16px;
+  }
+  .app-header__logos {
+    flex-wrap: wrap;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+  .app-header__logos img {
+    height: 36px;
+  }
+  .app-header__title {
+    font-size: 1rem;
+  }
+  .app-nav {
+    overflow: hidden;
+  }
+  .app-nav__list {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .hero .iso {
+    display: none;
+  }
+  .hero h1 {
+    font-size: 2.1rem;
+  }
+}
+@media (max-width: 640px) {
+  .milestone-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .milestone-row__track {
+    display: none;
+  }
+  .screen-controls label {
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .screen-controls select {
+    max-width: 100%;
+    min-width: 0;
+  }
+  .indicator-groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .indicator-row {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+  .indicator-row__value {
+    grid-column: 2;
+    text-align: left;
+  }
+}
+@media (max-width: 640px) {
+  .cohort-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cohort-row b {
+    min-width: 0;
+  }
+  .prov,
+  .source-ref {
+    white-space: normal;
+  }
+  .country-hero__stats {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .country-hero__card,
+  .country-hero__stat {
+    min-width: 0;
+  }
+}
+
+/* the provenance line under a figure may wrap; the figure itself stays on one line */
+.indicator-row__value .indicator-row__meta {
+  white-space: normal;
+}
+/* a value with its provenance line takes at most half the row, so the
+   indicator label keeps room to read as a phrase */
+.indicator-row {
+  grid-template-columns: 52px minmax(190px, 1fr) minmax(0, max-content);
+}
+.indicator-row__value {
+  justify-self: end;
+  text-align: right;
+}
+@media (max-width: 640px) {
+  .indicator-row__value {
+    max-width: none;
+    justify-self: start;
+  }
+}

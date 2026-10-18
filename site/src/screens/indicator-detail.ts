@@ -106,7 +106,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
         },
         dim.regional_as_of,
         regionalValueDisplay,
-        dim.value_types.map((vt) => valueTypeLabel(vt)).join(" · ") || undefined,
+        dim.value_types.map((vt) => valueTypeLabel(vt, null, dim.indicator_code)).join(" · ") || undefined,
       )}
       <div class="coverage-card">
         <div class="coverage-card__label">${gapKpiLabel(dim.gap)}</div>
@@ -201,7 +201,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
         {
           key: "value_type",
           label: t("common.value_type"),
-          render: (v) => valueTypeLabel(v.value_type, v.as_of) || "NR",
+          render: (v) => valueTypeLabel(v.value_type, v.as_of, v.indicator_code) || "NR",
         },
         { key: "as_of", label: t("common.as_of"), render: (v) => fmtDate(v.as_of) },
         {
@@ -283,7 +283,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
           <span class="trend-card__name">${name}</span>
           ${latest ? provenanceOf(latest) : ""}
         </div>
-        <div class="value-type">${valueTypeLabel(latest?.value_type, latest?.as_of)} ${renderSourceRef(latest?.source_ref)}</div>
+        <div class="value-type">${valueTypeLabel(latest?.value_type, latest?.as_of, activeDim.indicator_code)} ${renderSourceRef(latest?.source_ref)}</div>
         <div class="trend-card__value num">${latest ? fmtCount(latest.value) : NR}<small>${latest?.period_id ?? ""}</small></div>
         <div class="trend-card__chart"></div>`;
       card.querySelector(".trend-card__chart")!.appendChild(
