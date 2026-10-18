@@ -1,12 +1,14 @@
 import { getQuality } from "@/lib/bundle";
 import { fmtCount, fmtDate } from "@/lib/format";
 import { t } from "@/lib/i18n";
-import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
+import { panelTitleWithIcon } from "@/components/kpi";
+import { statTile } from "@/components/stat";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
 import { downloadCSV } from "@/components/csv";
 import { renderProvenance } from "@/components/provenance";
 import { renderQueryList, sortQueries } from "@/components/queries";
 import { severityKey } from "@/lib/vocab";
+import { countryName, indicatorLabel } from "@/lib/names";
 import type { CheckSummary, CoverageCell, ProvenanceRow, Query } from "@/lib/types";
 
 /** Coverage matrix cell: a shape and a word, never colour alone (rule 9). */
@@ -23,48 +25,18 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
   const q = await getQuality();
   const k = q.kpis;
-  const validatedCard =
-    k.validated_returns.period === null
-      ? renderKpiCard(
-          "shield",
-          t("common.n_of_total", { n: k.validated_returns.n, total: k.validated_returns.total }),
-          t("screen4.kpi.validated_none"),
-          true,
-        )
-      : renderKpiCard(
-          "shield",
-          t("common.n_of_total", { n: k.validated_returns.n, total: k.validated_returns.total }),
-          t("screen4.kpi.validated", { period: k.validated_returns.period }),
-        );
-
   container.innerHTML = `
     <header class="page-head">
       <h2 class="screen-title">${t("screen4.title")}</h2>
       <p class="panel__question">${t("screen4.question")}</p>
     </header>
 
-    ${renderKpiRow([
-      validatedCard,
-      renderKpiCard(
-        "alert",
-        fmtCount(k.held_figures.n + k.held_figures.regional),
-        t("screen4.kpi.held", { countries: k.held_figures.n, regional: k.held_figures.regional }),
-      ),
-      renderKpiCard(
-        "flag",
-        fmtCount(k.open_queries.total),
-        t("screen4.kpi.open_queries", {
-          high: k.open_queries.High,
-          medium: k.open_queries.Medium,
-          low: k.open_queries.Low,
-        }),
-      ),
-      renderKpiCard(
-        "grid",
-        t("common.n_of_total", { n: k.indicators_covered.n, total: k.indicators_covered.total }),
-        t("screen4.kpi.coverage80"),
-      ),
-    ])}
+    <div class="stat-row stat-row--4">
+      ${statTile(t("screen4.kpi.validated_title"), `${k.validated_returns.n}<small>/${k.validated_returns.total}</small>`, t("screen4.kpi.validated_sub"))}
+      ${statTile(t("screen4.kpi.held_title"), fmtCount(k.held_figures.n), t("screen4.kpi.held_sub"))}
+      ${statTile(t("screen4.kpi.queries_title"), fmtCount(k.open_queries.total), t("screen4.kpi.open_queries", { high: k.open_queries.High, medium: k.open_queries.Medium, low: k.open_queries.Low }))}
+      ${statTile(t("screen4.kpi.coverage_title"), `${k.indicators_covered.n}<small>/${k.indicators_covered.total}</small>`, t("screen4.kpi.coverage80"))}
+    </div>
 
     <p class="exec-message">${t("screen4.summary_v2", {
       validated: k.validated_returns.n,
@@ -73,12 +45,6 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
       closed: k.queries_closed,
     })}</p>
 
-    <section class="panel">
-      <div class="panel__header">${panelTitleWithIcon("country", t("screen4.provenance.title"))}
-        <button type="button" class="btn" id="prov-export">${t("common.export_csv")}</button></div>
-      <p class="chart-caption">${t("screen4.provenance.caption")}</p>
-      <div id="provenance-table"></div>
-    </section>
 
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("grid", t("screen4.coverage.title"))}</div>
@@ -91,21 +57,15 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
       <div id="coverage-matrix" class="data-table-wrap"></div>
     </section>
 
-    <section class="panel">
-      <div class="panel__header">${panelTitleWithIcon("shield", t("screen4.checks.title"))}</div>
-      <p class="chart-caption">${t("screen4.checks.caption")}</p>
-      <div id="checks-table"></div>
-      <div id="check-failures"></div>
-    </section>
 
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("alert", t("screen4.held.title"))}</div>
       <div id="held-list"></div>
     </section>
 
-    <section class="panel">
-      <div class="panel__header">${panelTitleWithIcon("flag", t("screen4.queries.title"))}
-        <button type="button" class="btn" id="queries-export">${t("common.export_csv")}</button></div>
+    <details class="panel notes">
+      <summary>${panelTitleWithIcon("flag", t("screen4.queries.summary", { n: k.open_queries.total, high: k.open_queries.High }))}</summary>
+      <div class="toolbar"><button type="button" class="btn" id="queries-export">${t("common.export_csv")}</button></div>
       <div class="screen-controls">
         <label>${t("table.severity")} <select id="severity-filter">
           <option value="">${t("common.all")}</option>
@@ -123,7 +83,21 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
         </select></label>
       </div>
       <div id="queries-list"></div>
-    </section>
+    </details>
+
+    <details class="panel notes">
+      <summary>${panelTitleWithIcon("country", t("screen4.provenance.title"))}</summary>
+      <div class="toolbar"><button type="button" class="btn" id="prov-export">${t("common.export_csv")}</button></div>
+      <p class="chart-caption">${t("screen4.provenance.caption")}</p>
+      <div id="provenance-table"></div>
+    </details>
+
+    <details class="panel notes">
+      <summary>${panelTitleWithIcon("shield", t("screen4.checks.title"))}</summary>
+      <p class="chart-caption">${t("screen4.checks.caption")}</p>
+      <div id="checks-table"></div>
+      <div id="check-failures"></div>
+    </details>
 
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("shield", t("screen4.dsa.title"))}</div>
@@ -135,7 +109,7 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
 
   // ---- 4.2 evidence provenance: all 31 countries, one row each
   const provColumns: Column<ProvenanceRow>[] = [
-    { key: "name", label: t("common.select_country"), render: (r) => r.name },
+    { key: "name", label: t("common.select_country"), render: (r) => countryName(r.iso3, r.name) },
     {
       key: "cohort",
       label: t("table.cohort"),
@@ -187,14 +161,14 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
       <tr><th scope="col">${t("common.select_country")}</th>${ind
         .map(
           (i) =>
-            `<th scope="col" class="cov-head" title="${i.label_en.replace(/"/g, "&quot;")}">${i.indicator_code}</th>`,
+            `<th scope="col" class="cov-head" title="${indicatorLabel(i.indicator_code, i.label_en).replace(/"/g, "&quot;")}">${i.indicator_code}</th>`,
         )
         .join("")}</tr>
     </thead>
     <tbody>${q.coverage.rows
       .map(
         (r) =>
-          `<tr><th scope="row">${r.name}</th>${ind
+          `<tr><th scope="row">${countryName(r.iso3, r.name)}</th>${ind
             .map((i) => {
               const cell = r.cells[i.indicator_code] ?? "not_reported";
               const word =
@@ -203,7 +177,7 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
                   : cell === "held"
                     ? t("prov.held")
                     : t("status.not_reported");
-              return `<td class="cov cov--${cell}" title="${r.name}, ${i.indicator_code}: ${word}"><span aria-label="${word}">${CELL_MARK[cell]}</span></td>`;
+              return `<td class="cov cov--${cell}" title="${countryName(r.iso3, r.name)}, ${i.indicator_code}: ${word}"><span aria-label="${word}">${CELL_MARK[cell]}</span></td>`;
             })
             .join("")}</tr>`,
       )
@@ -328,7 +302,7 @@ export async function renderDataQuality(container: HTMLElement): Promise<void> {
   container.querySelector("#dsa-cards")!.innerHTML = q.data_systems
     .map(
       (d) => `<div class="dsa-card">
-        <h4>${d.name ?? d.iso3}</h4>
+        <h4>${countryName(d.iso3, d.name ?? d.iso3)}</h4>
         <p class="chart-caption">${t("screen4.dsa.caption", { date: fmtDate(d.assessed_on), institution: d.institution ?? "" })}</p>
         <dl>${Object.entries(d.fields)
           .map(([key, v]) => `<dt>${t(`dsa.${key}`)}</dt><dd>${v}</dd>`)

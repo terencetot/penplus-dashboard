@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T11:41:41",
+  "built_at": "2026-10-18T18:58:15",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -21,15 +21,15 @@
   },
   "held_figures": {
    "n": 1,
-   "regional": 4
+   "regional": 0
   },
   "open_queries": {
-   "total": 21,
-   "High": 3,
+   "total": 20,
+   "High": 2,
    "Medium": 11,
    "Low": 7
   },
-  "queries_closed": 9,
+  "queries_closed": 10,
   "indicators_covered": {
    "n": 0,
    "total": 16
@@ -1406,24 +1406,7 @@
    "held_by": "Q-ZWE-01"
   }
  ],
- "held_regional": [
-  {
-   "indicator_code": "2.5",
-   "held_by": "Q-REG-01"
-  },
-  {
-   "indicator_code": "2.6",
-   "held_by": "Q-REG-01"
-  },
-  {
-   "indicator_code": "2.6a",
-   "held_by": "Q-REG-01"
-  },
-  {
-   "indicator_code": "2.6b",
-   "held_by": "Q-REG-01"
-  }
- ],
+ "held_regional": [],
  "queries": [
   {
    "query_id": "Q-BEN-01",
@@ -1733,8 +1716,8 @@
    "issue": "WHO AFRO regional headline says 170,000+ patients enrolled and 120 district hospitals in 16 countries (D2M p9); Day 1 says \"Several\" patients (D1 p19); the dashboard shows 13,222.",
    "evidence": "D2M p9; D1 p19",
    "action": "Agree one regional figure, its scope (PEN-Plus clinics only?) and source before any public use.",
-   "status": "open",
-   "resolution": null,
+   "status": "closed",
+   "resolution": "Decision of the programme (18 Oct 2026): the regional figure is the sum of the figures each country reported, shown with the number of countries it covers. Zimbabwe stays out of the sum while Q-ZWE-01 is open.",
    "source": "evidence review",
    "rule": null,
    "period_id": null,

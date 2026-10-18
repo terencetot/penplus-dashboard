@@ -341,25 +341,11 @@ styled over:
   English, since translating 31 country names and hundreds of facility
   names is a data-translation exercise, not a UI-copy one.
 
-## Demo mode
+## Demo mode (removed)
 
-Most of the real bundle is honestly `NR` -- no real Phase Two return has
-been submitted yet -- which is correct behaviour but makes it hard to judge
-layout, density and chart legibility against realistic volumes. Rather than
-soften "no mock data in site/data" (a working preference for good reason:
-CLAUDE.md notes mock data "has a habit of reaching production and being read
-as real"), demo mode is a parallel, unmistakable path:
-`pipeline/tools/generate_demo_bundle.py` generates a fully invented but
-internally consistent bundle by running synthetic records through the exact
-same `load_return` / `transform.build` / `export.export` the real pipeline
-uses (so it obeys the same suppression, null-discipline and stock/flow
-rules, not numbers that could never legitimately occur), and writes it to
-`site/public/demo-data` -- a different directory from `site/public/data`,
-never merged with it. The site only loads it when a viewer explicitly turns
-on demo mode (`?demo=1`, or the header toggle), which persists per-browser
-via `localStorage` and shows a permanent accent-coloured banner on every
-screen for as long as it's on (`src/lib/demo.ts`, `src/lib/bundle.ts`). No
-demo figure is ever written into `site/public/data` or the real store.
+Removed on 18 Oct 2026 at the programme's request (docs/review/REVUE_DASHBOARD.md):
+the synthetic bundle, its generator and the header toggle are gone; the site
+reads only `site/public/data`.
 
 ## Visual design, round two
 

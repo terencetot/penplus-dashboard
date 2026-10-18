@@ -6,21 +6,39 @@
  * computed (rule 1, "No arithmetic in the front end").
  */
 
-const INT = new Intl.NumberFormat("en", { maximumFractionDigits: 0 });
-const PCT = new Intl.NumberFormat("en", { style: "percent", maximumFractionDigits: 0 });
-const PCT1 = new Intl.NumberFormat("en", { style: "percent", maximumFractionDigits: 1 });
+import { getLang } from "./i18n";
+
+/** Number formats follow the interface language: 6,324 / 6 324 / 6 324. */
+const LOCALE: Record<string, string> = { en: "en-GB", fr: "fr-FR", pt: "pt-PT" };
+const cache = new Map<string, Intl.NumberFormat>();
+function nf(kind: "int" | "pct" | "pct1"): Intl.NumberFormat {
+  const locale = LOCALE[getLang()] ?? "en-GB";
+  const key = `${locale}:${kind}`;
+  if (!cache.has(key)) {
+    cache.set(
+      key,
+      new Intl.NumberFormat(
+        locale,
+        kind === "int"
+          ? { maximumFractionDigits: 0 }
+          : { style: "percent", maximumFractionDigits: kind === "pct" ? 0 : 1 },
+      ),
+    );
+  }
+  return cache.get(key)!;
+}
 
 export const NR = "NR";
 
 /** An integer count, or the NR marker if the value was not reported. */
 export function fmtCount(value: number | null | undefined): string {
-  return value === null || value === undefined ? NR : INT.format(value);
+  return value === null || value === undefined ? NR : nf("int").format(value);
 }
 
 /** A 0-1 fraction as a percentage, or NR. `value` must already be numerator/denominator. */
 export function fmtRate(value: number | null | undefined, precise = false): string {
   if (value === null || value === undefined) return NR;
-  return (precise ? PCT1 : PCT).format(value);
+  return nf(precise ? "pct1" : "pct").format(value);
 }
 
 /**
@@ -34,12 +52,12 @@ export function fmtRateWithNandN(
   value: number | null,
 ): string {
   if (numerator === null || denominator === null || value === null) return NR;
-  return `${fmtRate(value)} (n=${INT.format(numerator)} of N=${INT.format(denominator)})`;
+  return `${fmtRate(value)} (n=${nf("int").format(numerator)} of N=${nf("int").format(denominator)})`;
 }
 
 export function fmtNandN(numerator: number | null, denominator: number | null): string {
   if (numerator === null || denominator === null) return NR;
-  return `n=${INT.format(numerator)} of N=${INT.format(denominator)}`;
+  return `n=${nf("int").format(numerator)} of N=${nf("int").format(denominator)}`;
 }
 
 /** ISO date -> a short, locale-neutral display date. Never guesses a date. */
@@ -47,10 +65,10 @@ export function fmtDate(iso: string | null | undefined): string {
   if (!iso) return NR;
   const d = new Date(iso + (iso.length === 10 ? "T00:00:00Z" : ""));
   if (Number.isNaN(d.getTime())) return iso;
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat(LOCALE[getLang()] ?? "en-GB", {
     year: "numeric",
-    month: "short",
-    day: "2-digit",
+    month: "long",
+    day: "numeric",
     timeZone: "UTC",
   }).format(d);
 }
@@ -65,7 +83,7 @@ export function isLowCompleteness(completeness: number | null | undefined): bool
 export function fmtCompletenessShare(completeness: number | null | undefined): string {
   return completeness === null || completeness === undefined
     ? "completeness not reported"
-    : PCT.format(completeness);
+    : nf("pct").format(completeness);
 }
 
 /** A rate built on fewer than twenty patients needs its confidence flagged (spec 3.1). */

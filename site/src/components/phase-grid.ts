@@ -1,4 +1,5 @@
 import { t } from "@/lib/i18n";
+import { countryName, phaseLabel, stepLabel } from "@/lib/names";
 import { fmtDate } from "@/lib/format";
 import { navigate } from "@/router";
 import { statusFromImplementationStep, statusKey } from "@/lib/status";
@@ -7,7 +8,7 @@ import type { ImplementationCountry, ImplementationStepDim } from "@/lib/types";
 const STATUS_MARK: Record<string, string> = {
   met: "✓",
   partly_met: "~",
-  not_met: "✗",
+  not_met: "○",
   not_reported: "·",
 };
 
@@ -90,7 +91,7 @@ export function buildPhaseGrid(
       th.scope = "colgroup";
       th.className = `phase-grid__phase-band phase-grid__phase-band--${i % 2 === 0 ? "a" : "b"} phase-grid__band-end`;
       th.textContent = t("screen_impl.phase_n", { n: phaseNo });
-      th.title = stepsOfPhase[0]!.phase_label;
+      th.title = phaseLabel(phaseNo, stepsOfPhase[0]!.phase_label);
       phaseRow.appendChild(th);
     });
     thead.appendChild(phaseRow);
@@ -105,7 +106,7 @@ export function buildPhaseGrid(
         th.scope = "col";
         th.className = `phase-grid__phase-band phase-grid__phase-band--${i % 2 === 0 ? "a" : "b"}${j === stepsOfPhase.length - 1 ? " phase-grid__band-end" : ""}`;
         th.textContent = String(s.step_no);
-        th.title = `${s.phase_label}: ${s.step_no}. ${s.step_label}`;
+        th.title = `${s.step_no}. ${stepLabel(s.step_no, s.step_label)}`;
         stepRow.appendChild(th);
       });
     });
@@ -121,7 +122,7 @@ export function buildPhaseGrid(
 
       const nameTd = document.createElement("td");
       nameTd.className = "phase-grid__pin";
-      nameTd.textContent = c.name;
+      nameTd.textContent = countryName(c.iso3, c.name);
       tr.appendChild(nameTd);
 
       const highestTd = document.createElement("td");
@@ -147,7 +148,7 @@ export function buildPhaseGrid(
           const row = c.steps.find((r) => r.step_no === s.step_no);
           const status = statusFromImplementationStep(row?.status ?? null);
           const title = [
-            `${s.phase_label}: ${s.step_no}. ${s.step_label}`,
+            `${s.step_no}. ${stepLabel(s.step_no, s.step_label)}`,
             t(statusKey(status)),
             row?.as_of ? `${t("common.as_of")} ${fmtDate(row.as_of)}` : "",
             row?.source ?? "",
@@ -191,7 +192,7 @@ export function buildPhaseGrid(
     });
     pager.append(prev, label, next);
 
-    host.replaceChildren(wrap, pager);
+    host.replaceChildren(...(totalPages > 1 ? [wrap, pager] : [wrap]));
   }
   render();
   return host;

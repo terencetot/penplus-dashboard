@@ -1,16 +1,17 @@
 import { getImplementation } from "@/lib/bundle";
 import { fmtCount } from "@/lib/format";
 import { t } from "@/lib/i18n";
-import { renderChartPanel } from "@/components/chart-panel";
 import { renderStatus, statusFromImplementationStep, statusKey } from "@/lib/status";
-import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
-import { buildTable, tableToCSVData, type Column } from "@/components/table";
+import { panelTitleWithIcon } from "@/components/kpi";
+import { statTile } from "@/components/stat";
+import { loadWhoGeo, PHASE_COLOURS, renderPhaseMap } from "@/components/facility-map";
+import { countryName, phaseLabel, stepLabel } from "@/lib/names";
+import { tableToCSVData, type Column } from "@/components/table";
 import { buildPhaseGrid } from "@/components/phase-grid";
 import { downloadCSV } from "@/components/csv";
-import { horizontalBars, type BarDatum } from "@/charts/bar";
 import type { ImplementationCountry } from "@/lib/types";
 
-function phaseLabel(n: number | null): string {
+function phaseShort(n: number | null): string {
   return n === null ? t("prov.no_return") : t("screen_impl.phase_n", { n });
 }
 
@@ -40,6 +41,8 @@ export async function renderImplementation(container: HTMLElement): Promise<void
   // disagreements); the screen only reads them.
   const withPhase = bundle.with_phase;
   const national = bundle.phase_counts.find((p) => p.phase === 5)?.countries ?? 0;
+  const phase4 = bundle.phase_counts.find((p) => p.phase === 4)?.countries ?? 0;
+  const geo = await loadWhoGeo();
 
   container.innerHTML = `
     <header class="page-head">
@@ -47,18 +50,31 @@ export async function renderImplementation(container: HTMLElement): Promise<void
       <p class="panel__question">${t("screen_impl.question")}</p>
     </header>
 
-    ${renderKpiRow([
-      renderKpiCard(
-        "country",
-        t("common.n_of_total", { n: fmtCount(withPhase), total: countries.length }),
-        t("screen_impl.kpi.with_phase"),
-      ),
-      renderKpiCard("shield", String(national), t("screen_impl.kpi.full_scale")),
-      renderKpiCard("flag", String(bundle.disagreements), t("screen_impl.kpi.disagreements")),
-      renderKpiCard("alert", String(bundle.no_return), t("screen_impl.kpi.no_return")),
-    ])}
+    <div class="stat-row stat-row--4">
+      ${statTile(t("screen_impl.kpi.with_phase"), `${fmtCount(withPhase)}<small>/${countries.length}</small>`, t("screen_impl.kpi.with_phase_sub"))}
+      ${statTile(t("screen_impl.kpi.full_scale"), String(national), t("screen_impl.kpi.full_scale_sub"))}
+      ${statTile(t("screen_impl.kpi.phase4"), String(phase4), t("screen_impl.kpi.phase4_sub"))}
+      ${statTile(t("screen_impl.kpi.no_return"), String(bundle.no_return), t("screen_impl.kpi.no_return_sub"))}
+    </div>
 
-    <div id="phase-summary-panel"></div>
+    <section class="panel phase-map-panel">
+      <div class="panel__header">${panelTitleWithIcon("map", t("screen_impl.map.title"))}</div>
+      <div class="phase-map-layout">
+        <div id="phase-map" class="phase-map"></div>
+        <div class="phase-legend">
+          ${[5, 4, 3, 2, 1]
+            .map(
+              (n) => `<div class="phase-legend__row"><i style="background:${PHASE_COLOURS[n - 1]}"></i>
+                <span><b>${t("screen_impl.phase_n", { n })}</b> ${t(`screen3.phase_name.${n}`)}</span>
+                <em class="num">${bundle.phase_counts.find((p) => p.phase === n)?.countries ?? 0}</em></div>`,
+            )
+            .join("")}
+          <div class="phase-legend__row"><i class="is-hatch"></i><span>${t("screen1.table.no_data")}</span><em class="num">${bundle.no_return}</em></div>
+        </div>
+      </div>
+      <p class="chart-caption">${t("screen_impl.map.caption")}</p>
+    </section>
+
 
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("grid", t("screen_impl.grid.title"))}</div>
@@ -75,63 +91,25 @@ export async function renderImplementation(container: HTMLElement): Promise<void
     </section>
   `;
 
-  // ---- phase-distribution summary: the briefing layer. Pure counts per
-  // bucket (0..5), the same kind of client-side .filter().length already
-  // used for the KPI cards above -- never a ranking of individual countries,
-  // and never a mean (a mean over an ordinal stage code implies false
-  // interval-scale precision, and was computed client-side, which CLAUDE.md's
-  // no-arithmetic-in-the-front-end rule does not allow -- removed, not moved).
-  // One bar per published phase, highest first, then the countries with no
-  // return yet -- counted in export.py, never a ranking of countries.
-  const bucketData: BarDatum[] = [
-    ...bundle.phase_counts.map((p) => ({
-      label: phaseLabel(p.phase),
-      value: p.countries,
-      title: `${phaseLabel(p.phase)}: ${p.countries}`,
-    })),
+  // ---- map of phases (follows the key figures; never the first element)
+  const phaseOf = new Map(countries.map((c) => [c.iso3, c.phase]));
+  const phaseMap = renderPhaseMap(
+    geo,
+    phaseOf,
+    (iso3) => countryName(iso3, countries.find((c) => c.iso3 === iso3)?.name ?? iso3),
     {
-      label: t("screen_impl.no_return_bar"),
-      value: bundle.no_return,
-      title: `${t("screen_impl.no_return_bar")}: ${bundle.no_return}`,
+      phase: (n) => `${t("screen_impl.phase_n", { n })} · ${t(`screen3.phase_name.${n}`)}`,
+      none: t("screen1.table.no_data"),
     },
-  ];
-  renderChartPanel(container.querySelector("#phase-summary-panel")!, {
-    title: t("screen_impl.summary.title"),
-    icon: "target",
-    caption: t("screen_impl.summary.caption"),
-    buildChart: () =>
-      horizontalBars(bucketData, { valueLabel: t("screen_impl.kpi.reporting_short"), height: 220 }),
-    buildTable: () =>
-      buildTable(
-        t("screen_impl.summary.title"),
-        [
-          { key: "label", label: t("screen_impl.column.phase"), render: (d: BarDatum) => d.label },
-          {
-            key: "value",
-            label: t("common.select_country"),
-            numeric: true,
-            render: (d: BarDatum) => String(d.value),
-          },
-        ],
-        bucketData,
-      ),
-    csv: () =>
-      tableToCSVData<BarDatum>(
-        [
-          { key: "label", label: "phase", render: (d) => d.label },
-          { key: "value", label: "countries", render: (d) => String(d.value) },
-        ],
-        bucketData,
-      ),
-    csvFilename: "implementation_phase_summary",
-  });
+  );
+  if (phaseMap) container.querySelector("#phase-map")!.appendChild(phaseMap);
 
   // ---- phase/step legend, above the detail table so a reader meets it
   // before the grid rather than after scrolling past it
   const legend = container.querySelector("#phase-legend")!;
   const phaseNos = [...new Set(stepDim.map((s) => s.phase_no))].sort((a, b) => a - b);
   for (const phaseNo of phaseNos) {
-    const phaseLabel = stepDim.find((s) => s.phase_no === phaseNo)!.phase_label;
+    const phaseName = phaseLabel(phaseNo, stepDim.find((s) => s.phase_no === phaseNo)!.phase_label);
     const stepsOfPhase = stepDim.filter((s) => s.phase_no === phaseNo);
     const li = document.createElement("li");
     li.className = "phase-track__phase";
@@ -141,9 +119,9 @@ export async function renderImplementation(container: HTMLElement): Promise<void
         .map((s) => `<li><b class="num">${s.step_no}</b><span></span></li>`)
         .join("")}</ol>`;
     // labels come from the bundle; set as text, never parsed as markup
-    li.querySelector("h4")!.textContent = phaseLabel;
+    li.querySelector("h4")!.textContent = phaseName;
     li.querySelectorAll(".phase-track__steps span").forEach((el, i) => {
-      el.textContent = stepsOfPhase[i]?.step_label ?? "";
+      el.textContent = stepLabel(stepsOfPhase[i]?.step_no ?? 0, stepsOfPhase[i]?.step_label ?? "");
     });
     legend.append(li);
   }
@@ -152,7 +130,7 @@ export async function renderImplementation(container: HTMLElement): Promise<void
   // built directly from stepDim/countries, not from this Column[] list.
   const csvColumns: Column<ImplementationCountry>[] = [
     { key: "name", label: t("common.select_country"), render: (c) => c.name },
-    { key: "phase", label: t("screen_impl.column.phase"), render: (c) => phaseLabel(c.phase) },
+    { key: "phase", label: t("screen_impl.column.phase"), render: (c) => phaseShort(c.phase) },
     {
       key: "workbook_phase",
       label: t("screen_impl.column.workbook_phase"),

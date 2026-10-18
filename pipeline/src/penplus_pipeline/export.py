@@ -161,6 +161,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         dim["regional_as_of"] = r["as_of"]
         dim["countries_reporting"] = r["countries_reporting"]
         dim["countries_held"] = r["countries_held"]
+        dim["countries_without"] = n_countries - r["countries_reporting"]
         dim["countries_total"] = n_countries
         dim["coverage_pct"] = r["coverage_pct"]
         dim["gap"] = (dim["milestone"] - r["total"]) \
@@ -204,9 +205,53 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         else list(latest.values())
 
     write("manifest.json", man)
+    # ---- situation by country: one row per country, alphabetical (never a
+    # ranking), every figure and every bar length computed here.
+    def latest_val(iso3, code, key="all", val="all"):
+        src = latest if key == "all" else latest_dis
+        return src.get((iso3, code, key, val))
+
+    fac_active = {}
+    for f in con.execute("SELECT iso3, COUNT(*) n FROM dim_facility WHERE status='operational'"
+                         " GROUP BY iso3"):
+        fac_active[f["iso3"]] = f["n"]
+    table = []
+    for c in countries:
+        pat = latest_val(c["iso3"], "2.6")
+        allp = latest_val(c["iso3"], "2.5")
+        tr = latest_val(c["iso3"], "3.3", "measure", "to_date")
+        act = latest_val(c["iso3"], "2.6a")
+        table.append({
+            "iso3": c["iso3"], "name": c["name"], "cohort": c["cohort"], "phase": c["phase"],
+            "facilities": fac_active.get(c["iso3"]),
+            "patients": pat["value"] if pat and pat["value"] is not None else None,
+            "patients_held": bool(pat and pat["held"]),
+            "patients_all": allp["value"] if allp and allp["value"] is not None else None,
+            "trained": tr["value"] if tr and tr["value"] is not None else None,
+            "patients_active": act["value"] if act and act["value"] is not None else None,
+            "latest_period": c["last_period"] if c["has_data"] else None,
+        })
+    for key in ("facilities", "patients", "patients_all", "trained"):
+        top = max((r[key] for r in table if r[key] is not None
+                   and not (key == "patients" and r["patients_held"])), default=None)
+        for r in table:
+            held = key == "patients" and r["patients_held"]
+            r[f"{key}_bar"] = (round(r[key] / top * 100)
+                               if (top and r[key] is not None and not held) else None)
+    phase45 = sum(1 for c in countries if c["phase"] in (4, 5))
+    with_phase = sum(1 for c in countries if c["phase"] is not None)
+
     write("overview.json", {
         "manifest": man,
         "headline": headline,
+        "country_table": table,
+        "programme": {
+            "countries": n_countries,
+            "round1": sum(1 for c in countries if c["cohort"] == "phase_1"),
+            "round2": sum(1 for c in countries if c["cohort"] == "phase_2"),
+            "phase45": phase45,
+            "with_phase": with_phase,
+        },
         "milestone_strip": milestone_strip,
         "countries": countries,
         "countries_with_data": sum(1 for c in countries if c["has_data"]),
@@ -365,6 +410,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
             "countries": len({f["iso3"] for f in facility_rows}),
             "mapped": sum(1 for f in facility_rows if f["mapped"]),
             "approximate": sum(1 for f in facility_rows if f["approximate"]),
+            "on_map": sum(1 for f in facility_rows if f["mapped"] or f["approximate"]),
             "location_to_confirm": sum(1 for f in facility_rows
                                        if not f["mapped"] and not f["approximate"]),
             "names_to_confirm": sum(1 for f in facility_rows if f["name_status"] == "to_confirm"),

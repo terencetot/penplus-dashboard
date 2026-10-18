@@ -117,11 +117,13 @@ def test_query_seed_loads_all_28_and_closes_only_what_this_build_fixed(tmp_path)
     assert closed == len(baseline.RESOLVED)
     status = {q["query_id"]: q["status"] for q in con.execute("SELECT * FROM fact_query")}
     assert status["Q-ZWE-01"] == "open"         # held until MoHCC confirms
-    assert status["Q-REG-01"] == "open"         # no regional headline until agreed
+    # programme decision (18 Oct 2026): the regional figure is published as the
+    # sum of country-reported figures with its coverage, so Q-REG-01 is closed
+    assert status["Q-REG-01"] == "closed"
     assert status["Q-REG-02"] == "closed"       # severe HTN removed by this build
     high_open = [q for q in con.execute(
         "SELECT * FROM fact_query WHERE severity='High' AND status='open'")]
-    assert {q["query_id"] for q in high_open} == {"Q-REG-01", "Q-ZWE-01", "Q-MWI-01"}
+    assert {q["query_id"] for q in high_open} == {"Q-ZWE-01", "Q-MWI-01"}
 
 
 def test_facility_register_counts_only_active_facilities_for_2_3(tmp_path):

@@ -65,13 +65,14 @@ export function renderCoverageCard(
     </div>`;
   }
   // CLAUDE.md rule 6: below 80 per cent the value renders muted, with the
-  // share visible without interaction
+  // share visible without interaction (the "n of 31 countries" line below);
+  // no orange badge: orange is for alerts only
   const isPartial = figure.coverage_pct !== null && figure.coverage_pct < 80;
   return `<div class="coverage-card${isPartial ? " partial" : ""}">
     <div class="coverage-card__label">${label}</div>
     <div class="coverage-card__row">
       <div class="coverage-card__value num">${displayValue ?? fmtCount(figure.total)}</div>
-      ${isPartial ? `<span class="chip chip--warm">${t("common.partial")} &middot; ${figure.coverage_pct}%</span>` : ""}
+
     </div>
     ${vt}
     <div class="coverage-card__cov">${coverage}${asOf ? ` &middot; ${t("common.as_of")} ${asOf}` : ""}</div>

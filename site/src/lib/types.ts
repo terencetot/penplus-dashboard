@@ -108,6 +108,7 @@ export interface IndicatorDim {
   countries_reporting: number;
   countries_held: number;
   countries_total: number;
+  countries_without: number;
   coverage_pct: number | null;
   gap: number | null;
   value_types: ValueType[];
@@ -125,6 +126,25 @@ export interface OverviewBundle {
   milestone_strip: MilestoneStripEntry[];
   countries: CountryRef[];
   countries_with_data: number;
+  programme: { countries: number; round1: number; round2: number; phase45: number; with_phase: number };
+  /** one row per country, alphabetical; values and bar lengths computed in export.py */
+  country_table: {
+    iso3: string;
+    name: string;
+    cohort: Cohort;
+    phase: number | null;
+    facilities: number | null;
+    patients: number | null;
+    patients_held: boolean;
+    patients_all: number | null;
+    patients_active: number | null;
+    trained: number | null;
+    latest_period: string | null;
+    facilities_bar: number | null;
+    patients_bar: number | null;
+    patients_all_bar: number | null;
+    trained_bar: number | null;
+  }[];
   latest: GoldRow[];
 }
 
@@ -268,6 +288,7 @@ export interface FacilitiesBundle {
     countries: number;
     mapped: number;
     approximate: number;
+    on_map: number;
     location_to_confirm: number;
     names_to_confirm: number;
   };
