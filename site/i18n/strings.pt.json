@@ -272,7 +272,7 @@
   "screen5.kpi.mapped": "Localizadas no mapa",
   "screen5.map.title": "Mapa das unidades",
   "screen5.map.caption": "{mapped} de {total} unidades têm coordenadas que passaram todas as regras de geocodificação (OpenStreetMap, nome e região coincidentes). A forma indica o estado; os pontos nunca são dimensionados nem coloridos pelo desempenho. Não são desenhadas fronteiras: os ficheiros de fronteiras aprovados pela OMS não fazem parte desta versão.",
-  "screen5.map.disclaimer": "As designações utilizadas e a apresentação do material neste mapa não implicam a expressão de qualquer opinião por parte da OMS sobre o estatuto jurídico de qualquer país, território, cidade ou zona ou das suas autoridades, nem sobre a delimitação das suas fronteiras ou limites.",
+  "screen5.map.disclaimer": "Os limites e nomes indicados e as designações utilizadas neste mapa não implicam qualquer opinião por parte da Organização Mundial da Saúde sobre o estatuto jurídico de qualquer país, território, cidade ou zona, ou das suas autoridades, nem sobre a delimitação das suas fronteiras ou limites. As linhas ponteadas e tracejadas nos mapas representam fronteiras aproximadas sobre as quais pode ainda não haver acordo total.",
   "screen5.map.empty": "Ainda nenhuma localização verificada para esta seleção: ver a lista de localizações a confirmar abaixo.",
   "screen5.register.title": "Registo das unidades",
   "screen5.register.caption": "Do registo das unidades nomeadas nas apresentações ICPPA 2026. Os nomes são publicados; contagens de doentes inferiores a cinco permanecem suprimidas.",
@@ -313,5 +313,9 @@
   "screen5.kpi.mapped_v2": "Localizadas na unidade (+{approx} aproximadas, localidade)",
   "screen5.map.approximate": "Aproximado: ponto da localidade, unidade não localizada",
   "screen5.location.approximate": "Aproximada (ponto da localidade)",
-  "screen5.map.caption_v2": "{mapped} de {total} unidades estão nas suas próprias coordenadas: OpenStreetMap (nome e região coincidentes) ou a lista OMS/KEMRI de unidades de saúde públicas da África subsariana (listas nacionais, sobretudo GPS). {approx} aparecem na sua localidade, ocas, porque a unidade não pôde ser localizada ou não está nomeada. {off} fica fora do mapa à espera de uma consulta. Passe o cursor sobre um ponto para ver os detalhes; escolha um país para mostrar os nomes. O fundo é apenas a linha de costa (Natural Earth); não são desenhadas fronteiras nacionais."
+  "screen5.map.caption_v2": "{mapped} de {total} unidades estão nas suas próprias coordenadas (OpenStreetMap, ou a lista OMS/KEMRI de unidades de saúde públicas, sobretudo GPS); {approx} são pontos ocos na sua localidade, por a unidade não estar localizada ou nomeada; {off} fica fora do mapa à espera de uma consulta. Escolha um país para aproximar e nomear cada unidade; passe o cursor sobre um ponto para o detalhe. Fronteiras: Centro SIG para a Saúde da OMS.",
+  "screen5.map.all": "Todos os países PEN-Plus",
+  "screen5.map.back": "Voltar à região",
+  "screen5.map.by_country": "Unidades por país",
+  "screen5.map.disputed": "Fronteira contestada (OMS)"
 }

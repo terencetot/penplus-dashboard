@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T11:05:17",
+  "built_at": "2026-10-18T11:24:16",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -13,6 +13,113 @@
   "form_returns": 0,
   "note": "Values are pre-computed. null means not reported and is never zero. basis='historical' marks the ICPPA 2026 baseline (country presentations, June 2026), not a validated quarterly return. held=1 marks a figure held by an open High query; it is excluded from every regional total. Cells under 5 are suppressed, not merely flagged."
  },
+ "by_country": [
+  {
+   "iso3": "BFA",
+   "country": "Burkina Faso",
+   "total": 2,
+   "mapped": 0,
+   "approximate": 2
+  },
+  {
+   "iso3": "CMR",
+   "country": "Cameroon",
+   "total": 2,
+   "mapped": 2,
+   "approximate": 0
+  },
+  {
+   "iso3": "COD",
+   "country": "Democratic Republic of the Congo",
+   "total": 2,
+   "mapped": 0,
+   "approximate": 2
+  },
+  {
+   "iso3": "ETH",
+   "country": "Ethiopia",
+   "total": 2,
+   "mapped": 0,
+   "approximate": 2
+  },
+  {
+   "iso3": "KEN",
+   "country": "Kenya",
+   "total": 4,
+   "mapped": 2,
+   "approximate": 2
+  },
+  {
+   "iso3": "LBR",
+   "country": "Liberia",
+   "total": 4,
+   "mapped": 4,
+   "approximate": 0
+  },
+  {
+   "iso3": "MOZ",
+   "country": "Mozambique",
+   "total": 1,
+   "mapped": 1,
+   "approximate": 0
+  },
+  {
+   "iso3": "NGA",
+   "country": "Nigeria",
+   "total": 1,
+   "mapped": 1,
+   "approximate": 0
+  },
+  {
+   "iso3": "COG",
+   "country": "Republic of the Congo",
+   "total": 4,
+   "mapped": 1,
+   "approximate": 3
+  },
+  {
+   "iso3": "RWA",
+   "country": "Rwanda",
+   "total": 3,
+   "mapped": 3,
+   "approximate": 0
+  },
+  {
+   "iso3": "SLE",
+   "country": "Sierra Leone",
+   "total": 4,
+   "mapped": 3,
+   "approximate": 1
+  },
+  {
+   "iso3": "UGA",
+   "country": "Uganda",
+   "total": 3,
+   "mapped": 3,
+   "approximate": 0
+  },
+  {
+   "iso3": "TZA",
+   "country": "United Republic of Tanzania",
+   "total": 2,
+   "mapped": 2,
+   "approximate": 0
+  },
+  {
+   "iso3": "ZMB",
+   "country": "Zambia",
+   "total": 5,
+   "mapped": 2,
+   "approximate": 2
+  },
+  {
+   "iso3": "ZWE",
+   "country": "Zimbabwe",
+   "total": 4,
+   "mapped": 4,
+   "approximate": 0
+  }
+ ],
  "kpis": {
   "total": 43,
   "active": 33,

@@ -128,7 +128,9 @@ describe("screens render against the real bundle", () => {
     // 28 at their own coordinates, 14 approximate (town), only Chipata off the map (Q-ZMB-02)
     expect(el.querySelectorAll("#to-confirm .pill").length).toBe(1);
     expect(el.querySelector("#to-confirm")!.textContent).toContain("Chipata");
-    expect(el.querySelector(".map-disclaimer")!.textContent).toContain("WHO");
+    expect(el.querySelector(".map-disclaimer")!.textContent).toContain("World Health Organization");
+    // one button per country with a facility, to zoom the map
+    expect(el.querySelectorAll("#map-countries button").length).toBe(15);
 
     const rowsBefore = el.querySelectorAll("#facility-table tbody tr").length;
     expect(rowsBefore).toBe(25);

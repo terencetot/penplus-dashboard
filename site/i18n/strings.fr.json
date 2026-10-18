@@ -272,7 +272,7 @@
   "screen5.kpi.mapped": "Localisées sur la carte",
   "screen5.map.title": "Carte des formations sanitaires",
   "screen5.map.caption": "{mapped} formations sur {total} ont des coordonnées conformes à toutes les règles de géocodage (OpenStreetMap, nom et région concordants). La forme indique le statut ; les points ne sont jamais dimensionnés ni colorés selon la performance. Aucune frontière n'est tracée : les fichiers de frontières validés par l'OMS ne font pas partie de cette version.",
-  "screen5.map.disclaimer": "Les appellations employées et la présentation des données sur cette carte n'impliquent de la part de l'OMS aucune prise de position quant au statut juridique des pays, territoires, villes ou zones, ou de leurs autorités, ni quant au tracé de leurs frontières ou limites.",
+  "screen5.map.disclaimer": "Les limites et appellations figurant sur cette carte ou les désignations employées n'impliquent de la part de l'Organisation mondiale de la Santé aucune prise de position quant au statut juridique des pays, territoires, villes ou zones, ou de leurs autorités, ni quant au tracé de leurs frontières ou limites. Les lignes en pointillé sur les cartes représentent des frontières approximatives dont le tracé peut ne pas avoir fait l'objet d'un accord définitif.",
   "screen5.map.empty": "Aucune localisation vérifiée pour cette sélection : voir la liste des localisations à confirmer ci-dessous.",
   "screen5.register.title": "Registre des formations sanitaires",
   "screen5.register.caption": "Issu du registre des formations citées dans les présentations ICPPA 2026. Les noms sont publiés ; les effectifs de patients inférieurs à cinq restent masqués.",
@@ -313,5 +313,9 @@
   "screen5.kpi.mapped_v2": "Localisées à la formation (+{approx} approximatives, ville)",
   "screen5.map.approximate": "Approximatif : point de la ville, formation non localisée",
   "screen5.location.approximate": "Approximative (point de la ville)",
-  "screen5.map.caption_v2": "{mapped} formations sur {total} sont placées à leurs propres coordonnées : OpenStreetMap (nom et région concordants) ou la liste OMS/KEMRI des formations sanitaires publiques d'Afrique subsaharienne (listes nationales, surtout GPS). {approx} sont placées à leur ville, en creux, car la formation n'a pas pu être localisée ou n'est pas nommée. {off} est hors carte en attendant une requête. Survolez un point pour les détails ; choisissez un pays pour afficher les noms. Le fond est le seul trait de côte (Natural Earth) ; aucune frontière nationale n'est tracée."
+  "screen5.map.caption_v2": "{mapped} formations sur {total} sont à leurs propres coordonnées (OpenStreetMap, ou la liste OMS/KEMRI des formations sanitaires publiques, surtout GPS) ; {approx} sont des points creux à leur ville, la formation n'étant pas localisée ou pas nommée ; {off} est hors carte en attendant une requête. Choisissez un pays pour zoomer et nommer chaque formation ; survolez un point pour le détail. Frontières : Centre SIG pour la santé de l'OMS.",
+  "screen5.map.all": "Tous les pays PEN-Plus",
+  "screen5.map.back": "Retour à la région",
+  "screen5.map.by_country": "Formations par pays",
+  "screen5.map.disputed": "Frontière contestée (OMS)"
 }
