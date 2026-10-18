@@ -253,7 +253,14 @@ export interface FacilityRow {
 export interface FacilitiesBundle {
   manifest: Manifest;
   /** per country, alphabetical: counts computed in export.py */
-  by_country: { iso3: string; country: string; total: number; mapped: number; approximate: number }[];
+  by_country: {
+    iso3: string;
+    country: string;
+    total: number;
+    mapped: number;
+    approximate: number;
+    off_map: number;
+  }[];
   kpis: {
     total: number;
     active: number;

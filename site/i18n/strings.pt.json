@@ -314,8 +314,18 @@
   "screen5.map.approximate": "Aproximado: ponto da localidade, unidade não localizada",
   "screen5.location.approximate": "Aproximada (ponto da localidade)",
   "screen5.map.caption_v2": "{mapped} de {total} unidades estão nas suas próprias coordenadas (OpenStreetMap, ou a lista OMS/KEMRI de unidades de saúde públicas, sobretudo GPS); {approx} são pontos ocos na sua localidade, por a unidade não estar localizada ou nomeada; {off} fica fora do mapa à espera de uma consulta. Escolha um país para aproximar e nomear cada unidade; passe o cursor sobre um ponto para o detalhe. Fronteiras: Centro SIG para a Saúde da OMS.",
-  "screen5.map.all": "Todos os países PEN-Plus",
+  "screen5.map.all": "África subsariana",
   "screen5.map.back": "Voltar à região",
   "screen5.map.by_country": "Unidades por país",
-  "screen5.map.disputed": "Fronteira contestada (OMS)"
+  "screen5.map.disputed": "Fronteira contestada (OMS)",
+  "screen5.map.eyebrow": "Atlas das unidades PEN-Plus",
+  "screen5.map.stat_located": "localizadas na unidade",
+  "screen5.map.stat_approx": "aproximadas, na localidade",
+  "screen5.map.stat_countries": "países com uma unidade",
+  "screen5.map.approximate_short": "Aproximada (localidade)",
+  "screen5.map.bar_exact": "localizadas",
+  "screen5.map.bar_approx": "aproximadas",
+  "screen5.map.open_country": "Perfil do país",
+  "common.close": "Fechar",
+  "screen5.map.bar_off": "fora do mapa (consulta)"
 }
