@@ -7,25 +7,21 @@ import type {
   OverviewBundle,
   QualityBundle,
 } from "./types";
-import { isDemoMode } from "./demo";
 
 /**
  * The bundle is the API (specification, section 5). Every fetch here is a
  * same-origin static file under /data (site/public/data at build time, so
  * Vite copies it verbatim), produced by the pipeline and never hand-edited.
- * No other network call exists anywhere in this app. Demo mode (see
- * lib/demo.ts) points this at /demo-data instead -- a wholly synthetic
- * bundle, never mixed with the real one.
+ * No other network call exists anywhere in this app.
  */
 function dataRoot(): string {
-  const dir = isDemoMode() ? "demo-data" : "data";
-  return `${import.meta.env.BASE_URL}${dir}/`;
+  return `${import.meta.env.BASE_URL}data/`;
 }
 
 const cache = new Map<string, Promise<unknown>>();
 
 async function getJSON<T>(path: string): Promise<T> {
-  const cacheKey = `${isDemoMode() ? "demo:" : "real:"}${path}`;
+  const cacheKey = path;
   if (!cache.has(cacheKey)) {
     const url = dataRoot() + path;
     cache.set(

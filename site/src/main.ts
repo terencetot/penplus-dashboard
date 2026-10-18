@@ -5,7 +5,6 @@ import "./styles/components.css";
 import { getManifest } from "@/lib/bundle";
 import { getLang, LANG_LABELS, LANGS, onLangChange, setLang, t, type Lang } from "@/lib/i18n";
 import { currentRoute, navigate, onRouteChange, type Route } from "@/router";
-import { isDemoMode, setDemoMode } from "@/lib/demo";
 import { renderOverview } from "@/screens/overview";
 import { renderIndicatorDetail } from "@/screens/indicator-detail";
 import { renderCountryProfile } from "@/screens/country-profile";
@@ -58,7 +57,6 @@ async function renderApp() {
             ${LANGS.map((l) => `<option value="${l}" ${l === getLang() ? "selected" : ""}>${LANG_LABELS[l]}</option>`).join("")}
           </select>
           <button type="button" class="btn no-print" id="print-btn">${t("common.print")}</button>
-          <button type="button" class="btn no-print" id="demo-toggle-btn">${isDemoMode() ? t("demo.exit") : t("demo.enter")}</button>
         </div>
       </div>
       <nav class="app-nav" aria-label="Screens">
@@ -67,14 +65,6 @@ async function renderApp() {
         </ul>
       </nav>
     </header>
-    ${isDemoMode() ? `<div class="demo-banner no-print" role="status">${t("demo.banner")}</div>` : ""}
-    ${
-      // Shown on every screen while no validated second-round return exists
-      // (audit v2, section 4): the figures are the ICPPA 2026 baseline.
-      manifest.baseline_only && !isDemoMode()
-        ? `<div class="baseline-banner" role="note"><span class="baseline-banner__icon">${icon("flag")}</span><span>${t("baseline.banner")}</span></div>`
-        : ""
-    }
     <main class="app-main" id="main-content" tabindex="-1"></main>
     <footer class="app-footer">
       <div class="app-footer__bar app-footer__brand">
@@ -88,6 +78,7 @@ async function renderApp() {
             loading="lazy"
           />
           <div class="app-header__divider"></div>
+          <span class="app-footer__note">${t("footer.data_note")}</span>
           <span class="app-footer__copyright">${t("footer.copyright", { year: new Date(manifest.built_at).getFullYear() })}</span>
         </div>
         <button type="button" class="back-to-top no-print" id="back-to-top-btn" aria-label="${t("footer.back_to_top")}">
@@ -149,11 +140,6 @@ async function renderApp() {
     setLang((e.target as HTMLSelectElement).value as Lang);
   });
   document.getElementById("print-btn")!.addEventListener("click", () => window.print());
-  document.getElementById("demo-toggle-btn")!.addEventListener("click", () => {
-    setDemoMode(!isDemoMode());
-    navigate({ screen: "overview" });
-    renderApp();
-  });
   document.getElementById("back-to-top-btn")!.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
