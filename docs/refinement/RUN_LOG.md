@@ -161,6 +161,7 @@ Regional and screen-level figures:
 | D25 | Default indicator on screen 2 | 2.6 (sentinel), the series with the most country evidence. |
 | D26 | Date of an undated baseline row | 30 June 2026, the ICPPA evidence cut-off. |
 | D27 | Decorative tile map at phone width | Hidden below 640 px. It encodes cohort only, which the lists below repeat. |
+| D28 | CI and deploy guard "no facility identity in the public bundle" | Now follows the bundle's `publish_facility_names` flag (the old guard blocked the first merge). A new check fails the build if any suppressed cell (under 5) is published with its number. |
 
 ## Skipped
 

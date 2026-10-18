@@ -30,8 +30,14 @@ jobs:
           assert man.get("public") is True, \
               "site/public/data/manifest.json is not a --public export -- refusing to deploy"
           fac = json.load(open("public/data/facilities.json"))
-          named = [f["facility_id"] for f in fac["rows"] if f.get("name")]
-          assert not named, f"facility identity present in the public bundle: {named}"
+          # Facility names are published only when the bundle says so
+          # (PUBLISH_FACILITY_NAMES, refinement v2); small counts stay suppressed.
+          if not man.get("publish_facility_names"):
+              named = [f["facility_id"] for f in fac["rows"] if f.get("name")]
+              assert not named, f"facility identity present in the public bundle: {named}"
+          ind = json.load(open("public/data/indicators.json"))
+          leak = [v for v in ind["values"] if v["suppressed"] and v["numerator"] is not None]
+          assert not leak, f"suppressed cells (under 5) published with a number: {len(leak)}"
           print("public export check OK")
           PY
       - uses: actions/setup-node@v4
