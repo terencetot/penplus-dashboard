@@ -1,4 +1,3 @@
-import * as Plot from "@observablehq/plot";
 import { getFacilities } from "@/lib/bundle";
 import { fmtCount } from "@/lib/format";
 import { t } from "@/lib/i18n";
@@ -7,25 +6,14 @@ import { downloadCSV } from "@/components/csv";
 import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
 import { renderSourceRef } from "@/components/provenance";
 import { renderRegisterStatus } from "@/screens/country-profile";
-import { emptyChart } from "@/charts/empty";
-import type { FacilityRow, RegisterStatus } from "@/lib/types";
-
-const STATUSES: RegisterStatus[] = ["active", "partial", "planned", "to_confirm"];
-/** Shape by status, never size or colour by performance (design brief). */
-const SYMBOL: Record<RegisterStatus, string> = {
-  active: "circle",
-  partial: "diamond",
-  planned: "triangle",
-  to_confirm: "square",
-};
+import { loadWhoGeo, renderFacilityMap, STATUSES } from "@/components/facility-map";
+import type { FacilityRow } from "@/lib/types";
 
 /**
  * Screen 5: "Where are the sites and what state are they in?" KPI row, then
  * the facility map (CLAUDE.md: never a map as the first element), then the
- * register. Points come only from coordinates that passed every rule of
- * GEOCODING_PROTOCOL.md or were checked by a person; everything else is
- * listed as "location to confirm". No boundaries are drawn: WHO-cleared
- * boundary files are not part of this build.
+ * register. The map draws WHO GIS Centre boundaries (components/facility-map.ts);
+ * every point carries its source (data/reference/facility_coordinates.csv).
  */
 export async function renderFacilities(container: HTMLElement): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
@@ -59,14 +47,8 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
     })}</p>
 
     <section class="panel">
-      <div class="panel__header">
-        ${panelTitleWithIcon("map", t("screen5.map.title"))}
-        <label class="inline-filter">${t("common.select_country")}
-          <select id="map-country"><option value="">${t("common.all_countries")}</option></select>
-        </label>
-      </div>
+      <div class="panel__header">${panelTitleWithIcon("map", t("screen5.map.title"))}</div>
       <div id="facility-map" class="facility-map"></div>
-      <div class="chart-legend" id="map-legend"></div>
       <p class="chart-caption">${t("screen5.map.caption_v2", { mapped: k.mapped, approx: k.approximate, total: k.total, off: k.location_to_confirm })}</p>
       <p class="map-disclaimer">${t("screen5.map.disclaimer")}</p>
     </section>
@@ -100,7 +82,7 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
   const countries = [...new Map(rows.map((f) => [f.iso3, f.country])).entries()].sort((a, b) =>
     a[1].localeCompare(b[1]),
   );
-  for (const id of ["#map-country", "#country-filter"]) {
+  for (const id of ["#country-filter"]) {
     const sel = container.querySelector<HTMLSelectElement>(id)!;
     for (const [iso3, name] of countries) {
       const opt = document.createElement("option");
@@ -110,27 +92,9 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
     }
   }
 
-  // ---- map
-  const mapHost = container.querySelector<HTMLElement>("#facility-map")!;
-  const mapSelect = container.querySelector<HTMLSelectElement>("#map-country")!;
-  container.querySelector("#map-legend")!.innerHTML =
-    STATUSES.map(
-      (s) =>
-        `<span class="chart-legend__item"><span class="sym sym--${SYMBOL[s]}"></span>${t(`register_status.${s}`)}</span>`,
-    ).join("") +
-    `<span class="chart-legend__item"><span class="sym sym--circle sym--hollow"></span>${t("screen5.map.approximate")}</span>`;
-  // Coastline only (Natural Earth, public domain): no national boundaries
-  // are drawn, so no border is asserted. A same-origin static file.
-  const land = await fetch(`${import.meta.env.BASE_URL}assets/geo/africa_land.json`)
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null);
-  const drawMap = () => {
-    const iso3 = mapSelect.value;
-    const points = rows.filter((f) => (f.mapped || f.approximate) && (!iso3 || f.iso3 === iso3));
-    mapHost.replaceChildren(facilityMap(points, iso3 !== "", land));
-  };
-  mapSelect.addEventListener("change", drawMap);
-  drawMap();
+  // ---- map: WHO GIS Centre boundaries, loaded only on this screen
+  const geo = await loadWhoGeo();
+  renderFacilityMap(container.querySelector<HTMLElement>("#facility-map")!, bundle, geo);
 
   // ---- register
   const columns: Column<FacilityRow>[] = [
@@ -203,94 +167,4 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
         `<span class="pill" title="${(f.note ?? "").replace(/"/g, "&quot;")}">${f.name ?? f.facility_id} <small>${f.iso3}</small></span>`,
     )
     .join("");
-}
-
-/**
- * Facility points over the coastline. Solid: the facility's own coordinates.
- * Hollow: an approximate town point (the facility itself is not located).
- * Shape by status; never sized or coloured by performance.
- */
-function facilityMap(
-  points: FacilityRow[],
-  zoomed: boolean,
-  land: Parameters<typeof Plot.geo>[0] | null,
-): SVGElement | HTMLElement {
-  if (points.length === 0) return emptyChart(220, t("screen5.map.empty"));
-  const lons = points.map((p) => p.longitude!);
-  const lats = points.map((p) => p.latitude!);
-  // display extent only (a frame for the drawing, not a published figure)
-  const pad = 1.2;
-  const domain = zoomed
-    ? [
-        [Math.min(...lons) - pad, Math.min(...lats) - pad],
-        [Math.max(...lons) + pad, Math.max(...lats) + pad],
-      ]
-    : [
-        [-18, -35],
-        [52, 20],
-      ];
-  const tipChannels = {
-    Facility: (f: FacilityRow) => f.name ?? f.facility_id,
-    Country: "country",
-    District: (f: FacilityRow) => [f.district ?? f.town, f.region].filter(Boolean).join(", "),
-    Partner: (f: FacilityRow) => f.partner ?? "",
-    Status: (f: FacilityRow) => t(`register_status.${f.register_status ?? "to_confirm"}`),
-    Conditions: (f: FacilityRow) => f.conditions ?? "",
-    Patients: (f: FacilityRow) => f.patients_reported ?? "",
-    Location: (f: FacilityRow) =>
-      f.approximate ? t("screen5.location.approximate") : t("screen5.location.on_map"),
-  };
-  const exact = points.filter((p) => p.mapped);
-  const approx = points.filter((p) => p.approximate);
-  return Plot.plot({
-    width: 1100,
-    height: zoomed ? 460 : 620,
-    projection: {
-      type: "equirectangular",
-      domain: { type: "MultiPoint", coordinates: domain },
-      inset: 14,
-    },
-    style: { fontFamily: "var(--font-family)", fontSize: "12px", background: "transparent" },
-    symbol: { domain: STATUSES, range: STATUSES.map((s) => SYMBOL[s]) },
-    marks: [
-      Plot.graticule({ stroke: "var(--line)", strokeOpacity: 0.7 }),
-      land ? Plot.geo(land, { fill: "#e6ebf3", stroke: "#c9d2e1", strokeWidth: 0.8 }) : null,
-      Plot.dot(approx, {
-        x: "longitude",
-        y: "latitude",
-        symbol: "register_status",
-        r: 6,
-        fill: "#ffffff",
-        stroke: "var(--navy-500)",
-        strokeWidth: 1.6,
-        channels: tipChannels,
-        tip: { format: { x: false, y: false, symbol: false } },
-      }),
-      Plot.dot(exact, {
-        x: "longitude",
-        y: "latitude",
-        symbol: "register_status",
-        r: 6.5,
-        fill: "var(--navy-700)",
-        stroke: "#fff",
-        strokeWidth: 1.5,
-        channels: tipChannels,
-        tip: { format: { x: false, y: false, symbol: false } },
-      }),
-      // names only when one country is shown: region-wide they overlap
-      zoomed
-        ? Plot.text(points, {
-            x: "longitude",
-            y: "latitude",
-            text: (f: FacilityRow) => f.name ?? f.facility_id,
-            dy: -13,
-            fontSize: 11,
-            fill: "var(--ink)",
-            stroke: "#fff",
-            strokeWidth: 3,
-            paintOrder: "stroke",
-          })
-        : null,
-    ],
-  });
 }

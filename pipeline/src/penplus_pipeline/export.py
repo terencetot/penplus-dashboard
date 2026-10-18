@@ -347,8 +347,16 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
     by_status = {}
     for f in facility_rows:
         by_status[f["register_status"] or "unknown"] = by_status.get(f["register_status"] or "unknown", 0) + 1
+    by_country = {}
+    for f in facility_rows:
+        e = by_country.setdefault(f["iso3"], {"iso3": f["iso3"], "country": f["country"],
+                                              "total": 0, "mapped": 0, "approximate": 0})
+        e["total"] += 1
+        e["mapped"] += 1 if f["mapped"] else 0
+        e["approximate"] += 1 if f["approximate"] else 0
     write("facilities.json", {
         "manifest": man,
+        "by_country": sorted(by_country.values(), key=lambda e: e["country"]),
         "kpis": {
             "total": len(facility_rows),
             "active": by_status.get("active", 0),

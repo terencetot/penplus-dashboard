@@ -272,7 +272,7 @@
   "screen5.kpi.mapped": "Located on the map",
   "screen5.map.title": "Facility map",
   "screen5.map.caption": "{mapped} of {total} facilities have coordinates that passed every geocoding rule (OpenStreetMap, name and region matched). Shape shows status; points are never sized or coloured by performance. No boundaries are drawn: WHO-cleared boundary files are not part of this build.",
-  "screen5.map.disclaimer": "The designations employed and the presentation of the material on this map do not imply the expression of any opinion whatsoever on the part of WHO concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries.",
+  "screen5.map.disclaimer": "The boundaries and names shown and the designations used on this map do not imply the expression of any opinion whatsoever on the part of the World Health Organization concerning the legal status of any country, territory, city or area or of its authorities, or concerning the delimitation of its frontiers or boundaries. Dotted and dashed lines on maps represent approximate border lines for which there may not yet be full agreement.",
   "screen5.map.empty": "No checked location for this selection yet: see the list of locations to confirm below.",
   "screen5.register.title": "Facility register",
   "screen5.register.caption": "From the curated register of facilities named in the ICPPA 2026 decks. Facility names are published; patient counts under five stay suppressed.",
@@ -313,5 +313,9 @@
   "screen5.kpi.mapped_v2": "Located at the facility (+{approx} approximate, town)",
   "screen5.map.approximate": "Approximate: town point, facility not located",
   "screen5.location.approximate": "Approximate (town point)",
-  "screen5.map.caption_v2": "{mapped} of {total} facilities are placed at their own coordinates: OpenStreetMap (name and region matched) or the WHO/KEMRI list of public health facilities in sub-Saharan Africa (national master facility lists, mostly GPS). {approx} are shown at their town, hollow, because the facility itself could not be located or is not named. {off} is left off the map pending a query. Hover a point for its details; pick a country to label the facilities. The background is the coastline only (Natural Earth); no national boundaries are drawn."
+  "screen5.map.caption_v2": "{mapped} of {total} facilities sit at their own coordinates (OpenStreetMap, or the WHO/KEMRI list of public health facilities, mostly GPS); {approx} are hollow points at their town, because the facility itself is not located or not named; {off} is left off the map pending a query. Choose a country to zoom in and name every facility; hover a point for its details. Boundaries: WHO GIS Centre for Health.",
+  "screen5.map.all": "All PEN-Plus countries",
+  "screen5.map.back": "Back to the region",
+  "screen5.map.by_country": "Facilities by country",
+  "screen5.map.disputed": "Disputed border (WHO)"
 }
