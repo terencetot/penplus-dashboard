@@ -51,6 +51,12 @@ RESOLVED = {
     "Q-NGA-01": "Wuse General Hospital loaded from the facility register.",
     "Q-SLE-01": "Facility register status used: 2 active, 2 planned.",
     "Q-COG-01": "Facility register status used: 1 active unit, 3 pilot districts planned.",
+    # Programme decision, 18 Oct 2026 (docs/review/REVUE_DASHBOARD.md): the
+    # regional figure is published as the sum of the country-reported figures,
+    # always shown with its country coverage.
+    "Q-REG-01": "Decision of the programme (18 Oct 2026): the regional figure is the sum of the"
+                " figures each country reported, shown with the number of countries it covers."
+                " Zimbabwe stays out of the sum while Q-ZWE-01 is open.",
 }
 
 
