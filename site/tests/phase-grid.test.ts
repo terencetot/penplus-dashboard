@@ -56,7 +56,7 @@ describe("buildPhaseGrid", () => {
     const el = buildPhaseGrid("test", steps, [makeCountry("GHA", ["yes", "yes", "no"])]);
     expect(el.querySelector("thead th.phase-grid__pin")).toBeTruthy();
     const bodyPin = el.querySelector("tbody td.phase-grid__pin")!;
-    expect(bodyPin.textContent).toBe("GHA");
+    expect(bodyPin.textContent).toBe("Ghana"); // the ISO3 shown as its translated name
   });
 
   it("colours each cell by its own status, and the highest-phase chip by overall progress", () => {

@@ -3,10 +3,11 @@ import { fmtCount } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { buildPaginatedTable, tableToCSVData, type Column } from "@/components/table";
 import { downloadCSV } from "@/components/csv";
-import { panelTitleWithIcon, renderKpiCard, renderKpiRow } from "@/components/kpi";
-import { renderSourceRef } from "@/components/provenance";
+import { panelTitleWithIcon } from "@/components/kpi";
+import { statTile } from "@/components/stat";
 import { renderRegisterStatus } from "@/screens/country-profile";
 import { loadWhoGeo, renderFacilityMap, STATUSES } from "@/components/facility-map";
+import { countryName } from "@/lib/names";
 import type { FacilityRow } from "@/lib/types";
 
 /**
@@ -27,16 +28,12 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
       <p class="panel__question">${t("screen5.question")}</p>
     </header>
 
-    ${renderKpiRow([
-      renderKpiCard("facility", fmtCount(k.total), t("screen5.kpi.total")),
-      renderKpiCard("pulse", fmtCount(k.active), t("screen5.kpi.active")),
-      renderKpiCard("country", fmtCount(k.countries), t("screen5.kpi.countries")),
-      renderKpiCard(
-        "map",
-        t("common.n_of_total", { n: k.mapped, total: k.total }),
-        t("screen5.kpi.mapped_v2", { approx: k.approximate }),
-      ),
-    ])}
+    <div class="stat-row stat-row--4">
+      ${statTile(t("screen5.kpi.total"), fmtCount(k.total), t("screen5.kpi.total_sub", { n: k.countries }))}
+      ${statTile(t("screen5.kpi.active"), fmtCount(k.active), t("screen5.kpi.active_sub"))}
+      ${statTile(t("screen5.kpi.planned"), fmtCount(k.by_status.planned ?? 0), t("screen5.kpi.planned_sub"))}
+      ${statTile(t("screen5.kpi.on_map"), `${fmtCount(k.on_map)}<small>/${k.total}</small>`, t("screen5.kpi.on_map_sub"))}
+    </div>
 
     <p class="exec-message">${t("screen5.summary", {
       total: fmtCount(k.total),
@@ -49,7 +46,7 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
     <section class="panel">
       <div class="panel__header">${panelTitleWithIcon("map", t("screen5.map.title"))}</div>
       <div id="facility-map" class="facility-map"></div>
-      <p class="chart-caption">${t("screen5.map.caption_v2", { mapped: k.mapped, approx: k.approximate, total: k.total, off: k.location_to_confirm })}</p>
+      <p class="chart-caption">${t("screen5.map.caption_v3", { n: k.on_map, total: k.total })}</p>
       <p class="map-disclaimer">${t("screen5.map.disclaimer")}</p>
     </section>
 
@@ -69,12 +66,6 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
       </div>
       <div id="facility-table"></div>
       <p class="chart-caption">${t("screen5.register.caption")}</p>
-    </section>
-
-    <section class="panel">
-      <div class="panel__header">${panelTitleWithIcon("alert", t("screen5.to_confirm.title"))}</div>
-      <p class="chart-caption">${t("screen5.to_confirm.caption")}</p>
-      <div id="to-confirm" class="pill-list"></div>
     </section>
   `;
 
@@ -102,11 +93,10 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
       key: "name",
       label: t("table.facility"),
       html: true,
-      render: (f) =>
-        `${f.name ?? f.facility_id}${f.name_status === "to_confirm" ? ` <small class="muted">${t("screen5.name_to_confirm")}</small>` : ""}`,
+      render: (f) => `<b>${f.name ?? f.facility_id}</b>`,
       csv: (f) => f.name ?? f.facility_id,
     },
-    { key: "country", label: t("common.select_country"), render: (f) => f.country },
+    { key: "country", label: t("common.select_country"), render: (f) => countryName(f.iso3, f.country) },
     {
       key: "district",
       label: t("table.district"),
@@ -121,24 +111,6 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
       csv: (f) => f.register_status ?? "",
     },
     { key: "conditions", label: t("table.conditions"), render: (f) => f.conditions ?? "NR" },
-    { key: "patients", label: t("table.patients_reported"), render: (f) => f.patients_reported ?? "NR" },
-    {
-      key: "source",
-      label: t("common.source_slide"),
-      html: true,
-      render: (f) => renderSourceRef(f.source_ref) || "NR",
-      csv: (f) => f.source_ref ?? "",
-    },
-    {
-      key: "location",
-      label: t("table.location"),
-      render: (f) =>
-        f.mapped
-          ? t("screen5.location.on_map")
-          : f.approximate
-            ? t("screen5.location.approximate")
-            : t("screen5.location.to_confirm"),
-    },
   ];
   const tableHost = container.querySelector("#facility-table")!;
   const countryFilter = container.querySelector<HTMLSelectElement>("#country-filter")!;
@@ -158,13 +130,4 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
     const { headers, rows: csvRows } = tableToCSVData(columns, filtered());
     downloadCSV("facility_register", headers, csvRows);
   });
-
-  // ---- location to confirm: every facility not on the map, never dropped
-  container.querySelector("#to-confirm")!.innerHTML = rows
-    .filter((f) => !f.mapped && !f.approximate)
-    .map(
-      (f) =>
-        `<span class="pill" title="${(f.note ?? "").replace(/"/g, "&quot;")}">${f.name ?? f.facility_id} <small>${f.iso3}</small></span>`,
-    )
-    .join("");
 }

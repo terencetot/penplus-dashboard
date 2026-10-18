@@ -61,6 +61,10 @@
   --color-primary-strong: var(--navy-950);
   --color-primary-deeper: var(--navy-950);
   --color-primary-soft: var(--navy-100);
+  /* WHO blue: the colour of data (bars, points, selection), never of structure */
+  --who-blue: #009ade;
+  --who-blue-deep: #0072b1;
+  --who-blue-soft: #e3f4fc;
   --color-accent: #e8743b; /* gap to milestone, alerts -- nowhere else */
   --color-accent-strong: #a4471a;
   --color-accent-soft: #fcebdd;

@@ -166,6 +166,11 @@ Regional and screen-level figures:
 | D30 | Facility not in any source, or not named | Shown at its town as **approximate** (hollow point, labelled), never as the facility: 14 entries (Addis Zemen, Muketuri, Moyamba, Chifubu, Chibombo/Mwachisompola, and the unnamed pilot sites in Burkina Faso, DRC, Congo, Kenya). Chipata (Q-ZMB-02) stays off the map: the list has a Chipata in Lusaka and one in Eastern Province, 600 km apart. Result: 28 at their own coordinates, 14 approximate, 1 off the map. |
 | D31 | Map background | Natural Earth 1:50m land (public domain), clipped to sub-Saharan Africa (`site/public/assets/geo/africa_land.json`, 29 KB, same-origin). Coastline only: no national boundary is drawn, so no border is asserted (D22 still holds). |
 | D32 | Map redesign (user request, 18 Oct 2026) | Boundaries now from the **WHO GIS Centre for Health** (`Detailed_Boundary_ADM0`, plus WHO's disputed borders, dashed, and disputed areas, grey), generalised to about 3 km in `site/public/assets/geo/who_africa.json` (161 KB, loaded on the Facilities tab only). This replaces D22 and D31. Countries are tinted by HCT round. A clickable list of countries zooms the map to each WHO outline and labels every facility. The WHO standard map disclaimer is shown. |
+| D33 | Director edition (18 Oct 2026, programme request) | Demo mode removed (toggle, synthetic bundle, generator). No ICPPA mention on any screen; one neutral footer note: "Figures as reported by countries, June 2026". See docs/review/REVUE_DASHBOARD.md. |
+| D34 | Regional patient totals (Q-REG-01) | Published as the sum of country-reported figures, always with country coverage (programme decision). Q-REG-01 closed. Zimbabwe stays out of the sum, marked "to verify" (Q-ZWE-01 open). |
+| D35 | Map: exact vs approximate | No longer shown: one point per facility. The precision stays in the bundle and the CSV export (`geo_precision`, `geo_checked`). |
+| D36 | Colour system | Navy for structure, WHO blue #009ADE for data, orange only for alerts; condition colours from the design pack for the by-condition chart. Orange "Partial" badges removed (coverage still written, value muted below 80%, rule 6). |
+| D37 | Language | Country names, indicator labels and definitions, phases and steps, dates and number formats follow the interface language (en/fr/pt). |
 
 ## Skipped
 

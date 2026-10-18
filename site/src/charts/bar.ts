@@ -1,5 +1,6 @@
 import * as Plot from "@observablehq/plot";
 import { emptyChart } from "./empty";
+import { fmtCount } from "@/lib/format";
 
 export interface BarDatum {
   label: string;
@@ -52,11 +53,11 @@ export function horizontalBars(
     width: 1100,
     ariaLabel: opts.valueLabel,
     marginLeft: 230,
-    marginRight: 24,
+    marginRight: 64,
     height: opts.height ?? Math.max(120, data.length * 34 + 40),
     // the panel title already names the indicator; an axis label here only
     // collided with the tick labels
-    x: { label: null, grid: true, nice: true },
+    x: { label: null, grid: true, nice: true, tickFormat: (d: number) => fmtCount(d) },
     y: { label: null, domain: data.map((d) => d.label), padding: 0.45 },
     color: { legend: false },
     style: { fontFamily: "var(--font-family)", fontSize: "13px" },
@@ -66,7 +67,7 @@ export function horizontalBars(
         x: plotValue,
         rx: 5,
         fill: (d: BarDatum) =>
-          d.held ? "#ffffff" : d.suppressed ? "var(--color-accent)" : "var(--navy-700)",
+          d.held ? "#ffffff" : d.suppressed ? "var(--color-accent)" : "var(--who-blue-deep)",
         fillOpacity: (d: BarDatum) => (d.suppressed ? 0.55 : 1),
         stroke: (d: BarDatum) => (d.held ? "var(--color-accent-strong)" : "none"),
         strokeWidth: 1.5,
@@ -84,6 +85,19 @@ export function horizontalBars(
           dx: 8,
           textAnchor: "start",
           fill: "var(--color-accent-strong)",
+          fontWeight: 700,
+        },
+      ),
+      // the value at the end of each bar: read, not estimated from the axis
+      Plot.text(
+        data.filter((d) => !d.held && d.value !== null),
+        {
+          y: "label",
+          x: plotValue,
+          text: (d: BarDatum) => fmtCount(d.value),
+          dx: 8,
+          textAnchor: "start",
+          fill: "var(--ink)",
           fontWeight: 700,
         },
       ),

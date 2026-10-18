@@ -1,6 +1,7 @@
 import * as Plot from "@observablehq/plot";
 import { t } from "@/lib/i18n";
 import { emptyChart } from "./empty";
+import { fmtCount } from "@/lib/format";
 
 export interface TrendPoint {
   period_id: string;
@@ -57,7 +58,7 @@ export function lineTrend(
             x: "period_id",
             y: (d: TrendPoint) => (d.value === null ? NaN : d.value),
             z: zOf,
-            fill: "var(--navy-500)",
+            fill: "var(--who-blue)",
             fillOpacity: 0.08,
           }),
         ]
@@ -110,16 +111,24 @@ export function lineTrend(
       style: { fontSize: "11px" },
       // annual period ids ("2024-A") read as the bare year at this size
       x: { label: null, type: "point", tickFormat: (d: string) => d.replace(/-A$/, "") },
-      y: { label: null, grid: true, nice: true, zero: true, ticks: 4 },
-      color: { range: ["var(--navy-700)"] },
+      y: {
+        label: null,
+        grid: true,
+        nice: true,
+        zero: true,
+        ticks: 4,
+        tickFormat: (d: number) => fmtCount(d),
+      },
+      color: { range: ["var(--who-blue-deep)"] },
       marks,
     });
   }
   return Plot.plot({
+    width: 1100,
     marginLeft: 56,
     height,
-    x: { label: null, type: "point" },
-    y: { label: opts.valueLabel, grid: true, nice: true, zero: true },
+    x: { label: null, type: "point", tickFormat: (d: string) => d.replace(/-A$/, "") },
+    y: { label: null, grid: true, nice: true, zero: true, tickFormat: (d: number) => fmtCount(d) },
     color: { legend: points.length > 0 && new Set(points.map((p) => p.series)).size > 1 },
     marks,
   });
