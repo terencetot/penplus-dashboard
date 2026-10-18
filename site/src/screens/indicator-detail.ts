@@ -8,6 +8,7 @@ import { renderCoverageCard } from "@/components/coverage-card";
 import { lineTrend, type TrendPoint } from "@/charts/line";
 import { horizontalBars, type BarDatum } from "@/charts/bar";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
+import { provenanceOf, renderSourceRef, valueTypeLabel } from "@/components/provenance";
 import type { GoldRow } from "@/lib/types";
 
 const DIRECTION_LABEL: Record<string, string> = {
@@ -17,7 +18,10 @@ const DIRECTION_LABEL: Record<string, string> = {
 };
 
 const PHASE_BREAK_PERIOD = "2026-Q1"; // first Phase Two reporting period, per CLAUDE.md
-const SMALL_MULTIPLES = 3; // how many country trend panels to show side by side
+/** A trend line is drawn only where a real series exists: three or more
+ * published periods for the country (audit v2: Sierra Leone, Uganda,
+ * Liberia, Kenya; Rwanda as active). Two points are not a trend. */
+const MIN_TREND_PERIODS = 3;
 
 function latestByCountry(values: GoldRow[]): GoldRow[] {
   const latest = new Map<string, GoldRow>();
@@ -97,9 +101,12 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
           countries_reporting: dim.countries_reporting,
           countries_total: dim.countries_total,
           coverage_pct: dim.coverage_pct,
+          total_held_by: dim.regional_held_by,
+          countries_held: dim.countries_held,
         },
         dim.regional_as_of,
         regionalValueDisplay,
+        dim.value_types.map((vt) => valueTypeLabel(vt)).join(" · ") || undefined,
       )}
       <div class="coverage-card">
         <div class="coverage-card__label">${gapKpiLabel(dim.gap)}</div>
@@ -144,6 +151,7 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
   // listed as a pill instead -- present, never drawn as a zero.
   const allLatest = latestByCountry(values);
   const reporting = allLatest.filter((v) => v.value !== null || v.suppressed === 1);
+  const heldLabel = t("prov.held");
   const notReporting = overview.countries
     .filter((c) => !reporting.some((v) => v.iso3 === c.iso3))
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -154,17 +162,19 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
       label: nameOf(v.iso3),
       value: v.value,
       suppressed: v.suppressed === 1,
-      title: `${nameOf(v.iso3)}: ${valueTitle(v)}`,
+      held: v.held === 1,
+      title: `${nameOf(v.iso3)}: ${valueTitle(v)}${v.held ? ` · ${heldLabel} (${v.held_by})` : ""}${v.source_ref ? ` · ${v.source_ref}` : ""}`,
     }));
 
   renderChartPanel(container.querySelector("#distribution-panel")!, {
     title: t("screen2.distribution.title"),
     icon: "grid",
     caption: t("screen2.distribution.caption"),
-    legendHtml: `<span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-accent)"></span>${t("common.suppressed_note", { n: 5 })}</span>`,
+    legendHtml: `<span class="chart-legend__item"><span class="chart-legend__swatch" style="background:var(--color-accent)"></span>${t("common.suppressed_note", { n: 5 })}</span>
+      <span class="chart-legend__item"><span class="chart-legend__swatch chart-legend__swatch--held"></span>${t("screen2.distribution.held_note")}</span>`,
     buildChart: () => {
       const wrap = document.createElement("div");
-      wrap.appendChild(horizontalBars(barData, { valueLabel: dim.label_en }));
+      wrap.appendChild(horizontalBars(barData, { valueLabel: dim.label_en, heldLabel }));
       if (notReporting.length > 0) {
         const pills = document.createElement("div");
         pills.className = "pill-list";
@@ -188,7 +198,19 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
           render: (v) => renderValueWithCompleteness(valueTitle(v), v.completeness),
           csv: valueTitle,
         },
+        {
+          key: "value_type",
+          label: t("common.value_type"),
+          render: (v) => valueTypeLabel(v.value_type, v.as_of) || "NR",
+        },
         { key: "as_of", label: t("common.as_of"), render: (v) => fmtDate(v.as_of) },
+        {
+          key: "provenance",
+          label: t("common.provenance"),
+          html: true,
+          render: (v) => `${provenanceOf(v)} ${renderSourceRef(v.source_ref)}`,
+          csv: (v) => `${v.held ? `held (${v.held_by})` : v.basis}${v.source_ref ? ` ${v.source_ref}` : ""}`,
+        },
       ];
       return buildTable(`${dim.label_en}: ${t("screen2.distribution.title")}`, columns, reporting);
     },
@@ -208,6 +230,9 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
           },
           { key: "value", label: "value", render: (v) => (v.value === null ? "NR" : String(v.value)) },
           { key: "as_of", label: "as_of", render: (v) => v.as_of },
+          { key: "value_type", label: "value_type", render: (v) => v.value_type ?? "" },
+          { key: "held", label: "held_by", render: (v) => v.held_by ?? "" },
+          { key: "source_ref", label: "source_slide", render: (v) => v.source_ref ?? "" },
         ],
         reporting,
       ),
@@ -224,13 +249,8 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
     nonNullPeriodsByCountry.set(v.iso3, (nonNullPeriodsByCountry.get(v.iso3) ?? 0) + 1);
   }
   const trendCountries = [...nonNullPeriodsByCountry.keys()]
-    .filter((iso3) => (nonNullPeriodsByCountry.get(iso3) ?? 0) >= 2)
-    .sort(
-      (a, b) =>
-        (nonNullPeriodsByCountry.get(b) ?? 0) - (nonNullPeriodsByCountry.get(a) ?? 0) || a.localeCompare(b),
-    )
-    .slice(0, SMALL_MULTIPLES)
-    .sort((a, b) => a.localeCompare(b)); // shown alphabetically, never in "most data" order
+    .filter((iso3) => (nonNullPeriodsByCountry.get(iso3) ?? 0) >= MIN_TREND_PERIODS)
+    .sort((a, b) => nameOf(a).localeCompare(nameOf(b))); // alphabetical, never in "most data" order
 
   const trendHost = container.querySelector("#trend-panel")!;
   if (trendCountries.length === 0) {
@@ -261,15 +281,16 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
       const name = overview.countries.find((c) => c.iso3 === iso3)?.name ?? iso3;
       card.innerHTML = `<div class="trend-card__head">
           <span class="trend-card__name">${name}</span>
-          ${latest?.basis === "historical" ? `<span class="chip chip--historical">${t("common.historical")}</span>` : ""}
+          ${latest ? provenanceOf(latest) : ""}
         </div>
+        <div class="value-type">${valueTypeLabel(latest?.value_type, latest?.as_of)} ${renderSourceRef(latest?.source_ref)}</div>
         <div class="trend-card__value num">${latest ? fmtCount(latest.value) : NR}<small>${latest?.period_id ?? ""}</small></div>
         <div class="trend-card__chart"></div>`;
       card.querySelector(".trend-card__chart")!.appendChild(
         lineTrend(points, {
           valueLabel: activeDim.label_en,
           seriesBreakAt: crossesBreak ? PHASE_BREAK_PERIOD : undefined,
-          seriesBreakLabel: crossesBreak ? "Phase 1 → 2" : undefined,
+          seriesBreakLabel: crossesBreak ? t("screen2.trend.break_label") : undefined,
           height: 200,
           compact: true,
         }),

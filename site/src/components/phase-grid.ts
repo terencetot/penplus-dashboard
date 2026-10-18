@@ -11,16 +11,22 @@ const STATUS_MARK: Record<string, string> = {
   not_reported: "·",
 };
 
-function highestPhaseLabel(n: number): string {
-  return n === 0 ? t("screen_impl.not_started") : t("screen_impl.phase_n", { n });
-}
-
-/** Same three-state read as the phase-grid marks: grey until started,
- * amber while any phase is still open, green once every phase is met. */
-function highestPhaseChipClass(n: number, maxPhase: number): string {
-  if (n === 0) return "chip--not_reported";
-  if (n >= maxPhase) return "chip--met";
-  return "chip--partly_met";
+/** The published phase (official ICPPA 2026 map), or "No return yet" --
+ * never "not started" for a country with no evidence (audit v2). A
+ * disagreement with the monitoring workbook's steps is flagged in words. */
+function phaseCell(c: ImplementationCountry): string {
+  if (c.phase === null) return `<span class="prov prov--no_return">${t("prov.no_return")}</span>`;
+  const flag =
+    c.agreement === "no"
+      ? ` <span class="flag-mark" title="${t("screen_impl.disagreement", {
+          workbook: c.workbook_phase ?? "NR",
+          map: c.icppa_map_phase ?? "NR",
+        }).replace(
+          /"/g,
+          "&quot;",
+        )}">${t("screen_impl.workbook_says", { n: c.workbook_phase ?? "NR" })}</span>`
+      : "";
+  return `<span class="phase-chip phase-chip--${c.phase}">${t("screen_impl.phase_n", { n: c.phase })}</span>${flag}`;
 }
 
 /**
@@ -36,11 +42,10 @@ export function buildPhaseGrid(
   caption: string,
   steps: ImplementationStepDim[],
   countries: ImplementationCountry[],
-  pageSize = 20,
+  pageSize = 31,
 ): HTMLElement {
   const phaseNos = [...new Set(steps.map((s) => s.phase_no))].sort((a, b) => a - b);
   const stepsByPhase = new Map(phaseNos.map((p) => [p, steps.filter((s) => s.phase_no === p)]));
-  const maxPhase = Math.max(...phaseNos);
 
   const host = document.createElement("div");
   let page = 0;
@@ -75,7 +80,7 @@ export function buildPhaseGrid(
     const highestTh = document.createElement("th");
     highestTh.rowSpan = 2;
     highestTh.scope = "col";
-    highestTh.textContent = t("screen_impl.column.highest_phase");
+    highestTh.textContent = t("screen_impl.column.phase");
     phaseRow.appendChild(highestTh);
 
     phaseNos.forEach((phaseNo, i) => {
@@ -120,9 +125,21 @@ export function buildPhaseGrid(
       tr.appendChild(nameTd);
 
       const highestTd = document.createElement("td");
-      const chipClass = highestPhaseChipClass(c.highest_phase_completed, maxPhase);
-      highestTd.innerHTML = `<span class="chip ${chipClass}">${highestPhaseLabel(c.highest_phase_completed)}</span>`;
+      highestTd.className = "phase-grid__phase";
+      highestTd.innerHTML = phaseCell(c);
       tr.appendChild(highestTd);
+
+      // A second-round country has no step evidence at all: one honest
+      // cell across the row, not fourteen "not reported" marks.
+      if (!c.has_steps) {
+        const td = document.createElement("td");
+        td.colSpan = steps.length;
+        td.className = "phase-grid__noreturn";
+        td.textContent = t("screen_impl.no_steps");
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+        continue;
+      }
 
       phaseNos.forEach((phaseNo) => {
         const stepsOfPhase = stepsByPhase.get(phaseNo)!;

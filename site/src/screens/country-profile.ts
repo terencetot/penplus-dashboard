@@ -5,12 +5,14 @@ import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
 import { renderValueWithCompleteness } from "@/components/completeness";
 import { renderStatus, statusFromGovernance, statusFromImplementationStep, statusKey } from "@/lib/status";
-import { facilityStatusKey, projectSupportedKey } from "@/lib/vocab";
 import { panelTitleWithIcon } from "@/components/kpi";
 import { renderCountryTileBadge } from "@/components/country-tiles";
 import { buildTable, tableToCSVData, type Column } from "@/components/table";
+import { provenanceOf, renderProvenance, renderSourceRef, valueTypeLabel } from "@/components/provenance";
+import { renderQueryList } from "@/components/queries";
 import { lineTrend, type TrendPoint } from "@/charts/line";
-import type { GoldRow, GovernanceRow, IndicatorDim, OpenQuery } from "@/lib/types";
+import { COUNTRY_ASSETS, SHOW_COAT_OF_ARMS } from "@/config";
+import type { FacilityRow, GoldRow, GovernanceRow, IndicatorDim } from "@/lib/types";
 
 const PHASE_BREAK_PERIOD = "2026-Q1";
 /** Results Framework families, in the form's own focus-area order. */
@@ -24,58 +26,76 @@ const FAMILY_ORDER = [
   "data",
   "communication",
 ];
+/** The trend shown on the profile: the first of these with a series. */
+const TREND_PREFERENCE = ["2.6", "2.6a", "2.5", "3.3"];
 
 function valueText(v: GoldRow): string {
   return v.unit === "rate" ? fmtRateWithNandN(v.numerator, v.denominator, v.value) : fmtCount(v.value);
 }
 
+/**
+ * Screen 3: "What is the position of this country?" Header with the country
+ * map (its ISO3 tile until a map file is added), name and chips (cohort,
+ * phase, provenance), coat of arms behind SHOW_COAT_OF_ARMS. Every figure
+ * carries its value type, source slide and provenance mark.
+ */
 export async function renderCountryProfile(container: HTMLElement, iso3: string): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
-  const [country, indicatorsBundle, implBundle] = await Promise.all([
+  const [country, indicatorsBundle, implBundle, overview] = await Promise.all([
     getCountry(iso3),
     getIndicators(),
     getImplementation(),
+    getOverview(),
   ]);
   const dimByCode = new Map<string, IndicatorDim>(indicatorsBundle.dim.map((d) => [d.indicator_code, d]));
 
-  // computed ahead of the template so the KPI row can read from it
   const latestPerIndicator = new Map<string, GoldRow>();
+  const latestToDate = new Map<string, GoldRow>();
   for (const v of country.values) {
-    if (v.disagg_key !== "all") continue;
-    const prev = latestPerIndicator.get(v.indicator_code);
-    if (!prev || v.period_id > prev.period_id) latestPerIndicator.set(v.indicator_code, v);
+    const target =
+      v.disagg_key === "all"
+        ? latestPerIndicator
+        : v.disagg_key === "measure" && v.disagg_value === "to_date"
+          ? latestToDate
+          : null;
+    if (!target) continue;
+    const prev = target.get(v.indicator_code);
+    if (!prev || v.period_id > prev.period_id) target.set(v.indicator_code, v);
   }
-  const activeInCare = latestPerIndicator.get("2.6");
-  const highSeverity = country.open_queries.filter((q) => q.severity === "High").length;
 
-  // Indicators 1.1-1.3 are binary governance milestones, also shown below
-  // in the dedicated Governance panel with real provenance (a document
-  // name). Design review caught these being shown twice on the same
-  // screen, inconsistently: a bare "1"/"0" here, a proper status pill with
-  // its supporting document there. Cross-reference to render the identical
-  // status pill instead -- keyed on milestone_code, not indicator_code:
-  // parse.py's own comment calls 1.1/1.2/1.3 "the fixed codes," and
-  // milestone_code carries that exact string throughout the real form
-  // parser, historical seeding and the demo generator alike, whereas
-  // fact_governance.indicator_code is never actually populated anywhere in
-  // the pipeline (checked: parse.py, seed_history.py, generate_demo_bundle.py
-  // all leave it unset). A stray non-numeric milestone_code (e.g. the older
-  // monitoring-workbook codes like "national_me_framework") never collides
-  // with a real indicator_code, so matching directly is safe.
   const govStatusOf = (g: GovernanceRow) => statusFromGovernance(g.status, Boolean(g.document));
   const govByIndicatorCode = new Map(country.governance.map((g) => [g.milestone_code, g]));
 
   const c = country.country;
-  const cohortLabel = t(
-    c.cohort === "phase_1" ? "screen1.hero.phase1_legend" : "screen1.hero.phase2_legend",
-    {
-      n: "",
-    },
-  ).trim();
-  const anyHistorical = country.values.some((v) => v.basis === "historical");
-  const activeNull = !activeInCare || activeInCare.value === null;
-  const stat = (value: string, label: string, isNull = false) =>
-    `<div class="country-hero__stat"><b class="num${isNull ? " is-null" : ""}">${value}</b><span>${label}</span></div>`;
+  const impl = country.implementation;
+  const cohortLabel = t(c.cohort === "phase_1" ? "common.phase1" : "common.phase2");
+  const openQueries = country.queries.filter((q) => q.status === "open");
+  const highSeverity = openQueries.filter((q) => q.severity === "High").length;
+  const activeFacilities = country.facilities.filter((f) => f.register_status === "active").length;
+
+  const assets = COUNTRY_ASSETS[c.iso3] ?? {};
+  const base = import.meta.env.BASE_URL;
+  const mapHtml = assets.map
+    ? `<img class="country-hero__map" src="${base}assets/countries/${c.iso3}/${assets.map}" alt="${t("screen3.map_alt", { country: c.name })}" />`
+    : renderCountryTileBadge(c.iso3, c.cohort, cohortLabel);
+  const armsHtml =
+    SHOW_COAT_OF_ARMS && assets.arms
+      ? `<img class="country-hero__arms" src="${base}assets/countries/${c.iso3}/${assets.arms}" alt="${t("screen3.arms_alt", { country: c.name })}" />`
+      : "";
+
+  const stat = (value: string, label: string, sub = "", isNull = false) =>
+    `<div class="country-hero__stat"><b class="num${isNull ? " is-null" : ""}">${value}</b><span>${label}</span>${sub ? `<small>${sub}</small>` : ""}</div>`;
+  const patientStat = (code: string, label: string) => {
+    const v = latestPerIndicator.get(code);
+    if (!v || v.value === null) return stat(t("status.not_reported"), label, "", true);
+    const sub = `${valueTypeLabel(v.value_type, v.as_of)} ${renderSourceRef(v.source_ref)}${v.held ? ` ${renderProvenance("held", v.held_by)}` : ""}`;
+    return stat(fmtCount(v.value), label, sub);
+  };
+
+  const phaseChip =
+    impl.phase !== null
+      ? `<span class="phase-chip phase-chip--${impl.phase}">${t("screen_impl.phase_n", { n: impl.phase })}</span>`
+      : `<span class="prov prov--no_return">${t("prov.no_return")}</span>`;
 
   container.innerHTML = `
     <header class="page-head">
@@ -90,26 +110,30 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     </div>
 
     <div class="country-hero">
+      <div class="country-hero__identity">${mapHtml}</div>
       <div class="country-hero__card">
-        <h1 class="country-hero__name">${c.name}</h1>
-        <div class="country-hero__chips">
-          <span class="chip">${cohortLabel}</span>
-          <span class="chip">${t("screen3.chip.returns_on_file", { n: c.returns })}</span>
-          ${c.last_period ? `<span class="chip">${t("screen3.chip.last_return", { period: c.last_period })}</span>` : ""}
-          ${anyHistorical ? `<span class="chip chip--warm">${t("screen3.chip.historical_evidence")}</span>` : ""}
+        <div class="country-hero__titlerow">
+          <h1 class="country-hero__name">${c.name}</h1>
+          ${armsHtml}
         </div>
-        ${c.returns === 0 ? `<p class="callout callout--empty">${t("screen3.no_return", { country: c.name })}</p>` : ""}
+        <div class="country-hero__chips">
+          <span class="chip chip--cohort-${c.cohort}">${cohortLabel}</span>
+          ${phaseChip}
+          ${renderProvenance(country.provenance.status)}
+          ${c.last_period && c.has_data ? `<span class="chip">${t("screen3.chip.last_period", { period: c.last_period })}</span>` : ""}
+        </div>
+        ${!c.has_data ? `<p class="callout callout--empty">${t("screen3.no_return", { country: c.name })}</p>` : ""}
         <div class="country-hero__stats">
-          ${stat(fmtCount(country.facilities.length), t("screen3.facilities.title"))}
-          ${stat(activeNull ? t("status.not_reported") : fmtCount(activeInCare!.value), t("screen1.hero.active"), activeNull)}
-          ${stat(fmtCount(c.returns), t("screen3.kpi.returns"))}
+          ${stat(fmtCount(country.facilities.length), t("screen3.facilities.title"), t("screen3.facilities.active_n", { n: activeFacilities }))}
+          ${patientStat("2.6", t("screen1.hero.sentinel"))}
+          ${patientStat("2.5", t("screen1.hero.all_conditions"))}
           ${stat(
-            String(country.open_queries.length),
-            highSeverity > 0 ? t("screen3.kpi.queries_high", { n: highSeverity }) : t("common.open_queries"),
+            String(openQueries.length),
+            t("common.open_queries"),
+            highSeverity > 0 ? t("screen3.kpi.queries_high", { n: highSeverity }) : "",
           )}
         </div>
       </div>
-      ${renderCountryTileBadge(c.iso3, c.cohort, cohortLabel)}
     </div>
 
     <div class="indicator-groups" id="indicator-groups"></div>
@@ -135,32 +159,39 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       <div class="panel__header">${panelTitleWithIcon("alert", t("screen3.queries.title"))}</div>
       <div id="queries-list"></div>
     </section>
+
+    ${
+      country.data_system
+        ? `<section class="panel"><div class="panel__header">${panelTitleWithIcon("shield", t("screen4.dsa.title"))}</div><div id="dsa-card"></div></section>`
+        : ""
+    }
   `;
 
   // country switcher
   const select = container.querySelector<HTMLSelectElement>("#country-select")!;
-  const overview = await getOverview();
-  for (const c of [...overview.countries].sort((a, b) => a.name.localeCompare(b.name))) {
+  for (const o of [...overview.countries].sort((a, b) => a.name.localeCompare(b.name))) {
     const opt = document.createElement("option");
-    opt.value = c.iso3;
-    opt.textContent = c.name;
-    opt.selected = c.iso3 === iso3;
+    opt.value = o.iso3;
+    opt.textContent = o.name;
+    opt.selected = o.iso3 === iso3;
     select.appendChild(opt);
   }
   select.addEventListener("change", () => navigate({ screen: "country", iso3: select.value }));
 
-  // all sixteen indicators for this country, latest period each (acceptance
-  // criterion 3), grouped by Results Framework family -- grouping and
-  // ordering only, nothing derived.
+  // ---- every indicator, latest period, grouped by Results Framework family
   const groupsHost = container.querySelector("#indicator-groups")!;
   const indicatorValue = (d: IndicatorDim): string => {
     const g = govByIndicatorCode.get(d.indicator_code);
     if (g) return renderStatus(govStatusOf(g), t(statusKey(govStatusOf(g))));
-    const v = latestPerIndicator.get(d.indicator_code);
+    let v = latestPerIndicator.get(d.indicator_code);
+    if ((!v || v.value === null) && latestToDate.has(d.indicator_code))
+      v = latestToDate.get(d.indicator_code);
     if (!v || (v.value === null && v.suppressed !== 1)) {
       return `<span class="pill pill--nr">${t("status.not_reported")}</span>`;
     }
-    return `${renderValueWithCompleteness(valueText(v), v.completeness)} <small>${v.period_id}</small>`;
+    const vt = v.disagg_value === "to_date" ? t("value_type.to_date") : valueTypeLabel(v.value_type, v.as_of);
+    return `${renderValueWithCompleteness(valueText(v), v.completeness)}
+      <small class="indicator-row__meta">${vt ? `${vt} · ` : ""}${v.period_id} ${renderSourceRef(v.source_ref)} ${provenanceOf(v)}</small>`;
   };
   for (const family of FAMILY_ORDER) {
     const dims = indicatorsBundle.dim.filter((d) => d.family === family);
@@ -180,20 +211,28 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     groupsHost.appendChild(panel);
   }
 
-  // ---- trend for one indicator, chosen from the table above by clicking a row (kept simple: default 2.5)
-  const trendCode = latestPerIndicator.has("2.5")
-    ? "2.5"
-    : (indicatorsBundle.dim[0]?.indicator_code ?? "2.5");
-  const dim = dimByCode.get(trendCode);
-  if (dim) {
-    const series = country.values
-      .filter((v) => v.disagg_key === "all" && v.indicator_code === trendCode)
+  // ---- trend: the first preferred indicator with at least two periods
+  const seriesFor = (code: string) =>
+    country.values
+      .filter(
+        (v) =>
+          v.indicator_code === code &&
+          (code === "3.3"
+            ? v.disagg_key === "measure" && v.disagg_value === "to_date"
+            : v.disagg_key === "all"),
+      )
       .sort((a, b) => a.period_id.localeCompare(b.period_id));
+  const trendCode = TREND_PREFERENCE.find(
+    (code) => seriesFor(code).filter((v) => v.value !== null).length >= 2,
+  );
+  const dim = trendCode ? dimByCode.get(trendCode) : undefined;
+  if (trendCode && dim) {
+    const series = seriesFor(trendCode);
     const points: TrendPoint[] = series.map((v) => ({
       period_id: v.period_id,
       value: v.value,
       series: iso3,
-      title: `${v.period_id}: ${valueText(v)}`,
+      title: `${v.period_id}: ${valueText(v)}${v.source_ref ? ` · ${v.source_ref}` : ""}`,
     }));
     const crossesBreak =
       series.some((v) => v.period_id < PHASE_BREAK_PERIOD) &&
@@ -201,13 +240,13 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     renderChartPanel(container.querySelector("#trend-panel")!, {
       title: `${t("screen3.trend_since")}: ${dim.label_en}`,
       icon: "trend",
-      caption: t("screen2.trend.caption"),
+      caption: t("screen3.trend.caption"),
       legendHtml: `<span class="chart-legend__item">${t("common.nr_legend")}</span>`,
       buildChart: () =>
         lineTrend(points, {
           valueLabel: dim.label_en,
           seriesBreakAt: crossesBreak ? PHASE_BREAK_PERIOD : undefined,
-          seriesBreakLabel: crossesBreak ? "Phase 1 → 2" : undefined,
+          seriesBreakLabel: crossesBreak ? t("screen2.trend.break_label") : undefined,
         }),
       buildTable: () =>
         buildTable(
@@ -222,6 +261,11 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
               render: (v: GoldRow) => renderValueWithCompleteness(valueText(v), v.completeness),
               csv: valueText,
             },
+            {
+              key: "source",
+              label: t("common.source_slide"),
+              render: (v: GoldRow) => v.source_ref ?? "NR",
+            },
           ],
           series,
         ),
@@ -230,6 +274,7 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
           [
             { key: "period_id", label: "period_id", render: (v) => v.period_id },
             { key: "value", label: "value", render: (v) => (v.value === null ? "NR" : String(v.value)) },
+            { key: "source_ref", label: "source_slide", render: (v) => v.source_ref ?? "" },
           ],
           series,
         ),
@@ -237,15 +282,13 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     });
   }
 
-  // ---- implementation phase: this country's own row of the fourteen-step
-  // stepper (screens/implementation.ts has the full countries x steps grid)
+  // ---- implementation phase: the published phase, the workbook's steps
+  // beside it, a disagreement flagged -- and "no return yet", never "not
+  // started", for a country without evidence.
   const stepperHost = container.querySelector("#implementation-stepper")!;
-  const highestPhase = country.implementation.highest_phase_completed;
-  const highestPhaseText =
-    highestPhase === 0 ? t("screen_impl.not_started") : t("screen_impl.phase_n", { n: highestPhase });
   const stepperPhases = [...new Set(implBundle.steps.map((s) => s.phase_no))].sort((a, b) => a - b);
   const markFor = (s: (typeof implBundle.steps)[number]): string => {
-    const row = country.implementation.steps.find((r) => r.step_no === s.step_no);
+    const row = impl.steps.find((r) => r.step_no === s.step_no);
     const status = statusFromImplementationStep(row?.status ?? null);
     const title = [
       `${s.phase_label}: ${s.step_no}. ${s.step_label}`,
@@ -268,38 +311,47 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
       </div>`,
     )
     .join("");
-  stepperHost.innerHTML = `
-    <p class="chip">${t("screen_impl.column.highest_phase")}: ${highestPhaseText}</p>
-    <div class="implementation-stepper">${stepperMarks}</div>
-  `;
+  const disagreement =
+    impl.agreement === "no"
+      ? `<p class="callout callout--flag">${t("screen_impl.disagreement", {
+          workbook: impl.workbook_phase ?? "NR",
+          map: impl.icppa_map_phase ?? "NR",
+        })}</p>`
+      : "";
+  stepperHost.innerHTML =
+    impl.phase === null
+      ? `<p class="callout callout--empty">${t("screen_impl.no_return_country", { country: c.name })}</p>`
+      : `<p>${t("screen_impl.column.phase")}: ${phaseChip} <small class="muted">${t("screen_impl.phase_source")}</small></p>
+         ${disagreement}
+         ${impl.has_steps ? `<div class="implementation-stepper">${stepperMarks}</div>` : ""}`;
 
-  // ---- facilities
-  const facColumns: Column<(typeof country.facilities)[number]>[] = [
-    {
-      key: "name",
-      label: t("table.facility"),
-      // Identity is withheld (name null) in the public export -- fall back
-      // to the facility_id rather than let a bare null render as the
-      // literal text "null".
-      render: (f) => f.name ?? f.facility_id,
-    },
-    { key: "district", label: t("table.district"), render: (f) => f.district ?? "NR" },
+  // ---- facilities (curated register: status as a word, partner, the patient figure on the slide)
+  const facColumns: Column<FacilityRow>[] = [
+    { key: "name", label: t("table.facility"), render: (f) => f.name ?? f.facility_id },
+    { key: "district", label: t("table.district"), render: (f) => f.district ?? f.town ?? "NR" },
+    { key: "partner", label: t("table.partner"), render: (f) => f.partner ?? "NR" },
     {
       key: "status",
       label: t("table.status"),
-      render: (f) => (f.status ? t(facilityStatusKey(f.status)) : "NR"),
+      html: true,
+      render: (f) => renderRegisterStatus(f),
+      csv: (f) => f.register_status ?? "",
     },
+    { key: "conditions", label: t("table.conditions"), render: (f) => f.conditions ?? "NR" },
     {
-      key: "project_supported",
-      label: t("table.project_supported"),
-      render: (f) => (f.project_supported ? t(projectSupportedKey(f.project_supported)) : "NR"),
+      key: "patients",
+      label: t("table.patients_reported"),
+      render: (f) => f.patients_reported ?? "NR",
     },
   ];
-  container
-    .querySelector("#facility-table")!
-    .appendChild(
-      buildTable(`${country.country.name}: ${t("screen3.facilities.title")}`, facColumns, country.facilities),
+  const facHost = container.querySelector("#facility-table")!;
+  if (country.facilities.length === 0) {
+    facHost.innerHTML = `<p class="callout callout--empty">${t("screen3.facilities.none")}</p>`;
+  } else {
+    facHost.appendChild(
+      buildTable(`${c.name}: ${t("screen3.facilities.title")}`, facColumns, country.facilities),
     );
+  }
 
   // ---- governance milestones: "a Yes without a document title is not counted"
   const govColumns: Column<GovernanceRow>[] = [
@@ -315,23 +367,35 @@ export async function renderCountryProfile(container: HTMLElement, iso3: string)
     { key: "document", label: t("table.document"), render: (g) => g.document ?? "NR" },
   ];
   const govHost = container.querySelector("#governance-table")!;
-  govHost.appendChild(buildTable(t("screen3.governance.title"), govColumns, country.governance));
   if (country.governance.length === 0) {
     govHost.innerHTML = `<p class="callout callout--empty">${t("empty.no_data")}</p>`;
+  } else {
+    govHost.appendChild(buildTable(t("screen3.governance.title"), govColumns, country.governance));
   }
 
-  // ---- open queries
-  const queriesHost = container.querySelector("#queries-list")!;
-  if (country.open_queries.length === 0) {
-    queriesHost.innerHTML = `<p class="callout callout--empty">${t("common.no_open_queries")}</p>`;
-  } else {
-    queriesHost.innerHTML = country.open_queries
-      .map(
-        (q: OpenQuery) => `<div class="callout callout--severity-${q.severity.toLowerCase()}">
-        <strong>${q.severity}</strong>, ${q.period_id}, ${q.section} / ${q.field}<br>
-        ${q.question}
-      </div>`,
-      )
-      .join("");
+  // ---- queries: open first; never "0 open queries" without saying what was tested
+  container.querySelector("#queries-list")!.innerHTML =
+    country.queries.length === 0
+      ? `<p class="callout callout--empty">${t("screen3.queries.none")}</p>`
+      : renderQueryList(country.queries);
+
+  const dsaHost = container.querySelector("#dsa-card");
+  if (dsaHost && country.data_system) {
+    const f = country.data_system.fields;
+    dsaHost.innerHTML = `<dl class="definition-panel definition-panel--pair">
+      ${Object.entries(f)
+        .map(([k, v]) => `<dt>${t(`dsa.${k}`)}</dt><dd>${v}</dd>`)
+        .join("")}
+    </dl>
+    <p class="chart-caption">${t("screen4.dsa.caption", {
+      date: fmtDate(country.data_system.assessed_on),
+      institution: country.data_system.institution ?? "",
+    })}</p>`;
   }
+}
+
+/** A facility's register status as a word with a shape (rule 9). */
+export function renderRegisterStatus(f: Pick<FacilityRow, "register_status">): string {
+  const s = f.register_status ?? "to_confirm";
+  return `<span class="reg reg--${s}">${t(`register_status.${s}`)}</span>`;
 }

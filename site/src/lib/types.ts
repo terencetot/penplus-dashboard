@@ -10,8 +10,9 @@ export type Verdict = "accepted" | "query" | "hold";
 export type SourceKind = "form" | "historical";
 export type Unit = "count" | "rate" | "status";
 export type Direction = "increase" | "decrease" | "neutral";
-export type Confidence = "high" | "medium" | "low" | "not_assessed" | null;
 export type Severity = "High" | "Medium" | "Low";
+/** How a baseline figure was read from its slide (workbook "Value type"). */
+export type ValueType = "flow" | "cumulative" | "active" | "point-in-time" | string;
 
 export interface Manifest {
   built_at: string;
@@ -21,6 +22,11 @@ export interface Manifest {
   countries: number;
   periods: string; // comma-separated period_id list
   suppress_below: number;
+  public: boolean;
+  publish_facility_names: boolean;
+  /** true while no validated quarterly form return exists: every screen shows the baseline banner */
+  baseline_only: boolean;
+  form_returns: number;
   note: string;
 }
 
@@ -30,14 +36,26 @@ export interface CountryRef {
   cohort: Cohort;
   returns: number;
   last_period: string | null;
+  /** at least one non-null published value */
+  has_data: boolean;
+  /** implementation phase to publish (1-5), null = no return yet */
+  phase: number | null;
+  form_returns: number;
 }
 
-export interface HeadlineFigure {
+/** A regional figure as export.py builds it: held figures are counted apart and never in `total`. */
+export interface RegionalFigure {
   total: number | null;
+  /** set when an open regional High query holds the total itself (e.g. Q-REG-01) */
+  total_held_by: string | null;
+  as_of: string | null;
   countries_reporting: number;
+  countries_held: number;
+  held_by: string[];
   countries_total: number;
   /** Whole per cent, computed in export.py -- never (re)derived in the browser. */
   coverage_pct: number | null;
+  basis: SourceKind | null;
 }
 
 export interface MilestoneStripEntry {
@@ -45,6 +63,7 @@ export interface MilestoneStripEntry {
   label_en: string;
   unit: Unit | null;
   value: number | null;
+  held_by: string | null;
   as_of: string | null;
   milestone: number | null;
   gap: number | null;
@@ -66,6 +85,11 @@ export interface GoldRow {
   suppressed: 0 | 1;
   as_of: string;
   basis: SourceKind;
+  value_type: ValueType | null;
+  /** deck and slide, e.g. "D3M p224" */
+  source_ref: string | null;
+  held: 0 | 1;
+  held_by: string | null;
 }
 
 export interface IndicatorDim {
@@ -77,27 +101,30 @@ export interface IndicatorDim {
   definition: string | null;
   formula: string | null;
   milestone: number | null;
-  /** Regional aggregate: sum of numerators (count) or sum(num)/sum(den) (rate),
-   *  computed in export.py -- the site never derives this itself. */
+  /** Regional aggregate computed in export.py; null when nothing is reported or the total is held. */
   regional_value: number | null;
+  regional_held_by: string | null;
   regional_as_of: string | null;
   countries_reporting: number;
+  countries_held: number;
   countries_total: number;
-  /** Whole per cent, computed in export.py -- never (re)derived in the browser. */
   coverage_pct: number | null;
   gap: number | null;
+  value_types: ValueType[];
 }
 
 export interface OverviewBundle {
   manifest: Manifest;
   headline: {
-    facilities: HeadlineFigure;
-    ever_enrolled: HeadlineFigure;
-    active: HeadlineFigure;
-    trained: HeadlineFigure;
+    facilities: RegionalFigure;
+    sentinel_ever: RegionalFigure;
+    all_ever: RegionalFigure;
+    sentinel_active: RegionalFigure;
+    trained: RegionalFigure;
   };
   milestone_strip: MilestoneStripEntry[];
   countries: CountryRef[];
+  countries_with_data: number;
   latest: GoldRow[];
 }
 
@@ -107,77 +134,131 @@ export interface IndicatorsBundle {
   values: GoldRow[];
 }
 
-export interface OpenQuery {
-  iso3: string;
-  period_id: string;
-  query_id: number;
+/** One query in the register: seeded from the evidence review, or raised by validate.py. */
+export interface Query {
+  query_id: string;
+  /** an ISO3, "REG", or several ISO3 separated by "; " */
+  scope: string;
   severity: Severity;
-  section: string;
-  field: string;
-  observed: string;
-  expected: string;
-  question: string;
+  indicator: string | null;
+  issue: string | null;
+  evidence: string | null;
+  action: string | null;
   status: "open" | "answered" | "closed";
-  raised_at: string;
+  resolution: string | null;
+  source: string | null;
+  rule: string | null;
+  period_id: string | null;
+  opened_on: string | null;
 }
 
-export interface QualityRow {
+export type ProvenanceStatus = "validated" | "historical" | "held" | "no_return";
+
+export interface ProvenanceRow {
   iso3: string;
-  period_id: string;
-  source_kind: SourceKind;
-  verdict: Verdict;
-  ltfu_compliant: 0 | 1 | null;
-  dedup_basis: string | null;
-  patient_source: string | null;
-  facilities_expected: number | null;
-  returns_complete: number | null;
-  returns_on_time: number | null;
-  completeness: number | null;
-  conf_facilities: Confidence;
-  conf_patients: Confidence;
-  conf_workforce: Confidence;
-  conf_quality: Confidence;
-  conf_governance: Confidence;
+  name: string;
+  cohort: Cohort;
+  evidence_source: "form" | "historical" | "none";
+  latest_period: string | null;
+  value_types: ValueType[];
   open_queries: number;
+  highest_severity: Severity | null;
+  status: ProvenanceStatus;
+}
+
+export type CoverageCell = "value" | "held" | "not_reported";
+
+export interface CheckSummary {
+  rule: string;
+  severity: Severity;
+  check: string;
+  passed: number;
+  failed: number;
+  not_testable: number;
+  failures: { iso3: string; period_id: string; detail: string | null }[];
+}
+
+export interface DataSystem {
+  iso3: string;
+  name: string | null;
+  assessed_on: string | null;
+  institution: string | null;
+  fields: Record<string, string>;
 }
 
 export interface QualityBundle {
   manifest: Manifest;
-  /** Mean completeness over each country's most recent period -- computed in
-   *  export.py, not the site (CLAUDE.md rule 1: no arithmetic in the front end). */
-  avg_completeness: number | null;
-  countries_below_threshold: number;
-  rows: QualityRow[];
-  open_queries: OpenQuery[];
+  kpis: {
+    validated_returns: { n: number; total: number; period: string | null };
+    held_figures: { n: number; regional: number };
+    open_queries: { total: number; High: number; Medium: number; Low: number };
+    queries_closed: number;
+    indicators_covered: { n: number; total: number };
+  };
+  provenance: ProvenanceRow[];
+  coverage: {
+    indicators: {
+      indicator_code: string;
+      label_en: string;
+      countries_with_value: number;
+      countries_held: number;
+      coverage_pct: number | null;
+    }[];
+    rows: { iso3: string; name: string; cells: Record<string, CoverageCell> }[];
+  };
+  checks: CheckSummary[];
+  held_figures: {
+    iso3: string;
+    indicator_code: string;
+    period_id: string;
+    value: number | null;
+    held_by: string | null;
+  }[];
+  held_regional: { indicator_code: string; held_by: string }[];
+  queries: Query[];
+  data_systems: DataSystem[];
+  data_systems_missing: string[];
 }
 
-export type FacilityStatus =
-  "operational" | "started_this_period" | "under_preparation" | "suspended" | "closed";
+export type RegisterStatus = "active" | "partial" | "planned" | "to_confirm";
 
 export interface FacilityRow {
   facility_id: string;
   iso3: string;
-  name: string | null; // withheld (null) in the public export; fall back to facility_id
+  country: string;
+  name: string | null; // withheld (null) only when PUBLISH_FACILITY_NAMES is off
+  name_status: "confirmed" | "to_confirm" | null;
   district: string | null;
   region: string | null;
+  town: string | null;
   facility_type: string | null;
   services_started: string | null;
   conditions: string | null;
-  project_supported: "yes" | "no" | "partial" | null;
-  status: FacilityStatus | null;
-  first_seen: string | null;
-  last_seen: string | null;
-  period_id_last: string | null;
-  active_end: number | null;
-  quality_score: number | null;
-  readiness_class: "green" | "amber" | "red" | "not_assessed" | null;
+  partner: string | null;
+  register_status: RegisterStatus | null;
+  source_ref: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  geo_precision: "facility" | "town" | null;
+  geo_source: string | null;
+  geo_checked: "yes" | "auto" | null;
+  /** on the map: coordinates that passed every geocoding rule, or were checked by a person */
+  mapped: boolean;
+  note: string | null;
+  patients_reported: string | null;
 }
 
 export interface FacilitiesBundle {
   manifest: Manifest;
-  /** Mean quality_score across all facility rows -- computed in export.py,
-   *  not the site (CLAUDE.md rule 1: no arithmetic in the front end). */
-  avg_quality_score: number | null;
+  kpis: {
+    total: number;
+    active: number;
+    by_status: Record<string, number>;
+    countries: number;
+    mapped: number;
+    location_to_confirm: number;
+    names_to_confirm: number;
+  };
   rows: FacilityRow[];
 }
 
@@ -195,9 +276,6 @@ export interface GovernanceRow {
 
 export type ImplementationStatus = "yes" | "no" | "under_development" | "not_applicable" | null;
 
-/** One of the fourteen steps (Phase_1_PEN-Plus_Reporting_Tools.docx, section
- *  3), either as a reference row (indicators.json-style dimension) or --
- *  when it carries `status` -- one country's standing state on that step. */
 export interface ImplementationStepDim {
   step_no: number;
   phase_no: number;
@@ -213,20 +291,31 @@ export interface ImplementationStepRow {
 }
 
 export interface CountryImplementation {
+  /** phase to publish (official ICPPA 2026 map); null = no return yet, never "not started" */
+  phase: number | null;
+  workbook_phase: number | null;
+  icppa_map_phase: number | null;
+  /** "no" = the workbook steps and the official map disagree (query Q-PHS-01) */
+  agreement: "yes" | "no" | null;
+  note: string | null;
+  source: string | null;
+  has_steps: boolean;
   steps: ImplementationStepRow[];
-  /** Highest phase (1-5) where every step of it and every phase before it is
-   *  'yes'; 0 if even phase 1 is not yet complete. Computed in export.py. */
-  highest_phase_completed: number;
 }
 
 export interface ImplementationCountry extends CountryImplementation {
   iso3: string;
   name: string;
+  cohort: Cohort;
 }
 
 export interface ImplementationBundle {
   manifest: Manifest;
   steps: ImplementationStepDim[];
+  phase_counts: { phase: number; countries: number }[];
+  no_return: number;
+  with_phase: number;
+  disagreements: number;
   countries: ImplementationCountry[];
 }
 
@@ -236,7 +325,9 @@ export interface CountryBundle {
   values: GoldRow[];
   facilities: FacilityRow[];
   governance: GovernanceRow[];
-  open_queries: OpenQuery[];
+  queries: Query[];
+  provenance: ProvenanceRow;
+  data_system: DataSystem | null;
   implementation: CountryImplementation;
 }
 

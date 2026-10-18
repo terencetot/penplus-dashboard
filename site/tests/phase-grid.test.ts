@@ -12,7 +12,14 @@ function makeCountry(iso3: string, statuses: (string | null)[]): ImplementationC
   return {
     iso3,
     name: iso3,
-    highest_phase_completed: 1,
+    cohort: "phase_1",
+    phase: 4,
+    workbook_phase: 3,
+    icppa_map_phase: 4,
+    agreement: "no",
+    note: null,
+    source: null,
+    has_steps: statuses.some((x) => x !== null),
     steps: steps.map((s, i) => ({
       step_no: s.step_no,
       status: statuses[i] as ImplementationCountry["steps"][number]["status"],
@@ -62,8 +69,19 @@ describe("buildPhaseGrid", () => {
     // every mark carries its full status as an accessible name, not colour alone
     expect(cells[0]!.getAttribute("aria-label")).toContain("Met");
 
-    const chip = el.querySelector("tbody .chip")!;
-    expect(chip.className).toContain("chip--partly_met"); // highest_phase_completed=1 of 2 phases here
+    // the published phase, with the workbook disagreement said in words
+    expect(el.querySelector("tbody .phase-chip")!.textContent).toBe("Phase 4");
+    expect(el.querySelector("tbody .flag-mark")!.textContent).toContain("3");
+  });
+
+  it("a country with no step evidence gets one 'no return yet' cell, never 'not started'", () => {
+    const c = makeCountry("AGO", [null, null, null]);
+    c.phase = null;
+    c.agreement = null;
+    const el = buildPhaseGrid("test", steps, [c]);
+    expect(el.querySelector(".phase-grid__noreturn")).toBeTruthy();
+    expect(el.textContent).toContain("No return yet");
+    expect(el.textContent).not.toMatch(/not started/i);
   });
 
   it("paginates and updates the visible rows when Next is clicked", () => {
