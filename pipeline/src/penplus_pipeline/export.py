@@ -354,6 +354,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         e["total"] += 1
         e["mapped"] += 1 if f["mapped"] else 0
         e["approximate"] += 1 if f["approximate"] else 0
+        e["off_map"] = e.get("off_map", 0) + (0 if (f["mapped"] or f["approximate"]) else 1)
     write("facilities.json", {
         "manifest": man,
         "by_country": sorted(by_country.values(), key=lambda e: e["country"]),

@@ -314,8 +314,18 @@
   "screen5.map.approximate": "Approximate: town point, facility not located",
   "screen5.location.approximate": "Approximate (town point)",
   "screen5.map.caption_v2": "{mapped} of {total} facilities sit at their own coordinates (OpenStreetMap, or the WHO/KEMRI list of public health facilities, mostly GPS); {approx} are hollow points at their town, because the facility itself is not located or not named; {off} is left off the map pending a query. Choose a country to zoom in and name every facility; hover a point for its details. Boundaries: WHO GIS Centre for Health.",
-  "screen5.map.all": "All PEN-Plus countries",
+  "screen5.map.all": "Sub-Saharan Africa",
   "screen5.map.back": "Back to the region",
   "screen5.map.by_country": "Facilities by country",
-  "screen5.map.disputed": "Disputed border (WHO)"
+  "screen5.map.disputed": "Disputed border (WHO)",
+  "screen5.map.eyebrow": "PEN-Plus facility atlas",
+  "screen5.map.stat_located": "located at the facility",
+  "screen5.map.stat_approx": "approximate, at the town",
+  "screen5.map.stat_countries": "countries with a facility",
+  "screen5.map.approximate_short": "Approximate (town)",
+  "screen5.map.bar_exact": "located",
+  "screen5.map.bar_approx": "approximate",
+  "screen5.map.open_country": "Country profile",
+  "common.close": "Close",
+  "screen5.map.bar_off": "off the map (query)"
 }

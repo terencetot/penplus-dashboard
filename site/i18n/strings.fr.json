@@ -314,8 +314,18 @@
   "screen5.map.approximate": "Approximatif : point de la ville, formation non localisée",
   "screen5.location.approximate": "Approximative (point de la ville)",
   "screen5.map.caption_v2": "{mapped} formations sur {total} sont à leurs propres coordonnées (OpenStreetMap, ou la liste OMS/KEMRI des formations sanitaires publiques, surtout GPS) ; {approx} sont des points creux à leur ville, la formation n'étant pas localisée ou pas nommée ; {off} est hors carte en attendant une requête. Choisissez un pays pour zoomer et nommer chaque formation ; survolez un point pour le détail. Frontières : Centre SIG pour la santé de l'OMS.",
-  "screen5.map.all": "Tous les pays PEN-Plus",
+  "screen5.map.all": "Afrique subsaharienne",
   "screen5.map.back": "Retour à la région",
   "screen5.map.by_country": "Formations par pays",
-  "screen5.map.disputed": "Frontière contestée (OMS)"
+  "screen5.map.disputed": "Frontière contestée (OMS)",
+  "screen5.map.eyebrow": "Atlas des formations PEN-Plus",
+  "screen5.map.stat_located": "localisées à la formation",
+  "screen5.map.stat_approx": "approximatives, à la ville",
+  "screen5.map.stat_countries": "pays avec une formation",
+  "screen5.map.approximate_short": "Approximative (ville)",
+  "screen5.map.bar_exact": "localisées",
+  "screen5.map.bar_approx": "approximatives",
+  "screen5.map.open_country": "Profil pays",
+  "common.close": "Fermer",
+  "screen5.map.bar_off": "hors carte (requête)"
 }

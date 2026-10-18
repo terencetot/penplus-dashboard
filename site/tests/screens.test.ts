@@ -131,6 +131,10 @@ describe("screens render against the real bundle", () => {
     expect(el.querySelector(".map-disclaimer")!.textContent).toContain("World Health Organization");
     // one button per country with a facility, to zoom the map
     expect(el.querySelectorAll("#map-countries button").length).toBe(15);
+    // a click on a facility point opens its card
+    const point = el.querySelector<SVGElement>("#map-canvas g.fm-exact > *")!;
+    point.dispatchEvent(new Event("click"));
+    expect(el.querySelector<HTMLElement>("#map-card")!.hidden).toBe(false);
 
     const rowsBefore = el.querySelectorAll("#facility-table tbody tr").length;
     expect(rowsBefore).toBe(25);
