@@ -7,10 +7,7 @@ COUNTRIES = {
     "Cameroon": ("CMR", "phase_1"),
     "Democratic Republic of the Congo": ("COD", "phase_1"),
     "Republic of the Congo": ("COG", "phase_1"), "Congo": ("COG", "phase_1"),
-    # Spellings used in PEN_PLUS_MONITORING.xlsx: without them the phases
-    # sheet matched neither Congo (audit v2, section 1).
-    "Democratic Republic of Congo": ("COD", "phase_1"),
-    "Congo, Republic of": ("COG", "phase_1"), "KEN Kenya": ("KEN", "phase_1"),
+
     "Eswatini": ("SWZ", "phase_2"), "Ethiopia": ("ETH", "phase_1"),
     "Gabon": ("GAB", "phase_2"), "The Gambia": ("GMB", "phase_2"),
     "Gambia": ("GMB", "phase_2"), "Ghana": ("GHA", "phase_1"),
@@ -24,6 +21,11 @@ COUNTRIES = {
     "United Republic of Tanzania": ("TZA", "phase_1"), "Tanzania": ("TZA", "phase_1"),
     "Uganda": ("UGA", "phase_1"), "Zambia": ("ZMB", "phase_1"),
     "Zimbabwe": ("ZWE", "phase_1"),
+    # Spellings used in PEN_PLUS_MONITORING.xlsx: without them the phases
+    # sheet matched neither Congo (audit v2, section 1). Kept last: the first
+    # name listed for an ISO3 is the one dim_country displays.
+    "Democratic Republic of Congo": ("COD", "phase_1"),
+    "Congo, Republic of": ("COG", "phase_1"), "KEN Kenya": ("KEN", "phase_1"),
 }
 
 # The sentinel conditions: the only ones that enter a sentinel total (2.6,

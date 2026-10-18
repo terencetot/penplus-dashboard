@@ -392,6 +392,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         "steps": step_dim,
         "phase_counts": phase_counts,
         "no_return": sum(1 for c in impl_countries if c["phase"] is None),
+        "with_phase": sum(1 for c in impl_countries if c["phase"] is not None),
         "disagreements": sum(1 for c in impl_countries if c["agreement"] == "no"),
         "countries": impl_countries,
     })

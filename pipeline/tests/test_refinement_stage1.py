@@ -117,3 +117,14 @@ def test_icppa_reader_does_not_build_facilities_from_site_text(tmp_path):
     assert recs, "the enrolment row should still produce a return"
     for rec in recs.values():
         assert rec["facilities"] == []
+
+
+def test_aliases_never_become_the_display_name(tmp_path):
+    """The first name listed for an ISO3 is what dim_country shows; an alias
+    placed first once made the site read "KEN Kenya"."""
+    con = init_db(str(tmp_path / "store.db"))
+    names = {r["iso3"]: r["name"] for r in con.execute("SELECT iso3, name FROM dim_country")}
+    assert len(names) == 31
+    assert names["KEN"] == "Kenya"
+    assert names["COD"] == "Democratic Republic of the Congo"
+    assert names["COG"] == "Republic of the Congo"
