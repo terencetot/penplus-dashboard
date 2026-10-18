@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -462,15 +462,16 @@
    "partner": "NCD Alliance Kenya",
    "register_status": "active",
    "source_ref": "D3M p173",
-   "latitude": 0.319122,
-   "longitude": 38.206991,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/44933047",
-   "geo_checked": null,
-   "note": null,
+   "latitude": 0.3184,
+   "longitude": 38.2119,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "KEN-0002",
@@ -490,15 +491,16 @@
    "partner": "NCD Alliance Kenya",
    "register_status": "active",
    "source_ref": "D3M p173",
-   "latitude": 0.068288,
-   "longitude": 34.797565,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/4390992811",
-   "geo_checked": null,
-   "note": null,
+   "latitude": 0.0735,
+   "longitude": 34.8021,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS. Now named Hamisi Sub-County Hospital.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "KEN-0003",
@@ -518,15 +520,16 @@
    "partner": "NCD Alliance Kenya",
    "register_status": "active",
    "source_ref": "D2K p92",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "Slide: Isiolo County (2 sites).",
+   "latitude": 0.35,
+   "longitude": 37.583303,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/way/328243096",
+   "geo_checked": "approximate",
+   "note": "Slide: Isiolo County (2 sites). [Location: Second Isiolo County site not named; Isiolo town point.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "KEN-0004",
@@ -546,15 +549,16 @@
    "partner": null,
    "register_status": "planned",
    "source_ref": "D2K p92",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "Expansion phase.",
+   "latitude": 0.4643498,
+   "longitude": 34.1110943,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/way/362718943",
+   "geo_checked": "approximate",
+   "note": "Expansion phase. [Location: Planned expansion site not named; Busia town point.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   }
  ],
  "implementation": {

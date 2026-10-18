@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -234,15 +234,16 @@
    "partner": "SolidarMed; CHAI",
    "register_status": "active",
    "source_ref": "D3K p75",
-   "latitude": -20.493384,
-   "longitude": 31.750894,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/2722866913",
-   "geo_checked": null,
-   "note": null,
+   "latitude": -20.50519,
+   "longitude": 31.7505798,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZWE-0002",
@@ -270,7 +271,8 @@
    "note": null,
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZWE-0003",
@@ -290,15 +292,16 @@
    "partner": "SolidarMed; CHAI",
    "register_status": "active",
    "source_ref": "D3K p75",
-   "latitude": -20.072014,
-   "longitude": 30.834194,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/253129357",
-   "geo_checked": null,
-   "note": "Centre of excellence / training hub.",
+   "latitude": -20.07272,
+   "longitude": 30.8391399,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "Centre of excellence / training hub. [Location: GPS.]",
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZWE-0004",
@@ -318,15 +321,16 @@
    "partner": "SolidarMed; CHAI",
    "register_status": "active",
    "source_ref": "D3K p75",
-   "latitude": -21.045295,
-   "longitude": 31.668877,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/1243605851",
-   "geo_checked": null,
-   "note": null,
+   "latitude": -21.036,
+   "longitude": 31.6732197,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   }
  ],
  "implementation": {

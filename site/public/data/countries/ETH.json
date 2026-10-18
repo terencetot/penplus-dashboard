@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -181,11 +181,12 @@
    "longitude": 37.777517,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/321361857",
-   "geo_checked": null,
-   "note": null,
+   "geo_checked": "approximate",
+   "note": "[Location: Hospital not in the source lists; town point. The WHO list's Addis Zemen Health Centre (GPS) is 0.6 km away.]",
    "patients_reported": null,
    "country": "Ethiopia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "ETH-0002",
@@ -209,11 +210,12 @@
    "longitude": 38.872661,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/595139687",
-   "geo_checked": null,
-   "note": null,
+   "geo_checked": "approximate",
+   "note": "[Location: Hospital not in the source lists; town point. The WHO list's Muketuri Health Centre (GPS) is 0.3 km away.]",
    "patients_reported": null,
    "country": "Ethiopia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   }
  ],
  "implementation": {

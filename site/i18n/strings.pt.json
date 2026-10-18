@@ -309,5 +309,9 @@
   "table.resolution": "Resolução",
   "table.rule": "Regra",
   "value_type.trained_flow": "formados no ano",
-  "value_type.trained_cumulative": "formados, cumulativo"
+  "value_type.trained_cumulative": "formados, cumulativo",
+  "screen5.kpi.mapped_v2": "Localizadas na unidade (+{approx} aproximadas, localidade)",
+  "screen5.map.approximate": "Aproximado: ponto da localidade, unidade não localizada",
+  "screen5.location.approximate": "Aproximada (ponto da localidade)",
+  "screen5.map.caption_v2": "{mapped} de {total} unidades estão nas suas próprias coordenadas: OpenStreetMap (nome e região coincidentes) ou a lista OMS/KEMRI de unidades de saúde públicas da África subsariana (listas nacionais, sobretudo GPS). {approx} aparecem na sua localidade, ocas, porque a unidade não pôde ser localizada ou não está nomeada. {off} fica fora do mapa à espera de uma consulta. Passe o cursor sobre um ponto para ver os detalhes; escolha um país para mostrar os nomes. O fundo é apenas a linha de costa (Natural Earth); não são desenhadas fronteiras nacionais."
 }

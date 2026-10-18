@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -200,11 +200,12 @@
    "longitude": 15.312251,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/27043346",
-   "geo_checked": null,
-   "note": "Partner table says 3 WHO/Helmsley sites; slide text says 2 pilots (Q-COD-02).",
+   "geo_checked": "approximate",
+   "note": "Partner table says 3 WHO/Helmsley sites; slide text says 2 pilots (Q-COD-02). [Location: Facility not named on the slide; city point.]",
    "patients_reported": null,
    "country": "Democratic Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "COD-0002",
@@ -224,15 +225,16 @@
    "partner": "WHO/Helmsley",
    "register_status": "active",
    "source_ref": "D2M p240",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": null,
+   "latitude": -11.6642316,
+   "longitude": 27.4826264,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/relation/5399777",
+   "geo_checked": "approximate",
+   "note": "[Location: Facility not named on the slide; city point.]",
    "patients_reported": null,
    "country": "Democratic Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   }
  ],
  "implementation": {

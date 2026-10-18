@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -199,12 +199,13 @@
    "latitude": -12.969306,
    "longitude": 28.636589,
    "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/315260631",
-   "geo_checked": null,
-   "note": null,
+   "geo_source": "Nominatim, data/geocode_cache.json",
+   "geo_checked": "approximate",
+   "note": "[Location: Chifubu Level One Hospital not in the source lists; point for the Chifubu area of Ndola.]",
    "patients_reported": "88 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "ZMB-0002",
@@ -232,7 +233,8 @@
    "note": "AMBIGUOUS: \"Chipata\" is both a Lusaka first-level hospital and the Eastern Province town. Confirm before geocoding (Q-ZMB-02).",
    "patients_reported": "201 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": false,
+   "approximate": false
   },
   {
    "facility_id": "ZMB-0003",
@@ -252,15 +254,16 @@
    "partner": "CIDRZ",
    "register_status": "active",
    "source_ref": "D3M p200",
-   "latitude": -13.969906,
-   "longitude": 28.678601,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/776377628",
-   "geo_checked": null,
-   "note": null,
+   "latitude": -14.2264,
+   "longitude": 28.8406,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": "282 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZMB-0004",
@@ -288,7 +291,8 @@
    "note": null,
    "patients_reported": "568 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZMB-0005",
@@ -308,15 +312,16 @@
    "partner": "CIDRZ",
    "register_status": "active",
    "source_ref": "D3M p173",
-   "latitude": -14.905992,
-   "longitude": 27.952789,
+   "latitude": -14.995,
+   "longitude": 28.1283333,
    "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/way/289033662",
-   "geo_checked": null,
-   "note": null,
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "approximate",
+   "note": "[Location: Chibombo District Hospital sits in the Mwachisompola Health Demonstration Zone; point of the zone's health post (GPS), not of the hospital.]",
    "patients_reported": "258 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   }
  ],
  "implementation": {

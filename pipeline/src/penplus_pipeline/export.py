@@ -336,8 +336,12 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
         " ORDER BY c.name, f.facility_id"))
     for f in facility_rows:
         # On the map only when every geocoding rule passed or a person checked it.
-        f["mapped"] = bool(f["latitude"] is not None and f["longitude"] is not None
-                           and f["geo_checked"] in ("yes", "auto"))
+        has_point = f["latitude"] is not None and f["longitude"] is not None
+        # The facility's own point: OSM rules passed (auto), a person checked
+        # it (yes), or it is in the WHO/KEMRI facility list (dataset).
+        f["mapped"] = bool(has_point and f["geo_checked"] in ("yes", "auto", "dataset"))
+        # A town point, shown on the map as approximate, never as the facility.
+        f["approximate"] = bool(has_point and f["geo_checked"] == "approximate")
     if public and not PUBLISH_FACILITY_NAMES:
         facility_rows = [_redact_facility(f) for f in facility_rows]
     by_status = {}
@@ -351,7 +355,9 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
             "by_status": by_status,
             "countries": len({f["iso3"] for f in facility_rows}),
             "mapped": sum(1 for f in facility_rows if f["mapped"]),
-            "location_to_confirm": sum(1 for f in facility_rows if not f["mapped"]),
+            "approximate": sum(1 for f in facility_rows if f["approximate"]),
+            "location_to_confirm": sum(1 for f in facility_rows
+                                       if not f["mapped"] and not f["approximate"]),
             "names_to_confirm": sum(1 for f in facility_rows if f["name_status"] == "to_confirm"),
         },
         "rows": facility_rows})

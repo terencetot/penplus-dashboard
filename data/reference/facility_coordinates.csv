@@ -1,0 +1,32 @@
+facility_id,latitude,longitude,geo_precision,geo_checked,matched_name,geo_source,note
+CMR-0001,3.7172190,11.6462101,facility,dataset,Mfou Hopital de District,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",Coordinates digitised from an online map in the source list.
+CMR-0002,2.6663798,12.6783592,facility,dataset,Djoum Hopital de District,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",Coordinates digitised from an online map in the source list.
+COG-0001,-4.2686670,15.2138210,facility,dataset,Makelekele L'Hopital de Base,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",Listed as Hopital de Base de Makelekele (Google Earth).
+KEN-0001,0.3184000,38.2119000,facility,dataset,Kinna Health Centre,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+KEN-0002,0.0735000,34.8021000,facility,dataset,Hamisi Sub District Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS. Now named Hamisi Sub-County Hospital.
+LBR-0001,4.8774300,-7.7105100,facility,dataset,J.J. Dossen Memorial,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+MOZ-0001,-19.2713000,34.2043000,facility,dataset,Hospital Rural de Nhamatanda,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+RWA-0001,-1.9640000,30.6141000,facility,dataset,Rwinkwavu District Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+RWA-0002,-1.4089000,29.8366000,facility,dataset,Butaro District Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS. Agrees within 1 km with MASS Design Group's project location (-1.4014, 29.8323).
+SLE-0003,9.1071000,-12.8616000,facility,dataset,Kambia Government Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS. Planned PEN-Plus site.
+TZA-0001,-4.9041700,35.7952000,facility,dataset,Kondoa District Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+UGA-0002,0.7960000,32.4360000,facility,dataset,Nakaseke Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+UGA-0003,0.8453000,32.4914000,facility,dataset,Luwero Health Centre IV,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",Listed in 2019 as Luwero Health Centre IV (the facility now called Luwero Hospital).
+ZMB-0003,-14.2264000,28.8406000,facility,dataset,Kapiri Mposhi Level 1 Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+ZWE-0001,-20.5051900,31.7505798,facility,dataset,Mashoko Rural Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+ZWE-0003,-20.0727200,30.8391399,facility,dataset,Masvingo Provincial Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+ZWE-0004,-21.0360000,31.6732197,facility,dataset,Chiredzi District Hospital,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",GPS.
+ETH-0001,12.1252880,37.7775170,town,approximate,Addis Zemen (town),https://www.openstreetmap.org/node/321361857,"Hospital not in the source lists; town point. The WHO list's Addis Zemen Health Centre (GPS) is 0.6 km away."
+ETH-0002,9.5500860,38.8726610,town,approximate,Muketuri (town),https://www.openstreetmap.org/node/595139687,"Hospital not in the source lists; town point. The WHO list's Muketuri Health Centre (GPS) is 0.3 km away."
+SLE-0004,8.1593460,-12.4313890,town,approximate,Moyamba (town),https://www.openstreetmap.org/node/496344427,Planned site; hospital not in the source lists. Town point.
+ZMB-0001,-12.9693060,28.6365890,town,approximate,Chifubu (Ndola),"Nominatim, data/geocode_cache.json",Chifubu Level One Hospital not in the source lists; point for the Chifubu area of Ndola.
+ZMB-0005,-14.9950000,28.1283333,town,approximate,Mwachisompola Demo Zone Health Post,"WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)","Chibombo District Hospital sits in the Mwachisompola Health Demonstration Zone; point of the zone's health post (GPS), not of the hospital."
+BFA-0001,12.6630270,-1.8974880,town,approximate,Bousse (town),https://www.openstreetmap.org/node/431220390,Facility not named on the slide; town of the pilot district.
+BFA-0002,12.1789320,-0.3539330,town,approximate,Koupela (town),https://www.openstreetmap.org/node/322555843,Facility not named on the slide; town of the pilot district.
+COD-0001,-4.3217100,15.3122510,town,approximate,Kinshasa (city),https://www.openstreetmap.org/node/27043346,Facility not named on the slide; city point.
+COD-0002,-11.6642316,27.4826264,town,approximate,Lubumbashi (city),https://www.openstreetmap.org/relation/5399777,Facility not named on the slide; city point.
+COG-0002,-0.8741000,14.8168520,town,approximate,Ewo (town),https://www.openstreetmap.org/node/3300965105,Planned pilot district; town point.
+COG-0003,-4.4311310,11.7016210,town,approximate,Madingo-Kayes (town),https://www.openstreetmap.org/node/2467887447,Planned pilot district; town point.
+COG-0004,-4.1642624,13.5516478,town,approximate,Madingou (town),https://www.openstreetmap.org/relation/3224443,Planned pilot district; town point.
+KEN-0003,0.3500000,37.5833030,town,approximate,Isiolo (town),https://www.openstreetmap.org/way/328243096,Second Isiolo County site not named; Isiolo town point.
+KEN-0004,0.4643498,34.1110943,town,approximate,Busia (town),https://www.openstreetmap.org/way/362718943,Planned expansion site not named; Busia town point.

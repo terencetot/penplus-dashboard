@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -823,15 +823,16 @@
    "partner": "Partners In Health - Liberia",
    "register_status": "active",
    "source_ref": "D2M p291",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "PEN-Plus since 2019 (2017 pilot per D3K p106). 104 active patients in Maryland County.",
+   "latitude": 4.87743,
+   "longitude": -7.71051,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "PEN-Plus since 2019 (2017 pilot per D3K p106). 104 active patients in Maryland County. [Location: GPS.]",
    "patients_reported": "104 active (Maryland County) [D2M p285]",
    "country": "Liberia",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "LBR-0002",
@@ -859,7 +860,8 @@
    "note": "Named as orientation site of the scale-up from 3 to 7 sites (D3M p233; partner table lists 8, p240). Confirm it is one of the 7 PEN-Plus sites (Q-LBR-03).",
    "patients_reported": null,
    "country": "Liberia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "LBR-0003",
@@ -887,7 +889,8 @@
    "note": "Named as orientation site of the scale-up from 3 to 7 sites (D3M p233; partner table lists 8, p240). Confirm it is one of the 7 PEN-Plus sites (Q-LBR-03).",
    "patients_reported": null,
    "country": "Liberia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "LBR-0004",
@@ -915,7 +918,8 @@
    "note": "Named as orientation site of the scale-up from 3 to 7 sites (D3M p233; partner table lists 8, p240). Confirm it is one of the 7 PEN-Plus sites (Q-LBR-03).",
    "patients_reported": null,
    "country": "Liberia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   }
  ],
  "implementation": {

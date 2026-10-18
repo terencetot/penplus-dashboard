@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -831,7 +831,8 @@
    "note": "Plus 5 PHUs.",
    "patients_reported": "1,309 ever enrolled (2022-May 2026) [D3M p224]",
    "country": "Sierra Leone",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "SLE-0002",
@@ -859,7 +860,8 @@
    "note": "Plus 7 PHUs.",
    "patients_reported": "520 ever enrolled (2022-2026) [D3M p225]",
    "country": "Sierra Leone",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "SLE-0003",
@@ -879,15 +881,16 @@
    "partner": "WHO/MoH",
    "register_status": "planned",
    "source_ref": "D3M p223",
-   "latitude": 9.125073,
-   "longitude": -12.919337,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/320058940",
-   "geo_checked": null,
-   "note": null,
+   "latitude": 9.1071,
+   "longitude": -12.8616,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS. Planned PEN-Plus site.]",
    "patients_reported": null,
    "country": "Sierra Leone",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "SLE-0004",
@@ -911,11 +914,12 @@
    "longitude": -12.431389,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/496344427",
-   "geo_checked": null,
-   "note": null,
+   "geo_checked": "approximate",
+   "note": "[Location: Planned site; hospital not in the source lists. Town point.]",
    "patients_reported": null,
    "country": "Sierra Leone",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   }
  ],
  "implementation": {

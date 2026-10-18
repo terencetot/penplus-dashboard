@@ -309,5 +309,9 @@
   "table.resolution": "Résolution",
   "table.rule": "Règle",
   "value_type.trained_flow": "formés dans l'année",
-  "value_type.trained_cumulative": "formés, cumulé"
+  "value_type.trained_cumulative": "formés, cumulé",
+  "screen5.kpi.mapped_v2": "Localisées à la formation (+{approx} approximatives, ville)",
+  "screen5.map.approximate": "Approximatif : point de la ville, formation non localisée",
+  "screen5.location.approximate": "Approximative (point de la ville)",
+  "screen5.map.caption_v2": "{mapped} formations sur {total} sont placées à leurs propres coordonnées : OpenStreetMap (nom et région concordants) ou la liste OMS/KEMRI des formations sanitaires publiques d'Afrique subsaharienne (listes nationales, surtout GPS). {approx} sont placées à leur ville, en creux, car la formation n'a pas pu être localisée ou n'est pas nommée. {off} est hors carte en attendant une requête. Survolez un point pour les détails ; choisissez un pays pour afficher les noms. Le fond est le seul trait de côte (Natural Earth) ; aucune frontière nationale n'est tracée."
 }

@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -23,8 +23,9 @@
    "partial": 1
   },
   "countries": 15,
-  "mapped": 11,
-  "location_to_confirm": 32,
+  "mapped": 28,
+  "approximate": 14,
+  "location_to_confirm": 1,
   "names_to_confirm": 9
  },
  "rows": [
@@ -50,11 +51,12 @@
    "longitude": -1.897488,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/431220390",
-   "geo_checked": null,
-   "note": "Facility name not on the slide (likely the district CMA): ask the WCO.",
+   "geo_checked": "approximate",
+   "note": "Facility name not on the slide (likely the district CMA): ask the WCO. [Location: Facility not named on the slide; town of the pilot district.]",
    "patients_reported": null,
    "country": "Burkina Faso",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "BFA-0002",
@@ -78,11 +80,12 @@
    "longitude": -0.353933,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/322555843",
-   "geo_checked": null,
-   "note": "Facility name not on the slide: ask the WCO.",
+   "geo_checked": "approximate",
+   "note": "Facility name not on the slide: ask the WCO. [Location: Facility not named on the slide; town of the pilot district.]",
    "patients_reported": null,
    "country": "Burkina Faso",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "CMR-0001",
@@ -102,15 +105,16 @@
    "partner": "WHO; Helmsley; CHAI",
    "register_status": "active",
    "source_ref": "D2M p227",
-   "latitude": 3.963626,
-   "longitude": 11.927356,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/2460908047",
-   "geo_checked": null,
-   "note": null,
+   "latitude": 3.717219,
+   "longitude": 11.6462101,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: Coordinates digitised from an online map in the source list.]",
    "patients_reported": "SCD screening 137 [D2M p227]",
    "country": "Cameroon",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "CMR-0002",
@@ -130,15 +134,16 @@
    "partner": "WHO; Helmsley; CHAI; Fondation Pierre Fabre/GEDREPACAM",
    "register_status": "active",
    "source_ref": "D2M p227",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": null,
+   "latitude": 2.6663798,
+   "longitude": 12.6783592,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: Coordinates digitised from an online map in the source list.]",
    "patients_reported": "SCD screening 37 [D2M p227]",
    "country": "Cameroon",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "COD-0001",
@@ -162,11 +167,12 @@
    "longitude": 15.312251,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/27043346",
-   "geo_checked": null,
-   "note": "Partner table says 3 WHO/Helmsley sites; slide text says 2 pilots (Q-COD-02).",
+   "geo_checked": "approximate",
+   "note": "Partner table says 3 WHO/Helmsley sites; slide text says 2 pilots (Q-COD-02). [Location: Facility not named on the slide; city point.]",
    "patients_reported": null,
    "country": "Democratic Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "COD-0002",
@@ -186,15 +192,16 @@
    "partner": "WHO/Helmsley",
    "register_status": "active",
    "source_ref": "D2M p240",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": null,
+   "latitude": -11.6642316,
+   "longitude": 27.4826264,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/relation/5399777",
+   "geo_checked": "approximate",
+   "note": "[Location: Facility not named on the slide; city point.]",
    "patients_reported": null,
    "country": "Democratic Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "ETH-0001",
@@ -218,11 +225,12 @@
    "longitude": 37.777517,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/321361857",
-   "geo_checked": null,
-   "note": null,
+   "geo_checked": "approximate",
+   "note": "[Location: Hospital not in the source lists; town point. The WHO list's Addis Zemen Health Centre (GPS) is 0.6 km away.]",
    "patients_reported": null,
    "country": "Ethiopia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "ETH-0002",
@@ -246,11 +254,12 @@
    "longitude": 38.872661,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/595139687",
-   "geo_checked": null,
-   "note": null,
+   "geo_checked": "approximate",
+   "note": "[Location: Hospital not in the source lists; town point. The WHO list's Muketuri Health Centre (GPS) is 0.3 km away.]",
    "patients_reported": null,
    "country": "Ethiopia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "KEN-0001",
@@ -270,15 +279,16 @@
    "partner": "NCD Alliance Kenya",
    "register_status": "active",
    "source_ref": "D3M p173",
-   "latitude": 0.319122,
-   "longitude": 38.206991,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/44933047",
-   "geo_checked": null,
-   "note": null,
+   "latitude": 0.3184,
+   "longitude": 38.2119,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "KEN-0002",
@@ -298,15 +308,16 @@
    "partner": "NCD Alliance Kenya",
    "register_status": "active",
    "source_ref": "D3M p173",
-   "latitude": 0.068288,
-   "longitude": 34.797565,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/4390992811",
-   "geo_checked": null,
-   "note": null,
+   "latitude": 0.0735,
+   "longitude": 34.8021,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS. Now named Hamisi Sub-County Hospital.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "KEN-0003",
@@ -326,15 +337,16 @@
    "partner": "NCD Alliance Kenya",
    "register_status": "active",
    "source_ref": "D2K p92",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "Slide: Isiolo County (2 sites).",
+   "latitude": 0.35,
+   "longitude": 37.583303,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/way/328243096",
+   "geo_checked": "approximate",
+   "note": "Slide: Isiolo County (2 sites). [Location: Second Isiolo County site not named; Isiolo town point.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "KEN-0004",
@@ -354,15 +366,16 @@
    "partner": null,
    "register_status": "planned",
    "source_ref": "D2K p92",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "Expansion phase.",
+   "latitude": 0.4643498,
+   "longitude": 34.1110943,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/way/362718943",
+   "geo_checked": "approximate",
+   "note": "Expansion phase. [Location: Planned expansion site not named; Busia town point.]",
    "patients_reported": null,
    "country": "Kenya",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "LBR-0001",
@@ -382,15 +395,16 @@
    "partner": "Partners In Health - Liberia",
    "register_status": "active",
    "source_ref": "D2M p291",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "PEN-Plus since 2019 (2017 pilot per D3K p106). 104 active patients in Maryland County.",
+   "latitude": 4.87743,
+   "longitude": -7.71051,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "PEN-Plus since 2019 (2017 pilot per D3K p106). 104 active patients in Maryland County. [Location: GPS.]",
    "patients_reported": "104 active (Maryland County) [D2M p285]",
    "country": "Liberia",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "LBR-0002",
@@ -418,7 +432,8 @@
    "note": "Named as orientation site of the scale-up from 3 to 7 sites (D3M p233; partner table lists 8, p240). Confirm it is one of the 7 PEN-Plus sites (Q-LBR-03).",
    "patients_reported": null,
    "country": "Liberia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "LBR-0003",
@@ -446,7 +461,8 @@
    "note": "Named as orientation site of the scale-up from 3 to 7 sites (D3M p233; partner table lists 8, p240). Confirm it is one of the 7 PEN-Plus sites (Q-LBR-03).",
    "patients_reported": null,
    "country": "Liberia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "LBR-0004",
@@ -474,7 +490,8 @@
    "note": "Named as orientation site of the scale-up from 3 to 7 sites (D3M p233; partner table lists 8, p240). Confirm it is one of the 7 PEN-Plus sites (Q-LBR-03).",
    "patients_reported": null,
    "country": "Liberia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "MOZ-0001",
@@ -494,15 +511,16 @@
    "partner": "Universidade Eduardo Mondlane; CUAMM",
    "register_status": "active",
    "source_ref": "D3M p173",
-   "latitude": -19.270297,
-   "longitude": 34.20834,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/2470375864",
-   "geo_checked": null,
-   "note": null,
+   "latitude": -19.2713,
+   "longitude": 34.2043,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Mozambique",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "NGA-0001",
@@ -530,7 +548,8 @@
    "note": "PEN-Plus flagship facility.",
    "patients_reported": null,
    "country": "Nigeria",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "COG-0001",
@@ -550,15 +569,16 @@
    "partner": "WHO",
    "register_status": "active",
    "source_ref": "D2M p255",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "PEN-Plus unit opened June 2026.",
+   "latitude": -4.268667,
+   "longitude": 15.213821,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "PEN-Plus unit opened June 2026. [Location: Listed as Hopital de Base de Makelekele (Google Earth).]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "COG-0002",
@@ -582,11 +602,12 @@
    "longitude": 14.816852,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/3300965105",
-   "geo_checked": null,
-   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named.",
+   "geo_checked": "approximate",
+   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named. [Location: Planned pilot district; town point.]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "COG-0003",
@@ -610,11 +631,12 @@
    "longitude": 11.701621,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/2467887447",
-   "geo_checked": null,
-   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named.",
+   "geo_checked": "approximate",
+   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named. [Location: Planned pilot district; town point.]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "COG-0004",
@@ -634,15 +656,16 @@
    "partner": "WHO",
    "register_status": "planned",
    "source_ref": "D2M p250",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named.",
+   "latitude": -4.1642624,
+   "longitude": 13.5516478,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/relation/3224443",
+   "geo_checked": "approximate",
+   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named. [Location: Planned pilot district; town point.]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "RWA-0001",
@@ -662,15 +685,16 @@
    "partner": "MoH Rwanda",
    "register_status": "active",
    "source_ref": "D3K p45",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "First 3 hospitals (2006). National coverage today: all district hospitals (45). List the rest from the MoH.",
+   "latitude": -1.964,
+   "longitude": 30.6141,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "First 3 hospitals (2006). National coverage today: all district hospitals (45). List the rest from the MoH. [Location: GPS.]",
    "patients_reported": null,
    "country": "Rwanda",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "RWA-0002",
@@ -690,15 +714,16 @@
    "partner": "MoH Rwanda",
    "register_status": "active",
    "source_ref": "D3K p45",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "First 3 hospitals (2006). National coverage today: all district hospitals (45). List the rest from the MoH.",
+   "latitude": -1.4089,
+   "longitude": 29.8366,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "First 3 hospitals (2006). National coverage today: all district hospitals (45). List the rest from the MoH. [Location: GPS. Agrees within 1 km with MASS Design Group's project location (-1.4014]",
    "patients_reported": null,
    "country": "Rwanda",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "RWA-0003",
@@ -726,7 +751,8 @@
    "note": "First 3 hospitals (2006). National coverage today: all district hospitals (45). List the rest from the MoH.",
    "patients_reported": null,
    "country": "Rwanda",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "SLE-0001",
@@ -754,7 +780,8 @@
    "note": "Plus 5 PHUs.",
    "patients_reported": "1,309 ever enrolled (2022-May 2026) [D3M p224]",
    "country": "Sierra Leone",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "SLE-0002",
@@ -782,7 +809,8 @@
    "note": "Plus 7 PHUs.",
    "patients_reported": "520 ever enrolled (2022-2026) [D3M p225]",
    "country": "Sierra Leone",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "SLE-0003",
@@ -802,15 +830,16 @@
    "partner": "WHO/MoH",
    "register_status": "planned",
    "source_ref": "D3M p223",
-   "latitude": 9.125073,
-   "longitude": -12.919337,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/320058940",
-   "geo_checked": null,
-   "note": null,
+   "latitude": 9.1071,
+   "longitude": -12.8616,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS. Planned PEN-Plus site.]",
    "patients_reported": null,
    "country": "Sierra Leone",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "SLE-0004",
@@ -834,11 +863,12 @@
    "longitude": -12.431389,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/496344427",
-   "geo_checked": null,
-   "note": null,
+   "geo_checked": "approximate",
+   "note": "[Location: Planned site; hospital not in the source lists. Town point.]",
    "patients_reported": null,
    "country": "Sierra Leone",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "UGA-0001",
@@ -866,7 +896,8 @@
    "note": null,
    "patients_reported": null,
    "country": "Uganda",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "UGA-0002",
@@ -886,15 +917,16 @@
    "partner": "UINCD",
    "register_status": "active",
    "source_ref": "D3M p253",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": null,
+   "latitude": 0.796,
+   "longitude": 32.436,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Uganda",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "UGA-0003",
@@ -914,15 +946,16 @@
    "partner": "WHO",
    "register_status": "partial",
    "source_ref": "D3M p253",
-   "latitude": 0.840936,
-   "longitude": 32.493527,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/3496962324",
-   "geo_checked": null,
-   "note": "PEN-Plus principles in training; full model not operational (resources).",
+   "latitude": 0.8453,
+   "longitude": 32.4914,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "PEN-Plus principles in training; full model not operational (resources). [Location: Listed in 2019 as Luwero Health Centre IV (the facility now called Luwero Hospital).]",
    "patients_reported": null,
    "country": "Uganda",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "TZA-0001",
@@ -942,15 +975,16 @@
    "partner": "NIMR; MoH",
    "register_status": "active",
    "source_ref": "D2M p51",
-   "latitude": -4.906513,
-   "longitude": 35.779631,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/258589880",
-   "geo_checked": null,
-   "note": "247 patients.",
+   "latitude": -4.90417,
+   "longitude": 35.7952,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "247 patients. [Location: GPS.]",
    "patients_reported": "247 active [D2M p51]",
    "country": "United Republic of Tanzania",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "TZA-0002",
@@ -978,7 +1012,8 @@
    "note": "311 active patients.",
    "patients_reported": "311 active [D2M p51]",
    "country": "United Republic of Tanzania",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZMB-0001",
@@ -1001,12 +1036,13 @@
    "latitude": -12.969306,
    "longitude": 28.636589,
    "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/315260631",
-   "geo_checked": null,
-   "note": null,
+   "geo_source": "Nominatim, data/geocode_cache.json",
+   "geo_checked": "approximate",
+   "note": "[Location: Chifubu Level One Hospital not in the source lists; point for the Chifubu area of Ndola.]",
    "patients_reported": "88 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "ZMB-0002",
@@ -1034,7 +1070,8 @@
    "note": "AMBIGUOUS: \"Chipata\" is both a Lusaka first-level hospital and the Eastern Province town. Confirm before geocoding (Q-ZMB-02).",
    "patients_reported": "201 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": false,
+   "approximate": false
   },
   {
    "facility_id": "ZMB-0003",
@@ -1054,15 +1091,16 @@
    "partner": "CIDRZ",
    "register_status": "active",
    "source_ref": "D3M p200",
-   "latitude": -13.969906,
-   "longitude": 28.678601,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/776377628",
-   "geo_checked": null,
-   "note": null,
+   "latitude": -14.2264,
+   "longitude": 28.8406,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": "282 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZMB-0004",
@@ -1090,7 +1128,8 @@
    "note": null,
    "patients_reported": "568 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZMB-0005",
@@ -1110,15 +1149,16 @@
    "partner": "CIDRZ",
    "register_status": "active",
    "source_ref": "D3M p173",
-   "latitude": -14.905992,
-   "longitude": 27.952789,
+   "latitude": -14.995,
+   "longitude": 28.1283333,
    "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/way/289033662",
-   "geo_checked": null,
-   "note": null,
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "approximate",
+   "note": "[Location: Chibombo District Hospital sits in the Mwachisompola Health Demonstration Zone; point of the zone's health post (GPS), not of the hospital.]",
    "patients_reported": "258 ever enrolled [D3M p200-201]",
    "country": "Zambia",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "ZWE-0001",
@@ -1138,15 +1178,16 @@
    "partner": "SolidarMed; CHAI",
    "register_status": "active",
    "source_ref": "D3K p75",
-   "latitude": -20.493384,
-   "longitude": 31.750894,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/2722866913",
-   "geo_checked": null,
-   "note": null,
+   "latitude": -20.50519,
+   "longitude": 31.7505798,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZWE-0002",
@@ -1174,7 +1215,8 @@
    "note": null,
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZWE-0003",
@@ -1194,15 +1236,16 @@
    "partner": "SolidarMed; CHAI",
    "register_status": "active",
    "source_ref": "D3K p75",
-   "latitude": -20.072014,
-   "longitude": 30.834194,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/253129357",
-   "geo_checked": null,
-   "note": "Centre of excellence / training hub.",
+   "latitude": -20.07272,
+   "longitude": 30.8391399,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "Centre of excellence / training hub. [Location: GPS.]",
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "ZWE-0004",
@@ -1222,15 +1265,16 @@
    "partner": "SolidarMed; CHAI",
    "register_status": "active",
    "source_ref": "D3K p75",
-   "latitude": -21.045295,
-   "longitude": 31.668877,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/1243605851",
-   "geo_checked": null,
-   "note": null,
+   "latitude": -21.036,
+   "longitude": 31.6732197,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Zimbabwe",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   }
  ]
 }

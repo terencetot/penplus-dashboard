@@ -309,5 +309,9 @@
   "table.resolution": "Resolution",
   "table.rule": "Rule",
   "value_type.trained_flow": "trained in the year",
-  "value_type.trained_cumulative": "trained, cumulative"
+  "value_type.trained_cumulative": "trained, cumulative",
+  "screen5.kpi.mapped_v2": "Located at the facility (+{approx} approximate, town)",
+  "screen5.map.approximate": "Approximate: town point, facility not located",
+  "screen5.location.approximate": "Approximate (town point)",
+  "screen5.map.caption_v2": "{mapped} of {total} facilities are placed at their own coordinates: OpenStreetMap (name and region matched) or the WHO/KEMRI list of public health facilities in sub-Saharan Africa (national master facility lists, mostly GPS). {approx} are shown at their town, hollow, because the facility itself could not be located or is not named. {off} is left off the map pending a query. Hover a point for its details; pick a country to label the facilities. The background is the coastline only (Natural Earth); no national boundaries are drawn."
 }

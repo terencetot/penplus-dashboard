@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -1021,7 +1021,8 @@
    "note": null,
    "patients_reported": null,
    "country": "Uganda",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "UGA-0002",
@@ -1041,15 +1042,16 @@
    "partner": "UINCD",
    "register_status": "active",
    "source_ref": "D3M p253",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": null,
+   "latitude": 0.796,
+   "longitude": 32.436,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "[Location: GPS.]",
    "patients_reported": null,
    "country": "Uganda",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "UGA-0003",
@@ -1069,15 +1071,16 @@
    "partner": "WHO",
    "register_status": "partial",
    "source_ref": "D3M p253",
-   "latitude": 0.840936,
-   "longitude": 32.493527,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/3496962324",
-   "geo_checked": null,
-   "note": "PEN-Plus principles in training; full model not operational (resources).",
+   "latitude": 0.8453,
+   "longitude": 32.4914,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "PEN-Plus principles in training; full model not operational (resources). [Location: Listed in 2019 as Luwero Health Centre IV (the facility now called Luwero Hospital).]",
    "patients_reported": null,
    "country": "Uganda",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   }
  ],
  "implementation": {

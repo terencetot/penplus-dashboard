@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -120,15 +120,16 @@
    "partner": "NIMR; MoH",
    "register_status": "active",
    "source_ref": "D2M p51",
-   "latitude": -4.906513,
-   "longitude": 35.779631,
-   "geo_precision": "town",
-   "geo_source": "https://www.openstreetmap.org/node/258589880",
-   "geo_checked": null,
-   "note": "247 patients.",
+   "latitude": -4.90417,
+   "longitude": 35.7952,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "247 patients. [Location: GPS.]",
    "patients_reported": "247 active [D2M p51]",
    "country": "United Republic of Tanzania",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "TZA-0002",
@@ -156,7 +157,8 @@
    "note": "311 active patients.",
    "patients_reported": "311 active [D2M p51]",
    "country": "United Republic of Tanzania",
-   "mapped": true
+   "mapped": true,
+   "approximate": false
   }
  ],
  "implementation": {

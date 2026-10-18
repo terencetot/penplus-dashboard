@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -158,15 +158,16 @@
    "partner": "WHO",
    "register_status": "active",
    "source_ref": "D2M p255",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "PEN-Plus unit opened June 2026.",
+   "latitude": -4.268667,
+   "longitude": 15.213821,
+   "geo_precision": "facility",
+   "geo_source": "WHO/KEMRI public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374)",
+   "geo_checked": "dataset",
+   "note": "PEN-Plus unit opened June 2026. [Location: Listed as Hopital de Base de Makelekele (Google Earth).]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": true,
+   "approximate": false
   },
   {
    "facility_id": "COG-0002",
@@ -190,11 +191,12 @@
    "longitude": 14.816852,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/3300965105",
-   "geo_checked": null,
-   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named.",
+   "geo_checked": "approximate",
+   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named. [Location: Planned pilot district; town point.]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "COG-0003",
@@ -218,11 +220,12 @@
    "longitude": 11.701621,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/2467887447",
-   "geo_checked": null,
-   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named.",
+   "geo_checked": "approximate",
+   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named. [Location: Planned pilot district; town point.]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "COG-0004",
@@ -242,15 +245,16 @@
    "partner": "WHO",
    "register_status": "planned",
    "source_ref": "D2M p250",
-   "latitude": null,
-   "longitude": null,
-   "geo_precision": null,
-   "geo_source": null,
-   "geo_checked": null,
-   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named.",
+   "latitude": -4.1642624,
+   "longitude": 13.5516478,
+   "geo_precision": "town",
+   "geo_source": "https://www.openstreetmap.org/relation/3224443",
+   "geo_checked": "approximate",
+   "note": "Pilot district named in the deck and in PEN_PLUS_MONITORING.xlsx (Helmsley pilot: Madingou, Ewo, Madingo-Kayes); facility not named. [Location: Planned pilot district; town point.]",
    "patients_reported": null,
    "country": "Republic of the Congo",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   }
  ],
  "implementation": {

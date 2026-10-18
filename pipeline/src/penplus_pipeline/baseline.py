@@ -99,8 +99,31 @@ def load_facility_register(con, path=None) -> int:
              r.get("geo_precision") or None, r.get("geo_source") or None,
              r.get("geo_checked") or None, r.get("note") or None,
              r.get("patients_reported") or None))
+    _apply_curated_coordinates(con)
     con.commit()
     return len(rows)
+
+
+def _apply_curated_coordinates(con, path=None) -> int:
+    """Coordinates found for facilities the automatic OpenStreetMap rules
+    could not place (data/reference/facility_coordinates.csv): the WHO/KEMRI
+    list of public health facilities in sub-Saharan Africa (national master
+    facility lists, mostly GPS) where the facility is in it, otherwise the
+    town, marked approximate. A point already checked by the protocol
+    (geo_checked auto or yes) is never overwritten."""
+    path = path or os.path.join(REFERENCE, "facility_coordinates.csv")
+    if not os.path.exists(path):
+        return 0
+    n = 0
+    for r in _read(path):
+        cur = con.execute("UPDATE dim_facility SET latitude=?, longitude=?, geo_precision=?,"
+                          " geo_checked=?, geo_source=?, note=COALESCE(note || ' ', '') || ?"
+                          " WHERE facility_id=? AND COALESCE(geo_checked,'') NOT IN ('auto','yes')",
+                          (_float(r["latitude"]), _float(r["longitude"]), r["geo_precision"],
+                           r["geo_checked"], r["geo_source"], f"[Location: {r['note']}]",
+                           r["facility_id"]))
+        n += cur.rowcount
+    return n
 
 
 def load_phase_reconciliation(con, path=None) -> int:

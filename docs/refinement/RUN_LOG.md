@@ -162,6 +162,9 @@ Regional and screen-level figures:
 | D26 | Date of an undated baseline row | 30 June 2026, the ICPPA evidence cut-off. |
 | D27 | Decorative tile map at phone width | Hidden below 640 px. It encodes cohort only, which the lists below repeat. |
 | D28 | CI and deploy guard "no facility identity in the public bundle" | Now follows the bundle's `publish_facility_names` flag (the old guard blocked the first merge). A new check fails the build if any suppressed cell (under 5) is published with its number. |
+| D29 | Facilities the OpenStreetMap rules could not place (user request, 18 Oct 2026) | Located from the WHO/KEMRI list of public health facilities in sub-Saharan Africa (Maina et al. 2019, figshare 7725374; national master facility lists, mostly GPS): 17 facilities matched by name, country and region (`geo_checked = dataset`). Recorded with source in `data/reference/facility_coordinates.csv`. |
+| D30 | Facility not in any source, or not named | Shown at its town as **approximate** (hollow point, labelled), never as the facility: 14 entries (Addis Zemen, Muketuri, Moyamba, Chifubu, Chibombo/Mwachisompola, and the unnamed pilot sites in Burkina Faso, DRC, Congo, Kenya). Chipata (Q-ZMB-02) stays off the map: the list has a Chipata in Lusaka and one in Eastern Province, 600 km apart. Result: 28 at their own coordinates, 14 approximate, 1 off the map. |
+| D31 | Map background | Natural Earth 1:50m land (public domain), clipped to sub-Saharan Africa (`site/public/assets/geo/africa_land.json`, 29 KB, same-origin). Coastline only: no national boundary is drawn, so no border is asserted (D22 still holds). |
 
 ## Skipped
 

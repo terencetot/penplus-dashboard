@@ -244,6 +244,8 @@ export interface FacilityRow {
   geo_checked: "yes" | "auto" | null;
   /** on the map: coordinates that passed every geocoding rule, or were checked by a person */
   mapped: boolean;
+  /** a town point shown as approximate: the facility itself is not located */
+  approximate: boolean;
   note: string | null;
   patients_reported: string | null;
 }
@@ -256,6 +258,7 @@ export interface FacilitiesBundle {
     by_status: Record<string, number>;
     countries: number;
     mapped: number;
+    approximate: number;
     location_to_confirm: number;
     names_to_confirm: number;
   };

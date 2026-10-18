@@ -125,7 +125,9 @@ describe("screens render against the real bundle", () => {
     await renderFacilities(el);
     expect(el.querySelector("#facility-map svg")).toBeTruthy();
     expect(el.textContent).toContain("Location to confirm");
-    expect(el.querySelectorAll("#to-confirm .pill").length).toBe(32);
+    // 28 at their own coordinates, 14 approximate (town), only Chipata off the map (Q-ZMB-02)
+    expect(el.querySelectorAll("#to-confirm .pill").length).toBe(1);
+    expect(el.querySelector("#to-confirm")!.textContent).toContain("Chipata");
     expect(el.querySelector(".map-disclaimer")!.textContent).toContain("WHO");
 
     const rowsBefore = el.querySelectorAll("#facility-table tbody tr").length;

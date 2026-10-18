@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T10:22:28",
+  "built_at": "2026-10-18T11:05:17",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -200,11 +200,12 @@
    "longitude": -1.897488,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/431220390",
-   "geo_checked": null,
-   "note": "Facility name not on the slide (likely the district CMA): ask the WCO.",
+   "geo_checked": "approximate",
+   "note": "Facility name not on the slide (likely the district CMA): ask the WCO. [Location: Facility not named on the slide; town of the pilot district.]",
    "patients_reported": null,
    "country": "Burkina Faso",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   },
   {
    "facility_id": "BFA-0002",
@@ -228,11 +229,12 @@
    "longitude": -0.353933,
    "geo_precision": "town",
    "geo_source": "https://www.openstreetmap.org/node/322555843",
-   "geo_checked": null,
-   "note": "Facility name not on the slide: ask the WCO.",
+   "geo_checked": "approximate",
+   "note": "Facility name not on the slide: ask the WCO. [Location: Facility not named on the slide; town of the pilot district.]",
    "patients_reported": null,
    "country": "Burkina Faso",
-   "mapped": false
+   "mapped": false,
+   "approximate": true
   }
  ],
  "implementation": {
