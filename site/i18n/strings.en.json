@@ -489,5 +489,6 @@
   "screen4.kpi.held_sub": "kept out of regional totals until confirmed",
   "screen4.kpi.queries_title": "Open data queries",
   "screen4.kpi.coverage_title": "Indicators well covered",
-  "screen4.queries.summary": "Data queries: {n} open, {high} high priority"
+  "screen4.queries.summary": "Data queries: {n} open, {high} high priority",
+  "dev.banner": "This dashboard is a preliminary version: figures and screens may still change."
 }

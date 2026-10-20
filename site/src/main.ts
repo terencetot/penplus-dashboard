@@ -47,7 +47,7 @@ async function renderApp() {
           </a>
           <div class="app-header__divider"></div>
           <div>
-            <p class="app-header__title">${t("app.title")}</p>
+            <p class="app-header__title">${t("app.title")} <span class="dev-badge">Under development</span></p>
             <p class="app-header__subtitle">${t("app.subtitle")}</p>
           </div>
         </div>
@@ -65,6 +65,10 @@ async function renderApp() {
         </ul>
       </nav>
     </header>
+    <div class="dev-banner" role="note">
+      <span class="dev-banner__tag">Under development</span>
+      <span>${t("dev.banner")}</span>
+    </div>
     <main class="app-main" id="main-content" tabindex="-1"></main>
     <footer class="app-footer">
       <div class="app-footer__bar app-footer__brand">
