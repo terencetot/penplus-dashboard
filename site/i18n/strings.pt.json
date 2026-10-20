@@ -489,5 +489,6 @@
   "screen4.kpi.held_sub": "fora dos totais regionais até confirmação",
   "screen4.kpi.queries_title": "Consultas abertas",
   "screen4.kpi.coverage_title": "Indicadores bem cobertos",
-  "screen4.queries.summary": "Consultas sobre os dados: {n} abertas, {high} prioritárias"
+  "screen4.queries.summary": "Consultas sobre os dados: {n} abertas, {high} prioritárias",
+  "dev.banner": "Este painel é uma versão preliminar: os valores e os ecrãs ainda podem mudar."
 }

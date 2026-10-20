@@ -489,5 +489,6 @@
   "screen4.kpi.held_sub": "hors des totaux régionaux jusqu'à confirmation",
   "screen4.kpi.queries_title": "Requêtes ouvertes",
   "screen4.kpi.coverage_title": "Indicateurs bien couverts",
-  "screen4.queries.summary": "Requêtes sur les données : {n} ouvertes, dont {high} prioritaires"
+  "screen4.queries.summary": "Requêtes sur les données : {n} ouvertes, dont {high} prioritaires",
+  "dev.banner": "Ce tableau de bord est une version préliminaire : les chiffres et les écrans peuvent encore évoluer."
 }
