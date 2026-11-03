@@ -16,7 +16,7 @@ import { icon } from "@/components/icons";
 const NAV: { route: Route; num: number; key: string }[] = [
   { route: { screen: "overview" }, num: 1, key: "nav.overview" },
   { route: { screen: "indicator", code: "2.6" }, num: 2, key: "nav.indicator" },
-  { route: { screen: "country", iso3: "GHA" }, num: 3, key: "nav.country" },
+  { route: { screen: "country", iso3: "UGA" }, num: 3, key: "nav.country" },
   { route: { screen: "implementation" }, num: 4, key: "nav.implementation" },
   { route: { screen: "quality" }, num: 5, key: "nav.quality" },
   { route: { screen: "facilities" }, num: 6, key: "nav.facilities" },

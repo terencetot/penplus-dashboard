@@ -24,16 +24,20 @@ const NOT_STARTED = /not (yet )?started|non commenc/i;
 const BRANDING = /ICPPA|\bdemo\b|démonstration/i;
 
 describe("screens render against the real bundle", () => {
-  it("overview: five real figures, all 31 countries, no held totals", async () => {
+  it("overview: programme figures, all 31 countries, no held totals", async () => {
     setLang("en");
     const el = container();
     await renderOverview(el);
     expect(el.textContent).toContain("PEN-Plus in Africa");
     expect(el.querySelectorAll(".stat").length).toBe(5);
-    expect(el.textContent).toContain("6,324"); // sentinel patients, Zimbabwe out while verified
-    expect(el.textContent).toContain("2,419"); // health workers trained
+    // programme figures (data/reference/programme_figures.csv), no coverage line on the cards
+    expect(el.textContent).toContain("Reporting facilities");
+    expect(el.textContent).toContain("+170,000");
+    expect(el.textContent).toContain("+17,500");
+    expect(el.querySelector(".kpi-band")!.textContent).not.toMatch(/countries reporting/);
     expect(el.querySelectorAll("#situation-body tr").length).toBe(31);
-    expect(el.querySelector("#situation-body tr[data-iso3='ZWE']")!.textContent).toContain("to verify");
+    // Zimbabwe published as reported (Q-ZWE-01 closed by programme decision)
+    expect(el.querySelector("#situation-body tr[data-iso3='ZWE']")!.textContent).not.toContain("to verify");
     expect(el.textContent).not.toMatch(/Held/);
     expect(el.textContent).not.toMatch(NOT_STARTED);
     expect(el.textContent).not.toMatch(BRANDING);
@@ -51,7 +55,7 @@ describe("screens render against the real bundle", () => {
     setLang("en");
     const el = container();
     await renderIndicatorDetail(el, "2.6");
-    expect(el.textContent).toContain("6,324");
+    expect(el.textContent).toContain("+170,000");
     expect(el.querySelector("#distribution-panel")!.textContent).not.toBe("");
     expect(el.querySelector("#condition-panel")!.textContent).toContain("By condition");
     const names = Array.from(el.querySelectorAll(".trend-card__name")).map((n) => n.textContent);
@@ -104,12 +108,18 @@ describe("screens render against the real bundle", () => {
     expect(el.textContent).not.toMatch(NOT_STARTED);
   });
 
-  it("implementation: phase map and the 1 / 15 / 3 / 1 + 11 split", async () => {
+  it("implementation: no map, 1 in phase 5 and 17 in phase 4, official phase wording", async () => {
     setLang("en");
     const el = container();
     await renderImplementation(el);
-    const legend = Array.from(el.querySelectorAll(".phase-legend__row em")).map((e) => e.textContent);
-    expect(legend).toEqual(["1", "15", "3", "1", "0", "11"]);
+    expect(el.querySelector(".phase-map-panel")).toBeNull();
+    expect(el.textContent).not.toContain("Where each country stands");
+    const kpis = Array.from(el.querySelectorAll(".stat__value")).map((e) => e.textContent);
+    expect(kpis.slice(1, 3)).toEqual(["1", "17"]);
+    expect(el.textContent).toContain("Phase 1. Assessment of the system and of facility readiness");
+    expect(el.textContent).toContain(
+      "Conduct a comprehensive assessment of existing health care and facilities",
+    );
     const table = el.querySelector("#implementation-table")!;
     expect(table.querySelectorAll("tbody tr").length).toBe(31);
     expect(table.querySelectorAll(".phase-grid__noreturn").length).toBe(11);

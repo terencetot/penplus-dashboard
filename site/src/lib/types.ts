@@ -92,6 +92,16 @@ export interface GoldRow {
   held_by: string | null;
 }
 
+/** A headline figure supplied by the programme (data/reference/programme_figures.csv). */
+export interface ProgrammeFigure {
+  indicator_code: string;
+  value: number;
+  /** a floor: shown as "+170,000" */
+  at_least: boolean;
+  source: string;
+  as_of: string;
+}
+
 export interface IndicatorDim {
   indicator_code: string;
   label_en: string;
@@ -112,6 +122,7 @@ export interface IndicatorDim {
   coverage_pct: number | null;
   gap: number | null;
   value_types: ValueType[];
+  programme: ProgrammeFigure | null;
 }
 
 export interface OverviewBundle {
@@ -127,6 +138,7 @@ export interface OverviewBundle {
   countries: CountryRef[];
   countries_with_data: number;
   programme: { countries: number; round1: number; round2: number; phase45: number; with_phase: number };
+  programme_figures: Record<string, ProgrammeFigure | undefined>;
   /** one row per country, alphabetical; values and bar lengths computed in export.py */
   country_table: {
     iso3: string;
@@ -291,6 +303,7 @@ export interface FacilitiesBundle {
     on_map: number;
     location_to_confirm: number;
     names_to_confirm: number;
+    reporting_programme: ProgrammeFigure | null;
   };
   rows: FacilityRow[];
 }

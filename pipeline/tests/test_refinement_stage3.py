@@ -116,14 +116,14 @@ def test_query_seed_loads_all_28_and_closes_only_what_this_build_fixed(tmp_path)
     assert seeded == 28
     assert closed == len(baseline.RESOLVED)
     status = {q["query_id"]: q["status"] for q in con.execute("SELECT * FROM fact_query")}
-    assert status["Q-ZWE-01"] == "open"         # held until MoHCC confirms
+    assert status["Q-ZWE-01"] == "closed"       # programme decision, 3 Nov 2026
     # programme decision (18 Oct 2026): the regional figure is published as the
     # sum of country-reported figures with its coverage, so Q-REG-01 is closed
     assert status["Q-REG-01"] == "closed"
     assert status["Q-REG-02"] == "closed"       # severe HTN removed by this build
     high_open = [q for q in con.execute(
         "SELECT * FROM fact_query WHERE severity='High' AND status='open'")]
-    assert {q["query_id"] for q in high_open} == {"Q-ZWE-01", "Q-MWI-01"}
+    assert {q["query_id"] for q in high_open} == {"Q-MWI-01"}
 
 
 def test_facility_register_counts_only_active_facilities_for_2_3(tmp_path):
@@ -171,3 +171,23 @@ def test_a_clean_new_tool_return_passes_every_testable_rule(tmp_path):
     outcomes = dict(con.execute("SELECT rule, outcome FROM fact_check").fetchall())
     for rule in ("R01", "R03", "R04", "R05", "R07", "R08", "R09", "R11", "R12", "R13", "R16"):
         assert outcomes[rule] == "passed", rule
+
+
+def test_programme_figures_and_confirmed_phases():
+    """Programme figures (3 Nov 2026) are read as given; Congo and Lesotho are in
+    phase 4, so 18 of the 20 first-round countries are in phase 4 or 5."""
+    import csv
+    import os
+
+    from export import programme_figures
+    pf = programme_figures()
+    assert pf["reporting_facilities"]["value"] == 120
+    assert pf["patients_enrolled"] == {**pf["patients_enrolled"], "value": 170000, "at_least": True}
+    assert pf["trained"]["value"] == 17500
+    with open(os.path.join(baseline.REFERENCE, "implementation_phase_reconciliation.csv"),
+              encoding="utf-8") as f:
+        phase = {r["country"]: r["phase_to_publish"] for r in csv.DictReader(f)
+                 if r["phase_to_publish"]}
+    assert phase["Nigeria"] == "2" and phase["Niger"] == "3" and phase["Rwanda"] == "5"
+    others = [c for c in phase if c not in ("Nigeria", "Niger", "Rwanda")]
+    assert len(others) == 17 and all(phase[c] == "4" for c in others)

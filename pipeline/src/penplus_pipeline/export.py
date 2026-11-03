@@ -12,6 +12,7 @@ reporting an indicator only for a non-null value.
 """
 from __future__ import annotations
 
+import csv
 import json
 import os
 
@@ -32,6 +33,22 @@ OUT_DEFAULT = os.path.join(HERE, "..", "..", "..", "site", "public", "data")
 CORE_INDICATORS = ["1.1", "1.2", "1.3", "2.1", "2.2", "2.3", "2.4", "2.5", "2.6",
                    "3.1", "3.2", "3.3", "3.4", "4.1", "5.2", "6.1"]
 SEVERITY_ORDER = {"High": 0, "Medium": 1, "Low": 2}
+
+REFERENCE = os.path.join(HERE, "..", "..", "..", "data", "reference")
+
+
+def programme_figures(path=None) -> dict:
+    """The programme's own headline figures (data/reference/programme_figures.csv),
+    supplied by WHO AFRO. They are published as given, next to -- never summed
+    with -- the figures the countries report. at_least=1 marks a floor ("170,000+")."""
+    path = path or os.path.join(REFERENCE, "programme_figures.csv")
+    if not os.path.exists(path):
+        return {}
+    with open(path, encoding="utf-8", newline="") as f:
+        return {r["figure"]: {"indicator_code": r["indicator_code"], "value": int(r["value"]),
+                              "at_least": r["at_least"].strip() == "1",
+                              "source": r["source"], "as_of": r["as_of"]}
+                for r in csv.DictReader(f)}
 
 
 def _d(rows):
@@ -154,8 +171,11 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
                      else ("form" if live else None),
         }
 
+    programme = programme_figures()
+    programme_by_code = {f["indicator_code"]: f for f in programme.values()}
     for dim in indicators:
         r = regional(dim["indicator_code"], dim["unit"])
+        dim["programme"] = programme_by_code.get(dim["indicator_code"])
         dim["regional_value"] = r["total"]
         dim["regional_held_by"] = r["total_held_by"]
         dim["regional_as_of"] = r["as_of"]
@@ -252,6 +272,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
             "phase45": phase45,
             "with_phase": with_phase,
         },
+        "programme_figures": programme,
         "milestone_strip": milestone_strip,
         "countries": countries,
         "countries_with_data": sum(1 for c in countries if c["has_data"]),
@@ -414,6 +435,7 @@ def export(db_path: str = DB_DEFAULT, out_dir: str = OUT_DEFAULT, public: bool =
             "location_to_confirm": sum(1 for f in facility_rows
                                        if not f["mapped"] and not f["approximate"]),
             "names_to_confirm": sum(1 for f in facility_rows if f["name_status"] == "to_confirm"),
+            "reporting_programme": programme.get("reporting_facilities"),
         },
         "rows": facility_rows})
 

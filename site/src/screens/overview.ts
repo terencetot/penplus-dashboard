@@ -1,9 +1,9 @@
 import { getFacilities, getOverview } from "@/lib/bundle";
-import { fmtCount } from "@/lib/format";
+import { fmtCount, fmtProgramme } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { loadWhoGeo, renderHeroMap } from "@/components/facility-map";
-import type { OverviewBundle, RegionalFigure } from "@/lib/types";
+import type { OverviewBundle } from "@/lib/types";
 
 type Row = OverviewBundle["country_table"][number];
 
@@ -17,8 +17,8 @@ type Row = OverviewBundle["country_table"][number];
 export async function renderOverview(container: HTMLElement): Promise<void> {
   container.innerHTML = `<p class="skeleton" style="height:280px"></p>`;
   const [bundle, facilities, geo] = await Promise.all([getOverview(), getFacilities(), loadWhoGeo()]);
-  const h = bundle.headline;
   const p = bundle.programme;
+  const pf = bundle.programme_figures;
 
   container.innerHTML = `
     <section class="hero hero--atlas">
@@ -31,9 +31,8 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
             countries: p.countries,
             round1: p.round1,
             round2: p.round2,
-            facilities: fmtCount(h.facilities.total),
-            patients: fmtCount(h.sentinel_ever.total),
-            reporting: h.sentinel_ever.countries_reporting,
+            facilities: fmtProgramme(pf.reporting_facilities),
+            patients: fmtProgramme(pf.patients_enrolled),
           })}</p>
           <div class="leg">
             <span><i class="a"></i>${t("screen1.hero.phase1_legend", { n: p.round1 })}</span>
@@ -48,10 +47,10 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
     <div class="kpi-band">
       <div class="stat-row">
         ${stat(t("screen1.kpi.countries"), fmtCount(p.countries), t("screen1.kpi.countries_sub", { r1: p.round1, r2: p.round2 }))}
-        ${figure(t("screen1.kpi.facilities"), h.facilities, t("screen1.kpi.facilities_sub"))}
-        ${figure(t("screen1.kpi.patients"), h.sentinel_ever, t("screen1.kpi.patients_sub"))}
-        ${figure(t("screen1.kpi.trained"), h.trained, t("screen1.kpi.trained_sub"))}
-        ${stat(t("screen1.kpi.phase"), `${p.phase45}<small>/${p.with_phase}</small>`, t("screen1.kpi.phase_sub"))}
+        ${stat(t("screen1.kpi.facilities"), fmtProgramme(pf.reporting_facilities), t("screen1.kpi.facilities_sub"))}
+        ${stat(t("screen1.kpi.patients"), fmtProgramme(pf.patients_enrolled), t("screen1.kpi.patients_sub"))}
+        ${stat(t("screen1.kpi.trained"), fmtProgramme(pf.trained), t("screen1.kpi.trained_sub"))}
+        ${stat(t("screen1.kpi.phase"), String(p.phase45), t("screen1.kpi.phase_sub", { n: p.round1 }))}
       </div>
     </div>
 
@@ -112,20 +111,6 @@ export async function renderOverview(container: HTMLElement): Promise<void> {
 function stat(label: string, value: string, sub: string): string {
   return `<div class="stat"><span class="stat__label">${label}</span>
     <b class="stat__value num">${value}</b><span class="stat__sub">${sub}</span></div>`;
-}
-
-/** A regional total with its country coverage, written and drawn (31 pips). */
-function figure(label: string, f: RegionalFigure, sub: string): string {
-  const partial = f.coverage_pct !== null && f.coverage_pct < 80;
-  const pips = Array.from(
-    { length: f.countries_total },
-    (_, i) => `<i class="${i < f.countries_reporting ? "f" : ""}"></i>`,
-  ).join("");
-  return `<div class="stat${partial ? " is-partial" : ""}"><span class="stat__label">${label}</span>
-    <b class="stat__value num">${f.total === null ? "—" : fmtCount(f.total)}</b>
-    <span class="stat__sub">${sub}</span>
-    <span class="stat__cov">${t("screen1.kpi.coverage", { n: f.countries_reporting, total: f.countries_total })}</span>
-    <span class="stat__pips" aria-hidden="true">${pips}</span></div>`;
 }
 
 function bar(value: number | null, pct: number | null, extra = ""): string {
