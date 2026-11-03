@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T18:58:15",
+  "built_at": "2026-11-03T12:24:23",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -78,8 +78,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -97,8 +97,8 @@
    "basis": "historical",
    "value_type": null,
    "source_ref": null,
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -116,8 +116,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -135,8 +135,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -154,8 +154,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -173,8 +173,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -346,85 +346,85 @@
     "step_no": 1,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 2,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 3,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 4,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 5,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 6,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 7,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 8,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 9,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 10,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 11,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 12,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 13,
     "status": "yes",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    },
    {
     "step_no": 14,
     "status": "no",
     "source": "PEN_PLUS_MONITORING.xlsx, PEN plus phases sheet",
-    "as_of": "2026-10-18"
+    "as_of": "2026-11-03"
    }
   ]
  },
@@ -438,9 +438,9 @@
    "flow",
    "point-in-time"
   ],
-  "open_queries": 2,
-  "highest_severity": "High",
-  "status": "held"
+  "open_queries": 1,
+  "highest_severity": "Medium",
+  "status": "historical"
  },
  "governance": [],
  "queries": [
@@ -452,8 +452,8 @@
    "issue": "3,201 T1D patients in 8 scale-up districts (2025) is implausible for type 1 alone; likely insulin-treated diabetes of any type. Dashboard publishes 4,590 from this table.",
    "evidence": "D3K p76",
    "action": "Hold the figure until the MoHCC confirms the case definition.",
-   "status": "open",
-   "resolution": null,
+   "status": "closed",
+   "resolution": "Decision of the programme (3 Nov 2026): Zimbabwe's figure is published as reported and counts in the regional sum.",
    "source": "evidence review",
    "rule": null,
    "period_id": null,
@@ -472,7 +472,7 @@
    "source": "validate.py R15",
    "rule": "R15",
    "period_id": "2025-A",
-   "opened_on": "2026-10-18"
+   "opened_on": "2026-11-03"
   }
  ],
  "data_system": null

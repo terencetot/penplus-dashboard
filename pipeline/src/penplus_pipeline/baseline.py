@@ -55,8 +55,9 @@ RESOLVED = {
     # regional figure is published as the sum of the country-reported figures,
     # always shown with its country coverage.
     "Q-REG-01": "Decision of the programme (18 Oct 2026): the regional figure is the sum of the"
-                " figures each country reported, shown with the number of countries it covers."
-                " Zimbabwe stays out of the sum while Q-ZWE-01 is open.",
+                " figures each country reported, shown with the number of countries it covers.",
+    "Q-ZWE-01": "Decision of the programme (3 Nov 2026): Zimbabwe's figure is published as"
+                " reported and counts in the regional sum.",
 }
 
 

@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T18:58:15",
+  "built_at": "2026-11-03T12:24:23",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -24,6 +24,7 @@
    "formula": "countries with status yes and a document title, over countries reporting",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -45,6 +46,7 @@
    "formula": "countries with status yes and a document title, over countries reporting",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -66,6 +68,7 @@
    "formula": "countries with status yes and a document title, over countries reporting",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -87,6 +90,7 @@
    "formula": "count of priority conditions marked disseminated, over how many were reported",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -108,6 +112,7 @@
    "formula": "count of facilities with a readiness class",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -129,6 +134,13 @@
    "formula": "count of facilities with status operational or started_this_period",
    "milestone": null,
    "reporting_frequency": "semi_annual",
+   "programme": {
+    "indicator_code": "2.3",
+    "value": 120,
+    "at_least": false,
+    "source": "WHO AFRO PEN-Plus programme figures",
+    "as_of": "2026-11-03"
+   },
    "regional_value": 33,
    "regional_held_by": null,
    "regional_as_of": "2026-06-30",
@@ -152,6 +164,7 @@
    "formula": "numerator over facilities assessed against the checklist",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -173,6 +186,7 @@
    "formula": "the country's all-conditions total; never rebuilt from condition columns",
    "milestone": null,
    "reporting_frequency": "semi_annual",
+   "programme": null,
    "regional_value": 2646,
    "regional_held_by": null,
    "regional_as_of": "2026-06-30",
@@ -196,14 +210,21 @@
    "formula": "sum of ever_enrolled over T1D, SCD and RHD (severe hypertension excluded)",
    "milestone": null,
    "reporting_frequency": "semi_annual_annual",
-   "regional_value": 6324,
+   "programme": {
+    "indicator_code": "2.6",
+    "value": 170000,
+    "at_least": true,
+    "source": "WHO AFRO PEN-Plus programme figures",
+    "as_of": "2026-11-03"
+   },
+   "regional_value": 10914,
    "regional_held_by": null,
    "regional_as_of": "2026-06-30",
-   "countries_reporting": 10,
-   "countries_held": 1,
-   "countries_without": 21,
+   "countries_reporting": 11,
+   "countries_held": 0,
+   "countries_without": 20,
    "countries_total": 31,
-   "coverage_pct": 32,
+   "coverage_pct": 35,
    "gap": null,
    "value_types": [
     "active/cumulative",
@@ -224,6 +245,7 @@
    "formula": "sum of active in care over T1D, SCD and RHD (reported alongside 2.6)",
    "milestone": null,
    "reporting_frequency": "semi_annual_annual",
+   "programme": null,
    "regional_value": 3405,
    "regional_held_by": null,
    "regional_as_of": "2026-06-30",
@@ -247,6 +269,7 @@
    "formula": "(active in care - newly enrolled) / (ever enrolled - newly enrolled), computed by the pipeline; the country-entered retention % is never read",
    "milestone": null,
    "reporting_frequency": "semi_annual_annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -268,6 +291,7 @@
    "formula": "sum of female, male and not-stated completions",
    "milestone": null,
    "reporting_frequency": "semi_annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -289,6 +313,7 @@
    "formula": "sum of female, male and not-stated ToT trained, cumulative",
    "milestone": null,
    "reporting_frequency": "semi_annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -310,6 +335,13 @@
    "formula": "sum of female, male and not-stated trained this quarter",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": {
+    "indicator_code": "3.3",
+    "value": 17500,
+    "at_least": true,
+    "source": "WHO AFRO PEN-Plus programme figures",
+    "as_of": "2026-11-03"
+   },
    "regional_value": 893,
    "regional_held_by": null,
    "regional_as_of": "2026-06-30",
@@ -333,6 +365,7 @@
    "formula": "facilities with a mentorship visit this quarter over operational facilities",
    "milestone": null,
    "reporting_frequency": "semi_annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -354,6 +387,7 @@
    "formula": "countries with round table held = yes, over countries reporting",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -375,6 +409,7 @@
    "formula": "countries answering Yes (Partial is shown, not counted)",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -396,6 +431,7 @@
    "formula": "sum of product counts across product types",
    "milestone": null,
    "reporting_frequency": "annual",
+   "programme": null,
    "regional_value": null,
    "regional_held_by": null,
    "regional_as_of": null,
@@ -5308,8 +5344,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -5327,8 +5363,8 @@
    "basis": "historical",
    "value_type": null,
    "source_ref": null,
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -5346,8 +5382,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -5365,8 +5401,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -5384,8 +5420,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -5403,8 +5439,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",

@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T18:58:15",
+  "built_at": "2026-11-03T12:24:23",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -20,16 +20,16 @@
    "period": null
   },
   "held_figures": {
-   "n": 1,
+   "n": 0,
    "regional": 0
   },
   "open_queries": {
-   "total": 20,
-   "High": 2,
+   "total": 19,
+   "High": 1,
    "Medium": 11,
    "Low": 7
   },
-  "queries_closed": 10,
+  "queries_closed": 11,
   "indicators_covered": {
    "n": 0,
    "total": 16
@@ -426,9 +426,9 @@
     "flow",
     "point-in-time"
    ],
-   "open_queries": 2,
-   "highest_severity": "High",
-   "status": "held"
+   "open_queries": 1,
+   "highest_severity": "Medium",
+   "status": "historical"
   }
  ],
  "coverage": {
@@ -492,9 +492,9 @@
    {
     "indicator_code": "2.6",
     "label_en": "Sentinel patients ever enrolled (T1D, SCD, RHD)",
-    "countries_with_value": 10,
-    "countries_held": 1,
-    "coverage_pct": 32
+    "countries_with_value": 11,
+    "countries_held": 0,
+    "coverage_pct": 35
    },
    {
     "indicator_code": "3.1",
@@ -1219,7 +1219,7 @@
      "2.3": "value",
      "2.4": "not_reported",
      "2.5": "not_reported",
-     "2.6": "held",
+     "2.6": "value",
      "3.1": "not_reported",
      "3.2": "not_reported",
      "3.3": "value",
@@ -1397,15 +1397,7 @@
    "failures": []
   }
  ],
- "held_figures": [
-  {
-   "iso3": "ZWE",
-   "indicator_code": "2.6",
-   "period_id": "2025-A",
-   "value": 4590.0,
-   "held_by": "Q-ZWE-01"
-  }
- ],
+ "held_figures": [],
  "held_regional": [],
  "queries": [
   {
@@ -1717,7 +1709,7 @@
    "evidence": "D2M p9; D1 p19",
    "action": "Agree one regional figure, its scope (PEN-Plus clinics only?) and source before any public use.",
    "status": "closed",
-   "resolution": "Decision of the programme (18 Oct 2026): the regional figure is the sum of the figures each country reported, shown with the number of countries it covers. Zimbabwe stays out of the sum while Q-ZWE-01 is open.",
+   "resolution": "Decision of the programme (18 Oct 2026): the regional figure is the sum of the figures each country reported, shown with the number of countries it covers.",
    "source": "evidence review",
    "rule": null,
    "period_id": null,
@@ -1821,8 +1813,8 @@
    "issue": "3,201 T1D patients in 8 scale-up districts (2025) is implausible for type 1 alone; likely insulin-treated diabetes of any type. Dashboard publishes 4,590 from this table.",
    "evidence": "D3K p76",
    "action": "Hold the figure until the MoHCC confirms the case definition.",
-   "status": "open",
-   "resolution": null,
+   "status": "closed",
+   "resolution": "Decision of the programme (3 Nov 2026): Zimbabwe's figure is published as reported and counts in the regional sum.",
    "source": "evidence review",
    "rule": null,
    "period_id": null,
@@ -1841,7 +1833,7 @@
    "source": "validate.py R15",
    "rule": "R15",
    "period_id": "2026-A",
-   "opened_on": "2026-10-18"
+   "opened_on": "2026-11-03"
   },
   {
    "query_id": "V-R15-ZWE-2025-A",
@@ -1856,7 +1848,7 @@
    "source": "validate.py R15",
    "rule": "R15",
    "period_id": "2025-A",
-   "opened_on": "2026-10-18"
+   "opened_on": "2026-11-03"
   }
  ],
  "data_systems": [

@@ -1,6 +1,6 @@
 {
  "manifest": {
-  "built_at": "2026-10-18T18:58:15",
+  "built_at": "2026-11-03T12:24:23",
   "form_version": "3.0",
   "model_version": "1.0",
   "returns_loaded": 61,
@@ -26,16 +26,14 @@
    "basis": "historical"
   },
   "sentinel_ever": {
-   "total": 6324,
+   "total": 10914,
    "total_held_by": null,
    "as_of": "2026-06-30",
-   "countries_reporting": 10,
-   "countries_held": 1,
-   "held_by": [
-    "Q-ZWE-01"
-   ],
+   "countries_reporting": 11,
+   "countries_held": 0,
+   "held_by": [],
    "countries_total": 31,
-   "coverage_pct": 32,
+   "coverage_pct": 35,
    "basis": "historical"
   },
   "all_ever": {
@@ -137,7 +135,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": 40,
-   "patients_bar": 22,
+   "patients_bar": 11,
    "patients_all_bar": null,
    "trained_bar": 4
   },
@@ -188,7 +186,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": 40,
-   "patients_bar": 2,
+   "patients_bar": 1,
    "patients_all_bar": 9,
    "trained_bar": 2
   },
@@ -273,7 +271,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": null,
-   "patients_bar": 2,
+   "patients_bar": 1,
    "patients_all_bar": null,
    "trained_bar": 33
   },
@@ -290,7 +288,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": 60,
-   "patients_bar": 25,
+   "patients_bar": 12,
    "patients_all_bar": null,
    "trained_bar": 18
   },
@@ -298,7 +296,7 @@
    "iso3": "LSO",
    "name": "Lesotho",
    "cohort": "phase_1",
-   "phase": 3,
+   "phase": 4,
    "facilities": null,
    "patients": null,
    "patients_held": false,
@@ -324,7 +322,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": 20,
-   "patients_bar": 4,
+   "patients_bar": 2,
    "patients_all_bar": null,
    "trained_bar": 36
   },
@@ -417,7 +415,7 @@
    "iso3": "COG",
    "name": "Republic of the Congo",
    "cohort": "phase_1",
-   "phase": 3,
+   "phase": 4,
    "facilities": 1,
    "patients": 4.0,
    "patients_held": false,
@@ -477,7 +475,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": 40,
-   "patients_bar": 82,
+   "patients_bar": 40,
    "patients_all_bar": null,
    "trained_bar": 8
   },
@@ -545,7 +543,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": 40,
-   "patients_bar": 100,
+   "patients_bar": 48,
    "patients_all_bar": null,
    "trained_bar": 4
   },
@@ -579,7 +577,7 @@
    "patients_active": null,
    "latest_period": "2026-A",
    "facilities_bar": 100,
-   "patients_bar": 46,
+   "patients_bar": 22,
    "patients_all_bar": 100,
    "trained_bar": null
   },
@@ -590,13 +588,13 @@
    "phase": 4,
    "facilities": 4,
    "patients": 4590.0,
-   "patients_held": true,
+   "patients_held": false,
    "patients_all": null,
    "trained": 33.0,
    "patients_active": null,
    "latest_period": "2025-A",
    "facilities_bar": 80,
-   "patients_bar": null,
+   "patients_bar": 100,
    "patients_all_bar": null,
    "trained_bar": 3
   }
@@ -605,8 +603,31 @@
   "countries": 31,
   "round1": 20,
   "round2": 11,
-  "phase45": 16,
+  "phase45": 18,
   "with_phase": 20
+ },
+ "programme_figures": {
+  "reporting_facilities": {
+   "indicator_code": "2.3",
+   "value": 120,
+   "at_least": false,
+   "source": "WHO AFRO PEN-Plus programme figures",
+   "as_of": "2026-11-03"
+  },
+  "patients_enrolled": {
+   "indicator_code": "2.6",
+   "value": 170000,
+   "at_least": true,
+   "source": "WHO AFRO PEN-Plus programme figures",
+   "as_of": "2026-11-03"
+  },
+  "trained": {
+   "indicator_code": "3.3",
+   "value": 17500,
+   "at_least": true,
+   "source": "WHO AFRO PEN-Plus programme figures",
+   "as_of": "2026-11-03"
+  }
  },
  "milestone_strip": [
   {
@@ -637,12 +658,12 @@
    "indicator_code": "2.6",
    "label_en": "Sentinel patients ever enrolled (T1D, SCD, RHD)",
    "unit": "count",
-   "value": 6324,
+   "value": 10914,
    "held_by": null,
    "as_of": "2026-06-30",
    "milestone": null,
    "gap": null,
-   "countries_reporting": 10,
+   "countries_reporting": 11,
    "countries_total": 31
   },
   {
@@ -809,7 +830,7 @@
    "last_period": "2025-A",
    "form_returns": 0,
    "has_data": false,
-   "phase": 3
+   "phase": 4
   },
   {
    "iso3": "LBR",
@@ -879,7 +900,7 @@
    "last_period": "2026-A",
    "form_returns": 0,
    "has_data": true,
-   "phase": 3
+   "phase": 4
   },
   {
    "iso3": "RWA",
@@ -2007,8 +2028,8 @@
    "basis": "historical",
    "value_type": "point-in-time",
    "source_ref": "D3K p76",
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
@@ -2026,8 +2047,8 @@
    "basis": "historical",
    "value_type": null,
    "source_ref": null,
-   "held": 1,
-   "held_by": "Q-ZWE-01"
+   "held": 0,
+   "held_by": null
   },
   {
    "iso3": "ZWE",
