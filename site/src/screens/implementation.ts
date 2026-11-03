@@ -4,8 +4,7 @@ import { t } from "@/lib/i18n";
 import { renderStatus, statusFromImplementationStep, statusKey } from "@/lib/status";
 import { panelTitleWithIcon } from "@/components/kpi";
 import { statTile } from "@/components/stat";
-import { loadWhoGeo, PHASE_COLOURS, renderPhaseMap } from "@/components/facility-map";
-import { countryName, phaseLabel, stepLabel } from "@/lib/names";
+import { phaseLabel, stepLabel } from "@/lib/names";
 import { tableToCSVData, type Column } from "@/components/table";
 import { buildPhaseGrid } from "@/components/phase-grid";
 import { downloadCSV } from "@/components/csv";
@@ -42,7 +41,6 @@ export async function renderImplementation(container: HTMLElement): Promise<void
   const withPhase = bundle.with_phase;
   const national = bundle.phase_counts.find((p) => p.phase === 5)?.countries ?? 0;
   const phase4 = bundle.phase_counts.find((p) => p.phase === 4)?.countries ?? 0;
-  const geo = await loadWhoGeo();
 
   container.innerHTML = `
     <header class="page-head">
@@ -56,24 +54,6 @@ export async function renderImplementation(container: HTMLElement): Promise<void
       ${statTile(t("screen_impl.kpi.phase4"), String(phase4), t("screen_impl.kpi.phase4_sub"))}
       ${statTile(t("screen_impl.kpi.no_return"), String(bundle.no_return), t("screen_impl.kpi.no_return_sub"))}
     </div>
-
-    <section class="panel phase-map-panel">
-      <div class="panel__header">${panelTitleWithIcon("map", t("screen_impl.map.title"))}</div>
-      <div class="phase-map-layout">
-        <div id="phase-map" class="phase-map"></div>
-        <div class="phase-legend">
-          ${[5, 4, 3, 2, 1]
-            .map(
-              (n) => `<div class="phase-legend__row"><i style="background:${PHASE_COLOURS[n - 1]}"></i>
-                <span><b>${t("screen_impl.phase_n", { n })}</b> ${t(`screen3.phase_name.${n}`)}</span>
-                <em class="num">${bundle.phase_counts.find((p) => p.phase === n)?.countries ?? 0}</em></div>`,
-            )
-            .join("")}
-          <div class="phase-legend__row"><i class="is-hatch"></i><span>${t("screen1.table.no_data")}</span><em class="num">${bundle.no_return}</em></div>
-        </div>
-      </div>
-      <p class="chart-caption">${t("screen_impl.map.caption")}</p>
-    </section>
 
 
     <section class="panel">
@@ -90,19 +70,6 @@ export async function renderImplementation(container: HTMLElement): Promise<void
       <div id="implementation-table"></div>
     </section>
   `;
-
-  // ---- map of phases (follows the key figures; never the first element)
-  const phaseOf = new Map(countries.map((c) => [c.iso3, c.phase]));
-  const phaseMap = renderPhaseMap(
-    geo,
-    phaseOf,
-    (iso3) => countryName(iso3, countries.find((c) => c.iso3 === iso3)?.name ?? iso3),
-    {
-      phase: (n) => `${t("screen_impl.phase_n", { n })} · ${t(`screen3.phase_name.${n}`)}`,
-      none: t("screen1.table.no_data"),
-    },
-  );
-  if (phaseMap) container.querySelector("#phase-map")!.appendChild(phaseMap);
 
   // ---- phase/step legend, above the detail table so a reader meets it
   // before the grid rather than after scrolling past it

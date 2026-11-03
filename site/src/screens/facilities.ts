@@ -1,5 +1,5 @@
 import { getFacilities } from "@/lib/bundle";
-import { fmtCount } from "@/lib/format";
+import { fmtCount, fmtProgramme } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { buildPaginatedTable, tableToCSVData, type Column } from "@/components/table";
 import { downloadCSV } from "@/components/csv";
@@ -29,7 +29,19 @@ export async function renderFacilities(container: HTMLElement): Promise<void> {
     </header>
 
     <div class="stat-row stat-row--4">
-      ${statTile(t("screen5.kpi.total"), fmtCount(k.total), t("screen5.kpi.total_sub", { n: k.countries }))}
+      ${
+        k.reporting_programme
+          ? statTile(
+              t("screen5.kpi.reporting"),
+              fmtProgramme(k.reporting_programme),
+              t("screen5.kpi.reporting_sub", { n: k.total }),
+            )
+          : statTile(
+              t("screen5.kpi.total"),
+              fmtCount(k.total),
+              t("screen5.kpi.total_sub", { n: k.countries }),
+            )
+      }
       ${statTile(t("screen5.kpi.active"), fmtCount(k.active), t("screen5.kpi.active_sub"))}
       ${statTile(t("screen5.kpi.planned"), fmtCount(k.by_status.planned ?? 0), t("screen5.kpi.planned_sub"))}
       ${statTile(t("screen5.kpi.on_map"), `${fmtCount(k.on_map)}<small>/${k.total}</small>`, t("screen5.kpi.on_map_sub"))}

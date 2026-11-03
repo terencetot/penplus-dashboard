@@ -36,6 +36,12 @@ export function fmtCount(value: number | null | undefined): string {
 }
 
 /** A 0-1 fraction as a percentage, or NR. `value` must already be numerator/denominator. */
+/** A programme figure: "+170,000" when the figure is a floor. */
+export function fmtProgramme(f: { value: number; at_least: boolean } | null | undefined): string {
+  if (!f) return "—";
+  return `${f.at_least ? "+" : ""}${fmtCount(f.value)}`;
+}
+
 export function fmtRate(value: number | null | undefined, precise = false): string {
   if (value === null || value === undefined) return NR;
   return nf(precise ? "pct1" : "pct").format(value);

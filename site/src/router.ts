@@ -14,7 +14,8 @@ export type Route =
   | { screen: "implementation" };
 
 const DEFAULT_INDICATOR = "2.6";
-const DEFAULT_COUNTRY = "GHA";
+// Uganda: the most complete profile (four indicators, five periods, three sites)
+const DEFAULT_COUNTRY = "UGA";
 
 export function parseRoute(hash: string): Route {
   const parts = hash.replace(/^#\/?/, "").split("/").filter(Boolean);

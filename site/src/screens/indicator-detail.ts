@@ -1,6 +1,6 @@
 import * as Plot from "@observablehq/plot";
 import { getIndicators, getOverview } from "@/lib/bundle";
-import { fmtCount, fmtDate, fmtNandN, fmtRate, fmtRateWithNandN, NR } from "@/lib/format";
+import { fmtCount, fmtDate, fmtNandN, fmtRate, fmtRateWithNandN, NR, fmtProgramme } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { renderChartPanel } from "@/components/chart-panel";
@@ -81,7 +81,15 @@ export async function renderIndicatorDetail(container: HTMLElement, code: string
     </div>
 
     <div class="stat-row stat-row--3">
-      ${coverageTile(t("screen2.kpi.value"), regional, label, dim)}
+      ${
+        dim.programme
+          ? statTile(
+              t("screen2.kpi.value"),
+              fmtProgramme(dim.programme),
+              `${label} · ${t("programme.source")}`,
+            )
+          : coverageTile(t("screen2.kpi.value"), regional, label, dim)
+      }
       ${statTile(
         t("screen2.kpi.updated"),
         dim.regional_as_of ? fmtDate(dim.regional_as_of) : "—",
