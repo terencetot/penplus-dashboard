@@ -67,6 +67,9 @@ table td.num,
    align with: Schibsted's tabular comma is a full figure wide and reads as
    "13 , 222" at display size. Tables keep tabular figures throughout. */
 .coverage-card__value,
+.stat__value,
+.cprofile__fig b,
+.ind-tile__value b,
 .country-hero__stat b,
 .trend-card__value,
 .milestone-row__value,

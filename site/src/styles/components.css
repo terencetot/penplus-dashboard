@@ -3510,3 +3510,43 @@ details[open] > summary.btn::after {
     align-items: flex-start;
   }
 }
+
+/* ---- Figures: separators, the "+" of a floor, chart ticks ---------------- */
+/* thousands separator inside a tabular column: proportional, so "1,121" not "1 , 121" */
+.nsep {
+  font-variant-numeric: normal;
+  font-feature-settings: normal;
+  letter-spacing: 0;
+}
+/* "+170,000": the plus reads as a qualifier, not as a digit */
+.num-plus {
+  display: inline-block;
+  margin-right: 0.05em;
+  font-size: 0.62em;
+  font-weight: 700;
+  vertical-align: 0.34em;
+  letter-spacing: 0;
+  color: var(--who-blue-deep);
+}
+.hero .num-plus {
+  color: inherit;
+  vertical-align: 0.18em;
+}
+/* Observable Plot sets tick labels in tabular figures; the display font's
+   tabular comma is a full figure wide ("1 ,000"). Axes have no column to align. */
+svg g[aria-label$="tick label"] {
+  font-variant: normal;
+  font-variant-numeric: normal;
+}
+/* a note in place of a bar ("all conditions", "in care") */
+.cell-bar__note {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+/* a missing figure stays quiet: light, so real figures carry the column */
+.cell-bar__v.cell-empty {
+  font-weight: 400;
+  color: var(--faint);
+}
