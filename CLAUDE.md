@@ -88,10 +88,10 @@ produces a wrong decision, not an ugly screen.
 |---|--------|------------------------------|
 | 1 | Regional overview | Where is PEN-Plus and how big is it? |
 | 2 | Indicator detail | Is this indicator moving, and who drives it? |
-| 3 | Country profile | What is the position of one country? |
-| 4 | Implementation phases | How far has each country gone? |
-| 5 | Data quality | How much of this can be trusted? |
-| 6 | Facilities | Where are the sites and what state are they in? |
+| 3 | Implementation phases | How far has each country gone? |
+| 4 | Facilities | Where are the sites and what state are they in? |
+| 5 | Country profile | What is the position of one country? |
+| 6 | Data quality | How much of this can be trusted? |
 
 One screen, one question. If a screen answers two, split it.
 
