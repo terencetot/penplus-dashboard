@@ -1,5 +1,5 @@
 import { getFacilities, getOverview } from "@/lib/bundle";
-import { fmtCount, fmtProgramme } from "@/lib/format";
+import { fmtCount, fmtCountHtml, fmtProgramme } from "@/lib/format";
 import { t } from "@/lib/i18n";
 import { navigate } from "@/router";
 import { loadWhoGeo, renderHeroMap } from "@/components/facility-map";
@@ -113,11 +113,21 @@ function stat(label: string, value: string, sub: string): string {
     <b class="stat__value num">${value}</b><span class="stat__sub">${sub}</span></div>`;
 }
 
-function bar(value: number | null, pct: number | null, extra = ""): string {
-  if (value === null) return `<span class="cell-empty">—</span>`;
-  return `<span class="cell-bar"><span class="cell-bar__v num">${fmtCount(value)}${extra}</span>${
-    pct !== null ? `<span class="cell-bar__track"><span style="width:${pct}%"></span></span>` : ""
-  }</span>`;
+/** No figure: a dash in the number's own column, aligned with the figures above it. */
+const EMPTY = `<span class="cell-bar"><span class="cell-bar__v cell-empty">—</span></span>`;
+
+/** A table figure: the number right-aligned in its own column, then either
+ * its bar or, when there is no bar, a short note in the bar's place -- so a
+ * note never pushes the number out of line. */
+function bar(value: number | null, pct: number | null, note = ""): string {
+  if (value === null) return EMPTY;
+  const tail =
+    pct !== null
+      ? `<span class="cell-bar__track"><span style="width:${pct}%"></span></span>`
+      : note
+        ? `<span class="cell-bar__note">${note}</span>`
+        : "";
+  return `<span class="cell-bar"><span class="cell-bar__v num">${fmtCountHtml(value)}</span>${tail}</span>`;
 }
 
 function rowHtml(r: Row): string {
@@ -128,14 +138,14 @@ function rowHtml(r: Row): string {
   let patients: string;
   if (r.patients !== null) {
     patients = r.patients_held
-      ? `<span class="cell-bar"><span class="cell-bar__v num">${fmtCount(r.patients)}</span><span class="tag-check">${t("screen1.table.to_check")}</span></span>`
+      ? `<span class="cell-bar"><span class="cell-bar__v num">${fmtCountHtml(r.patients)}</span><span class="tag-check">${t("screen1.table.to_check")}</span></span>`
       : bar(r.patients, r.patients_bar);
   } else if (r.patients_all !== null) {
-    patients = bar(r.patients_all, null, ` <small>${t("screen1.table.all_conditions")}</small>`);
+    patients = bar(r.patients_all, null, t("screen1.table.all_conditions"));
   } else if (r.patients_active !== null) {
-    patients = bar(r.patients_active, null, ` <small>${t("screen1.table.in_care")}</small>`);
+    patients = bar(r.patients_active, null, t("screen1.table.in_care"));
   } else {
-    patients = `<span class="cell-empty">—</span>`;
+    patients = EMPTY;
   }
   return `<tr data-iso3="${r.iso3}" tabindex="0">
     <th scope="row"><span class="ctry"><span class="ctry__iso">${r.iso3}</span>${r.name}</span></th>

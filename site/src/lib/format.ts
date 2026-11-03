@@ -20,7 +20,8 @@ function nf(kind: "int" | "pct" | "pct1"): Intl.NumberFormat {
       new Intl.NumberFormat(
         locale,
         kind === "int"
-          ? { maximumFractionDigits: 0 }
+          ? // "always": Portuguese otherwise writes 4590 next to 17 500
+            ({ maximumFractionDigits: 0, useGrouping: "always" } as unknown as Intl.NumberFormatOptions)
           : { style: "percent", maximumFractionDigits: kind === "pct" ? 0 : 1 },
       ),
     );
@@ -30,16 +31,38 @@ function nf(kind: "int" | "pct" | "pct1"): Intl.NumberFormat {
 
 export const NR = "NR";
 
+/** French writes thousands with a narrow no-break space (U+202F); at display
+ * size and tight tracking it vanishes ("170000"). A full no-break space keeps
+ * the groups readable and never breaks a number across lines. */
+const NARROW_NBSP = /\u202f/g;
+
 /** An integer count, or the NR marker if the value was not reported. */
 export function fmtCount(value: number | null | undefined): string {
-  return value === null || value === undefined ? NR : nf("int").format(value);
+  return value === null || value === undefined ? NR : nf("int").format(value).replace(NARROW_NBSP, "\u00a0");
+}
+
+/**
+ * The same count as HTML for tabular columns: the digits stay tabular so a
+ * column aligns, but the thousands separator is set in proportional figures
+ * (`.nsep`) -- the display font's tabular comma is a full figure wide and
+ * reads as "1 , 121".
+ */
+export function fmtCountHtml(value: number | null | undefined): string {
+  if (value === null || value === undefined) return NR;
+  return nf("int")
+    .formatToParts(value)
+    .map((p) =>
+      p.type === "group" ? `<span class="nsep">${p.value.replace(NARROW_NBSP, "\u00a0")}</span>` : p.value,
+    )
+    .join("");
 }
 
 /** A 0-1 fraction as a percentage, or NR. `value` must already be numerator/denominator. */
-/** A programme figure: "+170,000" when the figure is a floor. */
+/** A programme figure, as HTML: "+170,000" when the figure is a floor, the
+ * "+" set lighter and smaller than the digits (`.num-plus`). */
 export function fmtProgramme(f: { value: number; at_least: boolean } | null | undefined): string {
   if (!f) return "—";
-  return `${f.at_least ? "+" : ""}${fmtCount(f.value)}`;
+  return `${f.at_least ? `<span class="num-plus">+</span>` : ""}${fmtCount(f.value)}`;
 }
 
 export function fmtRate(value: number | null | undefined, precise = false): string {
